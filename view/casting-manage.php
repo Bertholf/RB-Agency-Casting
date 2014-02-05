@@ -9,15 +9,15 @@
 	global $wpdb;
 	global $current_user, $wp_roles;
 	get_currentuserinfo();
-		
+
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
 	$rb_agency_option_profilenaming  = (int)$rb_agency_options_arr['rb_agency_option_profilenaming'];
 	$rb_agency_interact_option_registerconfirm = (int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'];
-	
+
 	/* Check if users can register. */
-	$registration = get_option( 'users_can_register' );	
-			
+	$registration = get_option( 'users_can_register' );
+
 	function base64_url_decode($input) {
 		return base64_decode(strtr($input, '-_', '+/'));
 	}
@@ -82,16 +82,16 @@
 			$error .= __("You must agree to the terms and conditions to register.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
-	
+
 		// Bug Free!
 		if($have_error == false){
 
 			$new_user = wp_insert_user( $userdata );
 
-			$CastingIsActive		= 3;
+			$CastingIsActive = 3;
 
 			//create folder
-			$CastingGallery 		= "casting-agent-" . $new_user;
+			$CastingGallery = "casting-agent-" . $new_user;
 			if (!is_dir(rb_agency_UPLOADPATH . $CastingGallery)) {
 				mkdir(rb_agency_casting_UPLOADPATH . $CastingGallery, 0755);
 				chmod(rb_agency_casting_UPLOADPATH . $CastingGallery, 0777);
@@ -107,30 +107,30 @@
 			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
 				$CastingContactDisplay = "ID ". $CastingID;
 			} elseif ($rb_agency_option_profilenaming == 4) {
-							$CastingContactDisplay = $CastingContactNameFirst;
+				$CastingContactDisplay = $CastingContactNameFirst;
 			}
-			
+
 			// Create Record
 			$insert = "INSERT INTO " . table_agency_casting .
 						" (CastingUserLinked,
-						   CastingGallery,
-						   CastingContactDisplay,
-						   CastingContactNameFirst,
-						   CastingContactNameLast,
-						   CastingContactEmail,
-						   CastingContactCompany,
-						   CastingContactWebsite,
-						   CastingLocationStreet,
-						   CastingLocationCity,
-						   CastingLocationState,
-						   CastingLocationZip,
-						   CastingLocationCountry,
-						   CastingDateCreated,
-						   CastingIsActive)" .
+							CastingGallery,
+							CastingContactDisplay,
+							CastingContactNameFirst,
+							CastingContactNameLast,
+							CastingContactEmail,
+							CastingContactCompany,
+							CastingContactWebsite,
+							CastingLocationStreet,
+							CastingLocationCity,
+							CastingLocationState,
+							CastingLocationZip,
+							CastingLocationCountry,
+							CastingDateCreated,
+							CastingIsActive)" .
 						"VALUES (". $new_user . 
-			        	 ",'" . $wpdb->escape($CastingGallery) . "','" . 
-							    $wpdb->escape($CastingContactDisplay) . 
-					    "','" . $wpdb->escape($first_name) . "','" . 
+						",'" . $wpdb->escape($CastingGallery) . "','" . 
+								$wpdb->escape($CastingContactDisplay) . 
+						"','" . $wpdb->escape($first_name) . "','" . 
 								$wpdb->escape($last_name) . 
 						"','" . $wpdb->escape($user_email) . "','" . 
 								$wpdb->escape($_POST['casting_company']) . "','" . 
@@ -143,23 +143,23 @@
 								",now(), ". 
 								$CastingIsActive .")";
 
-		      $results = $wpdb->query($insert) or die(mysql_error());
-              $CastingID = $wpdb->insert_id;
-				
+			$results = $wpdb->query($insert) or die(mysql_error());
+			$CastingID = $wpdb->insert_id;
+
 			// Log them in if no confirmation required.			
 			if ($rb_agency_interact_option_registerconfirm == 1) {
 
 				global $error;
-				
+
 				$login = wp_login( $user_login, $user_pass );
 				$login = wp_signon( array( 'user_login' => $user_login, 'user_password' => $user_pass, 'remember' => 1 ), false );	
 			
-			}				
+			}
 				// Notify admin and user
-				wp_new_user_notification($new_user, $user_pass);	
-			
+				wp_new_user_notification($new_user, $user_pass);
+
 		}
-		
+
 		// Log them in if no confirmation required.
 		if ($rb_agency_interact_option_registerconfirm == 1) {
 			if($login){
@@ -179,7 +179,7 @@
 	wp_enqueue_script('jquery');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
 	
-    get_header();
+	get_header();
 	
 	echo "<div id=\"primary\" class=\"".$column_class." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"content\">\n";
@@ -196,7 +196,7 @@
 	if ( $registration || current_user_can("create_users") ) {
 	echo "  <header class=\"entry-header\">";
 		echo "<h1>Welcome ". $current_user->user_firstname ."</h1>\n";
-        echo "<h1>We have registered you as Agent/Producer.</h1>\n";
+		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
 	echo "	<h3>". __("Account Information", rb_agency_interact_TEXTDOMAIN) ."</h3>\n";	
@@ -239,35 +239,35 @@
 	
 	echo "<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
-                echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
-                echo "		<div>\n";
-                $query_get ="SELECT * FROM `".table_agency_data_country."`" ;
-                $result_query_get = $wpdb->get_results($query_get);
-                echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
-                echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
-                    foreach($result_query_get as $r){
-                        echo '<option value='.$r->CountryID.' '.selected($data_r->CastingLocationCountry,$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
-                    }
-                echo '</select>';
+				echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
+				echo "		<div>\n";
+				$query_get ="SELECT * FROM `".table_agency_data_country."`" ;
+				$result_query_get = $wpdb->get_results($query_get);
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
+				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
+					foreach($result_query_get as $r){
+						echo '<option value='.$r->CountryID.' '.selected($data_r->CastingLocationCountry,$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
+					}
+				echo '</select>';
 	echo "       </div></div><!-- #casting-country -->\n";
 
 	echo "       <div id=\"casting-state\" class=\"rbfield rbselect rbsingle\">\n";
-                echo "		<label>". __("State", rbagency_TEXTDOMAIN) ."</label>\n";
-                echo "		<div>\n";
+				echo "		<label>". __("State", rbagency_TEXTDOMAIN) ."</label>\n";
+				echo "		<div>\n";
 
-                if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry']) || $data_r->CastingLocationCountry != ""){
-                        $query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " .$data_r->CastingLocationCountry ;
-                } else {
-                        $query_get ="SELECT * FROM `".table_agency_data_state."`" ;
-                }
-                $result_query_get = $wpdb->get_results($query_get);
-                echo '<select name="CastingState" id="CastingState">';
-                echo '<option value="">'. __("Select state", rbagency_TEXTDOMAIN) .'</option>';
-                    foreach($result_query_get as $r){
+				if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry']) || $data_r->CastingLocationCountry != ""){
+						$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " .$data_r->CastingLocationCountry ;
+				} else {
+						$query_get ="SELECT * FROM `".table_agency_data_state."`" ;
+				}
+				$result_query_get = $wpdb->get_results($query_get);
+				echo '<select name="CastingState" id="CastingState">';
+				echo '<option value="">'. __("Select state", rbagency_TEXTDOMAIN) .'</option>';
+					foreach($result_query_get as $r){
 
-                        echo '<option value='.$r->StateID.' '.selected($data_r->CastingLocationState,$r->StateID,false).' >'.$r->StateTitle.'</option>';
-                    }
-                echo '</select>';
+						echo '<option value='.$r->StateID.' '.selected($data_r->CastingLocationState,$r->StateID,false).' >'.$r->StateTitle.'</option>';
+					}
+				echo '</select>';
 
 	echo "       </div></div><!-- #casting-state -->\n";
 
@@ -321,7 +321,7 @@
 			echo "			<small class=\"rbfield-note\">Cannot be changed</small>";
 			echo "		</div>\n";
 			echo "  </div>\n";
-	 	}
+		}
 		echo "	<h3>". __("Login Settings", rb_agency_interact_TEXTDOMAIN) ."</h3>\n";		
 		echo "	<div id=\"rbprofile-password\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Password", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
@@ -385,9 +385,9 @@
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>
-    
-         
-     
+	
+		 
+	 
 <?php	
 	echo "   </form>\n";
 	echo "   </div><!-- .rbform -->\n";

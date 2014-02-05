@@ -305,15 +305,18 @@ class RBAgencyCasting {
 
 		//Create Admin Menu
 		public static function menu_admin(){
-			//add_submenu_page('users.php', __('Approve Users', rb_agency_casting_TEXTDOMAIN), __('Approve Users', rb_agency_casting_TEXTDOMAIN), 'edit_users', basename(__FILE__), 'rb_agency_casting_approvemembers');
+			// TODO: Menu Item for Admin
+			//add_submenu_page('users.php', __('Approve Casting Agents', rb_agency_casting_TEXTDOMAIN), __('Approve Agents', rb_agency_casting_TEXTDOMAIN), 'edit_users', basename(__FILE__), 'rb_agency_casting_approveusers');
 		}
 
 		//Pages
 		public static function rb_agency_casting_settings(){
-			include_once('admin/settings.php');
+			// TODO add file
+			//include_once('admin/settings.php');
 		}
-		public static function rb_agency_casting_approvemembers(){
-			include_once('admin/profile-approve.php');
+		public static function rb_agency_casting_approveusers(){
+			//TODO change to casting-approve.php
+			//include_once('admin/profile-approve.php');
 		}
 
 	/*
@@ -352,8 +355,13 @@ class RBAgencyCasting {
 
 // *************************************************************************************************** //
 // Add Widgets
-	// Login / Actions Widget
-	add_action('widgets_init', create_function('', 'return register_widget("rb_agency_casting_widget_loginactions");'));
+
+	/*
+	 * Login / Actions Widget
+	 */
+
+		add_action('widgets_init', create_function('', 'return register_widget("rb_agency_casting_widget_loginactions");'));
+
 		class rb_agency_casting_widget_loginactions extends WP_Widget {
 
 			// Setup
@@ -372,7 +380,7 @@ class RBAgencyCasting {
 
 				if(!is_user_logged_in()){
 
-					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };		
+					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 							echo "<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
 							echo "	<div class=\"box\">\n";
 							echo "		<label for=\"user-name\">". __("Username", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
@@ -416,16 +424,16 @@ class RBAgencyCasting {
 				$instance['trendShowCount'] = strip_tags($new_instance['trendShowCount']);
 				return $instance;
 			}
-		
+
 			// Form
-			function form($instance) {				
+			function form($instance) {
 				$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 				$title = esc_attr($instance['title']);
 				$trendShowCount = esc_attr($instance['trendShowCount']);
 				?>
 					<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 					<p><label for="<?php echo $this->get_field_id('trendShowCount'); ?>"><?php _e('Show Count:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('trendShowCount'); ?>" name="<?php echo $this->get_field_name('trendShowCount'); ?>" type="text" value="<?php echo $trendShowCount; ?>" /></label></p>
-				<?php 
+				<?php
 			}
 
 		} // class
@@ -434,13 +442,18 @@ class RBAgencyCasting {
 
 // *************************************************************************************************** //
 // Add Short Codes
-	add_shortcode("agency_register","rb_agency_casting_shortcode_agencyregister");
-		function rb_agency_casting_shortcode_agencyregister($atts, $content = null){
-			ob_start();
-			wp_register_form($atts);
-			$output_string=ob_get_contents();
-			ob_end_clean();
-			return $output_string;
-		}
+
+	/*
+	 * Registration Shortcode
+	 */
+
+		add_shortcode("agency_register","rb_agency_casting_shortcode_agencyregister");
+			function rb_agency_casting_shortcode_agencyregister($atts, $content = null){
+				ob_start();
+				wp_register_form($atts);
+				$output_string=ob_get_contents();
+				ob_end_clean();
+				return $output_string;
+			}
 
 ?>
