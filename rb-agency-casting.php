@@ -65,6 +65,8 @@ See license.txt for full details.
 
 	if (!defined("table_agency_casting_temp"))
 		define("table_agency_casting_temp", "{$wpdb->prefix}agency_casting_temp");
+	if (!defined("table_agency_castingcart"))
+		define("table_agency_castingcart", "{$wpdb->prefix}agency_castingcart");
 
 
 // *************************************************************************************************** //
@@ -172,8 +174,15 @@ class RBAgencyCasting {
 			/*
 			 * Install Schema
 			 */
+			// Setup > Add to Casting Cart
+				$sql = "CREATE TABLE IF NOT EXISTS ". table_agency_castingcart." (
+					CastingCartID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					CastingCartProfileID VARCHAR(255),
+					CastingCartTalentID VARCHAR(255),
+					PRIMARY KEY (CastingCartID)
+					);";
+				dbDelta($sql);
 
-				// TODO: 
 
 
 			/*
@@ -216,6 +225,7 @@ class RBAgencyCasting {
 			global $wpdb; // Required for all WordPress database manipulations
 
 			// Drop the tables
+			$wpdb->query("DROP TABLE " . table_agency_castingcart);
 			//$wpdb->query("DROP TABLE " . table_agency_casting_temp);
 
 			// Delete Saved Settings
