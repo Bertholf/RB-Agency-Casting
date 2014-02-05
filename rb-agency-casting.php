@@ -63,8 +63,8 @@ See license.txt for full details.
  * Set Table Names
  */
 
-	if (!defined("table_agency_casting_temp"))
-		define("table_agency_casting_temp", "{$wpdb->prefix}agency_casting_temp");
+	if (!defined("table_agency_casting"))
+		define("table_agency_casting", "{$wpdb->prefix}agency_casting");
 	if (!defined("table_agency_castingcart"))
 		define("table_agency_castingcart", "{$wpdb->prefix}agency_castingcart");
 
@@ -88,7 +88,7 @@ See license.txt for full details.
  * Call Function and Language
  */
 
-	//require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/functions.php");
+	require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/functions.php");
 
 
 
@@ -183,7 +183,41 @@ class RBAgencyCasting {
 					);";
 				dbDelta($sql);
 
-
+			/*
+			 * Install Schema
+			 */
+				// casting table
+				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting . " (
+					CastingID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					CastingUserLinked BIGINT(20) NOT NULL DEFAULT '0',
+					CastingGallery VARCHAR(255),
+					CastingContactDisplay VARCHAR(255),
+					CastingContactNameFirst VARCHAR(255),
+					CastingContactNameLast VARCHAR(255),
+					CastingLocationStreet VARCHAR(255),
+					CastingLocationCity VARCHAR(255),
+					CastingLocationState VARCHAR(255),
+					CastingLocationZip VARCHAR(255),
+					CastingLocationCountry VARCHAR(255),
+					CastingContactEmail VARCHAR(255),
+					CastingContactCompany VARCHAR(255),
+					CastingContactWebsite VARCHAR(255),
+					CastingContactPhoneHome VARCHAR(255),
+					CastingContactPhoneCell VARCHAR(255),
+					CastingContactPhoneWork VARCHAR(255),
+					CastingContactLinkTwitter VARCHAR(255),
+					CastingContactLinkFacebook VARCHAR(255),
+					CastingContactLinkYoutube VARCHAR(255),
+					CastingContactLinkFlickr VARCHAR(255),
+					CastingDateCreated TIMESTAMP DEFAULT NOW(),
+					CastingDateUpdated TIMESTAMP,
+					CastingDateViewLast TIMESTAMP,
+					CastingType VARCHAR(255),
+					CastingIsActive INT(10) NOT NULL DEFAULT '0',
+					CastingStatHits INT(10) NOT NULL DEFAULT '0',
+					PRIMARY KEY (CastingID)
+					);";
+				dbDelta($sql);
 
 			/*
 			 * Flush rewrite rules
