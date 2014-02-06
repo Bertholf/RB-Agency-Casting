@@ -325,7 +325,7 @@ if (isset($_POST['action'])) {
 
 			$cartArray = $_SESSION['cartArray'];
 			
-			$cartString = ltrim(implode(",", array_unique($cartArray)),",");
+			$cartString = trim(implode(",", array_unique($cartArray)),",");
 
 			?>
            <h3 class="title">Save Search and Email</h3>
