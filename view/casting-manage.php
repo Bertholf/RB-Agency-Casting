@@ -190,7 +190,7 @@
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
 				echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
 				echo "		<div>\n";
-				$query_get ="SELECT * FROM `".table_agency_data_country."`" ;
+				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
 				$result_query_get = $wpdb->get_results($query_get);
 				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
 				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
