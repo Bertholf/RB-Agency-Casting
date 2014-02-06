@@ -307,6 +307,14 @@ class RBAgencyCasting {
 		public static function menu_admin(){
 			// TODO: Menu Item for Admin
 			//add_submenu_page('users.php', __('Approve Casting Agents', rb_agency_casting_TEXTDOMAIN), __('Approve Agents', rb_agency_casting_TEXTDOMAIN), 'edit_users', basename(__FILE__), 'rb_agency_casting_approveusers');
+			
+			// saved search for casting
+			add_submenu_page("rb_agency_menu", __("Saved Searches", rb_agency_TEXTDOMAIN), __("Saved Searches", rb_agency_TEXTDOMAIN), 7,"rb_agency_searchsaved", array('RBAgencyCasting', 'menu_searchsaved'));
+		
+		}
+
+		public static function menu_searchsaved(){
+			include_once('view/admin-searchsaved.php');
 		}
 
 		//Pages
