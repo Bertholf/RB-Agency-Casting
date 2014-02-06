@@ -31,31 +31,36 @@
 		// Error checking
 		$error = "";
 		$have_error = false;
+		
+		if ( empty($_POST['casting_first_name'])) {
+			$error .= __("First Name is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$have_error = true;
+		}
 
-		if (!$userdata['user_login']) {
-			$error .= __("A username is required for registration.<br />", rb_agency_interact_TEXTDOMAIN);
+		if ( empty($_POST['casting_last_name'])) {
+			$error .= __("Last Name is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( username_exists($userdata['user_login'])) {
-			$error .= __("Sorry, that username already exists!<br />", rb_agency_interact_TEXTDOMAIN);
-			$have_error = true;
-		}
-		if ( !is_email($userdata['user_email'], true)) {
+
+		if ( !is_email($_POST['casting_email'], true)) {
 			$error .= __("You must enter a valid email address.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( email_exists($userdata['user_email'])) {
-			$error .= __("Sorry, that email address is already used!<br />", rb_agency_interact_TEXTDOMAIN);
+		
+		if ( empty($_POST['casting_company'])) {
+			$error .= __("Company is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['casting_company'])) {
 			$error .= __("Company is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
+
 		if ( empty($_POST['casting_website'])) {
 			$error .= __("website is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
+	
 		if ( empty($_POST['casting_address'])) {
 			$error .= __("Address is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
@@ -76,96 +81,41 @@
 			$error .= __("Country is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
-
-		if ( $_POST['casting_agree'] <> "yes") {
-			$error .= __("You must agree to the terms and conditions to register.<br />", rb_agency_interact_TEXTDOMAIN);
-			$have_error = true;
-		}
-
+	
 		// Bug Free!
 		if($have_error == false){
 
-			$new_user = wp_insert_user( $userdata );
+			// Update Record
+			$update = "UPDATE " . table_agency_casting . " SET ";
 
-			$CastingIsActive = 3;
-
-			//create folder
-			$CastingGallery = "casting-agent-" . $new_user;
-			if (!is_dir(rb_agency_UPLOADPATH . $CastingGallery)) {
-				mkdir(rb_agency_casting_UPLOADPATH . $CastingGallery, 0755);
-				chmod(rb_agency_casting_UPLOADPATH . $CastingGallery, 0777);
-			}
-
-			if ($rb_agency_option_profilenaming == 0) { 
-				$CastingContactDisplay = $CastingContactNameFirst . " ". $CastingContactNameLast;
-			} elseif ($rb_agency_option_profilenaming == 1) { 
-				$CastingContactDisplay = $CastingContactNameFirst . " ". substr($CastingContactNameLast, 0, 1);
-			} elseif ($rb_agency_option_profilenaming == 2) { 
-				$error .= "<b><i>". __(LabelSingular ." must have a display name identified", rb_agency_interact_TEXTDOMAIN) . ".</i></b><br>";
-				$have_error = true;
-			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
-				$CastingContactDisplay = "ID ". $CastingID;
-			} elseif ($rb_agency_option_profilenaming == 4) {
-				$CastingContactDisplay = $CastingContactNameFirst;
-			}
-
-			// Create Record
-			$insert = "INSERT INTO " . table_agency_casting .
-						" (CastingUserLinked,
-							CastingGallery,
-							CastingContactDisplay,
-							CastingContactNameFirst,
-							CastingContactNameLast,
-							CastingContactEmail,
-							CastingContactCompany,
-							CastingContactWebsite,
-							CastingLocationStreet,
-							CastingLocationCity,
-							CastingLocationState,
-							CastingLocationZip,
-							CastingLocationCountry,
-							CastingDateCreated,
-							CastingIsActive)" .
-						"VALUES (". $new_user . 
-						",'" . $wpdb->escape($CastingGallery) . "','" . 
-								$wpdb->escape($CastingContactDisplay) . 
-						"','" . $wpdb->escape($first_name) . "','" . 
-								$wpdb->escape($last_name) . 
-						"','" . $wpdb->escape($user_email) . "','" . 
-								$wpdb->escape($_POST['casting_company']) . "','" . 
-								$wpdb->escape($_POST['casting_website']) . "','" . 
-								$wpdb->escape($_POST['casting_street']) . "','" . 
-								$wpdb->escape($_POST['casting_city']) . "','" . 
-								$wpdb->escape($_POST['CastingState']) . "','" . 
-								$wpdb->escape($_POST['casting_zip']) . "','" . 
-								$wpdb->escape($_POST['CastingCountry']) . "'" . 
-								",now(), ". 
-								$CastingIsActive .")";
-
-			$results = $wpdb->query($insert) or die(mysql_error());
-			$CastingID = $wpdb->insert_id;
-
-			// Log them in if no confirmation required.			
-			if ($rb_agency_interact_option_registerconfirm == 1) {
-
-				global $error;
-
-				$login = wp_login( $user_login, $user_pass );
-				$login = wp_signon( array( 'user_login' => $user_login, 'user_password' => $user_pass, 'remember' => 1 ), false );	
+			$update .= "CastingContactNameFirst = '".$_POST['casting_first_name']."',
+						CastingContactNameLast = '".$_POST['casting_last_name']."',
+						CastingContactEmail = '".$_POST['casting_email']."',
+						CastingContactCompany = '".$_POST['casting_company']."',
+						CastingContactWebsite = '".$_POST['casting_website']."',
+						CastingContactPhoneHome = '".$_POST['CastingContactPhoneHome']."',
+						CastingContactPhoneCell = '".$_POST['CastingContactPhoneCell']."',
+						CastingContactPhoneWork = '".$_POST['CastingContactPhoneWork']."',
+						CastingContactLinkTwitter = '".$_POST['CastingContactLinkTwitter']."',
+						CastingContactLinkFacebook = '".$_POST['CastingContactLinkFacebook']."',
+						CastingContactLinkYoutube = '".$_POST['CastingContactLinkYouTube']."',
+						CastingContactLinkFlickr = '".$_POST['CastingContactLinkFlickr']."',
+						CastingLocationStreet = '".$_POST['casting_address']."',
+						CastingLocationCity = '".$_POST['casting_city']."',
+						CastingLocationState = '".$_POST['CastingState']."',
+						CastingLocationZip = '".$_POST['casting_zip']."',
+						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
+			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
 			
-			}
-				// Notify admin and user
-				wp_new_user_notification($new_user, $user_pass);
+			$result = $wpdb->query($update) or die(mysql_error());        
+			
+			$error = "Successfully Updated!";
+
+			$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
+			
+			header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");			
 
 		}
-
-		// Log them in if no confirmation required.
-		if ($rb_agency_interact_option_registerconfirm == 1) {
-			if($login){
-				header("Location: ". get_bloginfo("wpurl"). "/casting-member/");
-			}
-		}
-
 	
 	}
 
@@ -278,34 +228,34 @@
 		echo "	<h3>". __("Contact Phone", rb_agency_interact_TEXTDOMAIN) ."</h3>\n";
 		echo "	<div id=\"profile-facebook\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Home", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFacebook\" name=\"CastingContactLinkFacebook\" value=\"". $CastingContactLinkFacebook ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" name=\"CastingContactPhoneHome\" value=\"". $data_r->CastingContactPhoneHome ."\" />\n";
 		echo "	</div></div>\n";
 		echo "	<div id=\"profile-twitter\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Cell", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkTwitter\" name=\"CastingContactLinkTwitter\" value=\"". $CastingContactLinkTwitter ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" name=\"CastingContactPhoneCell\" value=\"".$data_r->CastingContactPhoneCell  ."\" />\n";
 		echo "	</div></div>\n";
 		echo "	<div id=\"profile-youtube\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Work", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkYouTube\" name=\"CastingContactLinkYouTube\" value=\"". $CastingContactLinkYouTube ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" name=\"CastingContactPhoneWork\" value=\"". $data_r->CastingContactPhoneWork  ."\" />\n";
 		echo "  </div></div>\n";
 
 		// Show Social Media Links
 		echo "	<h3>". __("Social Media Castings", rb_agency_interact_TEXTDOMAIN) ."</h3>\n";
 		echo "	<div id=\"profile-facebook\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Facebook", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFacebook\" name=\"CastingContactLinkFacebook\" value=\"". $CastingContactLinkFacebook ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFacebook\" name=\"CastingContactLinkFacebook\" value=\"".$data_r->CastingContactLinkFacebook ."\" />\n";
 		echo "	</div></div>\n";
 		echo "	<div id=\"profile-twitter\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Twitter", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkTwitter\" name=\"CastingContactLinkTwitter\" value=\"". $CastingContactLinkTwitter ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkTwitter\" name=\"CastingContactLinkTwitter\" value=\"". $data_r->CastingContactLinkTwitter ."\" />\n";
 		echo "	</div></div>\n";
 		echo "	<div id=\"profile-youtube\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("YouTube", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkYouTube\" name=\"CastingContactLinkYouTube\" value=\"". $CastingContactLinkYouTube ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkYouTube\" name=\"CastingContactLinkYouTube\" value=\"". $data_r->CastingContactLinkYoutube ."\" />\n";
 		echo "  </div></div>\n";
 		echo "	<div id=\"profile-flickr\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Flickr", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
-		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFlickr\" name=\"CastingContactLinkFlickr\" value=\"". $CastingContactLinkFlickr ."\" />\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFlickr\" name=\"CastingContactLinkFlickr\" value=\"". $data_r->CastingContactLinkFlickr ."\" />\n";
 		echo "	</div></div>\n";
 
 		if ($rb_agency_interact_option_registerallow  == 1) {

@@ -1,5 +1,8 @@
 <?php
 
+// Profile Class
+include(rb_agency_BASEREL ."app/profile.class.php");
+
 echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
@@ -44,30 +47,36 @@ if (is_user_logged_in()) {
 		$_SESSION['ProfileLastViewed'] = "";
 	}
   } 
-if (isset($curauth->user_login)) {
 
+if (isset($curauth->user_login)) {
+	
+	$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
 	$user_data=get_user_meta($current_user->ID,'rb_agency_interact_clientdata',true);
 	$user_company=$user_data['company'];
+
 	echo "  <div id=\"profile-info\">\n";
-	echo "		<h3>Profile</h3>\n";
+	echo "		<h3>Casting</h3>\n";
 	echo "		<ul>\n";
 	echo "		<li>Username: <strong>" . $curauth->user_login . "</strong></li>\n";
-	echo "		<li>Company: <strong>" . $user_company . "</strong></li>\n";
-	echo "		<li>First Name: <strong>" . $curauth->user_firstname . "</strong></li>\n";
-	echo "		<li>Last Name: <strong>" . $curauth->user_lastname . "</strong></li>\n";
-	echo "		<li>User Email: <strong>" . $curauth->user_email . "</strong></li>\n";
-	echo "		<li>Work Phone: <strong>" . $curauth->phone_work . "</strong></li>\n";
-	echo "		<li>Cell Phone: <strong>" . $curauth->phone_cell . "</strong></li>\n";
+	echo "		<li>Company: <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
+	echo "		<li>First Name: <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
+	echo "		<li>Last Name: <strong>" . $data_r->CastingConactNameLast . "</strong></li>\n";
+	echo "		<li>User Email: <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
+	echo "		<li>Work Phone: <strong>" . $data_r->CastingContactPhoneWork . "</strong></li>\n";
+	echo "		<li>Cell Phone: <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
 	echo "		</ul>\n";
-	//echo "User level: " . $current_user->user_level . "<br />\n";
-	//echo "User display name: " . $current_user->display_name . "<br />\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"rb_button\">Edit Information</a></h4>\n";
 	echo "		<h4><a href=\"" . wp_logout_url(get_permalink()) . "\" class=\"rb_button\">Logout</a></h4>\n";
 	echo "  </div>\n";
 	
 	echo "  <div id=\"search\">\n";
 	echo "    <h2>Search Database</h2>\n";
-	include ("include-profile-search.php");
+			
+			//set to simple layout
+			$profilesearch_layout == 'condensed';
+	
+			echo RBAgency_Profile::search_form("", "", 0);
+
 	echo "  </div>\n";
 }
 	/* GET ROLE
