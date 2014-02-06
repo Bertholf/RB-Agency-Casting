@@ -380,3 +380,23 @@ class RBAgency_Casting {
 
 
 }
+
+/* 
+ * Casting Cart Actions
+ */
+
+if(isset($_REQUEST["action"]) && $_REQUEST['action'] == 'cartAdd' ) {
+		// Process Cart
+		$cart = RBAgency_Casting::cart_process();
+
+}
+if(isset($_POST["SendEmail"])){
+		// Process Form
+		$isSent = RBAgency_Casting::cart_send_process();
+		
+		
+}
+if(isset($_REQUEST["action"]) && $_REQUEST['action'] == 'cartEmpty' ) {
+		// Empty Cart
+		unset($_SESSION['cartArray']);
+}
