@@ -24,6 +24,10 @@
 			$newrules['casting-dashboard'] = 'index.php?type=castingoverview';
 			$newrules['casting-register'] = 'index.php?type=castingregister';
 			$newrules['casting-login'] = 'index.php?type=castinglogin';
+			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]';
+			$newrules['profile-casting'] = 'index.php?type=casting&target=casting';
+			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
+			$newrules['profile-favorite'] = 'index.php?type=favorite';
 			return $newrules + $rules;
 		}
 	
@@ -39,7 +43,13 @@
 				return dirname(__FILE__) . '/view/casting-login.php'; 
 			  } elseif (get_query_var( 'type' ) == "castingregister") {
 				return dirname(__FILE__) . '/view/casting-register.php'; 
-			  }
+			  }	elseif (get_query_var( 'type' ) == "favorite") {
+				return dirname(__FILE__) . '/view/profile-favorite.php';
+			  } elseif (get_query_var( 'type' ) == "casting") {
+				return dirname(__FILE__) . '/view/profile-viewcasting.php';
+			  }	elseif (get_query_var( 'type' ) == "profilecastingcart") {
+				return rb_agency_BASEREL . 'view/profile-castingcart.php';
+			  } 
 			}
 			return $template;
 		}
