@@ -21,17 +21,17 @@
 	function base64_url_decode($input) {
 		return base64_decode(strtr($input, '-_', '+/'));
 	}
-	
+
 	//fetch data from database
 	$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
-		
+
 	/* If user registered, input info. */
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && $_POST['action'] == 'updatecasting' ) {
-		
+
 		// Error checking
 		$error = "";
 		$have_error = false;
-		
+
 		if (!$userdata['user_login']) {
 			$error .= __("A username is required for registration.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
@@ -48,7 +48,6 @@
 			$error .= __("Sorry, that email address is already used!<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
-		
 		if ( empty($_POST['casting_company'])) {
 			$error .= __("Company is required.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
@@ -179,7 +178,7 @@
 	wp_enqueue_script('jquery');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
 	
-	get_header();
+	echo $rb_header = RBAgency_Common::rb_header();
 	
 	echo "<div id=\"primary\" class=\"".$column_class." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"content\">\n";
@@ -201,17 +200,17 @@
 	echo "  <div id=\"client-register\" class=\"rbform\">";
 	echo "	<h3>". __("Account Information", rb_agency_interact_TEXTDOMAIN) ."</h3>\n";	
 	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-manage/\">\n";
-				
+
 	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_first_name\">". __("First Name", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value='".$data_r->CastingContactNameFirst."' /></div>\n";
 	echo "       </div><!-- #casting-first-name -->\n";
-				
+
 	echo "       <div id=\"casting-last-name\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_last_name\">". __("Last Name", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value='".$data_r->CastingContactNameLast."' /></div>\n";
 	echo "       </div><!-- #casting_last_name -->\n";
-				
+
 	echo "       <div id=\"casting-email\" class=\"rbfield rbemail rbsingle\">\n";
 	echo "       	<label for=\"email\">". __("E-mail (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingContactEmail."' /></div>\n";
@@ -226,7 +225,7 @@
 	echo "       	<label for=\"website\">". __("Website", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingContactWebsite."' /></div>\n";
 	echo "       </div><!-- #casting-website -->\n";
-	
+
 	echo "       <div id=\"casting-street-address\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"street-address\">". __("Street Address", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value='".$data_r->CastingLocationStreet."' /></div>\n";
@@ -236,7 +235,7 @@
 	echo "       	<label for=\"city\">". __("City", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingLocationCity."' /></div>\n";
 	echo "       </div><!-- #casting-city -->\n";	
-	
+
 	echo "<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
 				echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
@@ -376,19 +375,17 @@
 								  height=\"330\">
 							</iframe>";
 						}
-					
+
 						echo "</div>\n";
-						
+
 					}
-					
+
 	echo "       	<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>
-	
-		 
-	 
-<?php	
+
+<?php
 	echo "   </form>\n";
 	echo "   </div><!-- .rbform -->\n";
 
@@ -398,14 +395,14 @@ if(!$registration){ echo "<p class='alert'>The administrator currently disabled 
 
 echo "  </div><!-- #content -->\n";
 echo "</div><!-- #container -->\n";
-   
+
 // Get Sidebar 
 	$LayoutType = "";
 	if ($rb_agency_interact_option_castingmanage_sidebar) {
 		$LayoutType = "casting";
 		get_sidebar(); 
 	}
-	
+
 // Get Footer
-get_footer();
+echo $rb_footer = RBAgency_Common::rb_footer();
 ?>

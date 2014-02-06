@@ -14,10 +14,10 @@
 	$rb_agency_options_arr = get_option('rb_agency_options');
 	$rb_agency_option_profilenaming  = (int)$rb_agency_options_arr['rb_agency_option_profilenaming'];
 	$rb_agency_interact_option_registerconfirm = (int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'];
-	
+
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );	
-			
+
 	function base64_url_decode($input) {
 		return base64_decode(strtr($input, '-_', '+/'));
 	}
@@ -31,13 +31,13 @@
 		$user_email = $_POST['casting_email'];
 		$CastingGender = $_POST['CastingGender'];
 		$user_pass  = NULL;
-		
+
 		if ($rb_agency_interact_option_registerconfirm == 1) {
 			$user_pass = $_POST['casting_password'];
 		} else {
 			$user_pass = wp_generate_password();
 		}
-		
+
 		$userdata = array(
 			'user_pass' => $user_pass ,
 			'user_login' => esc_attr( $user_login ),
@@ -46,7 +46,7 @@
 			'user_email' => esc_attr( $user_email ),
 			'role' => get_option( 'default_role' )
 		);
-		
+
 		// Error checking
 		$error = "";
 		$have_error = false;
@@ -101,7 +101,7 @@
 			$error .= __("You must agree to the terms and conditions to register.<br />", rb_agency_interact_TEXTDOMAIN);
 			$have_error = true;
 		}
-	
+
 		// Bug Free!
 		if($have_error == false){
 
@@ -147,9 +147,9 @@
 						   CastingDateCreated,
 						   CastingIsActive)" .
 						"VALUES (". $new_user . 
-			        	 ",'" . $wpdb->escape($CastingGallery) . "','" . 
-							    $wpdb->escape($CastingContactDisplay) . 
-					    "','" . $wpdb->escape($first_name) . "','" . 
+						 ",'" . $wpdb->escape($CastingGallery) . "','" . 
+								$wpdb->escape($CastingContactDisplay) . 
+						"','" . $wpdb->escape($first_name) . "','" . 
 								$wpdb->escape($last_name) . 
 						"','" . $wpdb->escape($user_email) . "','" . 
 								$wpdb->escape($_POST['casting_company']) . "','" . 
@@ -162,21 +162,21 @@
 								",now(), ". 
 								$CastingIsActive .")";
 
-		      $results = $wpdb->query($insert) or die(mysql_error());
-              $CastingID = $wpdb->insert_id;
-				
-			// Log them in if no confirmation required.			
-			if ($rb_agency_interact_option_registerconfirm == 1) {
+				$results = $wpdb->query($insert) or die(mysql_error());
+				$CastingID = $wpdb->insert_id;
 
-				global $error;
-				
-				$login = wp_login( $user_login, $user_pass );
-				$login = wp_signon( array( 'user_login' => $user_login, 'user_password' => $user_pass, 'remember' => 1 ), false );	
-			
-			}				
+				// Log them in if no confirmation required.			
+				if ($rb_agency_interact_option_registerconfirm == 1) {
+
+					global $error;
+					
+					$login = wp_login( $user_login, $user_pass );
+					$login = wp_signon( array( 'user_login' => $user_login, 'user_password' => $user_pass, 'remember' => 1 ), false );	
+
+				}
+
 				// Notify admin and user
-				wp_new_user_notification($new_user, $user_pass);	
-			
+				wp_new_user_notification($new_user, $user_pass);
 		}
 		
 		// Log them in if no confirmation required.
@@ -198,7 +198,7 @@
 	wp_enqueue_script('jquery');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
 	
-    get_header();
+	echo $rb_header = RBAgency_Common::rb_header();
 	
 	echo "<div id=\"primary\" class=\"".$column_class." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"content\">\n";
@@ -242,7 +242,7 @@
 	echo "    <p class=\"alert\">\n";
 	echo "      ". __("Users cannot currently register themselves, but you can manually create users here.", rb_agency_interact_TEXTDOMAIN);
 	echo "    </p><!-- .alert -->\n";
-			}	
+			}
 
 			// Self Registration
 			if ( $registration || current_user_can("create_users") ) {
@@ -256,24 +256,24 @@
 	echo "       	<label for=\"casting_user_name\">". __("Username (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #rofile-username -->\n";
-			
+
 	if ($rb_agency_interact_option_registerconfirm == 1) {
 	echo "       <div id=\"casting-password\" class=\"rbfield rbpassword rbsingle\">\n";
 	echo "       	<label for=\"casting_password\">". __("Password (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-password -->\n";
 	}
-				
+
 	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_first_name\">". __("First Name", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_first_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-first-name -->\n";
-				
+
 	echo "       <div id=\"casting-last-name\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_last_name\">". __("Last Name", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_last_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting_last_name -->\n";
-				
+
 	echo "       <div id=\"casting-email\" class=\"rbfield rbemail rbsingle\">\n";
 	echo "       	<label for=\"email\">". __("E-mail (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_email'], 1 ); echo "\" /></div>\n";
@@ -300,37 +300,37 @@
 	echo "       </div><!-- #casting-city -->\n";	
 
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
-                echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
-                echo "		<div>\n";
+				echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
+				echo "		<div>\n";
 
-                $query_get ="SELECT * FROM `".table_agency_data_country."`" ;
-                $result_query_get = $wpdb->get_results($query_get);
-                $location=site_url().'/club/';
-                echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
-                echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
-                    foreach($result_query_get as $r){
-                        echo '<option value='.$r->CountryID.' '.selected($_POST['CastingCountry'],$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
-                    }
-                echo '</select>';
+				$query_get ="SELECT * FROM `".table_agency_data_country."`" ;
+				$result_query_get = $wpdb->get_results($query_get);
+				$location=site_url().'/club/';
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
+				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
+					foreach($result_query_get as $r){
+						echo '<option value='.$r->CountryID.' '.selected($_POST['CastingCountry'],$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
+					}
+				echo '</select>';
 	echo "       </div></div><!-- #casting-country -->\n";
 
 	echo "       <div id=\"casting-state\" class=\"rbfield rbselect rbsingle\">\n";
-                echo "		<label>". __("State", rbagency_TEXTDOMAIN) ."</label>\n";
-                echo "		<div>\n";
+				echo "		<label>". __("State", rbagency_TEXTDOMAIN) ."</label>\n";
+				echo "		<div>\n";
 
-                if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry'])){
-                        $query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " . $_POST['CastingCountry'] ;
-                } else {
-                        $query_get ="SELECT * FROM `".table_agency_data_state."`" ;
-                }
-                $result_query_get = $wpdb->get_results($query_get);
-                echo '<select name="CastingState" id="CastingState">';
-                echo '<option value="">'. __("Select state", rbagency_TEXTDOMAIN) .'</option>';
-                    foreach($result_query_get as $r){
+				if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry'])){
+						$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " . $_POST['CastingCountry'] ;
+				} else {
+						$query_get ="SELECT * FROM `".table_agency_data_state."`" ;
+				}
+				$result_query_get = $wpdb->get_results($query_get);
+				echo '<select name="CastingState" id="CastingState">';
+				echo '<option value="">'. __("Select state", rbagency_TEXTDOMAIN) .'</option>';
+					foreach($result_query_get as $r){
 
-                        echo '<option value='.$r->StateID.' '.selected($_POST['CastingState'],$r->StateID,false).' >'.$r->StateTitle.'</option>';
-                    }
-                echo '</select>';
+						echo '<option value='.$r->StateID.' '.selected($_POST['CastingState'],$r->StateID,false).' >'.$r->StateTitle.'</option>';
+					}
+				echo '</select>';
 
 	echo "       </div></div><!-- #casting-state -->\n";
 
@@ -339,9 +339,7 @@
 	echo "       	<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_zip'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-zip -->\n";
 
-
-	
-	echo "<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
+	echo "		<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
 
 	
 	echo "       <div id=\"casting-argee\" class=\"rbfield rbcheckbox rbsingle\">\n";
@@ -397,9 +395,7 @@
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>
-    
-         
-     
+
 <?php	
 	echo "   </form>\n";
 	echo "   </div><!-- .rbform -->\n";
@@ -412,7 +408,7 @@ if(!$registration){ echo "<p class='alert'>The administrator currently disabled 
 
 echo "  </div><!-- #content -->\n";
 echo "</div><!-- #container -->\n";
-   
+
 // Get Sidebar 
 	$LayoutType = "";
 	if ($rb_agency_interact_option_castingmanage_sidebar) {
@@ -421,5 +417,5 @@ echo "</div><!-- #container -->\n";
 	}
 	
 // Get Footer
-get_footer();
+echo $rb_footer = RBAgency_Common::rb_footer();
 ?>

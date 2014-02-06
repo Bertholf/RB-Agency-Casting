@@ -1,6 +1,6 @@
 <?php
 
-get_header();
+echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
 	global $current_user;
@@ -9,7 +9,7 @@ if (is_user_logged_in()) {
 
 	echo "<div id=\"rbdashboard\">\n";
 	echo "<h1>Welcome ". $current_user->user_firstname ."</h1>\n";
-        echo "<h1>We have registered you as Agent/Producer.</h1>\n";
+	echo "<h1>We have registered you as Agent/Producer.</h1>\n";
 
   // Return them where we found them 
   if (isset($_SESSION['ProfileLastViewed']) && ($_SESSION['ProfileLastViewed'])) {
@@ -67,7 +67,7 @@ if (isset($curauth->user_login)) {
 	
 	echo "  <div id=\"search\">\n";
 	echo "    <h2>Search Database</h2>\n";
-	include ("include-profile-search.php"); 	
+	include ("include-profile-search.php");
 	echo "  </div>\n";
 }
 	/* GET ROLE
@@ -76,9 +76,9 @@ if (isset($curauth->user_login)) {
 	echo "</div>\n";
 
 } else {
-	include ("include-login.php"); 	
+	include ("include-login.php");
 }
-    
+	
 //get_sidebar(); 
-get_footer(); 
+echo $rb_footer = RBAgency_Common::rb_footer(); 
 ?>
