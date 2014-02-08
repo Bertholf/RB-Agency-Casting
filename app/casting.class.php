@@ -134,17 +134,17 @@ class RBAgency_Casting {
 
 				// Show Cart  
 				$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (". $cartString .") ORDER BY profile.ProfileContactNameFirst ASC";
-				$results = mysql_query($query) or  die( "<a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("No profile selected. Try again", rb_agency_TEXTDOMAIN) ."</a>"); //die ( __("Error, query failed", rb_agency_TEXTDOMAIN ));
+				$results = mysql_query($query) or  die( "<a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("No profile selected. Try again", rb_agency_casting_TEXTDOMAIN) ."</a>"); //die ( __("Error, query failed", rb_agency_casting_TEXTDOMAIN ));
 				$count = mysql_num_rows($results);
 				echo "<div class=\"boxblock-container\" style=\"float: left; padding-top:24px; width: 49%; min-width: 500px;\">\n";
-				echo "<div style=\"float: right; width: 100px; \"><a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("Empty Cart", rb_agency_TEXTDOMAIN) ."</a></div>";
-				echo "<div style=\"float: left; line-height: 22px; font-family:Georgia; font-size:13px; font-style: italic; color: #777777; \">". __("Currently", rb_agency_TEXTDOMAIN) ." <strong>". $count ."</strong> ". __("in Cart", rb_agency_TEXTDOMAIN) ."</div>";
+				echo "<div style=\"float: right; width: 100px; \"><a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("Empty Cart", rb_agency_casting_TEXTDOMAIN) ."</a></div>";
+				echo "<div style=\"float: left; line-height: 22px; font-family:Georgia; font-size:13px; font-style: italic; color: #777777; \">". __("Currently", rb_agency_casting_TEXTDOMAIN) ." <strong>". $count ."</strong> ". __("in Cart", rb_agency_casting_TEXTDOMAIN) ."</div>";
 				echo "<div style=\"clear: both; border-top: 2px solid #c0c0c0; \" class=\"profile\">";
 
 				if ($count == 1) {
 					$cartAction = "cartEmpty";
 				} elseif ($count < 1) {
-					echo "". __("There are currently no profiles in the casting cart", rb_agency_TEXTDOMAIN) .".";
+					echo "". __("There are currently no profiles in the casting cart", rb_agency_casting_TEXTDOMAIN) .".";
 					$cartAction = "cartEmpty";
 				} else {
 					$cartAction = "cartRemove";
@@ -164,7 +164,7 @@ class RBAgency_Casting {
 					// TODO: ADD MORE FIELDS
 
 					echo "    </div>";
-					echo "    <div style=\"position: absolute; z-index: 20; top: 120px; left: 200px; width: 20px; height: 20px; overflow: hidden; \"><a href=\"?page=". $_GET['page'] ."&actiontwo=cartRemove&action=cartAdd&RemoveID=". $data['ProfileID'] ."&\" title=\"". __("Remove from Cart", rb_agency_TEXTDOMAIN) ."\"><img src=\"". rb_agency_BASEDIR ."style/remove.png\" style=\"width: 20px; \" alt=\"". __("Remove from Cart", rb_agency_TEXTDOMAIN) ."\" /></a></div>";
+					echo "    <div style=\"position: absolute; z-index: 20; top: 120px; left: 200px; width: 20px; height: 20px; overflow: hidden; \"><a href=\"?page=". $_GET['page'] ."&actiontwo=cartRemove&action=cartAdd&RemoveID=". $data['ProfileID'] ."&\" title=\"". __("Remove from Cart", rb_agency_casting_TEXTDOMAIN) ."\"><img src=\"". rb_agency_BASEDIR ."style/remove.png\" style=\"width: 20px; \" alt=\"". __("Remove from Cart", rb_agency_casting_TEXTDOMAIN) ."\" /></a></div>";
 					echo "    <div style=\"clear: both; \"></div>";
 					echo "  </div>";
 				}
@@ -175,12 +175,12 @@ class RBAgency_Casting {
 				if (($cartAction == "cartEmpty") || ($cartAction == "cartRemove")) {
 				echo "<a name=\"compose\">&nbsp;</a>"; 
 				echo "<div class=\"boxblock\">\n";
-				echo "   <h3>". __("Cart Actions", rb_agency_TEXTDOMAIN) ."</h3>\n";
+				echo "   <h3>". __("Cart Actions", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";
 				echo "   <div class=\"inner\">\n";
-				echo "      <a href=\"?page=rb_agency_searchsaved&action=searchSave\" title=\"". __("Save Search & Email", rb_agency_TEXTDOMAIN) ."\" class=\"button-primary\">". __("Save Search & Email", rb_agency_TEXTDOMAIN) ."</a>\n";
-				echo "      <a href=\"?page=rb_agency_search&action=massEmail#compose\" title=\"". __("Mass Email", rb_agency_TEXTDOMAIN) ."\" class=\"button-primary\">". __("Mass Email", rb_agency_TEXTDOMAIN) ."</a>\n";
-				echo "      <a href=\"#\" onClick=\"window.open('". get_bloginfo("url") ."/profile-print/?action=castingCart&cD=1','mywindow','width=930,height=600,left=0,top=50,screenX=0,screenY=50,scrollbars=yes')\" title=\"Quick Print\" class=\"button-primary\">". __("Quick Print", rb_agency_TEXTDOMAIN) ."</a>\n";
-				echo "      <a href=\"#\" onClick=\"window.open('". get_bloginfo("url") ."/profile-print/?action=castingCart&cD=0','mywindow','width=930,height=600,left=0,top=50,screenX=0,screenY=50,scrollbars=yes')\" title=\"Quick Print - Without Details\" class=\"button-primary\">". __("Quick Print", rb_agency_TEXTDOMAIN) ." - ". __("Without Details", rb_agency_TEXTDOMAIN) ."</a>\n";
+				echo "      <a href=\"?page=rb_agency_searchsaved&action=searchSave\" title=\"". __("Save Search & Email", rb_agency_casting_TEXTDOMAIN) ."\" class=\"button-primary\">". __("Save Search & Email", rb_agency_casting_TEXTDOMAIN) ."</a>\n";
+				echo "      <a href=\"?page=rb_agency_search&action=massEmail#compose\" title=\"". __("Mass Email", rb_agency_casting_TEXTDOMAIN) ."\" class=\"button-primary\">". __("Mass Email", rb_agency_casting_TEXTDOMAIN) ."</a>\n";
+				echo "      <a href=\"#\" onClick=\"window.open('". get_bloginfo("url") ."/profile-print/?action=castingCart&cD=1','mywindow','width=930,height=600,left=0,top=50,screenX=0,screenY=50,scrollbars=yes')\" title=\"Quick Print\" class=\"button-primary\">". __("Quick Print", rb_agency_casting_TEXTDOMAIN) ."</a>\n";
+				echo "      <a href=\"#\" onClick=\"window.open('". get_bloginfo("url") ."/profile-print/?action=castingCart&cD=0','mywindow','width=930,height=600,left=0,top=50,screenX=0,screenY=50,scrollbars=yes')\" title=\"Quick Print - Without Details\" class=\"button-primary\">". __("Quick Print", rb_agency_casting_TEXTDOMAIN) ." - ". __("Without Details", rb_agency_casting_TEXTDOMAIN) ."</a>\n";
 				echo "   </div>\n";
 				echo "</div>\n";
 				} // Is Cart Empty 
@@ -351,7 +351,7 @@ class RBAgency_Casting {
 				//echo "Email starts";
 				echo "<form method=\"post\">";
 				echo "     <div class=\"boxblock\">\n";
-				echo "        <h3>". __("Compose Email", rb_agency_TEXTDOMAIN) ."</h3>\n";
+				echo "        <h3>". __("Compose Email", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";
 				echo "        <div class=\"inner\">\n";
 				/*if($msg!=""){
 				echo "          <div id=\"message\" class=\"updated\"><p>Email Messages successfully sent!</p></div>";
@@ -367,7 +367,7 @@ class RBAgency_Casting {
 				$editor_id = 'MassEmailMessage';
 				wp_editor( $content, $editor_id,array("wpautop"=>false,"tinymce"=>true) );
 				
-				echo "          <input type=\"submit\" value=\"". __("Send Email", rb_agency_TEXTDOMAIN) . "\" name=\"SendEmail\"class=\"button-primary\" />\n";
+				echo "          <input type=\"submit\" value=\"". __("Send Email", rb_agency_casting_TEXTDOMAIN) . "\" name=\"SendEmail\"class=\"button-primary\" />\n";
 				echo "        </div>\n";
 				echo "     </div>\n";
 				echo "</form>";

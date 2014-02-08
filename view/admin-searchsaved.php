@@ -240,7 +240,7 @@ if (isset($_POST['action'])) {
 
 	?>
    <div style="width:500px; float:left;">
-     <h2><?php echo __("Search Saved", rb_agency_TEXTDOMAIN); ?></h2>
+     <h2><?php echo __("Search Saved", rb_agency_casting_TEXTDOMAIN); ?></h2>
       <form method="post" enctype="multipart/form-data" action="<?php echo admin_url("admin.php?page=". $_GET['page'])."&SearchID=".$_GET['SearchID']."&SearchMuxHash=".$_GET["SearchMuxHash"]; ?>">
        <input type="hidden" name="action" value="cartEmail" />
        <div><label for="SearchMuxToEmail"><strong>From Name:(Leave as blank to use admin name)</strong></label><br/><input  style="width:300px;" type="text" id="SearchMuxFromName" name="SearchMuxFromName" value="<?php echo $dataSearchSavedMux["SearchMuxToName"]; ?>" /></div>
@@ -347,7 +347,7 @@ if (isset($_POST['action'])) {
 						<?php
                                    
 						$query = "SELECT * FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (". $cartString .") ORDER BY ProfileContactNameFirst ASC";
-						$results = mysql_query($query) or die ( __("Error, query failed", rb_agency_TEXTDOMAIN ));
+						$results = mysql_query($query) or die ( __("Error, query failed", rb_agency_casting_TEXTDOMAIN ));
 
 						$count = mysql_num_rows($results);
 
