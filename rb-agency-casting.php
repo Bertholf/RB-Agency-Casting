@@ -67,6 +67,10 @@ See license.txt for full details.
 		define("table_agency_casting", "{$wpdb->prefix}agency_casting");
 	if (!defined("table_agency_castingcart"))
 		define("table_agency_castingcart", "{$wpdb->prefix}agency_castingcart");
+	if (!defined("table_agency_casting_job"))
+		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job");
+	if (!defined("table_agency_casting_job"))
+		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job_type");			
 
 
 // *************************************************************************************************** //
@@ -183,10 +187,9 @@ class RBAgencyCasting {
 					);";
 				dbDelta($sql);
 
-			/*
-			 * Install Schema
-			 */
-				// casting table
+				/*
+				 * Casting 
+				 */
 				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting . " (
 					CastingID BIGINT(20) NOT NULL AUTO_INCREMENT,
 					CastingUserLinked BIGINT(20) NOT NULL DEFAULT '0',
@@ -220,11 +223,37 @@ class RBAgencyCasting {
 				dbDelta($sql);
 
 			/*
-			 * Flush rewrite rules
+			 * Casting Job
 			 */
+				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_job . " (
+					Job_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					Job_Title VARCHAR(255),
+					Job_Text TEXT,
+					Job_Date_Start VARCHAR(255),
+					Job_Date_End VARCHAR(255),
+					Job_Location VARCHAR(255),
+					Job_Region VARCHAR(255),
+					Job_Offering VARCHAR(255),
+					Job_Visibility VARCHAR(255),
+					Job_Criteria VARCHAR(255),
+					Job_Type VARCHAR(255),
+					PRIMARY KEY (Job_ID)
+					);";
+				dbDelta($sql);
 
-				// Flush rewrite rules
-				//RBAgency::flush_rules();
+			/*
+			 * Casting Job Type
+			 */
+				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_job_type . " (
+					Job_Type_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					Job_Title_Title VARCHAR(255),
+					Job_Type_Text TEXT,
+					PRIMARY KEY (Job_Type_ID)
+					);";
+				dbDelta($sql);
+				
+
+
 		}
 
 

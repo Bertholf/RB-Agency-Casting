@@ -24,6 +24,7 @@
 			$newrules['casting-dashboard'] = 'index.php?type=castingoverview';
 			$newrules['casting-register'] = 'index.php?type=castingregister';
 			$newrules['casting-login'] = 'index.php?type=castinglogin';
+			$newrules['casting-postjob'] = 'index.php?type=castingpostjob';
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]';
 			$newrules['profile-casting'] = 'index.php?type=casting&target=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
@@ -48,7 +49,9 @@
 			  } elseif (get_query_var( 'type' ) == "casting") {
 				return dirname(__FILE__) . '/view/profile-viewcasting.php';
 			  }	elseif (get_query_var( 'type' ) == "profilecastingcart") {
-				return rb_agency_BASEREL . 'view/profile-castingcart.php';
+				return dirname(__FILE__) . '/view/profile-castingcart.php';
+			  } elseif (get_query_var( 'type' ) == "castingpostjob") {
+				return dirname(__FILE__) . '/view/casting-postjob.php';
 			  } 
 			}
 			return $template;
@@ -387,6 +390,37 @@
 		add_action('wp_footer', 'rb_agency_save_castingcart_javascript');
 
 
+	/* 
+	 * Check if user is a casting agent
+	 */
+	function rb_is_user_casting() {
+		global $wpdb;
+		global $current_user;
+
+		if(is_user_logged_in()){	
+				get_currentuserinfo();
+				$result = $wpdb->get_results("Select CastingContactNameFirst FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID ); 
+				if(count($result) > 0){
+					return true;
+				}		
+		}
+		
+		return false;
+	}
+
+
+	function load_criteria_fields(){
+
+		global $wpdb;
+		
+		include dirname(__FILE__) . '/view/load-criteriafields.php'; 
+		
+		die();
+		
+	}
+	
+    add_action('wp_ajax_load_criteria_fields', 'load_criteria_fields');
+    add_action('wp_ajax_nopriv_load_criteria_fields', 'load_criteria_fields');	
 
 	/*/
 	 *  Fix form post url for multi language.
