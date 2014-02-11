@@ -70,7 +70,7 @@ See license.txt for full details.
 	if (!defined("table_agency_casting_job"))
 		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job");
 	if (!defined("table_agency_casting_job_type"))
-		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job_type");
+		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");			
 
 
 // *************************************************************************************************** //
@@ -339,12 +339,20 @@ class RBAgencyCasting {
 			
 			// saved search for casting
 			add_submenu_page("rb_agency_menu", __("Saved Searches", rb_agency_casting_TEXTDOMAIN), __("Saved Searches", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_searchsaved", array('RBAgencyCasting', 'menu_searchsaved'));
+
+			// job postings
+			add_submenu_page("rb_agency_menu", __("Job Postings", rb_agency_casting_TEXTDOMAIN), __("Job Postings", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_casting_job_postings", array('RBAgencyCasting', 'menu_castingjob_postings'));
+
 		
 		}
 
 		public static function menu_searchsaved(){
 			include_once('view/admin-searchsaved.php');
 		}
+
+		public static function menu_castingjob_postings(){
+			include_once('view/admin-jobpostings.php');
+		}		
 
 		//Pages
 		public static function rb_agency_casting_settings(){
