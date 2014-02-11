@@ -69,8 +69,8 @@ See license.txt for full details.
 		define("table_agency_castingcart", "{$wpdb->prefix}agency_castingcart");
 	if (!defined("table_agency_casting_job"))
 		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job");
-	if (!defined("table_agency_casting_job"))
-		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job_type");			
+	if (!defined("table_agency_casting_job_type"))
+		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job_type");
 
 
 // *************************************************************************************************** //
