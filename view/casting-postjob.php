@@ -28,38 +28,38 @@ if(isset($_GET['save_job'])){
 		}
 
 		if ( empty($_GET['Job_Text'])) {
-			$error .= __("Job Description is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Job Description is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
 		if ( empty($_GET['Job_Offering'])) {
-			$error .= __("Job Offer is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Job Offer is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Date_Start'])) {
-			$error .= __("Start Date is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Start Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
 		if ( empty($_GET['Job_Date_End'])) {
-			$error .= __("End Date is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("End Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 	
 		if ( empty($_GET['Job_Location'])) {
-			$error .= __("Job Location is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Job Location is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Region'])) {
-			$error .= __("Job Region is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Job Region is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Type'])) {
-			$error .= __("Job type is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Job type is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Visibility'])) {
-			$error .= __("Visibility is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Visibility is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
@@ -126,6 +126,9 @@ if(isset($_GET['save_job'])){
 echo $rb_footer = RBAgency_Common::rb_footer(); 
 
 function load_job_display($error = NULL){
+
+	global $wpdb;
+	
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 	echo '<script type="text/javascript">
 				jQuery(document).ready(function(){
@@ -219,11 +222,16 @@ function load_job_display($error = NULL){
 							<td>Type:</td>
 							<td>
 								<select id='Job_Type' name='Job_Type'>
-									<option value=''>-- Select Type --</option>
-									<option value='0'>Invite Only</option>
-									<option value='1'>Open to All</option>
-									<option value='2'>Matching Criteria</option>
-								</select>
+									<option value=''>-- Select Type --</option>";
+		 
+									 $get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type) or die(mysql_error());
+									 if(count($get_job_type)){
+										foreach($get_job_type as $jtype){
+											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$_GET['Job_Type'],false).">".$jtype->Job_Type_Title."</option>";
+										}
+									 }			
+									
+		 				echo "	</select>
 							</td>
 						</tr>																			
 						<tr>

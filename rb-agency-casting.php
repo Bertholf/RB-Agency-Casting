@@ -246,7 +246,7 @@ class RBAgencyCasting {
 			 */
 				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_job_type . " (
 					Job_Type_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
-					Job_Title_Title VARCHAR(255),
+					Job_Type_Title VARCHAR(255),
 					Job_Type_Text TEXT,
 					PRIMARY KEY (Job_Type_ID)
 					);";
@@ -341,7 +341,7 @@ class RBAgencyCasting {
 			add_submenu_page("rb_agency_menu", __("Saved Searches", rb_agency_casting_TEXTDOMAIN), __("Saved Searches", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_searchsaved", array('RBAgencyCasting', 'menu_searchsaved'));
 
 			// job postings
-			add_submenu_page("rb_agency_menu", __("Job Postings", rb_agency_casting_TEXTDOMAIN), __("Job Postings", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_casting_job_postings", array('RBAgencyCasting', 'menu_castingjob_postings'));
+			add_submenu_page("rb_agency_menu", __("Manage Jobs", rb_agency_casting_TEXTDOMAIN), __("Manage Jobs", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_casting_job_postings", array('RBAgencyCasting', 'menu_castingjob_postings'));
 
 		
 		}
