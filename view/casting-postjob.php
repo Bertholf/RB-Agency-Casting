@@ -3,6 +3,7 @@
 session_start();
 header("Cache-control: private"); //IE 6 Fix
 include(rb_agency_BASEREL ."app/profile.class.php");
+include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
 wp_deregister_script('jquery'); 
 wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
@@ -150,7 +151,7 @@ function load_job_display($error = NULL){
 				});
 		  </script>';
 	
-	if(rb_is_user_casting()){
+	if(RBAgency_Casting::rb_is_user_casting()){
 	
 		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";

@@ -377,6 +377,25 @@ class RBAgency_Casting {
 			return true;
 
 		}
+		
+		/*
+		 * check if user is a casting agent
+		 */
+		public static function rb_is_user_casting(){
+
+				global $wpdb;
+				global $current_user;
+
+				if(is_user_logged_in()){	
+						get_currentuserinfo();
+						$result = $wpdb->get_results("Select CastingContactNameFirst FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID ); 
+						if(count($result) > 0){
+							return true;
+						}		
+				}
+		
+				return false;	
+		}
 
 
 }
