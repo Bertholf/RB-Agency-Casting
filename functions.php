@@ -25,6 +25,8 @@
 			$newrules['casting-register'] = 'index.php?type=castingregister';
 			$newrules['casting-login'] = 'index.php?type=castinglogin';
 			$newrules['casting-postjob'] = 'index.php?type=castingpostjob';
+			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings';
+			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]';
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]';
 			$newrules['profile-casting'] = 'index.php?type=casting&target=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
@@ -52,6 +54,10 @@
 				return dirname(__FILE__) . '/view/profile-castingcart.php';
 			  } elseif (get_query_var( 'type' ) == "castingpostjob") {
 				return dirname(__FILE__) . '/view/casting-postjob.php';
+			  } elseif (get_query_var( 'type' ) == "browsejobpostings") {
+				return dirname(__FILE__) . '/view/browse-jobpostings.php';
+			  } elseif (get_query_var( 'type' ) == "jobdetail") {
+				return dirname(__FILE__) . '/view/casting-jobdetails.php';
 			  } 
 			}
 			return $template;

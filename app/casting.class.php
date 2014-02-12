@@ -396,7 +396,89 @@ class RBAgency_Casting {
 		
 				return false;	
 		}
+		
+		/*
+		 * get job type name thru id
+		 */
+		public static function rb_get_job_type_name($id=NULL){
+			
+			global $wbdp;
+			
+			if($id==NULL || $id=="" || empty($id)) return "";
+			$job_type = mysql_query("SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $id) or die(mysql_error());
+			$type_name = "";
+			if(mysql_num_rows($job_type) > 0){
+				$t = mysql_fetch_row($job_type,MYSQL_BOTH);
+				$type_name = $t['Job_Type_Title'];
+			}
+			
+			return $type_name;		
+		}
 
+
+		/*
+		 * expan string criteria to readable format
+		 */
+		public static function rb_get_job_criteria($criteria=NULL){
+			
+			global $wbdp;
+			
+			if($criteria==NULL || $criteria=="" || empty($criteria)) return "Open to All";
+			
+			$details = "";
+			
+			// if list of criteria
+			if(preg_match("/\|/",$criteria)){
+				$expand_arr = explode("|",$criteria);
+
+				foreach($expand_arr as $arr){
+
+					if(preg_match("/\//",$arr)){
+						$d = explode("/",$arr);
+						$values = str_replace("-",", ",$d[1]);
+						$details .= self::rb_get_custom_name($d[0]) . " = " . $values . "<br>";
+
+					}					
+
+				}
+				
+				return $details;
+			
+			// only one criteria	
+			} else {
+		
+				//break items
+				if(preg_match("/\//",$criteria)){
+
+					$details = explode("/",$criteria);
+					$values = str_replace("-",", ",$details[1]);
+					return self::rb_get_custom_name($details[0]) . " = " . $values;
+					
+				}
+			}
+			
+			return "Open to All";
+	
+		}
+
+		/*
+		 * expan string criteria to readable format
+		 */
+		public static function rb_get_custom_name($id=NULL){
+			
+			global $wpdb;
+			
+			if($id==NULL) return "";
+			
+			$get_name = $wpdb->get_row("SELECT ProfileCustomTitle FROM " . table_agency_customfields . " WHERE ProfileCustomID = " . $id );
+			
+			if(count($get_name) > 0){
+				return $get_name->ProfileCustomTitle;
+			}	
+			
+			return "";
+
+		}
 
 }
 
