@@ -66,6 +66,7 @@ if (isset($curauth->user_login)) {
 	echo "		<li>Cell Phone: <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
 	echo "		</ul>\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"rb_button\">Edit Information</a></h4>\n";
+	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"rb_button\">Post a New Job</a></h4>\n";
 	echo "		<h4><a href=\"" . wp_logout_url(get_permalink()) . "\" class=\"rb_button\">Logout</a></h4>\n";
 	echo "  </div>\n";
 	
