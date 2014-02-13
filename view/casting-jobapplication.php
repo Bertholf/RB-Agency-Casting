@@ -58,7 +58,8 @@
 						</tr>
 						<tr>	
 							<td>Type: </td>
-							<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."<br>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."</td>
+							<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."<br>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."
+							<input type='hidden' value='".$r->Job_Criteria."' name='Job_Criteria'></td>
 						</tr>
 						<tr>	
 							<td>Make Your Pitch!: </td>

@@ -419,13 +419,14 @@ class RBAgency_Casting {
 		/*
 		 * expan string criteria to readable format
 		 */
-		public static function rb_get_job_criteria($criteria=NULL){
+		public static function rb_get_job_criteria( $criteria = NULL , $return_array = false){
 			
 			global $wbdp;
 			
 			if($criteria==NULL || $criteria=="" || empty($criteria)) return "Open to All";
 			
 			$details = "";
+			$return_arr = array();
 			
 			// if list of criteria
 			if(preg_match("/\|/",$criteria)){
@@ -434,31 +435,40 @@ class RBAgency_Casting {
 				foreach($expand_arr as $arr){
 
 					if(preg_match("/\//",$arr)){
-						$d = explode("/",$arr);
-						$values = str_replace("-",", ",$d[1]);
-						$details .= self::rb_get_custom_name($d[0]) . " = " . $values . "<br>";
-
+						if($return_array){
+							$d = explode("/",$arr);
+							$return_arr[$d[0]] = $d[1];
+							var_dump($return_arr); 
+						}else{
+							$d = explode("/",$arr);
+							$values = str_replace("-",", ",$d[1]);
+							$details .= self::rb_get_custom_name($d[0]) . " = " . $values . "<br>";
+						} 
 					}					
 
 				}
+				if($return_array){
+					return $return_arr;
+				}else{				
+					return $details;
+				}
 				
-				return $details;
-			
 			// only one criteria	
 			} else {
 		
 				//break items
 				if(preg_match("/\//",$criteria)){
-
-					$details = explode("/",$criteria);
-					$values = str_replace("-",", ",$details[1]);
-					return self::rb_get_custom_name($details[0]) . " = " . $values;
-					
+					if($return_array){
+						$details = explode("/",$criteria);
+						$return_arr[$details[0]] = $details[1];
+						return $return_arr;
+					} elseif($return_array === false){
+						$details = explode("/",$criteria);
+						$values = str_replace("-",", ",$details[1]);
+						return self::rb_get_custom_name($details[0]) . " = " . $values;
+					}				
 				}
 			}
-			
-			return "Open to All";
-	
 		}
 
 		/*
@@ -478,6 +488,53 @@ class RBAgency_Casting {
 			
 			return "";
 
+		}
+		
+		/*
+		 * process criteria passed by model
+		 */
+		 public static function rb_get_job_criteria_passed($user_linked = NULL, $custom_criteria = NULL){
+			
+
+			global $wpdb;
+			
+			$passed_details = array("","");
+			
+			$get_profile_id = self::rb_casting_ismodel($user_linked);
+
+			if($user_linked == NULL || 
+			   $user_linked == "" ||
+			   empty($user_linked) ||
+			   $get_profile_id === false ||
+			   $custom_criteria == "" ||
+			   $custom_criteria == NULL ||
+			   empty($custom_criteria)) return $passed_details; 	
+			
+			// get custom field mux
+			$criteria_must_passed = array();
+			$criteria_must_passed = self::rb_get_job_criteria($custom_criteria, true);
+			
+			return $criteria_must_passed;
+			
+		}
+		
+		public static function rb_casting_ismodel($user_linked = NULL){
+			
+			global $wpdb;
+			
+			if($user_linked == NULL || 
+			   $user_linked == "" ||
+			   empty($user_linked)) return false;
+			 
+			   $get_id = $wpdb->get_row( "SELECT ProfileID FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $user_linked ) ;
+			   
+			   if(count($get_id) > 0){
+			   
+			   		return $get_id->ProfileID;
+			   }		    				
+			   
+			   return false;
+			
 		}
 
 }

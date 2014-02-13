@@ -70,7 +70,9 @@ See license.txt for full details.
 	if (!defined("table_agency_casting_job"))
 		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job");
 	if (!defined("table_agency_casting_job_type"))
-		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");			
+		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");	
+	if (!defined("table_agency_casting_job_application"))
+		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");					
 
 
 // *************************************************************************************************** //
@@ -251,6 +253,19 @@ class RBAgencyCasting {
 					PRIMARY KEY (Job_Type_ID)
 					);";
 				dbDelta($sql);
+
+			/*
+			 * Casting Job Applications
+			 */
+				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_job_application . " (
+					Job_Application_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					Job_ID BIGINT(20),
+					Job_Criteria_Passed INT(3),
+					Job_Criteria_Details TEXT,
+					Job_Pitch TEXT,
+					PRIMARY KEY (Job_Application_ID)
+					);";
+				dbDelta($sql);				
 				
 
 
