@@ -18,13 +18,25 @@
 	
 	$job_id = get_query_var('value');
 
+	// add scripts
+	wp_deregister_script('jquery'); 
+	wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+	wp_enqueue_script('jquery');
+
 	echo $rb_header = RBAgency_Common::rb_header();
 
 	if (is_user_logged_in()) { 	
 	
-		echo "	<style>
+		echo "<style>
 				.jobdesc{margin-left:20px; width:250px; padding:20px 0px 20px 50px;}
-			</style>";
+			 </style>
+			 <script type='text/javascript'>
+			 	jQuery(document).ready(function(){
+					jQuery('#apply_job').click(function(){
+						window.location = '".get_bloginfo('wpurl')."/job-application/".$job_id."';
+					});
+				});
+			 </script>";
 			
 		echo "<p><h2>Job Details</h2><p><br>";	
 	
@@ -63,7 +75,7 @@
 						</tr>	
 						<tr>	
 							<td></td>
-							<td class='jobdesc'><input type='button' class='button-primary' value='Apply to thie Job'></td>
+							<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to thie Job'></td>
 						</tr>																																				
 					  <table>";
 			}
