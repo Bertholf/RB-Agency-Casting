@@ -438,7 +438,6 @@ class RBAgency_Casting {
 						if($return_array){
 							$d = explode("/",$arr);
 							$return_arr[$d[0]] = $d[1];
-							var_dump($return_arr); 
 						}else{
 							$d = explode("/",$arr);
 							$values = str_replace("-",", ",$d[1]);
@@ -514,8 +513,21 @@ class RBAgency_Casting {
 			$criteria_must_passed = array();
 			$criteria_must_passed = self::rb_get_job_criteria($custom_criteria, true);
 			
-			return $criteria_must_passed;
-			
+			// get actual quaalities of models through array
+			$key_customid = implode(",", array_keys($criteria_must_passed)); 
+			$query = "SELECT ProfileCustomID, ProfileCustomValue FROM " . table_agency_customfield_mux . " WHERE ProfileID = " . $get_profile_id . " AND ProfileCustomID IN(".$key_customid.")";
+			$results = $wpdb->get_results($query);
+			$actual_model_quality = array();
+			if(count($results) > 0) {
+				foreach($results as $actual){
+					$actual_model_quality[$actual->ProfileCustomID] = $actual->ProfileCustomValue;
+				}
+			}			
+						
+			// compare whats passed
+			$actual_model_quality = array_map('strtolower', $actual_model_quality);
+			$criteria_must_passed = array_map('strtolower', $criteria_must_passed);
+				
 		}
 		
 		public static function rb_casting_ismodel($user_linked = NULL){

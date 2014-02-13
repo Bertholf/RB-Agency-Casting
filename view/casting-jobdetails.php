@@ -75,7 +75,7 @@
 						</tr>	
 						<tr>	
 							<td></td>
-							<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to thie Job'></td>
+							<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'></td>
 						</tr>																																				
 					  <table>";
 			}

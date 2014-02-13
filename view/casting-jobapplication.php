@@ -21,12 +21,12 @@
 	// process submission here
 	//-----------------------------------------------
 	if(isset($_GET['apply_job'])){
-		
-		//echo $_GET['job_pitch'];
-		
-	}
-	
 
+		//add data here
+		$job_pitch = $_GET['job_pitch'];
+		$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($current_user->ID, $_GET['Job_Criteria']);
+			
+	}
 
 	// add scripts
 	wp_deregister_script('jquery'); 

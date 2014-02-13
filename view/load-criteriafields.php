@@ -1,5 +1,14 @@
 <?php
 
+echo "<script type='text/javascript'>
+		function num_only(text) {
+			var validationRegex = /[1-9]/g;
+			if (!validationRegex.test(text.value)) {
+				alert('Please enter only numbers.');
+			}
+		}	  
+	  </script>";
+
 $query1 = "SELECT ProfileCustomID, ProfileCustomTitle, ProfileCustomType, ProfileCustomOptions, ProfileCustomOrder, ProfileCustomView, ProfileCustomShowGender, ProfileCustomShowProfile, ProfileCustomShowSearch, ProfileCustomShowLogged, ProfileCustomShowAdmin FROM ". table_agency_customfields ." WHERE ProfileCustomView = 0  ORDER BY ProfileCustomOrder ASC";
 					$results1 = mysql_query($query1);
 					$count1 = mysql_num_rows($results1);
@@ -83,20 +92,20 @@ while ($data1 = mysql_fetch_array($results1)) {
 					if(!empty($ProfileCustomOptions_Min_value) && !empty($ProfileCustomOptions_Max_value)){
 						echo "<div>";
 						echo "	<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
-						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"". $ProfileCustomOptions_Min_value ."\" /></div>";
+						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"". $ProfileCustomOptions_Min_value ."\" onkeyup='num_only(this);' /></div>";
 						echo "</div>";
 						echo "<div>";
 						echo "	<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Max", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
-						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"". $ProfileCustomOptions_Max_value ."\" /></div>";					
+						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"". $ProfileCustomOptions_Max_value ."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'  /></div>";					
 						echo "</div>";
 					} else {
 						echo "<div>";
 						echo "	<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
-						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\" /></div>";
+						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 						echo "</div>";
 						echo "<div>";
 						echo "	<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Max", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
-						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\" /></div>";
+						echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 						echo "</div>";		
 					}
 				 
@@ -236,11 +245,11 @@ while ($data1 = mysql_fetch_array($results1)) {
 							."_min\">Min</label><input value=\""
 							.(!is_array($min_val) && $min_val != "Array" ? $min_val : "")
 							."\" class=\"stubby\" type=\"text\" name=\"ProfileCustomID"
-							.$data1['ProfileCustomID']."[]\" /></div>";
+							.$data1['ProfileCustomID']."[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 	
 							echo "<div><label for=\"ProfileCustomID".$data1['ProfileCustomID']
 							."_max\">Max</label><input value=\"".$max_val
-							."\" class=\"stubby\" type=\"text\" name=\"ProfileCustomID".$data1['ProfileCustomID']."[]\" /></div>";											
+							."\" class=\"stubby\" type=\"text\" name=\"ProfileCustomID".$data1['ProfileCustomID']."[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";											
 						}
 					// END - RYAN EDITING
 				}
