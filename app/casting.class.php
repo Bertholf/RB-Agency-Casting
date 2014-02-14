@@ -525,9 +525,14 @@ class RBAgency_Casting {
 			}			
 						
 			// compare whats passed
-			$actual_model_quality = array_map('strtolower', $actual_model_quality);
-			$criteria_must_passed = array_map('strtolower', $criteria_must_passed);
-				
+			var_dump ($actual_model_quality = array_map('strtolower', $actual_model_quality));
+			var_dump ($criteria_must_passed = array_map('strtolower', $criteria_must_passed));
+			
+			//error_reporting(E_ALL);
+			//ini_set('display_errors', '1');
+			
+			return self::rb_compare_criteria($criteria_must_passed, $actual_model_quality);			
+					
 		}
 		
 		public static function rb_casting_ismodel($user_linked = NULL){
@@ -548,7 +553,97 @@ class RBAgency_Casting {
 			   return false;
 			
 		}
+		
+		public static function rb_compare_criteria($criteria = NULL, $model_criteria = NULL){
+			
+			 global $wpdb;
+			 
+			 $actual_criteria_passed = array();
+			 	
+			 if($criteria == NULL || $model_criteria == NULL) return "";
+			
+			 foreach($criteria as $key => $val){
+									  
+									  if(strpos($val,"-") > -1 ){
+											$val = explode("-",$val);	 
+									  }	
+		
+									  $q = mysql_query("SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomID = ".$key);
+									  $ProfileCustomType = mysql_fetch_assoc($q);
+									
+									// NOW COMPARE ALL
 
+									if ($ProfileCustomType["ProfileCustomType"] == 1 ||
+										$ProfileCustomType["ProfileCustomType"] == 3 || 
+									    $ProfileCustomType["ProfileCustomType"] == 6) { // text, dropdown, radiobutton
+										
+										// at least compare text values vice versa
+										if(strpos($val, $model_criteria[$key]) > -1){
+											$actual_criteria_passed[$key] = $model_criteria[$key];
+										} else {
+											if(strpos($model_criteria[$key], $val) > -1){
+												$actual_criteria_passed[$key] = $model_criteria[$key];
+											}									
+										} 
+			
+									
+									} elseif ($ProfileCustomType["ProfileCustomType"] == 5) { //Checkbox
+
+										// check arrays and compare vice versa
+										// if some pass it is automatically passed.
+										if(is_array($val)){
+											if(strpos("-",$model_criteria[$key]) > -1){
+												$model_criteria[$key] = explode("-",$model_criteria[$key]);
+												$result = array_diff($criteria[$key], $model_criteria[$key]);
+												if(count($result) > 0){
+													$actual_criteria_passed[$key] = $model_criteria[$key];
+												}
+											} else {
+												if(in_array($model_criteria[$key], $criteria[$key])){
+													$actual_criteria_passed[$key] = $model_criteria[$key];
+												}
+											} 
+										} else {
+											if(strpos("-",$model_criteria[$key]) > -1){
+												$model_criteria[$key] = explode("-",$model_criteria[$key]);
+												if(in_array( $criteria[$key], $model_criteria[$key])){
+													$actual_criteria_passed[$key] = $model_criteria[$key];
+												}
+											} else {
+												if(in_array($criteria[$key], $model_criteria[$key])){
+													$actual_criteria_passed[$key] = $model_criteria[$key];
+												}
+											} 
+										}			
+				
+									} elseif ($ProfileCustomType["ProfileCustomType"] == 7) { //Measurements 
+											
+											var_dump($val);
+											var_dump($model_criteria[$key]);
+											
+											if(is_array($val)){
+												arsort($val);
+												if(is_numeric($val[0]) && is_numeric($val[1])){
+														if($model_criteria[$key] >= $val[0] &&
+														   $model_criteria[$key] <= $val[1]){
+																$actual_criteria_passed[$key] = $model_criteria[$key];
+														}	
+												}
+											} else {
+												if(is_numeric($val)){
+														if($model_criteria[$key] == $val){
+															 $actual_criteria_passed[$key] = $model_criteria[$key];
+														}	
+												}
+											}	
+									}
+						}
+				
+				return $actual_criteria_passed;		
+		}
+
+
+// end class
 }
 
 /* 
