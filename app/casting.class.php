@@ -525,12 +525,6 @@ class RBAgency_Casting {
 			}			
 						
 			// compare whats passed
-			var_dump ($actual_model_quality = array_map('strtolower', $actual_model_quality));
-			var_dump ($criteria_must_passed = array_map('strtolower', $criteria_must_passed));
-			
-			//error_reporting(E_ALL);
-			//ini_set('display_errors', '1');
-			
 			return self::rb_compare_criteria($criteria_must_passed, $actual_model_quality);			
 					
 		}
@@ -617,9 +611,6 @@ class RBAgency_Casting {
 										}			
 				
 									} elseif ($ProfileCustomType["ProfileCustomType"] == 7) { //Measurements 
-											
-											var_dump($val);
-											var_dump($model_criteria[$key]);
 											
 											if(is_array($val)){
 												arsort($val);
