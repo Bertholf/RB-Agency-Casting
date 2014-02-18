@@ -260,6 +260,7 @@ class RBAgencyCasting {
 				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_job_application . " (
 					Job_Application_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
 					Job_ID BIGINT(20),
+					Job_UserLinked BIGINT(20),
 					Job_Criteria_Passed INT(3),
 					Job_Criteria_Details TEXT,
 					Job_Pitch TEXT,
