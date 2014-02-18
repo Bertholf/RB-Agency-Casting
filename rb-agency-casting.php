@@ -348,36 +348,25 @@ class RBAgencyCasting {
 	 * Create the admin menu items
 	 */
 
+		/*
 		//Create Admin Menu
 		public static function menu_admin(){
 			// TODO: Menu Item for Admin
 			//add_submenu_page('users.php', __('Approve Casting Agents', rb_agency_casting_TEXTDOMAIN), __('Approve Agents', rb_agency_casting_TEXTDOMAIN), 'edit_users', basename(__FILE__), 'rb_agency_casting_approveusers');
-			
 			// saved search for casting
-			add_submenu_page("rb_agency_menu", __("Saved Searches", rb_agency_casting_TEXTDOMAIN), __("Saved Searches", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_searchsaved", array('RBAgencyCasting', 'menu_searchsaved'));
+			add_submenu_page("rb_agency_menu", __("Saved Searches", rb_agency_casting_TEXTDOMAIN), __("Saved Searches", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_searchsaved", array('RBAgencyCasting', 'rb_agency_casting_searchsaved'));
 
 			// job postings
-			add_submenu_page("rb_agency_menu", __("Manage Jobs", rb_agency_casting_TEXTDOMAIN), __("Manage Jobs", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_casting_job_postings", array('RBAgencyCasting', 'menu_castingjob_postings'));
-
-		
+			add_submenu_page("rb_agency_menu", __("Manage Jobs", rb_agency_casting_TEXTDOMAIN), __("Manage Jobs", rb_agency_casting_TEXTDOMAIN), 7,"rb_agency_casting_job_postings", array('RBAgencyCasting', 'rb_agency_casting_jobpostings'));
 		}
+		*/
 
-		public static function menu_searchsaved(){
+		public static function rb_agency_casting_searchsaved(){
 			include_once('view/admin-searchsaved.php');
 		}
 
-		public static function menu_castingjob_postings(){
+		public static function rb_agency_casting_jobpostings(){
 			include_once('view/admin-jobpostings.php');
-		}		
-
-		//Pages
-		public static function rb_agency_casting_settings(){
-			// TODO add file
-			//include_once('admin/settings.php');
-		}
-		public static function rb_agency_casting_approveusers(){
-			//TODO change to casting-approve.php
-			//include_once('admin/profile-approve.php');
 		}
 
 	/*
@@ -471,7 +460,7 @@ class RBAgencyCasting {
 							echo "	<li><a href=\"/wp-login.php?action=logout&_wpnonce=3bb3c87a3d\">Logout</a></li>";
 							echo "</ul>";
 						} else{
-							rb_agency_profilesearch(array("profilesearch_layout" =>"simple"));
+							rb_agency_profilesearch(array("layout" =>"simple"));
 						}
 					}
 
