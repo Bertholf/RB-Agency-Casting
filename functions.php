@@ -400,12 +400,11 @@
 
 
 	function load_criteria_fields(){
-
-		global $wpdb;
 		
-		include dirname(__FILE__) . '/view/load-criteriafields.php'; 
+		include (dirname(__FILE__) ."/app/casting.class.php");
 		
-		die();
+		//load ajax functions
+		RBAgency_Casting::load_criteria_fields();
 		
 	}
 	
