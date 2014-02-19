@@ -13,7 +13,7 @@ echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
 
-	if(!RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
+	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
 		
 		echo "	<style>
 					table td{border:1px solid #CCC;padding:12px;}
@@ -35,17 +35,23 @@ if (is_user_logged_in()) {
 		echo " </thead>\n";
 		
 		// load all job postings
-		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
+		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
 										 " . table_agency_casting_job 
 										 . " jobs ON jobs.Job_ID = applicants.Job_ID WHERE jobs.Job_UserLinked = " . $current_user->ID);
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
+				$details = RBAgency_Casting::rb_casting_get_model_details($load->app_id);
+				if($details->ProfileGallery != ""){
+					$display = '<a href="'.get_bloginfo('wpurl').'/profile/'.$details->ProfileGallery.'">'.$details->ProfileContactNameFirst.'</a>';
+				} else {
+					$display = $details->ProfileContactNameFirst;
+				}
 				echo "    <tr>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
-				echo "        <td class=\"column-JobDate\" scope=\"col\"></td>\n";
-				echo "        <td class=\"column-JobLocation\" scope=\"col\"></td>\n";
+				echo "        <td class=\"column-JobDate\" scope=\"col\">".$display."</td>\n";
+				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed."</td>\n";
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href=''>View Details</a></td>\n";
 				echo "    </tr>\n";
 			}

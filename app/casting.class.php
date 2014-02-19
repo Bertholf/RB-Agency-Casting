@@ -914,6 +914,25 @@ class RBAgency_Casting {
 			 die();
 		 
 		 }
+		 
+		 /*
+		  * get model details
+		  */
+		  public static function rb_casting_get_model_details($id = NULL){
+			   
+			   global $wpdb;
+			   
+			   if($id == NULL) return "";
+			   
+			   $get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $id);	 
+
+			   if(count($get_name) > 0){
+					return $get_name;  
+			   }	
+			   
+			   return "";
+		  
+		  }
 
 // end class
 }
