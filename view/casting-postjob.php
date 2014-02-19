@@ -257,11 +257,10 @@ function load_job_display($error = NULL){
 							<td><input type='submit' name='save_job' value='Submit Job'></td>
 						</tr>		
 					</table>
+					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
-		
 		echo "			<div class=\"cb\"></div>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
-		echo "			<input type=\"hidden\" name=\"favorite\" value=\"1\"/>";
 		echo "  	</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
 	
