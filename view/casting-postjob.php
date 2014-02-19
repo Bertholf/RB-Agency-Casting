@@ -82,7 +82,10 @@ if(isset($_GET['save_job'])){
 									$n .= "-" . $x; 
 								}
 								$n = trim($n,"-");
+							} else {
+								$n = trim($val);
 							}
+							
 							if($n != ""){
 								$criteria[] = substr($key,15) . "/" . $n ;  			
 							}
