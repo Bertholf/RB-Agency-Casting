@@ -32,9 +32,13 @@
 			 </style>
 			 <script type='text/javascript'>
 			 	jQuery(document).ready(function(){
-					jQuery('#apply_job').click(function(){
-						window.location = '".get_bloginfo('wpurl')."/job-application/".$job_id."';
-					});
+					jQuery('#apply_job').click(function(){";
+						if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
+							echo "window.location = '".get_bloginfo('wpurl')."/view-applicants'; ";
+						} else {
+							echo "window.location = '".get_bloginfo('wpurl')."/job-application/".$job_id."'; ";
+						}
+					echo "});
 				});
 			 </script>";
 			
@@ -74,9 +78,13 @@
 							<td class='jobdesc'>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."</td>
 						</tr>	
 						<tr>	
-							<td></td>
-							<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'></td>
-						</tr>																																				
+							<td></td>";
+							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
+								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Back to Applicants'></td>";
+							} else {
+								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'></td>";
+							}
+						echo "</tr>																																				
 					  <table>";
 			}
 		}
