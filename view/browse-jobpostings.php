@@ -19,9 +19,9 @@ if (is_user_logged_in()) {
 				</style>";
 
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-			echo "<p><h3>Browse Job Postings</h3></p><br>";
+			echo "<p><h3>Job Postings</h3></p><br>";
 		} else {
-			echo "<p><h3>Browse Your Job Postings</h3></p><br>";
+			echo "<p><h3>Your Job Postings</h3></p><br>";
 		}		
 		
 		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
