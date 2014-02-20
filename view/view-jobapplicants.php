@@ -53,7 +53,7 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">".$display."</td>\n";
 				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed."</td>\n";
-				echo "        <td class=\"column-JobType\" scope=\"col\"><a href=''>View Details</a></td>\n";
+				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				echo "    </tr>\n";
 			}
 		}
