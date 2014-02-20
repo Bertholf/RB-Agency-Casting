@@ -1,4 +1,8 @@
 <?php
+
+// include casting class
+include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
+	
 // *************************************************************************************************** //
 // Respond to Login Request
 if ( $_SERVER['REQUEST_METHOD'] == "POST" && !empty( $_POST['action'] ) && $_POST['action'] == 'log-in' ) {
@@ -34,7 +38,11 @@ function get_user_login_info(){
 			if( $user_info->user_level > 7) {
 				header("Location: ". admin_url("admin.php?page=rb_agency_menu"));
 			} else {
-				header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+				if(RBAgency_Casting::rb_casting_ismodel($user_ID)){
+					header("Location: ". get_bloginfo("wpurl"). "/profile-member/");
+				} else {
+					header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+				}
 			}
 	  	}
 	} elseif(empty($_POST['user-name']) || empty($_POST['password']) ){
@@ -42,7 +50,11 @@ function get_user_login_info(){
 
 	} else {
 		// Reload
-		header("Location: ". get_bloginfo("wpurl"). "/client-dashboard/");
+		if(RBAgency_Casting::rb_casting_ismodel($user_ID)){
+			header("Location: ". get_bloginfo("wpurl"). "/profile-member/");
+		} else {
+			header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+		}
 	}
 }
 
