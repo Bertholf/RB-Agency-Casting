@@ -13,8 +13,6 @@ echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
 
-	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-		
 		echo "	<style>
 					table td{border:1px solid #CCC;padding:12px;}
 					table th{border:1px solid #CCC;padding:12px;}
@@ -36,7 +34,12 @@ if (is_user_logged_in()) {
 		echo " </thead>\n";
 		
 		// load all job postings
-		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job);
+		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+			$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job);
+		} else {
+			$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " WHERE Job_UserLinked = " . $current_user->ID);
+		}
+		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
 				echo "    <tr>\n";
@@ -51,12 +54,6 @@ if (is_user_logged_in()) {
 		}
 		
 		echo "</table>";
-	
-	} else {
-
-			echo "<p><h3>Only models and talents  has the permission to browse Jobs.</h3></p><br>";	
-	
-	}
 
 } else {
 	include ("include-login.php");

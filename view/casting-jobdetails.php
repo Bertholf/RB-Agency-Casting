@@ -34,7 +34,13 @@
 			 	jQuery(document).ready(function(){
 					jQuery('#apply_job').click(function(){";
 						if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
-							echo "window.location = '".get_bloginfo('wpurl')."/view-applicants'; ";
+							if(strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){ 
+								echo "window.location = '".get_bloginfo('wpurl')."/view-applicants'; ";
+							} elseif(strpos($_SERVER['HTTP_REFERER'], "browse-jobs") > -1){ 
+								echo "window.location = '".get_bloginfo('wpurl')."/browse-jobs'; ";
+							} else {
+								echo "window.location = '".get_bloginfo('wpurl')."/browse-jobs'; ";
+							}
 						} else {
 							echo "window.location = '".get_bloginfo('wpurl')."/job-application/".$job_id."'; ";
 						}
@@ -80,7 +86,11 @@
 						<tr>	
 							<td></td>";
 							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
-								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Back to Applicants'></td>";
+								if(strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){ 
+									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Back to Applicants'></td>";
+								} else {
+									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'></td>";
+								}
 							} else {
 								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'></td>";
 							}
