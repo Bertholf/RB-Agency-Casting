@@ -423,7 +423,7 @@ class RBAgency_Casting {
 			
 			global $wbdp;
 			
-			if($criteria==NULL || $criteria=="" || empty($criteria)) return "Open to All";
+			if($criteria==NULL || $criteria=="" || empty($criteria)) return "No Criteria";
 			
 			$details = "";
 			$return_arr = array();
@@ -497,7 +497,7 @@ class RBAgency_Casting {
 
 			global $wpdb;
 			
-			$passed_details = array("","");
+			$passed_details = array();
 			
 			$get_profile_id = self::rb_casting_ismodel($user_linked);
 
