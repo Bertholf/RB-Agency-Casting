@@ -17,8 +17,12 @@ if (is_user_logged_in()) {
 					table td{border:1px solid #CCC;padding:12px;}
 					table th{border:1px solid #CCC;padding:12px;}
 				</style>";
-		
-		echo "<p><h3>Browse Job Postings</h3></p><br>";
+
+		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+			echo "<p><h3>Browse Job Postings</h3></p><br>";
+		} else {
+			echo "<p><h3>Browse Your Job Postings</h3></p><br>";
+		}		
 		
 		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
