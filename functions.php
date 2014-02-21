@@ -20,15 +20,18 @@
 	add_filter('rewrite_rules_array','rb_agency_casting_rewriteRules');
 		function rb_agency_casting_rewriteRules($rules) {
 			$newrules = array();
-			$newrules['casting-manage'] = 'index.php?type=castingmanage';
-			$newrules['casting-dashboard'] = 'index.php?type=castingoverview';
+			// Casting Agent
 			$newrules['casting-register'] = 'index.php?type=castingregister';
 			$newrules['casting-login'] = 'index.php?type=castinglogin';
+			$newrules['casting-dashboard'] = 'index.php?type=castingoverview';
+			$newrules['casting-manage'] = 'index.php?type=castingmanage';
 			$newrules['casting-postjob'] = 'index.php?type=castingpostjob';
+			$newrules['view-applicants'] = 'index.php?type=viewapplicants';
+			// User/Profile View
 			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings';
 			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]';
 			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]';
-			$newrules['view-applicants'] = 'index.php?type=viewapplicants';
+			// Casting Agent
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]';
 			$newrules['profile-casting'] = 'index.php?type=casting&target=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
