@@ -43,32 +43,32 @@
 	add_filter('template_include', 'rb_agency_casting_template_include', 1, 1); 
 		function rb_agency_casting_template_include( $template ) {
 			if ( get_query_var( 'type' ) ) {
-			  if (get_query_var( 'type' ) == "castingoverview") {
-				return dirname(__FILE__) . '/view/casting-overview.php'; 
-			  } elseif (get_query_var( 'type' ) == "castingmanage") {
-				return dirname(__FILE__) . '/view/casting-manage.php'; 
-			  } elseif (get_query_var( 'type' ) == "castinglogin") {
-				return dirname(__FILE__) . '/view/casting-login.php'; 
-			  } elseif (get_query_var( 'type' ) == "castingregister") {
-				return dirname(__FILE__) . '/view/casting-register.php'; 
-			  }	elseif (get_query_var( 'type' ) == "favorite") {
-				return dirname(__FILE__) . '/view/profile-favorite.php';
-			  } elseif (get_query_var( 'type' ) == "casting") {
-				return dirname(__FILE__) . '/view/profile-viewcasting.php';
-			  }	elseif (get_query_var( 'type' ) == "profilecastingcart") {
-				return dirname(__FILE__) . '/view/profile-castingcart.php';
-			  } elseif (get_query_var( 'type' ) == "castingpostjob") {
-				return dirname(__FILE__) . '/view/casting-postjob.php';
-			  } elseif (get_query_var( 'type' ) == "browsejobpostings") {
-				return dirname(__FILE__) . '/view/browse-jobpostings.php';
-			  } elseif (get_query_var( 'type' ) == "jobdetail") {
-				return dirname(__FILE__) . '/view/casting-jobdetails.php';
-			  } elseif (get_query_var( 'type' ) == "jobapplication") {
-				return dirname(__FILE__) . '/view/casting-jobapplication.php';
-			  } elseif (get_query_var( 'type' ) == "viewapplicants") {
-				return dirname(__FILE__) . '/view/view-jobapplicants.php';
-			  }  
-			  
+				if (get_query_var( 'type' ) == "castingoverview") {
+					return dirname(__FILE__) . '/view/casting-overview.php'; 
+				} elseif (get_query_var( 'type' ) == "castingmanage") {
+					return dirname(__FILE__) . '/view/casting-manage.php'; 
+				} elseif (get_query_var( 'type' ) == "castinglogin") {
+					return dirname(__FILE__) . '/view/casting-login.php'; 
+				} elseif (get_query_var( 'type' ) == "castingregister") {
+					return dirname(__FILE__) . '/view/casting-register.php'; 
+				} elseif (get_query_var( 'type' ) == "favorite") {
+					return dirname(__FILE__) . '/view/profile-favorite.php';
+				} elseif (get_query_var( 'type' ) == "casting") {
+					return dirname(__FILE__) . '/view/profile-viewcasting.php';
+				} elseif (get_query_var( 'type' ) == "profilecastingcart") {
+					return dirname(__FILE__) . '/view/profile-castingcart.php';
+				} elseif (get_query_var( 'type' ) == "castingpostjob") {
+					return dirname(__FILE__) . '/view/casting-postjob.php';
+				} elseif (get_query_var( 'type' ) == "browsejobpostings") {
+					return dirname(__FILE__) . '/view/browse-jobpostings.php';
+				} elseif (get_query_var( 'type' ) == "jobdetail") {
+					return dirname(__FILE__) . '/view/casting-jobdetails.php';
+				} elseif (get_query_var( 'type' ) == "jobapplication") {
+					return dirname(__FILE__) . '/view/casting-jobapplication.php';
+				} elseif (get_query_var( 'type' ) == "viewapplicants") {
+					return dirname(__FILE__) . '/view/view-jobapplicants.php';
+				}
+
 			}
 			return $template;
 		}
@@ -82,13 +82,13 @@
 		echo json_encode($result_query_get);
 		die();	
 	}
-    add_action('wp_ajax_get_state_json', 'get_state_json');
-    add_action('wp_ajax_nopriv_get_state_json', 'get_state_json');	
+	add_action('wp_ajax_get_state_json', 'get_state_json');
+	add_action('wp_ajax_nopriv_get_state_json', 'get_state_json');
 
 	/*/
 	* ======================== Get Favorite & Casting Cart Links ===============
 	* @Returns links
-	/*/		
+	/*/
 	function rb_agency_get_miscellaneousLinks($ProfileID = ""){
 	 
 		rb_agency_checkExecution();
@@ -105,11 +105,11 @@
 						$disp .= "    <div class=\"favorite\"><a title=\"Save to Favorites\" rel=\"nofollow\" href=\"javascript:;\" class=\"save_favorite\" id=\"".$ProfileID."\"></a></div>\n";
 				}else{
 						$disp .= "<div class=\"favorite\"><a rel=\"nofollow\" title=\"Remove from Favorites\" href=\"javascript:;\" class=\"favorited\" id=\"".$ProfileID."\"></a></div>\n";
-				}					
+				}
 
 			}
-		}	
-		
+		}
+
 		if (is_permitted('casting')) {
 			if(!empty($ProfileID)){
 				$queryCastingCart = mysql_query("SELECT cart.CastingCartTalentID as cartID FROM ".table_agency_castingcart."  cart WHERE ".rb_agency_get_current_userid()." = cart.CastingCartProfileID AND cart.CastingCartTalentID = '".$ProfileID."' ") or die(mysql_error());
@@ -127,16 +127,16 @@
 		}
 
 		$disp .= "</div><!-- .favorite-casting -->";
-	 	return $disp; 
+		return $disp; 
 	}
 
 
 	/*/
 	* ======================== NEW Get Favorite & Casting Cart Links ===============
 	* @Returns links
-	/*/		
+	/*/
 	function rb_agency_get_new_miscellaneousLinks($ProfileID = ""){
-	 
+
 		$rb_agency_options_arr 				= get_option('rb_agency_options');
 		$rb_agency_option_profilelist_favorite		= isset($rb_agency_options_arr['rb_agency_option_profilelist_favorite']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_favorite'] : 0;
 		$rb_agency_option_profilelist_castingcart 	= isset($rb_agency_options_arr['rb_agency_option_profilelist_castingcart']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_castingcart'] : 0;
@@ -149,10 +149,10 @@
 				$dataFavorite = mysql_fetch_assoc($queryFavorite); 
 				$countFavorite = mysql_num_rows($queryFavorite);
 			}
-		}	
-		
+		}
+
 		if ($rb_agency_option_profilelist_castingcart) {
-	      	//Execute query - Casting Cart
+			//Execute query - Casting Cart
 			if(!empty($ProfileID)){
 				$queryCastingCart = mysql_query("SELECT cart.CastingCartTalentID as cartID FROM ".table_agency_castingcart."  cart WHERE ".rb_agency_get_current_userid()." = cart.CastingCartProfileID AND cart.CastingCartTalentID = '".$ProfileID."' ") or die(mysql_error());
 				$dataCastingCart = mysql_fetch_assoc($queryCastingCart); 
@@ -162,7 +162,7 @@
 
 		$disp = "";
 		$disp .= "<div class=\"favorite-casting\">";
-	        
+
 		if ($rb_agency_option_profilelist_castingcart) {
 			if($countCastingCart <=0){
 				$disp .= "<div class=\"newcastingcart\"><a title=\"Add to Casting Cart\" href=\"javascript:;\" id=\"".$ProfileID."\"  class=\"save_castingcart\">ADD TO CASTING CART</a></div></li>";
@@ -171,22 +171,21 @@
 				 	$divHide="onclick=\"javascript:document.getElementById('div$ProfileID').style.display='none';\"";
 				}
 				$disp .= "<div class=\"gotocastingcard\"><a $divHide href=\"". get_bloginfo("wpurl") ."/profile-casting/\"  title=\"Go to Casting Cart\">VIEW CASTING CART</a></div>";
-		  	}
+			}
 		}
-	        
-	        
+
 		if ($rb_agency_option_profilelist_favorite) {
 			
 			if($countFavorite <= 0){
 				$disp .= "<div class=\"newfavorite\"><a title=\"Save to Favorites\" rel=\"nofollow\" href=\"javascript:;\" class=\"save_favorite\" id=\"".$ProfileID."\">SAVE TO FAVORITES</a></div>\n";
 			}else{
 				$disp .= "<div class=\"viewfavorites\"><a rel=\"nofollow\" title=\"View Favorites\" href=\"".  get_bloginfo("wpurl") ."/profile-favorite/\"/>VIEW FAVORITES</a></div>\n";
-			}					
+			}
 		}
-				
+
 
 		$disp .= "</div><!-- .favorite-casting -->";
-	 	return $disp; 
+		return $disp; 
 	}
 
 
@@ -197,24 +196,24 @@
 	 */
 	function rb_agency_save_favorite() {
 		global $wpdb;
-		if(is_user_logged_in()){	
+		if(is_user_logged_in()){
 			if(isset($_POST["talentID"])){
-				 $query_favorite = mysql_query("SELECT * FROM ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'" ) or die("error");
-				 $count_favorite = mysql_num_rows($query_favorite);
-				 $datas_favorite = mysql_fetch_assoc($query_favorite);
-				 
-				 if($count_favorite<=0){ //if not exist insert favorite!
-					 
-					   mysql_query("INSERT INTO ".table_agency_savedfavorite."(SavedFavoriteID,SavedFavoriteProfileID,SavedFavoriteTalentID) VALUES('','".rb_agency_get_current_userid()."','".$_POST["talentID"]."')") or die("error");
-					   echo "inserted";
-					   
-				 }else{ // favorite model exist, now delete!
-					 
-					   mysql_query("DELETE FROM  ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'") or die("error");
-					   echo "deleted";
+				$query_favorite = mysql_query("SELECT * FROM ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'" ) or die("error");
+				$count_favorite = mysql_num_rows($query_favorite);
+				$datas_favorite = mysql_fetch_assoc($query_favorite);
+
+				if($count_favorite<=0){ //if not exist insert favorite!
+
+					mysql_query("INSERT INTO ".table_agency_savedfavorite."(SavedFavoriteID,SavedFavoriteProfileID,SavedFavoriteTalentID) VALUES('','".rb_agency_get_current_userid()."','".$_POST["talentID"]."')") or die("error");
+					echo "inserted";
+
+				} else { // favorite model exist, now delete!
+
+					mysql_query("DELETE FROM  ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'") or die("error");
+					echo "deleted";
 				
-				 }				
-			}			
+				}
+			}
 		}
 		else {
 			echo "not_logged";
@@ -286,7 +285,7 @@
 										Obj.attr("class", "save_favorite");
 									}
 								}
-						    <?php } ?>
+						<?php } ?>
 						}
 					}
 				})
@@ -304,33 +303,35 @@
 
 	/* 
 	 * Profile Casting Front End
-	 */	
-	function rb_agency_save_castingcart() {
-				global $wpdb;
-			
-				if(is_user_logged_in()){ 
-					if(isset($_POST["talentID"])){ 
-						$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'" ) or die("error");
-						$count_castingcart = mysql_num_rows($query_castingcart);
-						$datas_castingcart = mysql_fetch_assoc($query_castingcart);
-						 
-						if($count_castingcart<=0){ //if not exist insert favorite!
-							$wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
-							echo "inserted";
-						} else { // favorite model exist, now delete!
-							mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") or die("error");
-							echo "deleted";
-						}
+	 */
+
+		function rb_agency_save_castingcart() {
+			global $wpdb;
+
+			if(is_user_logged_in()){ 
+				if(isset($_POST["talentID"])){ 
+					$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'" ) or die("error");
+					$count_castingcart = mysql_num_rows($query_castingcart);
+					$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+
+					if($count_castingcart<=0){ //if not exist insert favorite!
+						$wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
+						echo "inserted";
+					} else { // favorite model exist, now delete!
+						mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") or die("error");
+						echo "deleted";
 					}
 				}
-				else {
-					echo "not_logged";
-				}
-				die();
 			}
-		
+			else {
+				echo "not_logged";
+			}
+			die();
+		}
+
+
 		function rb_agency_save_castingcart_javascript() {
-			
+
 			$rb_agency_options_arr = get_option('rb_agency_options');
 			$rb_agency_option_layoutprofile = (int)$rb_agency_options_arr['rb_agency_option_layoutprofile'];
 			$rb_agency_option_layoutprofile = sprintf("%02s", $rb_agency_option_layoutprofile);
@@ -407,16 +408,18 @@
 
 
 	function load_criteria_fields(){
-		
+
 		include (dirname(__FILE__) ."/app/casting.class.php");
-		
+
 		//load ajax functions
 		RBAgency_Casting::load_criteria_fields();
-		
+
 	}
-	
-    add_action('wp_ajax_load_criteria_fields', 'load_criteria_fields');
-    add_action('wp_ajax_nopriv_load_criteria_fields', 'load_criteria_fields');	
+
+	add_action('wp_ajax_load_criteria_fields', 'load_criteria_fields');
+	add_action('wp_ajax_nopriv_load_criteria_fields', 'load_criteria_fields');	
+
+
 
 	/*/
 	 *  Fix form post url for multi language.
