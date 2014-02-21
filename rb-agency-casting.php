@@ -267,8 +267,8 @@ class RBAgencyCasting {
 					Job_Pitch TEXT,
 					PRIMARY KEY (Job_Application_ID)
 					);";
-				dbDelta($sql);				
-				
+				dbDelta($sql);
+
 
 
 		}

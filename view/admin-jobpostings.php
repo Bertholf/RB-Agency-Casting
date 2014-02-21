@@ -12,8 +12,8 @@
 		$active_page = isset( $_GET['page'] ) ? $_GET['page'] : 'display_options';
 	}  
 	echo '<h2 class="nav-tab-wrapper">
-			<a href="?page=rb_agency_casting_job_postings" class="nav-tab ' . (($active_page == "rb_agency_casting_job_postings" && !isset($_GET['action']) ) ? "nav-tab-active" : "") . '" > Manage Jobs</a>  
-			<a href="?page=rb_agency_casting_job_postings&action=manage_types" class="nav-tab ' . ((isset($_GET['action']) && $_GET['action'] == 'manage_types' ) ? "nav-tab-active" : "") . '" > Manage Job Types</a>  
+			<a href="?page=rb_agency_casting_jobpostings" class="nav-tab ' . (($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action']) ) ? "nav-tab-active" : "") . '" > Manage Jobs</a>  
+			<a href="?page=rb_agency_casting_jobpostings&action=manage_types" class="nav-tab ' . ((isset($_GET['action']) && $_GET['action'] == 'manage_types' ) ? "nav-tab-active" : "") . '" > Manage Job Types</a>  
 		 </h2>';
 
 
@@ -22,7 +22,7 @@
  *---------------------------------------------------------------------
  */
 
-if ($active_page == "rb_agency_casting_job_postings" && !isset($_GET['action'])) {
+if ($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action'])) {
 	
 	table_posting();
 
