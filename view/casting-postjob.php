@@ -156,9 +156,10 @@ function load_job_display($error = NULL){
 					});
 				});
 		  </script>';
-	
-	if(RBAgency_Casting::rb_is_user_casting()){
-	
+
+	if (is_user_logged_in()) {
+	//if(RBAgency_Casting::rb_is_user_casting()){
+
 		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 		echo '			<header class="entry-header">';
@@ -198,45 +199,45 @@ function load_job_display($error = NULL){
 						<tr>
 							<td>Date Start:</td>
 							<td>
-									<input type='text' name='Job_Date_Start' class='datepicker' value='".$_GET['Job_Date_Start']."'>
+								<input type='text' name='Job_Date_Start' class='datepicker' value='".$_GET['Job_Date_Start']."'>
 							</td>
-						</tr>	
+						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
-									<input type='text' name='Job_Date_End' class='datepicker' value='".$_GET['Job_Date_End']."'>
+								<input type='text' name='Job_Date_End' class='datepicker' value='".$_GET['Job_Date_End']."'>
 							</td>
-						</tr>												
+						</tr>
 						<tr>
 							<td><h3>Job Location</h3></td><td></td>
-						</tr>												
+						</tr>
 						<tr>
 							<td>Location:</td>
 							<td><input type='text' name='Job_Location' value='".$_GET['Job_Location']."'></td>
-						</tr>												
+						</tr>
 						<tr>
 							<td>Region:</td>
 							<td><input type='text' name='Job_Region'></td>
-						</tr>	
+						</tr>
 						<tr>
 							<td><h3>Job Criteria</h3></td><td></td>
-						</tr>				
+						</tr>
 						<tr>
 							<td>Type:</td>
 							<td>
 								<select id='Job_Type' name='Job_Type'>
 									<option value=''>-- Select Type --</option>";
-		 
-									 $get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type) or die(mysql_error());
-									 if(count($get_job_type)){
+
+									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); // or die(mysql_error()
+									if(count($get_job_type)){
 										foreach($get_job_type as $jtype){
 											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$_GET['Job_Type'],false).">".$jtype->Job_Type_Title."</option>";
 										}
-									 }			
-									
+									}
+
 		 				echo "	</select>
 							</td>
-						</tr>																			
+						</tr>
 						<tr>
 							<td>Visibility:</td>
 							<td>
@@ -247,7 +248,7 @@ function load_job_display($error = NULL){
 									<option value='2' ".selected($_GET['Job_Visibility'],"2",false).">Matching Criteria</option>
 								</select>
 							</td>
-						</tr>												
+						</tr>
 						<tr>
 							<td></td>
 							<td id='criteria'></td>
@@ -263,9 +264,9 @@ function load_job_display($error = NULL){
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "  	</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
-	
+
 	} else {
-	
+
 		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 		echo '			<header class="entry-header">';

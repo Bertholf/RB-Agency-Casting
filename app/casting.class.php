@@ -296,12 +296,12 @@ class RBAgency_Casting {
 			 $MassEmailMessage = str_replace("[link-place-holder]",site_url()."/client-view/".$SearchMuxHash."<br/><br/>".$profileimage ."<br/><br/>",$MassEmailMessage);
 			 $MassEmailMessage	= str_ireplace("[site-url]",get_bloginfo("url"),$MassEmailMessage);
 			 $MassEmailMessage	= str_ireplace("[site-title]",get_bloginfo("name"),$MassEmailMessage);
-		   	 $isSent = wp_mail($MassEmailRecipient, $MassEmailSubject, $MassEmailMessage, $headers);
+			 $isSent = wp_mail($MassEmailRecipient, $MassEmailSubject, $MassEmailMessage, $headers);
 			 $url = admin_url('admin.php?page=rb_agency_searchsaved&m=1');
 			if($isSent){?>
 			<script type="text/javascript"> 
 				window.location="<?php echo $url;?>";
-            </script>
+			</script>
 			<?php 
 			}
 			 return $isSent;
@@ -377,7 +377,8 @@ class RBAgency_Casting {
 			return true;
 
 		}
-		
+
+
 		/*
 		 * check if user is a casting agent
 		 */
@@ -386,17 +387,25 @@ class RBAgency_Casting {
 				global $wpdb;
 				global $current_user;
 
-				if(is_user_logged_in()){	
-						get_currentuserinfo();
-						$result = $wpdb->get_results("Select CastingContactNameFirst FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID ); 
-						if(count($result) > 0){
-							return true;
-						}		
+				if(is_user_logged_in()){
+					get_currentuserinfo();
+					$result = $wpdb->get_results("SELECT CastingContactNameFirst FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID ); 
+					if(count($result) > 0){
+						// We have a match!
+						return true;
+					} else {
+						// Not linked to casting agent
+						return false;
+					}
+				} else {
+					// Not logged in
+					return false;
 				}
-		
-				return false;	
+
+				return false;
 		}
-		
+
+
 		/*
 		 * get job type name thru id
 		 */
@@ -412,7 +421,7 @@ class RBAgency_Casting {
 				$type_name = $t['Job_Type_Title'];
 			}
 			
-			return $type_name;		
+			return $type_name;
 		}
 
 
@@ -443,18 +452,18 @@ class RBAgency_Casting {
 							$values = str_replace("-",", ",$d[1]);
 							$details .= self::rb_get_custom_name($d[0]) . " = " . $values . "<br>";
 						} 
-					}					
+					}
 
 				}
 				if($return_array){
 					return $return_arr;
-				}else{				
+				}else{
 					return $details;
 				}
-				
-			// only one criteria	
+
+			// only one criteria
 			} else {
-		
+
 				//break items
 				if(preg_match("/\//",$criteria)){
 					if($return_array){
@@ -465,7 +474,7 @@ class RBAgency_Casting {
 						$details = explode("/",$criteria);
 						$values = str_replace("-",", ",$details[1]);
 						return self::rb_get_custom_name($details[0]) . " = " . $values;
-					}				
+					}
 				}
 			}
 		}
@@ -473,27 +482,28 @@ class RBAgency_Casting {
 		/*
 		 * expan string criteria to readable format
 		 */
+
 		public static function rb_get_custom_name($id=NULL){
-			
+
 			global $wpdb;
-			
+
 			if($id==NULL) return "";
-			
+
 			$get_name = $wpdb->get_row("SELECT ProfileCustomTitle FROM " . table_agency_customfields . " WHERE ProfileCustomID = " . $id );
-			
+
 			if(count($get_name) > 0){
 				return $get_name->ProfileCustomTitle;
-			}	
-			
+			}
+
 			return "";
 
 		}
-		
+
+
 		/*
 		 * process criteria passed by model
 		 */
 		 public static function rb_get_job_criteria_passed($user_linked = NULL, $custom_criteria = NULL){
-			
 
 			global $wpdb;
 			
@@ -502,17 +512,17 @@ class RBAgency_Casting {
 			$get_profile_id = self::rb_casting_ismodel($user_linked);
 
 			if($user_linked == NULL || 
-			   $user_linked == "" ||
-			   empty($user_linked) ||
-			   $get_profile_id === false ||
-			   $custom_criteria == "" ||
-			   $custom_criteria == NULL ||
-			   empty($custom_criteria)) return $passed_details; 	
-			
+				$user_linked == "" ||
+				empty($user_linked) ||
+				$get_profile_id === false ||
+				$custom_criteria == "" ||
+				$custom_criteria == NULL ||
+				empty($custom_criteria)) return $passed_details;
+
 			// get custom field mux
 			$criteria_must_passed = array();
 			$criteria_must_passed = self::rb_get_job_criteria($custom_criteria, true);
-			
+
 			// get actual quaalities of models through array
 			$key_customid = implode(",", array_keys($criteria_must_passed)); 
 			$query = "SELECT ProfileCustomID, ProfileCustomValue FROM " . table_agency_customfield_mux . " WHERE ProfileID = " . $get_profile_id . " AND ProfileCustomID IN(".$key_customid.")";
@@ -522,115 +532,115 @@ class RBAgency_Casting {
 				foreach($results as $actual){
 					$actual_model_quality[$actual->ProfileCustomID] = $actual->ProfileCustomValue;
 				}
-			}			
-						
+			}
+
 			// compare whats passed
-			return self::rb_compare_criteria($criteria_must_passed, $actual_model_quality);			
-					
+			return self::rb_compare_criteria($criteria_must_passed, $actual_model_quality);
+
 		}
-		
+
 		public static function rb_casting_ismodel($user_linked = NULL){
-			
+
 			global $wpdb;
-			
-			if($user_linked == NULL || 
-			   $user_linked == "" ||
-			   empty($user_linked)) return false;
-			 
-			   $get_id = $wpdb->get_row( "SELECT ProfileID FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $user_linked ) ;
-			   
-			   if(count($get_id) > 0){
-			   
-			   		return $get_id->ProfileID;
-			   }		    				
-			   
-			   return false;
-			
+
+			if($user_linked == NULL || $user_linked == "" || empty($user_linked)) {
+				return false;
+			}
+
+			$get_id = $wpdb->get_row( "SELECT ProfileID FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $user_linked ) ;
+
+			if(count($get_id) > 0){
+				return $get_id->ProfileID;
+			}
+
+			return false;
+
 		}
-		
+
+
+
 		public static function rb_compare_criteria($criteria = NULL, $model_criteria = NULL){
-			
-			 global $wpdb;
-			 
-			 $actual_criteria_passed = array();
-			 	
-			 if($criteria == NULL || $model_criteria == NULL) return "";
-			
-			 foreach($criteria as $key => $val){
-									  
-									  if(strpos($val,"-") > -1 ){
-											$val = explode("-",$val);	 
-									  }	
-		
-									  $q = mysql_query("SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomID = ".$key);
-									  $ProfileCustomType = mysql_fetch_assoc($q);
-									
-									// NOW COMPARE ALL
 
-									if ($ProfileCustomType["ProfileCustomType"] == 1 ||
-										$ProfileCustomType["ProfileCustomType"] == 3 || 
-									    $ProfileCustomType["ProfileCustomType"] == 6) { // text, dropdown, radiobutton
-										
-										// at least compare text values vice versa
-										if(strpos($val, $model_criteria[$key]) > -1){
-											$actual_criteria_passed[$key] = $model_criteria[$key];
-										} else {
-											if(strpos($model_criteria[$key], $val) > -1){
-												$actual_criteria_passed[$key] = $model_criteria[$key];
-											}									
-										} 
-			
-									
-									} elseif ($ProfileCustomType["ProfileCustomType"] == 5) { //Checkbox
+			global $wpdb;
 
-										// check arrays and compare vice versa
-										// if some pass it is automatically passed.
-										if(is_array($val)){
-											if(strpos("-",$model_criteria[$key]) > -1){
-												$model_criteria[$key] = explode("-",$model_criteria[$key]);
-												$result = array_diff($criteria[$key], $model_criteria[$key]);
-												if(count($result) > 0){
-													$actual_criteria_passed[$key] = $model_criteria[$key];
-												}
-											} else {
-												if(in_array($model_criteria[$key], $criteria[$key])){
-													$actual_criteria_passed[$key] = $model_criteria[$key];
-												}
-											} 
-										} else {
-											if(strpos("-",$model_criteria[$key]) > -1){
-												$model_criteria[$key] = explode("-",$model_criteria[$key]);
-												if(in_array( $criteria[$key], $model_criteria[$key])){
-													$actual_criteria_passed[$key] = $model_criteria[$key];
-												}
-											} else {
-												if(in_array($criteria[$key], $model_criteria[$key])){
-													$actual_criteria_passed[$key] = $model_criteria[$key];
-												}
-											} 
-										}			
-				
-									} elseif ($ProfileCustomType["ProfileCustomType"] == 7) { //Measurements 
-											
-											if(is_array($val)){
-												arsort($val);
-												if(is_numeric($val[0]) && is_numeric($val[1])){
-														if($model_criteria[$key] >= $val[0] &&
-														   $model_criteria[$key] <= $val[1]){
-																$actual_criteria_passed[$key] = $model_criteria[$key];
-														}	
-												}
-											} else {
-												if(is_numeric($val)){
-														if($model_criteria[$key] == $val){
-															 $actual_criteria_passed[$key] = $model_criteria[$key];
-														}	
-												}
-											}	
-									}
+			$actual_criteria_passed = array();
+
+			if($criteria == NULL || $model_criteria == NULL) return "";
+
+			// Loop
+			foreach($criteria as $key => $val){
+
+				if(strpos($val,"-") > -1 ){
+						$val = explode("-",$val);
+				}
+
+				$q = mysql_query("SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomID = ".$key);
+				$ProfileCustomType = mysql_fetch_assoc($q);
+
+				// NOW COMPARE ALL
+
+				if ($ProfileCustomType["ProfileCustomType"] == 1 ||
+					$ProfileCustomType["ProfileCustomType"] == 3 || 
+					$ProfileCustomType["ProfileCustomType"] == 6) { // text, dropdown, radiobutton
+					
+					// at least compare text values vice versa
+					if(strpos($val, $model_criteria[$key]) > -1){
+						$actual_criteria_passed[$key] = $model_criteria[$key];
+					} else {
+						if(strpos($model_criteria[$key], $val) > -1){
+							$actual_criteria_passed[$key] = $model_criteria[$key];
 						}
-				
-				return $actual_criteria_passed;		
+					}
+
+				} elseif ($ProfileCustomType["ProfileCustomType"] == 5) { //Checkbox
+
+					// check arrays and compare vice versa
+					// if some pass it is automatically passed.
+					if(is_array($val)){
+						if(strpos("-",$model_criteria[$key]) > -1){
+							$model_criteria[$key] = explode("-",$model_criteria[$key]);
+							$result = array_diff($criteria[$key], $model_criteria[$key]);
+							if(count($result) > 0){
+								$actual_criteria_passed[$key] = $model_criteria[$key];
+							}
+						} else {
+							if(in_array($model_criteria[$key], $criteria[$key])){
+								$actual_criteria_passed[$key] = $model_criteria[$key];
+							}
+						} 
+					} else {
+						if(strpos("-",$model_criteria[$key]) > -1){
+							$model_criteria[$key] = explode("-",$model_criteria[$key]);
+							if(in_array( $criteria[$key], $model_criteria[$key])){
+								$actual_criteria_passed[$key] = $model_criteria[$key];
+							}
+						} else {
+							if(in_array($criteria[$key], $model_criteria[$key])){
+								$actual_criteria_passed[$key] = $model_criteria[$key];
+							}
+						} 
+					}
+
+				} elseif ($ProfileCustomType["ProfileCustomType"] == 7) { //Measurements 
+
+					if(is_array($val)){
+						arsort($val);
+						if(is_numeric($val[0]) && is_numeric($val[1])){
+							if($model_criteria[$key] >= $val[0] && $model_criteria[$key] <= $val[1]) {
+								$actual_criteria_passed[$key] = $model_criteria[$key];
+							}
+						}
+					} else {
+						if(is_numeric($val)){
+							if($model_criteria[$key] == $val){
+								$actual_criteria_passed[$key] = $model_criteria[$key];
+							}
+						}
+					}
+				}
+			}
+
+			return $actual_criteria_passed;
 		}
 		
 		/*
@@ -638,7 +648,7 @@ class RBAgency_Casting {
 		 */
 		 public static function load_criteria_fields(){
 			 
-			 	global $wpdb;
+				global $wpdb;
 				
 				echo "<script type='text/javascript'>
 						function num_only(text) {
