@@ -26,6 +26,7 @@
 			$newrules['casting-dashboard'] = 'index.php?type=castingoverview';
 			$newrules['casting-manage'] = 'index.php?type=castingmanage';
 			$newrules['casting-postjob'] = 'index.php?type=castingpostjob';
+			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]';
 			$newrules['view-applicants'] = 'index.php?type=viewapplicants';
 			// User/Profile View
 			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]';

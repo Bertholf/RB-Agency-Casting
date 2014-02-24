@@ -958,7 +958,7 @@ class RBAgency_Casting {
 			   if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table."'"))==1) { 
 				   
 				   if(!empty($where) && $where != "" && $where != NULL){
-				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table . " WHERE " . $where) or die(mysql_error());	 
+				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table . " " . $where) or die(mysql_error());	 
 				   } else {
 				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table) or die(mysql_error());	 
 				   }

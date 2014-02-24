@@ -34,11 +34,27 @@ if (is_user_logged_in()) {
 		echo "    </tr>\n";
 		echo " </thead>\n";
 		
+		//pagination setup
+		$start = get_query_var('target');
+		$record_per_page = 2;
+		$link = get_bloginfo('wpurl') . "/view-applicants/";
+		$table_name = table_agency_casting_job_application;
+		$where = " applicants LEFT JOIN " . table_agency_casting_job . 
+				 " jobs ON jobs.Job_ID = applicants.Job_ID 
+				   WHERE jobs.Job_UserLinked = " . $current_user->ID;
+		$selected_page = get_query_var('target');
+		if($start != ""){
+			$limit1 = ($start * $record_per_page) - $record_per_page;
+		} else {
+			$limit1 = 0;
+		}
+		
 		// load all job postings
 		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
 										 " . table_agency_casting_job 
 										 . " jobs ON jobs.Job_ID = applicants.Job_ID WHERE jobs.Job_UserLinked = " . $current_user->ID
-										 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+										 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
+										 LIMIT " . $limit1 . "," . $record_per_page );
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
@@ -59,6 +75,9 @@ if (is_user_logged_in()) {
 		}
 		
 		echo "</table>";
+		
+		// actual pagination
+		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
 	
 	} else {
 

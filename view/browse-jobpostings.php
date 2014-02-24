@@ -42,7 +42,7 @@ if (is_user_logged_in()) {
 		$record_per_page = 2;
 		$link = get_bloginfo('wpurl') . "/browse-jobs/";
 		$table_name = table_agency_casting_job;
-		$where = "Job_UserLinked = " . $current_user->ID; 
+		$where = "WHERE Job_UserLinked = " . $current_user->ID; 
 		$selected_page = get_query_var('target');
 		if($start != ""){
 			$limit1 = ($start * $record_per_page) - $record_per_page;
