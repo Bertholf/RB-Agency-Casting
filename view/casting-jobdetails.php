@@ -92,7 +92,8 @@
 									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'></td>";
 								}
 							} else {
-								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'></td>";
+								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'>
+								<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'></td>";
 							}
 						echo "</tr>																																				
 					  <table>";
