@@ -965,9 +965,9 @@ class RBAgency_Casting {
 				   
 				   $total = mysql_fetch_array($get_row_count);
 				   
-				   $ceiling = $total[0] / $count_per_page;
+				   $ceiling = ceil($total[0] / $count_per_page);
 				   
-				   if(!is_float($ceiling)){
+				   if($ceiling > 1){
 					    
 						echo "<div style='padding:12px;'>";
 						
