@@ -1025,7 +1025,7 @@ class RBAgency_Casting {
 
 					 $res = ( $Job_Criteria_Passed / $count ) * 100;
 					 $res = round($res); 
-					 return " or " . $res . "% Passed";	
+					 return " or " . $res . "% Matched";	
 
 			   }	   
 
