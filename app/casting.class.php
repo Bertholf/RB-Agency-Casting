@@ -975,8 +975,7 @@ class RBAgency_Casting {
 					    	echo "<a href='".$link.($selected_page-1)."' style='margin:12px'>prev</a>";
 						}
 						
-				   		echo "<select name='paginate_page'>";
-							  echo "<option value=''>Select Page</option>";
+				   		echo "<select name='paginate_page' style='width:100px' onchange='window.location.href= this.options[this.selectedIndex].value'>";
 							  for($x = 1; $x <= $ceiling; $x++){
 							  		echo "<option value='".$link.$x."' ".selected($x,$selected_page,false).">".$x."</option>";
 							  }
