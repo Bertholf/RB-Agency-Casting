@@ -55,9 +55,16 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				echo "    </tr>\n";
 			}
-		}
 		
-		echo "</table>";
+			echo "</table>";
+		
+		} else {
+				echo "</table>";
+				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
+		
+		}
+
+		echo "<p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 
 } else {
 	include ("include-login.php");
