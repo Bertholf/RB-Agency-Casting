@@ -976,6 +976,7 @@ class RBAgency_Casting {
 						}
 						
 				   		echo "<select name='paginate_page' style='width:100px' onchange='window.location.href= this.options[this.selectedIndex].value'>";
+						  	  
 							  for($x = 1; $x <= $ceiling; $x++){
 							  		echo "<option value='".$link.$x."' ".selected($x,$selected_page,false).">".$x."</option>";
 							  }
@@ -1000,6 +1001,37 @@ class RBAgency_Casting {
 			   return "";
 		  
 		  }
+		  
+		  /*
+		   * get percentage passed
+		   */
+		   public static function rb_casting_get_percentage_passed($Job_ID=NULL, $Job_Criteria_Passed=NULL){
+			   
+			   global $wpdb;
+			   
+			   if($Job_ID == NULL || $Job_ID == 0 || $Job_ID == "") return "";
+			   
+			   if($Job_Criteria_Passed == NULL || $Job_Criteria_Passed == "") return "";
+			   
+			   $get_criteria = $wpdb->get_row("SELECT Job_Criteria FROM " . table_agency_casting_job . " WHERE Job_ID = " . $Job_ID);
+			   
+			   if(count($get_criteria) > 0){
+			   		
+					 if(preg_match("/\|/", $get_criteria->Job_Criteria)){
+						 $count = count(explode("|", $get_criteria->Job_Criteria));
+					 } else {
+						 $count = 1;
+					 }
+
+					 $res = ( $Job_Criteria_Passed / $count ) * 100;
+					 $res = round($res); 
+					 return " or " . $res . "% Passed";	
+
+			   }	   
+
+			   return "";	
+		   
+		   }
 		  
 
 // end class
