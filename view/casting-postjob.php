@@ -131,6 +131,7 @@ echo $rb_footer = RBAgency_Common::rb_footer();
 function load_job_display($error = NULL){
 
 	global $wpdb;
+	global $current_user;
 	
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 	echo '<script type="text/javascript">
