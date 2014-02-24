@@ -983,7 +983,12 @@ class RBAgency_Casting {
 						echo "</select>";
 			
 						if(($ceiling - $selected_page) != 0){
-					    	echo "<a href='".$link.($selected_page+1)."' style='margin:12px'>next</a>";
+							if($selected_page == 0 or $selected_page == ""){
+								$next_link = 2; 
+					    	} else {
+								$next_link = $selected_page + 1; 
+					    	}
+							echo "<a href='".$link.$next_link."' style='margin:12px'>next</a>";
 						}
 						
 						echo "</div>";
