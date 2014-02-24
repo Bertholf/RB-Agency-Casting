@@ -57,14 +57,22 @@ if (is_user_logged_in()) {
 			}
 		
 			echo "</table>";
-		
+			
+			// display pagination
+			$link = get_bloginfo('wpurl') . "/browse-jobs/";
+			$table_name = table_agency_casting_job;
+			$where = "Job_UserLinked = " . $current_user->ID; 
+			$record_per_page = 2;
+			$selected_page = get_query_var('target');
+			RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
+			
 		} else {
 				echo "</table>";
 				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 		
 		}
 
-		echo "<p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 
 } else {
 	include ("include-login.php");

@@ -944,6 +944,60 @@ class RBAgency_Casting {
 		  
 		  }
 
+		 /*
+		  * display pagination
+		  */
+		  public static function rb_casting_paginate($link = NULL, $table = NULL, $where = NULL, $count_per_page = NULL, $selected_page = 0 ){
+			   
+			   global $wpdb;
+			   
+			   if(($link == NULL || $link == "") || 
+			      ($table == NULL || $table == "" ) ||
+				  ($count_per_page == NULL || $count_per_page == "")) return "";
+			   
+			   if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table."'"))==1) { 
+				   
+				   if(!empty($where) && $where != "" && $where != NULL){
+				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table . " WHERE " . $where) or die(mysql_error());	 
+				   } else {
+				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table) or die(mysql_error());	 
+				   }
+				   
+				   $total = mysql_fetch_array($get_row_count);
+				   
+				   $ceiling = $total[0] / $count_per_page;
+				   
+				   if(!is_float($ceiling)){
+					    
+						echo "<div style='padding:12px;'>";
+						
+						if(($ceiling - $selected_page) != ($ceiling - 1) && ($selected_page != 0)){
+					    	echo "<a href='".$link.($selected_page-1)."' style='margin:12px'>prev</a>";
+						}
+						
+				   		echo "<select name='paginate_page'>";
+							  echo "<option value=''>Select Page</option>";
+							  for($x = 1; $x <= $ceiling; $x++){
+							  		echo "<option value='".$link.$x."' ".selected($x,$selected_page,false).">".$x."</option>";
+							  }
+							  	
+						echo "</select>";
+			
+						if(($ceiling - $selected_page) != 0){
+					    	echo "<a href='".$link.($selected_page+1)."' style='margin:12px'>next</a>";
+						}
+						
+						echo "</div>";
+			
+				   }
+		  	   
+			   }
+		  
+			   return "";
+		  
+		  }
+		  
+
 // end class
 }
 
