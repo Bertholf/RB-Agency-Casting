@@ -244,7 +244,7 @@ function load_job_display($error = NULL, $data){
 						</tr>
 						<tr>
 							<td>Region:</td>
-							<td><input type='text' name='Job_Region'></td>
+							<td><input type='text' name='Job_Region' value='".$data['Job_Region']."'></td>
 						</tr>
 						<tr>
 							<td><h3>Job Criteria</h3></td><td></td>
