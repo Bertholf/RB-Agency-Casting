@@ -28,6 +28,9 @@ if(mysql_num_rows($get_results) > 0){
 	
 }
 
+//store criteria from db
+$Job_criteria_old = $data['Job_Criteria'];
+
 //populate from post if there are new values
 foreach($_GET as $key => $val) {
 	if(array_key_exists($key, $data)){
@@ -160,15 +163,20 @@ if(isset($_GET['save_job'])){
 			}
 			
 			$sql_update .=  implode(",",$sql_update_arr) . ", Job_Criteria = '".implode("|",$criteria)."' WHERE Job_ID = " . $JobID;
-			  
-			$wpdb->query($sql_update) or die(mysql_error());
+			
+			mysql_query($sql_update) or die(mysql_error());
+			
+			//check data integrity for applicants for new criterias only
+			if(trim(implode("|",$criteria)) != $Job_criteria_old){
+				RBAgency_Casting::rb_update_applicant_data(implode("|",$criteria), $JobID);
+			}
 			
 			echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 			echo '			<div class="entry-content">';	
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
-			echo '				<p>You have successfully added your new Job Posting! <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
+			echo '				<p>You have successfully updated your new Job Posting! <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content

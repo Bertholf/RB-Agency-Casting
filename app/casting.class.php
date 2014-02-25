@@ -1054,7 +1054,41 @@ class RBAgency_Casting {
 			   return "";	
 		   
 		   }
-		  
+
+		  /*
+		   * get percentage passed
+		   */
+		   public static function rb_update_applicant_data($criteria = NULL, $JobID = NULL){
+			   
+			   global $wpdb;
+			   
+			   if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
+			   
+			   if($criteria == NULL || $criteria == "" || empty($criteria)) return "";
+				
+			   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+			   
+			   $applicants_result = $wpdb->get_results($get_all_applicants);
+			   
+			   if(count($applicants_result)){
+
+				   foreach($applicants_result as $applicants){
+						$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($applicants->Job_UserLinked, $criteria);
+						$Job_Criteria_passed = count($job_criterias);
+						$Job_Criteria_Details = serialize($job_criterias);
+						mysql_query("UPDATE " . table_agency_casting_job_application . 
+						            " SET Job_Criteria_Details = '".$Job_Criteria_Details."',
+									     Job_Criteria_Passed = ".$Job_Criteria_passed."	 
+								     WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " 
+									 AND Job_ID = " . $JobID );
+				   }
+
+			   }
+			   
+			   return true;
+			   
+		   }
+		  		  
 
 // end class
 }
