@@ -644,11 +644,34 @@ class RBAgency_Casting {
 		}
 		
 		/*
+		 * get custom field values
+		 */
+		public static function load_custom_types($data = NULL){
+			
+				global $wpdb;
+				
+				$dat = explode("|",$data);
+				
+				$custom_fields = array();
+				if(count($dat) > 0){
+					foreach($dat as $d){
+						$x = explode("/",$d);
+						$custom_fields[$x[0]] = $x[1]; 						
+					}				
+				}
+				
+				return $custom_fields;
+		
+		}
+		
+		/*
 		 * actual loading of criteria fields
 		 */
-		 public static function load_criteria_fields(){
+		 public static function load_criteria_fields($data = NULL){
 			 
 				global $wpdb;
+				
+				$custom_fields = self::load_custom_types($data);
 				
 				echo "<script type='text/javascript'>
 						function num_only(text) {
@@ -733,7 +756,7 @@ class RBAgency_Casting {
 								}
 							
 								if ($ProfileCustomType == 1) { //TEXT		
-									echo "<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\" /></div>";
+									echo "<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$custom_fields[$data1['ProfileCustomID']]."\" /></div>";
 								} elseif ($ProfileCustomType == 2) { // Min Max
 								   
 									$ProfileCustomOptions_String = str_replace(",",":",strtok(strtok($data1['ProfileCustomOptions'],"}"),"{"));
@@ -751,11 +774,11 @@ class RBAgency_Casting {
 									} else {
 										echo "<div>";
 										echo "	<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
-										echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
+										echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$custom_fields[$data1['ProfileCustomID']]."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 										echo "</div>";
 										echo "<div>";
 										echo "	<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Max", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
-										echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
+										echo "	<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$custom_fields[$data1['ProfileCustomID']]."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 										echo "</div>";		
 									}
 								 
@@ -776,7 +799,7 @@ class RBAgency_Casting {
 											if($val1 != end($data) && $val1 != $data[0]){
 											
 												 $isSelected = "";
-												if($_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]==$val1){
+												if($custom_fields[$data1['ProfileCustomID']]==$val1){
 													$isSelected = "selected=\"selected\"";
 													echo "<option value=\"".$val1."\" ".$isSelected .">".$val1."</option>";
 												} else {
@@ -788,15 +811,15 @@ class RBAgency_Casting {
 									echo "</select></<div>";
 										
 								} elseif ($ProfileCustomType == 4) {
-									echo "<div><textarea name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\">". $_REQUEST["ProfileCustomID". $data1['ProfileCustomID']] ."</textarea></div>";
+									echo "<div><textarea name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\">". $custom_fields[$data1['ProfileCustomID']] ."</textarea></div>";
 								} elseif ($ProfileCustomType == 5) {
 							
 									$array_customOptions_values = explode("|",$data1['ProfileCustomOptions']);
 							
 										foreach($array_customOptions_values as $val){
-											if(isset($_REQUEST["ProfileCustomID". $data1['ProfileCustomID']])){ 
+											if(isset($custom_fields[$data1['ProfileCustomID']])){ 
 							
-												$dataArr = explode(",",implode(",",explode("','",$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']])));
+												$dataArr = explode(",",implode(",",explode("','",$custom_fields[$data1['ProfileCustomID']])));
 												if(in_array($val,$dataArr,true)){
 													echo "<label><input type=\"checkbox\" checked=\"checked\" value=\"". $val."\"  name=\"ProfileCustomID". $data1['ProfileCustomID'] ."[]\" />";
 													echo "<span>&nbsp;&nbsp;". $val."</span></label>";
@@ -822,9 +845,9 @@ class RBAgency_Casting {
 							
 									foreach($array_customOptions_values as $val) {
 							
-										if(isset($_REQUEST["ProfileCustomID". $data1['ProfileCustomID']]) && $_REQUEST["ProfileCustomID". $data1['ProfileCustomID']] !=""){ 
+										if(isset($custom_fields[$data1['ProfileCustomID']]) && $custom_fields[$data1['ProfileCustomID']] !=""){ 
 							
-											$dataArr = explode(",",implode(",",explode("','",$_REQUEST["ProfileCustomID". $data1['ProfileCustomID']])));
+											$dataArr = explode(",",implode(",",explode("','",$custom_fields[$data1['ProfileCustomID']])));
 							
 											if(in_array($val,$dataArr) && $val !="") {
 												echo "<label><input type=\"radio\" checked=\"checked\" value=\"". $val."\"  name=\"ProfileCustomID". $data1['ProfileCustomID'] ."[]\" />";

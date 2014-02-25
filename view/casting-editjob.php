@@ -207,8 +207,21 @@ function load_job_display($error = NULL, $data){
 						} else {
 							jQuery("#criteria").html("");
 						}
-					});
-				});
+					});';
+					if($data['Job_Visibility'] == 2){
+							echo 'jQuery.ajax({
+									type: "POST",
+									url: "'. admin_url('admin-ajax.php') .'",
+									data: {
+										action: "load_criteria_fields",
+										value: "'.$data['Job_Criteria'].'"
+									},
+									success: function (results) {
+										jQuery("#criteria").html(results);
+									}
+								 });';	
+					}
+	echo '});
 		  </script>';
 
 	if (is_user_logged_in()) {

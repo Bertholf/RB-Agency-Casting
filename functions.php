@@ -413,11 +413,13 @@
 
 
 	function load_criteria_fields(){
-
+		
+		$data = trim($_POST['value']);
+		
 		include (dirname(__FILE__) ."/app/casting.class.php");
 
 		//load ajax functions
-		RBAgency_Casting::load_criteria_fields();
+		RBAgency_Casting::load_criteria_fields($data);
 
 	}
 
