@@ -1056,7 +1056,7 @@ class RBAgency_Casting {
 		   }
 
 		  /*
-		   * get percentage passed
+		   * update data for applicants when criteria was changed from clients end
 		   */
 		   public static function rb_update_applicant_data($criteria = NULL, $JobID = NULL){
 			   
