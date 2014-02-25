@@ -37,17 +37,33 @@ if(isset($_GET['save_job'])){
 			$error .= __("Job Offer is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
+
 		if ( empty($_GET['Job_Date_Start'])) {
 			$error .= __("Start Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
+		} else {
+			list($y,$m,$d)= explode('-',$_GET['Job_Date_Start']);
+			if(checkdate($m,$d,$y)!==true){
+				$error .= __("Start Date is invalid date.<br />", rb_agency_casting_TEXTDOMAIN);
+				$have_error = true;
+				$date_confirm++;
+			}
 		}
 
 		if ( empty($_GET['Job_Date_End'])) {
 			$error .= __("End Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
+		} else {
+			list($y,$m,$d)= explode('-',$_GET['Job_Date_End']);
+			if(checkdate($m,$d,$y)!==true){
+				$error .= __("End Date is invalid date.<br />", rb_agency_casting_TEXTDOMAIN);
+				$have_error = true;
+				$date_confirm++;
+			}
 		}
+
 
 		if($date_confirm == 0){
 			$date_start = strtotime($_GET['Job_Date_Start']);
