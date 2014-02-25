@@ -1,6 +1,9 @@
 <?php
 
 session_start();
+
+global $wpdb;
+
 header("Cache-control: private"); //IE 6 Fix
 include(rb_agency_BASEREL ."app/profile.class.php");
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
@@ -9,6 +12,25 @@ wp_deregister_script('jquery');
 wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
 wp_enqueue_script('jquery');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
+
+//fetch data from DB
+$get_data = "SELECT * FROM " . table_agency_casting_job . " WHERE Job_ID = " . get_query_var('target');
+$get_results = mysql_query($get_data);
+$data = array();
+if(mysql_num_rows($get_results) > 0){
+	$d = mysql_fetch_array($get_results, MYSQL_ASSOC);
+	foreach($d as $key => $val){
+		$data[$key] = $val;
+	}	
+	
+}
+
+//populate from post if there are new values
+foreach($_GET as $key => $val) {
+	if(array_key_exists($key, $data)){
+		$data[$key] = $_GET[$key];
+	}
+}
 
 echo $rb_header = RBAgency_Common::rb_header(); 
 
@@ -65,7 +87,7 @@ if(isset($_GET['save_job'])){
 
 		if(!$have_error){
 			
-			$sql_Insert = "INSERT INTO " . table_agency_casting_job ;
+			//$sql_Insert = "INSERT INTO " . table_agency_casting_job ;
 			
 			$into = array();
 			$calues = array();
@@ -98,9 +120,9 @@ if(isset($_GET['save_job'])){
 				}
 			}	
 			
-			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' )";
+			//$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' )";
 		
-			$wpdb->query($sql_Insert) or die(mysql_error());
+			//$wpdb->query($sql_Insert) or die(mysql_error());
 			
 			echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
@@ -117,18 +139,18 @@ if(isset($_GET['save_job'])){
 		
 		} else {
 		
-			load_job_display($error);	
+			load_job_display($error, $data);	
 		
 		}
 	
 } else {
 		
-	load_job_display();	
+	load_job_display("",$data);	
 
 }
 echo $rb_footer = RBAgency_Common::rb_footer(); 
 
-function load_job_display($error = NULL){
+function load_job_display($error = NULL, $data){
 
 	global $wpdb;
 	global $current_user;
@@ -138,6 +160,10 @@ function load_job_display($error = NULL){
 				jQuery(document).ready(function(){
 					jQuery( ".datepicker" ).datepicker();
 					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+					var date_start="'.$data['Job_Date_Start'].'";
+    				var date_end="'.$data['Job_Date_End'].'";
+    				jQuery("#Job_Date_Start").val(date_start);
+					jQuery("#Job_Date_End").val(date_end);
 					jQuery("#Job_Visibility").change(function(){
 						if(jQuery(this).val() == 2){
 							jQuery("#criteria").html("Loading Criteria List");
@@ -184,15 +210,15 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Title:</td>
-							<td><input type='text' name='Job_Title' value='".$_GET['Job_Title']."'></td>
+							<td><input type='text' name='Job_Title' value='".$data['Job_Title']."'></td>
 						</tr>
 						<tr>
 							<td>Description:</td>
-							<td><input type='text' name='Job_Text' value='".$_GET['Job_Text']."'></td>
+							<td><input type='text' name='Job_Text' value='".$data['Job_Text']."'></td>
 						</tr>	
 						<tr>
 							<td>Offer:</td>
-							<td><input type='text' name='Job_Offering' value='".$_GET['Job_Offering']."'></td>
+							<td><input type='text' name='Job_Offering' value='".$data['Job_Offering']."'></td>
 						</tr>							
 						<tr>
 							<td><h3>Job Duration</h3></td><td></td>
@@ -200,13 +226,13 @@ function load_job_display($error = NULL){
 						<tr>
 							<td>Date Start:</td>
 							<td>
-								<input type='text' name='Job_Date_Start' class='datepicker' value='".$_GET['Job_Date_Start']."'>
+								<input type='text' name='Job_Date_Start' id='Job_Date_Start' class='datepicker'>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
-								<input type='text' name='Job_Date_End' class='datepicker' value='".$_GET['Job_Date_End']."'>
+								<input type='text' name='Job_Date_End' id='Job_Date_End' class='datepicker'>
 							</td>
 						</tr>
 						<tr>
@@ -214,7 +240,7 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Location:</td>
-							<td><input type='text' name='Job_Location' value='".$_GET['Job_Location']."'></td>
+							<td><input type='text' name='Job_Location' value='".$data['Job_Location']."'></td>
 						</tr>
 						<tr>
 							<td>Region:</td>
@@ -232,7 +258,7 @@ function load_job_display($error = NULL){
 									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); // or die(mysql_error()
 									if(count($get_job_type)){
 										foreach($get_job_type as $jtype){
-											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$_GET['Job_Type'],false).">".$jtype->Job_Type_Title."</option>";
+											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$data['Job_Type'],false).">".$jtype->Job_Type_Title."</option>";
 										}
 									}
 
@@ -244,9 +270,9 @@ function load_job_display($error = NULL){
 							<td>
 								<select id='Job_Visibility' name='Job_Visibility'>
 									<option value=''>-- Select Type --</option>
-									<option value='0' ".selected($_GET['Job_Visibility'],"0",false).">Invite Only</option>
-									<option value='1' ".selected($_GET['Job_Visibility'],"1",false).">Open to All</option>
-									<option value='2' ".selected($_GET['Job_Visibility'],"2",false).">Matching Criteria</option>
+									<option value='0' ".selected($data['Job_Visibility'],"0",false).">Invite Only</option>
+									<option value='1' ".selected($data['Job_Visibility'],"1",false).">Open to All</option>
+									<option value='2' ".selected($data['Job_Visibility'],"2",false).">Matching Criteria</option>
 								</select>
 							</td>
 						</tr>
