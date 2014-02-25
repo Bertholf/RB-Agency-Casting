@@ -870,15 +870,16 @@ class RBAgency_Casting {
 								
 								elseif ($ProfileCustomType == 7) {
 							
-									// RYAN EDITING				
-									list($min_val,$max_val) =  @explode(",",$_SESSION["ProfileCustomID".$data1['ProfileCustomID']]);
+									// get the values from db				
+									list($min_val,$max_val) =  explode("-", $custom_fields[$data1['ProfileCustomID']]);
 					
 										if($data1['ProfileCustomTitle']=="Height" && $data1['ProfileCustomOptions']==3){
 					
 											echo "<div><label>Min</label><select name=\"ProfileCustomID". $data1['ProfileCustomID'] ."[]\">\n";
 												if (empty($ProfileCustomValue)) {
-												echo "  <option value=\"\">--</option>\n";
+													echo "  <option value=\"\">--</option>\n";
 												}
+												
 												// 
 												$i=12;
 												$heightraw = 0;
@@ -888,7 +889,7 @@ class RBAgency_Casting {
 												  $heightraw = $i;
 												  $heightfeet = floor($heightraw/12);
 												  $heightinch = $heightraw - floor($heightfeet*12);
-												echo " <option value=\"". $i ."\" ". selected($ProfileCustomValue, $i) .">". $heightfeet ." ft ". $heightinch ." in</option>\n";
+												echo " <option value=\"". $i ."\" ". selected($min_val, $i) .">". $heightfeet ." ft ". $heightinch ." in</option>\n";
 													  $i++;
 													}
 												echo " </select></div>\n";
@@ -906,7 +907,7 @@ class RBAgency_Casting {
 												  $heightraw = $i;
 												  $heightfeet = floor($heightraw/12);
 												  $heightinch = $heightraw - floor($heightfeet*12);
-												echo " <option value=\"". $i ."\" ". selected($ProfileCustomValue, $i) .">". $heightfeet ." ft ". $heightinch ." in</option>\n";
+												echo " <option value=\"". $i ."\" ". selected($max_val, $i) .">". $heightfeet ." ft ". $heightinch ." in</option>\n";
 													  $i++;
 													}
 												echo " </select></div>\n";
@@ -916,7 +917,7 @@ class RBAgency_Casting {
 											// for other search
 											echo "<div><label for=\"ProfileCustomID".$data1['ProfileCustomID']
 											."_min\">Min</label><input value=\""
-											.(!is_array($min_val) && $min_val != "Array" ? $min_val : "")
+											.$min_val
 											."\" class=\"stubby\" type=\"text\" name=\"ProfileCustomID"
 											.$data1['ProfileCustomID']."[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 					
@@ -936,8 +937,6 @@ class RBAgency_Casting {
 							echo "</div>";	
 						}
 					}
-				
-					   
 					
 				}
 				

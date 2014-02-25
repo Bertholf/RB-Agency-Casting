@@ -13,8 +13,11 @@ wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js');
 wp_enqueue_script('jquery');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
 
+// set job id
+$JobID = get_query_var('target');
+
 //fetch data from DB
-$get_data = "SELECT * FROM " . table_agency_casting_job . " WHERE Job_ID = " . get_query_var('target');
+$get_data = "SELECT * FROM " . table_agency_casting_job . " WHERE Job_ID = " . $JobID;
 $get_results = mysql_query($get_data);
 $data = array();
 if(mysql_num_rows($get_results) > 0){
@@ -114,8 +117,8 @@ if(isset($_GET['save_job'])){
 
 		if(!$have_error){
 			
-			//$sql_Insert = "INSERT INTO " . table_agency_casting_job ;
-			
+			// update data to db
+			//
 			$into = array();
 			$calues = array();
 			$criteria = array();
@@ -147,16 +150,25 @@ if(isset($_GET['save_job'])){
 				}
 			}	
 			
-			//$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' )";
-		
-			//$wpdb->query($sql_Insert) or die(mysql_error());
+			//construct update statement
+			$sql_update = "UPDATE " . table_agency_casting_job . " SET ";
+			$ctr = 0;
+			$sql_update_arr = array();
+			foreach($into as $field){
+				$sql_update_arr[] = $field . " = " . $values[$ctr] ; 
+				$ctr++;
+			}
+			
+			$sql_update .=  implode(",",$sql_update_arr) . ", Job_Criteria = '".implode("|",$criteria)."' WHERE Job_ID = " . $JobID;
+			  
+			$wpdb->query($sql_update) or die(mysql_error());
 			
 			echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 			echo '			<div class="entry-content">';	
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
-			echo '				<h4 class="entry-title">You have successfully added your new Job Posting! <a href="'.get_bloginfo('wpurl').'/casting-postjob">Add new Job Posting?</a></h4>';
+			echo '				<p>You have successfully added your new Job Posting! <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
