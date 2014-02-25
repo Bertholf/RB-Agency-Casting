@@ -43,6 +43,7 @@ if(isset($_GET['save_job'])){
 		// Error checking
 		$error = "";
 		$have_error = false;
+		$date_confirm = 0;
 		
 		if ( empty($_GET['Job_Title'])) {
 			$error .= __("Job Title is required.<br />", rb_agency_casting_TEXTDOMAIN);
@@ -61,11 +62,22 @@ if(isset($_GET['save_job'])){
 		if ( empty($_GET['Job_Date_Start'])) {
 			$error .= __("Start Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
+			$date_confirm++;
 		}
 
 		if ( empty($_GET['Job_Date_End'])) {
 			$error .= __("End Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
+			$date_confirm++;
+		}
+		
+		if($date_confirm == 0){
+			$date_start = strtotime($_GET['Job_Date_Start']);
+			$date_end = strtotime($_GET['Job_Date_End']);
+			if($date_start > $date_end){
+				$error .= __("Start Date cannot be greate than the End Date.<br />", rb_agency_casting_TEXTDOMAIN);
+				$have_error = true;
+			} 
 		}
 	
 		if ( empty($_GET['Job_Location'])) {
