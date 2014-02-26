@@ -78,10 +78,12 @@ if (is_user_logged_in()) {
 		
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
+		
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";		
 	
 	} else {
 
-			echo "<p><h3>Only Casting Agents are permitted on this page.</h3></p><br>";	
+			echo "<p><h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3></p><br>";	
 	
 	}
 
