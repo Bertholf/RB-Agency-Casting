@@ -10,6 +10,9 @@
 	global $current_user, $wp_roles;
 	get_currentuserinfo();
 
+	// include casting class
+	include(dirname(dirname(__FILE__)) ."/app/casting.class.php");	
+
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
 	$rb_agency_option_profilenaming  = (int)$rb_agency_options_arr['rb_agency_option_profilenaming'];
@@ -176,7 +179,7 @@
 				}
 
 				// Notify admin and user
-				wp_new_user_notification($new_user, $user_pass);
+				RBAgency_Casting::rb_casting_send_notification($new_user, $user_pass);
 		}
 		
 		// Log them in if no confirmation required.
