@@ -286,6 +286,12 @@ function load_job_display($error = NULL){
 							<td></td>
 							<td><input type='submit' name='save_job' value='Submit Job'></td>
 						</tr>		
+						<tr>
+							<td></td>
+							<td>
+								<p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>
+							</td>
+						</tr>		
 					</table>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
