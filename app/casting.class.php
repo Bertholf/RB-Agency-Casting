@@ -1135,6 +1135,41 @@ class RBAgency_Casting {
 			   	return "";
 			
 			}
+			
+			/*
+			 * get primary image for applicants
+			 */
+			 public static function rb_get_model_image($PID = NULL){
+			 	
+				 global $wpdb;
+				 
+				 if(empty($PID) or is_null($PID)) return false;
+				 
+				 $profile_id = "SELECT ProfileID, ProfileGallery FROM ". table_agency_profile .
+				 			   " WHERE ProfileUserLinked = " . $PID;
+				 
+				 $get_id = $wpdb->get_row($profile_id);
+				 
+				 if(count($get_id) > 0){			   	
+				 	
+					 $get_image = "SELECT ProfileMediaURL FROM ". table_agency_profile_media .
+									 " WHERE ProfileID = " .$get_id->ProfileID . " AND ProfileMediaPrimary = 1";
+						
+					 $get_res = $wpdb->get_row($get_image);
+						
+					 if(count($get_res) > 0){
+						 
+						 $image = get_bloginfo('wpurl'). "/wp-content/uploads/profile-media/". $get_id->ProfileGallery."/". $get_res->ProfileMediaURL;
+						 
+						 return $image;
+						 
+					 }			
+
+				 }
+
+				 return "";
+			 
+			 }
 		  		  
 
 // end class

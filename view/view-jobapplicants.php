@@ -32,7 +32,7 @@ if (is_user_logged_in()) {
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">ID</th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
-		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant Name</th>\n";
+		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Criteria Passed</th>\n";
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Action</th>\n";
 		echo "    </tr>\n";
@@ -89,7 +89,24 @@ if (is_user_logged_in()) {
 				echo "    <tr>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
-				echo "        <td class=\"column-JobDate\" scope=\"col\">".$display."</td>\n";
+				echo "        <td class=\"column-JobDate\" scope=\"col\">";
+				
+				// applicant image
+				$image = RBAgency_Casting::rb_get_model_image($load->app_id);
+				if($image!= ""){			
+					echo "<div style='float:left; display:block; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
+					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
+					echo "<img src='".$image."' style='max-width:120px; max-height:120px; margin:auto;'>";
+					echo "</span>";
+					echo "</div>";
+				} else {
+					echo "<div style='float:left; color:white; background:gray; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
+					echo "No Image";
+					echo "</div>";
+				}
+				
+				echo "<br><span style ='margin-left:5px; float:left; clear:both'>" . $display. "</span></td>\n";
+				
 				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed . RBAgency_Casting::rb_casting_get_percentage_passed($load->Job_ID, $load->Job_Criteria_Passed) . "</td>\n";
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				echo "    </tr>\n";
