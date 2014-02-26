@@ -1112,6 +1112,29 @@ class RBAgency_Casting {
 			   return true;
 			   
 		   }
+		   
+		   /*
+		    * Get job owner id from casting jobs
+		    */
+			public static function rb_casting_job_ownerid($JobID = NULL){
+				
+				global $wpdb;
+				
+				if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
+				
+				$get_owner = "SELECT Job_UserLinked FROM " . table_agency_casting_job . " WHERE Job_ID = " . $JobID;
+			   
+			   	$owner_result = $wpdb->get_row($get_owner);
+			   
+			   	if(count($owner_result)){
+					
+					return $owner_result->Job_UserLinked;
+
+			   	}
+			   
+			   	return "";
+			
+			}
 		  		  
 
 // end class
