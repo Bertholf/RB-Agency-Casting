@@ -26,7 +26,6 @@ if (is_user_logged_in()) {
 			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
 		}
 		
-		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
