@@ -1,15 +1,19 @@
 <?php
 
+global $current_user;
+get_currentuserinfo();
+$curauth = get_user_by('id', $current_user->ID);
+
 // Profile Class
 include(rb_agency_BASEREL ."app/profile.class.php");
 
+// include casting class
+include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
+
 echo $rb_header = RBAgency_Common::rb_header();
 
-if (is_user_logged_in()) { 
-	global $current_user;
-	get_currentuserinfo();
-	$curauth = get_user_by('id', $current_user->ID);
-
+if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
+	
 	echo "<div id=\"rbdashboard\">\n";
 	echo "<h1>Welcome ". $current_user->user_firstname ."</h1>\n";
 	echo "<h1>We have registered you as Agent/Producer.</h1>\n";
@@ -48,8 +52,6 @@ if (is_user_logged_in()) {
 	}
   } 
 
-if (isset($curauth->user_login)) {
-	
 	$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
 	$user_data=get_user_meta($current_user->ID,'rb_agency_interact_clientdata',true);
 	$user_company=$user_data['company'];
@@ -67,8 +69,15 @@ if (isset($curauth->user_login)) {
 	echo "		</ul>\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"rb_button\">Edit Information</a></h4>\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"rb_button\">Post a New Job</a></h4>\n";
-	echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View Your Job Postings</a></h4>\n";
-	echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View Your Applicants</a></h4>\n";
+	
+	if (current_user_can( 'manage_options' )){
+		echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View All Job Postings</a></h4>\n";
+		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View All Applicants</a></h4>\n";
+	} else {
+		echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View Your Job Postings</a></h4>\n";
+		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View Your Applicants</a></h4>\n";
+	}
+	
 	echo "		<h4><a href=\"" . wp_logout_url(get_permalink()) . "\" class=\"rb_button\">Logout</a></h4>\n";
 	echo "  </div>\n";
 	
@@ -81,10 +90,7 @@ if (isset($curauth->user_login)) {
 			echo RBAgency_Profile::search_form("", "", 0);
 
 	echo "  </div>\n";
-}
-	/* GET ROLE
-	echo rb_agency_get_userrole();
-	*/
+
 	echo "</div>\n";
 
 } else {
