@@ -15,9 +15,13 @@ echo $rb_header = RBAgency_Common::rb_header();
 if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
 	
 	echo "<div id=\"rbdashboard\">\n";
-	echo "<h1>Welcome ". $current_user->user_firstname ."</h1>\n";
-	echo "<h1>We have registered you as Agent/Producer.</h1>\n";
-
+	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
+	if (current_user_can( 'manage_options' )){
+		echo "<h1>You are logged in as Administrator.</h1>\n";
+	} else {
+		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
+	}
+	
   // Return them where we found them 
   if (isset($_SESSION['ProfileLastViewed']) && ($_SESSION['ProfileLastViewed'])) {
 	
