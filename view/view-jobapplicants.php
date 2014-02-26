@@ -94,9 +94,14 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				echo "    </tr>\n";
 			}
+			echo "</table>";
+
+		} else {
+			
+			echo "</table>";			
+			echo "<p style=\"width:100%;\">You have no Applicants.<br>if you don't have any job postings, create a new job posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
+			
 		}
-		
-		echo "</table>";
 		
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
