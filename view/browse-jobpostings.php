@@ -19,9 +19,13 @@ if (is_user_logged_in()) {
 				</style>";
 
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-			echo "<p><h3>Job Postings</h3></p><br>";
+				echo "<p><h3>Job Postings</h3></p><br>";
 		} else {
-			echo "<p><h3>Your Job Postings</h3></p><br>";
+			if ( current_user_can( 'manage_options' ) ) {
+				echo "<p><h3>All Job Postings from Casting Agents</h3></p><br>";
+			} elseif ( RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) {
+				echo "<p><h3>Your Job Postings</h3></p><br>";
+			}
 		}		
 		
 		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
@@ -42,9 +46,9 @@ if (is_user_logged_in()) {
 		$record_per_page = 2;
 		$link = get_bloginfo('wpurl') . "/browse-jobs/";
 		$table_name = table_agency_casting_job;
-		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'manage_options' )){
 			$where = ""; 
-		} else {
+		} elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
 			$where = "WHERE Job_UserLinked = " . $current_user->ID; 
 		}
 		$selected_page = get_query_var('target');
@@ -53,11 +57,14 @@ if (is_user_logged_in()) {
 		} else {
 			$limit1 = 0;
 		}
+		// end pagination setup
 
-		// load all job postings
-		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+		// load postings for models , talents and admin view
+		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'manage_options' )){
 			$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " LIMIT " . $limit1 . "," . $record_per_page );
-		} else {
+		
+		// load postings for casting agents view
+		} elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
 			$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " WHERE Job_UserLinked = " . $current_user->ID . " LIMIT " . $limit1 . "," . $record_per_page );
 		}
 		
@@ -83,13 +90,21 @@ if (is_user_logged_in()) {
 			RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
 			
 		} else {
-				echo "</table>";
+			
+			echo "</table>";
+			
+			// only admin and casting should post jobs
+			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
 				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
-		
+			}
+			
 		}
 
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
-
+		// only admin and casting should have access to casting dashboard
+		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
+			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+		}
+		
 } else {
 	include ("include-login.php");
 }

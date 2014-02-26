@@ -12,15 +12,19 @@ include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
-
-	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
+	
+	// casting agents and admin only
+	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
 		
 		echo "	<style>
 					table td{border:1px solid #CCC;padding:12px;}
 					table th{border:1px solid #CCC;padding:12px;}
 				</style>";
-		
-		echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
+		if ( current_user_can( 'manage_options' ) ) {
+			echo "<p><h3>All Applicants to All Job Postings from Casting Agents</h3></p><br>";
+		} else {
+			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
+		}
 		
 		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
@@ -39,10 +43,19 @@ if (is_user_logged_in()) {
 		$record_per_page = 2;
 		$link = get_bloginfo('wpurl') . "/view-applicants/";
 		$table_name = table_agency_casting_job_application;
-		$where = " applicants LEFT JOIN " . table_agency_casting_job . 
-				 " jobs ON jobs.Job_ID = applicants.Job_ID 
-				   WHERE jobs.Job_UserLinked = " . $current_user->ID;
+		
+		//for admin view
+		if ( current_user_can( 'manage_options' ) ) {
+			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
+					 " jobs ON jobs.Job_ID = applicants.Job_ID";
+		} else {
+			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
+					 " jobs ON jobs.Job_ID = applicants.Job_ID 
+					   WHERE jobs.Job_UserLinked = " . $current_user->ID;
+		}
+		
 		$selected_page = get_query_var('target');
+		
 		if($start != ""){
 			$limit1 = ($start * $record_per_page) - $record_per_page;
 		} else {
@@ -50,11 +63,20 @@ if (is_user_logged_in()) {
 		}
 		
 		// load all job postings
-		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
-										 " . table_agency_casting_job 
-										 . " jobs ON jobs.Job_ID = applicants.Job_ID WHERE jobs.Job_UserLinked = " . $current_user->ID
-										 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
-										 LIMIT " . $limit1 . "," . $record_per_page );
+		//for admin view
+		if ( current_user_can( 'manage_options' ) ) {
+			$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
+											 " . table_agency_casting_job 
+											 . " jobs ON jobs.Job_ID = applicants.Job_ID"
+											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
+											 LIMIT " . $limit1 . "," . $record_per_page );
+		} else{
+			$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
+											 " . table_agency_casting_job 
+											 . " jobs ON jobs.Job_ID = applicants.Job_ID WHERE jobs.Job_UserLinked = " . $current_user->ID
+											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
+											 LIMIT " . $limit1 . "," . $record_per_page );
+		}
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
@@ -80,10 +102,10 @@ if (is_user_logged_in()) {
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
 		
 		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";		
-	
+		
 	} else {
 
-			echo "<p><h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3></p><br>";	
+		echo "<p><h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3></p><br>";	
 	
 	}
 

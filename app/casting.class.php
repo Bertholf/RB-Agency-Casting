@@ -538,7 +538,10 @@ class RBAgency_Casting {
 			return self::rb_compare_criteria($criteria_must_passed, $actual_model_quality);
 
 		}
-
+		
+		/*
+		 * check if user is model / talent
+		 */
 		public static function rb_casting_ismodel($user_linked = NULL){
 
 			global $wpdb;
@@ -551,6 +554,27 @@ class RBAgency_Casting {
 
 			if(count($get_id) > 0){
 				return $get_id->ProfileID;
+			}
+
+			return false;
+
+		}
+
+		/*
+		 * check if user is casting agent
+		 */
+		public static function rb_casting_is_castingagent($user_linked = NULL){
+
+			global $wpdb;
+
+			if($user_linked == NULL || $user_linked == "" || empty($user_linked)) {
+				return false;
+			}
+
+			$get_id = $wpdb->get_row( "SELECT CastingID FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $user_linked ) ;
+
+			if(count($get_id) > 0){
+				return $get_id->CastingID;
 			}
 
 			return false;
