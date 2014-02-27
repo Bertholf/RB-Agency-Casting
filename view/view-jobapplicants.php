@@ -49,11 +49,42 @@ if (is_user_logged_in()) {
 			}
 
 		}
-		
+
 		// set for display
 		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
 		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
-				
+
+		//pagination setup
+		$filter = "";
+		$start = get_query_var('target');
+		$record_per_page = 2;
+		$link = get_bloginfo('wpurl') . "/view-applicants/";
+		$table_name = table_agency_casting_job_application;
+		
+		//for admin view
+		if ( current_user_can( 'manage_options' ) ) {
+			if($_SESSION['filter'] != ""){
+				$filter = " WEHRE " . $_SESSION['filter']; 
+			}
+			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
+					 " jobs ON jobs.Job_ID = applicants.Job_ID" . $filter;
+		} else {
+			if($_SESSION['filter'] != ""){
+				$filter = " AND " . $_SESSION['filter']; 
+			}
+			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
+					 " jobs ON jobs.Job_ID = applicants.Job_ID 
+					   WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;
+		}
+		
+		$selected_page = get_query_var('target');
+		
+		if($start != ""){
+			$limit1 = ($start * $record_per_page) - $record_per_page;
+		} else {
+			$limit1 = 0;
+		}				
+
 		echo "<form method='POST' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
@@ -92,37 +123,6 @@ if (is_user_logged_in()) {
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Action</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
-		
-		//pagination setup
-		$filter = "";
-		$start = get_query_var('target');
-		$record_per_page = 2;
-		$link = get_bloginfo('wpurl') . "/view-applicants/";
-		$table_name = table_agency_casting_job_application;
-		
-		//for admin view
-		if ( current_user_can( 'manage_options' ) ) {
-			if($_SESSION['filter'] != ""){
-				$filter = " WEHRE " . $_SESSION['filter']; 
-			}
-			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
-					 " jobs ON jobs.Job_ID = applicants.Job_ID" . $filter;
-		} else {
-			if($_SESSION['filter'] != ""){
-				$filter = " AND " . $_SESSION['filter']; 
-			}
-			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
-					 " jobs ON jobs.Job_ID = applicants.Job_ID 
-					   WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;
-		}
-		
-		$selected_page = get_query_var('target');
-		
-		if($start != ""){
-			$limit1 = ($start * $record_per_page) - $record_per_page;
-		} else {
-			$limit1 = 0;
-		}
 		
 		// load all job postings
 		//for admin view
