@@ -60,7 +60,8 @@ if (is_user_logged_in()) {
 		// set for display
 		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
 		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
-
+		$jobtitle = (isset($_SESSION['job_title']) && $_SESSION['job_title'] != "") ? $_SESSION['job_title'] : "";
+		
 		//pagination setup
 		$filter = "";
 		$start = get_query_var('target');
@@ -113,7 +114,7 @@ if (is_user_logged_in()) {
 		
 		if(count($load_job_filter) > 0){
 			foreach($load_job_filter as $j){
-				echo "<option id='".$j->Job_ID."'>".$j->Job_Title."</option>";
+				echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
 			}
 		}									 
 							
