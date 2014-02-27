@@ -95,7 +95,7 @@ if (is_user_logged_in()) {
 				if($image!= ""){			
 					echo "<div style='float:left; display:block; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
 					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
-					echo "<img src='".$image."' style='max-width:120px; max-height:120px; margin:auto;'>";
+					echo "<img src='".$image."' style='max-width:120px; max-height:120px; vertical-align:middle'>";
 					echo "</span>";
 					echo "</div>";
 				} else {
