@@ -26,6 +26,32 @@ if (is_user_logged_in()) {
 			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
 		}
 		
+		echo "<table style='margin-bottom:20px'>\n";
+		echo "<tbody>";
+		echo "    <tr class=\"thead\">\n";
+		echo "        <td>Job Title<br>
+						 <select name='filter_jobtitle'>
+						 	<option value=''>-- Select Job Title --</option>
+						 	<option value=''></option>
+						 </select>		
+					  </td>\n";
+		echo "        <td>Applicant<br>
+						<input type='text' name='filter_applicant' value=''>
+					  </td>\n";
+		echo "        <td>Criteria Matched<br>
+						 <select name='filter_jobtitle'>
+						 	<option value=''>-- Select Matched % --</option>
+						 	<option value='75-100'>75% - 100% Matched</option>
+						 	<option value='50-75'>50% - 75% Matched</option>
+						 	<option value='25-50'>25% - 50% Matched</option>
+						 	<option value='0-50'>0% - 25% Matched</option>
+						 </select>		
+					  </td>\n";
+		echo "        <td><input type='button' class='button-primary' value='filter'></td>\n";
+		echo "    </tr>\n";
+		echo "</tbody>";
+		echo "</table>";		
+		
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
