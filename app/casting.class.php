@@ -1100,9 +1100,20 @@ class RBAgency_Casting {
 						$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($applicants->Job_UserLinked, $criteria);
 						$Job_Criteria_passed = count($job_criterias);
 						$Job_Criteria_Details = serialize($job_criterias);
+						
+						// get precentage
+						if(preg_match("/\|/", $criteria)){
+							 $count = count(explode("|", $criteria));
+						} else {
+							 $count = 1;
+						}
+						$res = ( $Job_Criteria_Passed / $count ) * 100;
+						$percentage = round($res); 
+						
 						mysql_query("UPDATE " . table_agency_casting_job_application . 
 						            " SET Job_Criteria_Details = '".$Job_Criteria_Details."',
-									     Job_Criteria_Passed = ".$Job_Criteria_passed."	 
+									     Job_Criteria_Passed = ".$Job_Criteria_passed.",
+										 Job_Criteria_Percentage = ".$percentage."
 								     WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " 
 									 AND Job_ID = " . $JobID );
 				   }
