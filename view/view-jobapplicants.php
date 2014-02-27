@@ -73,7 +73,7 @@ if (is_user_logged_in()) {
 						 	<option value='75-100' ".selected($percentage,'75-100',false).">75% - 100% Matched</option>
 						 	<option value='50-75' ".selected($percentage,'50-75',false).">50% - 75% Matched</option>
 						 	<option value='25-50' ".selected($percentage,'25-50',false).">25% - 50% Matched</option>
-						 	<option value='0-50' ".selected($percentage,'0-50',false).">0% - 25% Matched</option>
+						 	<option value='0-25' ".selected($percentage,'0-25',false).">0% - 25% Matched</option>
 						 </select>		
 					  </td>\n";
 		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
