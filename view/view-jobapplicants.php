@@ -32,8 +32,15 @@ if (is_user_logged_in()) {
 		if(isset($_POST['filter'])){
 
 			$_SESSION['filter'] = "";
+			$_SESSION['job_title'] = "";
 			$_SESSION['applicant'] = "";
 			$_SESSION['percentage'] = "";
+
+			// applicant
+			if(isset($_POST['filter_jobtitle']) && $_POST['filter_jobtitle'] != ""){
+				$_SESSION['job_title'] = $_POST['filter_jobtitle'];
+				//$_SESSION['filter'] = "";
+			}
 
 			// percentage
 			if(isset($_POST['filter_jobpercentage']) && $_POST['filter_jobpercentage'] != ""){
@@ -68,6 +75,8 @@ if (is_user_logged_in()) {
 			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					 " jobs ON jobs.Job_ID = applicants.Job_ID" . $filter;
+			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
+					 		   " jobs ON jobs.Job_ID = applicants.Job_ID";					 
 		} else {
 			if($_SESSION['filter'] != ""){
 				$filter = " AND " . $_SESSION['filter']; 
@@ -75,6 +84,10 @@ if (is_user_logged_in()) {
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					 " jobs ON jobs.Job_ID = applicants.Job_ID 
 					   WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;
+			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
+					 		   " jobs ON jobs.Job_ID = applicants.Job_ID 
+					   			 WHERE jobs.Job_UserLinked = " . $current_user->ID;
+
 		}
 		
 		$selected_page = get_query_var('target');
@@ -91,9 +104,20 @@ if (is_user_logged_in()) {
 		echo "    <tr class=\"thead\">\n";
 		echo "        <td>Job Title<br>
 						 <select name='filter_jobtitle'>
-						 	<option value=''>-- Select Job Title --</option>
-						 	<option value=''></option>
-						 </select>		
+						 	<option value=''>-- Select Job Title --</option>";
+		
+		//load jobs by current user
+		$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application .
+											 $where_wo_filter
+											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+		
+		if(count($load_job_filter) > 0){
+			foreach($load_job_filter as $j){
+				echo "<option id='".$j->Job_ID."'>".$j->Job_Title."</option>";
+			}
+		}									 
+							
+		echo "			 </select>		
 					  </td>\n";
 		echo "        <td>Applicant<br>
 						<input type='text' name='filter_applicant' value='".$applicant."'>
