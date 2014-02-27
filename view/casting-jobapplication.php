@@ -38,10 +38,19 @@
 			$Job_Criteria_Details = serialize($job_criterias);
 			$job_pitch = htmlspecialchars($_GET['job_pitch']);
 			
+			// get precentage
+			if(preg_match("/\|/", $_GET['Job_Criteria'])){
+				 $count = count(explode("|", $_GET['Job_Criteria']));
+			} else {
+				 $count = 1;
+			}
+			$res = ( $Job_Criteria_Passed / $count ) * 100;
+			$percentage = round($res); 
+			
 			// insert
 			$insert = "INSERT INTO " . table_agency_casting_job_application . " 
-					   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,job_Pitch) VALUES
-					   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."','".$job_pitch."')";
+					   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,Job_Criteria_Percentage, job_Pitch) VALUES
+					   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
 			
 			$wpdb->query($insert) or die(mysql_error());		
 	
