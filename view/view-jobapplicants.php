@@ -54,7 +54,7 @@ if (is_user_logged_in()) {
 		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
 		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
 				
-		echo "<form method='POST'>";		
+		echo "<form method='POST' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
