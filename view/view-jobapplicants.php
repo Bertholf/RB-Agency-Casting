@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 global $wpdb;
 global $current_user;
 
@@ -25,7 +27,34 @@ if (is_user_logged_in()) {
 		} else {
 			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
 		}
+
+		//setup filtering sessions
+		if(isset($_POST['filter'])){
+
+			$_SESSION['filter'] = "";
+			$_SESSION['applicant'] = "";
+			$_SESSION['percentage'] = "";
+
+			// percentage
+			if(isset($_POST['filter_jobpercentage']) && $_POST['filter_jobpercentage'] != ""){
+				$_SESSION['percentage'] = $_POST['filter_jobpercentage'];
+				$percent_arr = explode("-",$_POST['filter_jobpercentage']);
+				$_SESSION['filter'] = "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
+			}
+
+			// applicant
+			if(isset($_POST['filter_applicant']) && $_POST['filter_applicant'] != ""){
+				//$_SESSION['applicant'] = $_POST['filter_applicant'];
+				//$_SESSION['filter'] = "";
+			}
+
+		}
 		
+		// set for display
+		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
+		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
+				
+		echo "<form method='POST'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
@@ -36,21 +65,22 @@ if (is_user_logged_in()) {
 						 </select>		
 					  </td>\n";
 		echo "        <td>Applicant<br>
-						<input type='text' name='filter_applicant' value=''>
+						<input type='text' name='filter_applicant' value='".$applicant."'>
 					  </td>\n";
 		echo "        <td>Criteria Matched<br>
-						 <select name='filter_jobtitle'>
+						 <select name='filter_jobpercentage'>
 						 	<option value=''>-- Select Matched % --</option>
-						 	<option value='75-100'>75% - 100% Matched</option>
-						 	<option value='50-75'>50% - 75% Matched</option>
-						 	<option value='25-50'>25% - 50% Matched</option>
-						 	<option value='0-50'>0% - 25% Matched</option>
+						 	<option value='75-100' ".selected($percentage,'75-100',false).">75% - 100% Matched</option>
+						 	<option value='50-75' ".selected($percentage,'50-75',false).">50% - 75% Matched</option>
+						 	<option value='25-50' ".selected($percentage,'25-50',false).">25% - 50% Matched</option>
+						 	<option value='0-50' ".selected($percentage,'0-50',false).">0% - 25% Matched</option>
 						 </select>		
 					  </td>\n";
-		echo "        <td><input type='button' class='button-primary' value='filter'></td>\n";
+		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
 		echo "    </tr>\n";
 		echo "</tbody>";
 		echo "</table>";		
+		echo "</form>";
 		
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
@@ -64,6 +94,7 @@ if (is_user_logged_in()) {
 		echo " </thead>\n";
 		
 		//pagination setup
+		$filter = "";
 		$start = get_query_var('target');
 		$record_per_page = 2;
 		$link = get_bloginfo('wpurl') . "/view-applicants/";
@@ -71,12 +102,18 @@ if (is_user_logged_in()) {
 		
 		//for admin view
 		if ( current_user_can( 'manage_options' ) ) {
+			if($_SESSION['filter'] != ""){
+				$filter = " WEHRE " . $_SESSION['filter']; 
+			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
-					 " jobs ON jobs.Job_ID = applicants.Job_ID";
+					 " jobs ON jobs.Job_ID = applicants.Job_ID" . $filter;
 		} else {
+			if($_SESSION['filter'] != ""){
+				$filter = " AND " . $_SESSION['filter']; 
+			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					 " jobs ON jobs.Job_ID = applicants.Job_ID 
-					   WHERE jobs.Job_UserLinked = " . $current_user->ID;
+					   WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;
 		}
 		
 		$selected_page = get_query_var('target');
@@ -89,19 +126,10 @@ if (is_user_logged_in()) {
 		
 		// load all job postings
 		//for admin view
-		if ( current_user_can( 'manage_options' ) ) {
-			$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
-											 " . table_agency_casting_job 
-											 . " jobs ON jobs.Job_ID = applicants.Job_ID"
+		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application .
+											 $where
 											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
 											 LIMIT " . $limit1 . "," . $record_per_page );
-		} else{
-			$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application . " applicants LEFT JOIN
-											 " . table_agency_casting_job 
-											 . " jobs ON jobs.Job_ID = applicants.Job_ID WHERE jobs.Job_UserLinked = " . $current_user->ID
-											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
-											 LIMIT " . $limit1 . "," . $record_per_page );
-		}
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
