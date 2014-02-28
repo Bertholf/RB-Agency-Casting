@@ -81,7 +81,7 @@ if (is_user_logged_in()) {
 		//for admin view
 		if ( current_user_can( 'manage_options' ) ) {
 			if($_SESSION['filter'] != ""){
-				$filter = " WEHRE " . $_SESSION['filter']; 
+				$filter = " WHERE " . $_SESSION['filter']; 
 			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					 " jobs ON jobs.Job_ID = applicants.Job_ID" . $filter;
