@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 global $wpdb;
 global $current_user;
 
@@ -27,6 +29,45 @@ if (is_user_logged_in()) {
 				echo "<p><h3>Your Job Postings</h3></p><br>";
 			}
 		}		
+
+		//setup filtering sessions
+		if(isset($_POST['filter'])){
+
+			$_SESSION['perpage_browse'] = "";
+
+			// perpage
+			if(isset($_POST['filter_perpage']) && $_POST['filter_perpage'] != ""){
+				$_SESSION['perpage_browse'] = $_POST['filter_perpage'];
+			}			
+
+		}
+
+		// set for display
+		$perpage = (isset($_SESSION['perpage_browse']) && $_SESSION['perpage_browse'] != "") ? $_SESSION['perpage_browse'] : 2;
+		
+		// setup filter display
+		echo "<form method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";		
+		echo "<table style='margin-bottom:20px'>\n";
+		echo "<tbody>";
+		echo "<tr>";
+		echo "        <td>Records Per Page<br>
+						 <select name='filter_perpage'>
+						 	<option value=''>- # of Rec -</option>";
+							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";		
+							
+		$page = 0;
+		for($page = 5; $page <= 50; $page += 5){
+			echo "<option value='$page' ".selected($page, $perpage,false).">$page</option>";
+		}
+		
+		echo "			 </select>		
+					  </td>\n";
+					  
+		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
+		echo "    </tr>\n";
+		echo "</tbody>";
+		echo "</table>";		
+		echo "</form>";
 		
 		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
@@ -43,7 +84,7 @@ if (is_user_logged_in()) {
 		
 		//pagination setup
 		$start = get_query_var('target');
-		$record_per_page = 2;
+		$record_per_page = $perpage;
 		$link = get_bloginfo('wpurl') . "/browse-jobs/";
 		$table_name = table_agency_casting_job;
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'manage_options' )){
