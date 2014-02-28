@@ -35,6 +35,7 @@ if (is_user_logged_in()) {
 			$_SESSION['job_title'] = "";
 			$_SESSION['applicant'] = "";
 			$_SESSION['percentage'] = "";
+			$_SESSION['perpage'] = "";
 
 			// job title
 			if(isset($_POST['filter_jobtitle']) && $_POST['filter_jobtitle'] != ""){
@@ -57,17 +58,23 @@ if (is_user_logged_in()) {
 				$_SESSION['filter'] .= $AND . "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
 			}
 
+			// perpage
+			if(isset($_POST['filter_perpage']) && $_POST['filter_perpage'] != ""){
+				$_SESSION['job_perpage'] = $_POST['filter_perpage'];
+			}			
+
 		}
 
 		// set for display
 		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
 		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
 		$jobtitle = (isset($_SESSION['job_title']) && $_SESSION['job_title'] != "") ? $_SESSION['job_title'] : "";
+		$perpage = (isset($_SESSION['job_perpage']) && $_SESSION['job_perpage'] != "") ? $_SESSION['job_perpage'] : 2;
 		
 		//pagination setup
 		$filter = "";
 		$start = get_query_var('target');
-		$record_per_page = 2;
+		$record_per_page = $perpage;
 		$link = get_bloginfo('wpurl') . "/view-applicants/";
 		$table_name = table_agency_casting_job_application;
 		
@@ -100,7 +107,8 @@ if (is_user_logged_in()) {
 		} else {
 			$limit1 = 0;
 		}				
-
+		
+		// setup filter display
 		echo "<form method='POST' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
@@ -131,7 +139,7 @@ if (is_user_logged_in()) {
 							<option value=''>-- Select Applicant --</option>";
 		
 		foreach($job_applicant as $key => $val){
-			echo "<option value='".$key."'>".$val."</option>";
+			echo "<option value='".$key."' ".selected($key, $applicant,false).">".$val."</option>";
  	
 		}
 								
@@ -146,6 +154,18 @@ if (is_user_logged_in()) {
 						 	<option value='0-25' ".selected($percentage,'0-25',false).">0% - 25% Matched</option>
 						 </select>		
 					  </td>\n";
+
+		echo "        <td>Records Per Page<br>
+						 <select name='filter_perpage'>
+						 	<option value=''>- # of Rec -</option>";
+		$page = 0;
+		for($page = 5; $page <= 50; $page += 5){
+			echo "<option value='$page'>$page</option>";
+		}
+		
+		echo "			 </select>		
+					  </td>\n";
+					  
 		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
 		echo "    </tr>\n";
 		echo "</tbody>";
