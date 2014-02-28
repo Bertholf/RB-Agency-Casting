@@ -186,7 +186,25 @@ if (is_user_logged_in()) {
 				
 				echo "<br><span style ='margin-left:5px; float:left; clear:both'>" . $display. "</span></td>\n";
 				
-				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed . RBAgency_Casting::rb_casting_get_percentage_passed($load->Job_ID, $load->Job_Criteria_Passed) . "</td>\n";
+				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed . RBAgency_Casting::rb_casting_get_percentage_passed($load->Job_ID, $load->Job_Criteria_Passed) . "<br>";
+				
+				$load_detials = unserialize($load->Job_Criteria_Details);
+				
+				if(!empty($load_detials)){
+					echo "<hr style='margin:5px'>";
+					foreach($load_detials as $key => $val){
+						$get_title = "SELECT ProfileCustomTitle FROM " . table_agency_customfields . " WHERE ProfileCustomID = " . $key;
+						$get_row = $wpdb->get_row($get_title);
+						if(count($get_row) > 0){
+							echo "<span style='font-size:11px; font-weight:bold'>" . $get_row->ProfileCustomTitle . ": </span><br>";
+							echo "<span style='font-size:11px'>" . $val . "</span><br>";
+						} else {
+							echo "<span style='font-size:11px'>" . $val . "</span><br>";
+						}
+					}
+				}
+				
+				echo "</td>\n";
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				echo "    </tr>\n";
 			}
