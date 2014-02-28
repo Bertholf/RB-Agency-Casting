@@ -541,8 +541,10 @@ class RBAgency_Casting {
 		
 		/*
 		 * check if user is model / talent
+		 * can also be used to return any column in table
+		 * just assign it in the parameter $field_name
 		 */
-		public static function rb_casting_ismodel($user_linked = NULL){
+		public static function rb_casting_ismodel($user_linked = NULL, $field_name = NULL){
 
 			global $wpdb;
 
@@ -550,10 +552,14 @@ class RBAgency_Casting {
 				return false;
 			}
 
-			$get_id = $wpdb->get_row( "SELECT ProfileID FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $user_linked ) ;
+			$get_id = $wpdb->get_row( "SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $user_linked ) ;
 
 			if(count($get_id) > 0){
-				return $get_id->ProfileID;
+				if($field_name == NULL){
+					return $get_id->ProfileID;
+				} else {
+					return @$get_id->$field_name;
+				}
 			}
 
 			return false;
