@@ -36,24 +36,25 @@ if (is_user_logged_in()) {
 			$_SESSION['applicant'] = "";
 			$_SESSION['percentage'] = "";
 
-			// applicant
+			// job title
 			if(isset($_POST['filter_jobtitle']) && $_POST['filter_jobtitle'] != ""){
 				$_SESSION['job_title'] = $_POST['filter_jobtitle'];
-				$_SESSION['filter'] = "jobs.Job_ID = " . $_SESSION['job_title'] . " ";
+				$_SESSION['filter'] = "jobs.Job_ID = " . $_SESSION['job_title'];
+			}
+
+			// applicant
+			if(isset($_POST['filter_applicant']) && $_POST['filter_applicant'] != ""){
+				$_SESSION['applicant'] = $_POST['filter_applicant'];
+				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
+				$_SESSION['filter'] .= $AND . "applicants.Job_UserLinked = " . $_SESSION['applicant'];
 			}
 
 			// percentage
 			if(isset($_POST['filter_jobpercentage']) && $_POST['filter_jobpercentage'] != ""){
 				$_SESSION['percentage'] = $_POST['filter_jobpercentage'];
 				$percent_arr = explode("-",$_POST['filter_jobpercentage']);
-				$AND = ($_SESSION['filter'] != "") ? "AND " : ""; 
+				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
 				$_SESSION['filter'] .= $AND . "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
-			}
-
-			// applicant
-			if(isset($_POST['filter_applicant']) && $_POST['filter_applicant'] != ""){
-				//$_SESSION['applicant'] = $_POST['filter_applicant'];
-				//$_SESSION['filter'] = "";
 			}
 
 		}
@@ -113,8 +114,12 @@ if (is_user_logged_in()) {
 											 $where_wo_filter
 											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
 		
+		// store applicants
+		$job_applicant = array();
+		
 		if(count($load_job_filter) > 0){
 			foreach($load_job_filter as $j){
+				$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay"); 
 				echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
 			}
 		}									 
@@ -122,7 +127,15 @@ if (is_user_logged_in()) {
 		echo "			 </select>		
 					  </td>\n";
 		echo "        <td>Applicant<br>
-						<input type='text' name='filter_applicant' value='".$applicant."'>
+						<select name='filter_applicant'>
+							<option value=''>-- Select Applicant --</option>";
+		
+		foreach($job_applicant as $key => $val){
+			echo "<option value='".$key."'>".$val."</option>";
+ 	
+		}
+								
+		echo "			</select>	
 					  </td>\n";
 		echo "        <td>Criteria Matched<br>
 						 <select name='filter_jobpercentage'>
@@ -161,7 +174,7 @@ if (is_user_logged_in()) {
 			foreach($load_data as $load){
 				$details = RBAgency_Casting::rb_casting_get_model_details($load->app_id);
 				if($details->ProfileGallery != ""){
-					$display = '<a href="'.get_bloginfo('wpurl').'/profile/'.$details->ProfileGallery.'">'.$details->ProfileContactNameFirst.'</a>';
+					$display = '<a href="'.get_bloginfo('wpurl').'/profile/'.$details->ProfileGallery.'">'.$details->ProfileContactDisplay.'</a>';
 				} else {
 					$display = $details->ProfileContactNameFirst;
 				}
