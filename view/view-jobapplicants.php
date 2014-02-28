@@ -127,7 +127,9 @@ if (is_user_logged_in()) {
 		
 		if(count($load_job_filter) > 0){
 			foreach($load_job_filter as $j){
-				$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay"); 
+				if(!array_key_exists($j->app_id,$job_applicant)){
+					$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay"); 
+				}
 				echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
 			}
 		}									 
@@ -137,7 +139,6 @@ if (is_user_logged_in()) {
 		echo "        <td>Applicant<br>
 						<select name='filter_applicant'>
 							<option value=''>-- Select Applicant --</option>";
-		
 		foreach($job_applicant as $key => $val){
 			echo "<option value='".$key."' ".selected($key, $applicant,false).">".$val."</option>";
  	
