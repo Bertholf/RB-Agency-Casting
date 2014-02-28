@@ -39,14 +39,15 @@ if (is_user_logged_in()) {
 			// applicant
 			if(isset($_POST['filter_jobtitle']) && $_POST['filter_jobtitle'] != ""){
 				$_SESSION['job_title'] = $_POST['filter_jobtitle'];
-				//$_SESSION['filter'] = "";
+				$_SESSION['filter'] = "jobs.Job_ID = " . $_SESSION['job_title'] . " ";
 			}
 
 			// percentage
 			if(isset($_POST['filter_jobpercentage']) && $_POST['filter_jobpercentage'] != ""){
 				$_SESSION['percentage'] = $_POST['filter_jobpercentage'];
 				$percent_arr = explode("-",$_POST['filter_jobpercentage']);
-				$_SESSION['filter'] = "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
+				$AND = ($_SESSION['filter'] != "") ? "AND " : ""; 
+				$_SESSION['filter'] .= $AND . "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
 			}
 
 			// applicant
