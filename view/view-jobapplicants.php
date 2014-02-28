@@ -158,11 +158,11 @@ if (is_user_logged_in()) {
 		echo "        <td>Records Per Page<br>
 						 <select name='filter_perpage'>
 						 	<option value=''>- # of Rec -</option>";
-							echo "<option value='2' ".selected(2, $applicant,false).">2</option>";		
+							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";		
 							
 		$page = 0;
 		for($page = 5; $page <= 50; $page += 5){
-			echo "<option value='$page'>$page</option>";
+			echo "<option value='$page' ".selected($page, $perpage,false).">$page</option>";
 		}
 		
 		echo "			 </select>		
