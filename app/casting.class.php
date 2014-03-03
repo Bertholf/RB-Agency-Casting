@@ -1221,7 +1221,31 @@ class RBAgency_Casting {
 					wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details'), get_option('blogname')), $message, $headers);  
 	  
 			 }
-			  
+
+			
+			/*
+			 * get visibility
+			 */
+			 public static function rb_get_job_visibility($jobid = NULL){
+			 	
+				 global $wpdb;
+				 
+				 if(empty($jobid) or is_null($jobid)) return false;
+				 
+				 $visibility_id = "SELECT Job_Visibility FROM ". table_agency_casting_job .
+				 			   " WHERE Job_ID = " . $jobid;
+				 
+				 $get = $wpdb->get_row($visibility_id);
+				 
+				 if(count($get) > 0){			   	
+						 
+						 return $get->Job_Visibility;
+
+				 }
+
+				 return "";
+			 
+			 }			  
 		  		  
 
 // end class
