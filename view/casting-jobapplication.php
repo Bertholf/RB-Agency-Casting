@@ -32,28 +32,52 @@
 		//-----------------------------------------------
 		if(isset($_GET['apply_job'])){
 			
-			//get data
-			$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($current_user->ID, $_GET['Job_Criteria']);
-			$Job_Criteria_Passed = count($job_criterias);
-			$Job_Criteria_Details = serialize($job_criterias);
-			$job_pitch = htmlspecialchars($_GET['job_pitch']);
+			if(RBAgency_Casting::rb_get_job_visibility($job_id) == 2){
 			
-			// get precentage
-			if(preg_match("/\|/", $_GET['Job_Criteria'])){
-				 $count = count(explode("|", $_GET['Job_Criteria']));
-			} else {
-				 $count = 1;
+				//get data
+				$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($current_user->ID, $_GET['Job_Criteria']);
+				$Job_Criteria_Passed = count($job_criterias);
+				$Job_Criteria_Details = serialize($job_criterias);
+				$job_pitch = htmlspecialchars($_GET['job_pitch']);
+				
+				// get precentage
+				if(preg_match("/\|/", $_GET['Job_Criteria'])){
+					 $count = count(explode("|", $_GET['Job_Criteria']));
+				} else {
+					 $count = 1;
+				}
+				$res = ( $Job_Criteria_Passed / $count ) * 100;
+				$percentage = round($res); 
+				
+			} elseif(RBAgency_Casting::rb_get_job_visibility($job_id) == 1){
+
+				//get data
+				$Job_Criteria_Passed = 10;
+				$Job_Criteria_Details = '';
+				$job_pitch = htmlspecialchars($_GET['job_pitch']);
+				
+				// get precentage
+				$percentage = 100; 
+				
+			} elseif(RBAgency_Casting::rb_get_job_visibility($job_id) == 0){
+
+				//get data
+				$Job_Criteria_Passed = 0;
+				$Job_Criteria_Details = '';
+				$job_pitch = htmlspecialchars($_GET['job_pitch']);
+				
+				// get precentage
+				$percentage = 0; 
+				
 			}
-			$res = ( $Job_Criteria_Passed / $count ) * 100;
-			$percentage = round($res); 
-			
+
 			// insert
 			$insert = "INSERT INTO " . table_agency_casting_job_application . " 
 					   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,Job_Criteria_Percentage, job_Pitch) VALUES
 					   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
 			
 			$wpdb->query($insert) or die(mysql_error());		
-	
+
 			echo $rb_header = RBAgency_Common::rb_header();
 			
 			echo "<p>Successfully Submitted Your Application</p>";   
