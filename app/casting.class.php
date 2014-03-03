@@ -1094,37 +1094,61 @@ class RBAgency_Casting {
 			   
 			   if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
 			   
-			   if($criteria == NULL || $criteria == "" || empty($criteria)) return "";
-				
-			   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+			   if(self::rb_get_job_visibility($JobID) == 3){
 			   
-			   $applicants_result = $wpdb->get_results($get_all_applicants);
-			   
-			   if(count($applicants_result)){
-
-				   foreach($applicants_result as $applicants){
-						$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($applicants->Job_UserLinked, $criteria);
-						$Job_Criteria_Details = serialize($job_criterias);
-						
-						// get precentage
-						if(preg_match("/\|/", $criteria)){
-							 $count = count(explode("|", $criteria));
-						} else {
-							 $count = 1;
-						}
-
-						$res = ( count($job_criterias) / $count ) * 100;
-						
-						$percentage = round($res); 
-						
-						$wpdb->query("UPDATE " . table_agency_casting_job_application . 
-						             " SET Job_Criteria_Details = '" . $Job_Criteria_Details . "',
-									      Job_Criteria_Passed = " . count($job_criterias) . ", 
-										  Job_Criteria_Percentage = " . $percentage .
-								     " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
-		 
+				   if($criteria == NULL || $criteria == "" || empty($criteria)) return "";
+					
+				   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+				   
+				   $applicants_result = $wpdb->get_results($get_all_applicants);
+				   
+				   if(count($applicants_result)){
+	
+					   foreach($applicants_result as $applicants){
+							$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($applicants->Job_UserLinked, $criteria);
+							$Job_Criteria_Details = serialize($job_criterias);
+							
+							// get precentage
+							if(preg_match("/\|/", $criteria)){
+								 $count = count(explode("|", $criteria));
+							} else {
+								 $count = 1;
+							}
+	
+							$res = ( count($job_criterias) / $count ) * 100;
+							
+							$percentage = round($res); 
+							
+							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
+										 " SET Job_Criteria_Details = '" . $Job_Criteria_Details . "',
+											  Job_Criteria_Passed = " . count($job_criterias) . ", 
+											  Job_Criteria_Percentage = " . $percentage .
+										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
+			 
+					   }
+	
 				   }
+			   
+			   } elseif(self::rb_get_job_visibility($JobID) == 1){
 
+				   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+				   
+				   $applicants_result = $wpdb->get_results($get_all_applicants);
+				   
+				   if(count($applicants_result)){
+	
+					   foreach($applicants_result as $applicants){
+							
+							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
+										 " SET Job_Criteria_Details = '',
+											  Job_Criteria_Passed = 10, 
+											  Job_Criteria_Percentage = 100 " . 
+										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
+			 
+					   }
+	
+				   }			   
+			   
 			   }
 			   
 			   return true;

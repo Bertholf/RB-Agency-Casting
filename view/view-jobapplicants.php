@@ -223,7 +223,7 @@ if (is_user_logged_in()) {
 				echo "<br><span style ='margin-left:5px; float:left; clear:both'>" . $display. "</span></td>\n";
 				
 				if(RBAgency_Casting::rb_get_job_visibility($load->Job_ID) == 1){
-					echo "        <td class=\"column-JobLocation\" scope=\"col\">100% Matched Open to All<br>";
+					echo "        <td class=\"column-JobLocation\" scope=\"col\">100% Matched <br> <hr style='margin:5px'> Open to All<br>";
 				} else {
 					echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed . RBAgency_Casting::rb_casting_get_percentage_passed($load->Job_ID, $load->Job_Criteria_Passed) . "<br>";
 				}
