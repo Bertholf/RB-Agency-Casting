@@ -1149,6 +1149,26 @@ class RBAgency_Casting {
 	
 				   }			   
 			   
+			   } elseif(self::rb_get_job_visibility($JobID) == 0){
+
+				   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+				   
+				   $applicants_result = $wpdb->get_results($get_all_applicants);
+				   
+				   if(count($applicants_result)){
+	
+					   foreach($applicants_result as $applicants){
+							
+							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
+										 " SET Job_Criteria_Details = '',
+											  Job_Criteria_Passed = 0, 
+											  Job_Criteria_Percentage = 0 " . 
+										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
+			 
+					   }
+	
+				   }			   
+			   
 			   }
 			   
 			   return true;
