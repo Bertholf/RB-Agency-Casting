@@ -80,9 +80,17 @@
 							<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."</td>
 						</tr>	
 						<tr>	
-							<td><b>Job Criteria:</b></td>
-							<td class='jobdesc'>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."</td>
-						</tr>	
+							<td><b>Job Criteria:</b></td>";
+						
+							if(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 2){	
+								echo "<td class='jobdesc'>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."</td>";
+							} elseif(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 1){	
+								echo "<td class='jobdesc'>Open to All</td>";
+							} elseif(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 0){	
+								echo "<td class='jobdesc'>Invite Only</td>";
+							}
+						
+						echo "</tr>	
 						<tr>	
 							<td></td>";
 							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
