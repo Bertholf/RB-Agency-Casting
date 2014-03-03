@@ -1094,7 +1094,7 @@ class RBAgency_Casting {
 			   
 			   if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
 			   
-			   if(self::rb_get_job_visibility($JobID) == 3){
+			   if(self::rb_get_job_visibility($JobID) == 2){
 			   
 				   if($criteria == NULL || $criteria == "" || empty($criteria)) return "";
 					
