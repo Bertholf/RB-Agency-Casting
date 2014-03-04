@@ -11,6 +11,11 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
+wp_deregister_script('jquery'); 
+wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+wp_enqueue_script('jquery');
+wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
+
 echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
@@ -50,6 +55,15 @@ if (is_user_logged_in()) {
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
 		echo "<tr>";
+		echo "        <td>Start Date<br>
+						 <select name='filter_range'>
+						 	<option value=''>Before</option>
+						 	<option value=''>Later than</option>
+						 	<option value=''>Exact</option>";
+		echo "			 </select>			
+						<input type='text' name='filter_startdate'>
+					  </td>\n";
+
 		echo "        <td>Records Per Page<br>
 						 <select name='filter_perpage'>
 						 	<option value=''>- # of Rec -</option>";
@@ -62,6 +76,7 @@ if (is_user_logged_in()) {
 		
 		echo "			 </select>		
 					  </td>\n";
+
 					  
 		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
 		echo "    </tr>\n";
