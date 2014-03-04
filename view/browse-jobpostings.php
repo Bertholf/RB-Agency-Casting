@@ -39,6 +39,9 @@ if (is_user_logged_in()) {
 		if(isset($_POST['filter'])){
 
 			$_SESSION['perpage_browse'] = "";
+			$_SESSION['range'] = "";
+			$_SESSION['startdate'] = "";
+			$_SESSION['location'] = "";
 
 			// perpage
 			if(isset($_POST['filter_perpage']) && $_POST['filter_perpage'] != ""){
@@ -58,13 +61,19 @@ if (is_user_logged_in()) {
 					$_SESSION['startdate'] = "";
 				}				
 			}
+
+			if(isset($_POST['filter_location']) && $_POST['filter_location'] != ""){
+				$_SESSION['location'] = $_POST['filter_location'];
+			}
 			
+
 		}
 
 		// set for display
 		$perpage = (isset($_SESSION['perpage_browse']) && $_SESSION['perpage_browse'] != "") ? $_SESSION['perpage_browse'] : 2;
 		$startdate = (isset($_SESSION['startdate']) && $_SESSION['startdate'] != "") ? $_SESSION['startdate'] : "";
 		$range = (isset($_SESSION['range']) && $_SESSION['range'] != "") ? $_SESSION['range'] : "";
+		$location = (isset($_SESSION['location']) && $_SESSION['location'] != "") ? $_SESSION['location'] : "";
 
 		echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 		echo '<script type="text/javascript">
