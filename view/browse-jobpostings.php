@@ -58,6 +58,7 @@ if (is_user_logged_in()) {
 					$_SESSION['startdate'] = "";
 				}				
 			}
+			
 		}
 
 		// set for display
@@ -141,13 +142,7 @@ if (is_user_logged_in()) {
 		// end pagination setup
 
 		// load postings for models , talents and admin view
-		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'manage_options' )){
-			$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " LIMIT " . $limit1 . "," . $record_per_page );
-		
-		// load postings for casting agents view
-		} elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
-			$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " WHERE Job_UserLinked = " . $current_user->ID . " LIMIT " . $limit1 . "," . $record_per_page );
-		}
+		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " " . $where . " LIMIT " . $limit1 . "," . $record_per_page );
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
