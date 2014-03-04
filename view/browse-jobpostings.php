@@ -128,10 +128,28 @@ if (is_user_logged_in()) {
 		$record_per_page = $perpage;
 		$link = get_bloginfo('wpurl') . "/browse-jobs/";
 		$table_name = table_agency_casting_job;
+		
+		// setup range date for start date
+		$filter='';
+		if($startdate!=''){
+			if($range == 0){
+				$filter = "Job_Date_Start < '". $startdate ."'"; 
+			} elseif($range == 1){
+				$filter = "Job_Date_Start > '". $startdate ."'"; 
+			} elseif($range == 2){
+				$filter = "Job_Date_Start = '". $startdate ."'"; 
+			}
+		} 
+		
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'manage_options' )){
-			$where = ""; 
+			if($filter!=''){
+				$where = "WHERE $filter"; 
+			} else {
+				$where = ""; 
+			}
 		} elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
-			$where = "WHERE Job_UserLinked = " . $current_user->ID; 
+			$AND = ($filter != '') ? " AND $filter" : "";
+			$where = "WHERE Job_UserLinked = " . $current_user->ID . $AND; 
 		}
 		$selected_page = get_query_var('target');
 		if($start != ""){
@@ -140,7 +158,7 @@ if (is_user_logged_in()) {
 			$limit1 = 0;
 		}
 		// end pagination setup
-
+		
 		// load postings for models , talents and admin view
 		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " " . $where . " LIMIT " . $limit1 . "," . $record_per_page );
 		
