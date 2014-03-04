@@ -170,6 +170,16 @@ if (is_user_logged_in()) {
 			}
 		} 
 		
+		// setup location filter
+		if($location != ''){
+			if($filter != ''){
+				$filter .= " AND ";
+			}
+			
+			$filter .= "LOWER(Job_Location) = '" . strtolower($location) . "'";
+
+		}
+		
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'manage_options' )){
 			if($filter!=''){
 				$where = "WHERE $filter"; 
@@ -235,7 +245,7 @@ if (is_user_logged_in()) {
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
 				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 			} else {
-				echo "<p style=\"width:100%;\">You have no Job Postings.</p>\n";
+				echo "<p style=\"width:100%;\">There are no available job postings.</p>\n";
 			}
 			
 		}
