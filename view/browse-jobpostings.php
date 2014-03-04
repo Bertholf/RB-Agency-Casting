@@ -49,6 +49,17 @@ if (is_user_logged_in()) {
 
 		// set for display
 		$perpage = (isset($_SESSION['perpage_browse']) && $_SESSION['perpage_browse'] != "") ? $_SESSION['perpage_browse'] : 2;
+
+		echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
+		echo '<script type="text/javascript">
+				jQuery(document).ready(function(){
+					jQuery( ".datepicker" ).datepicker();
+					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+					var date_start="'.$data['Job_Date_Start'].'";
+    				jQuery("#Job_Date_Start").val(date_start);
+
+	      })
+		</script>';
 		
 		// setup filter display
 		echo "<form method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";		
@@ -57,11 +68,11 @@ if (is_user_logged_in()) {
 		echo "<tr>";
 		echo "        <td>Start Date<br>
 						 <select name='filter_range'>
-						 	<option value=''>Before</option>
-						 	<option value=''>Later than</option>
-						 	<option value=''>Exact</option>";
+						 	<option value='0'>Before</option>
+						 	<option value='1'>Later than</option>
+						 	<option value='2'>Exact</option>";
 		echo "			 </select>			
-						<input type='text' name='filter_startdate'>
+						<input type='text' name='filter_startdate' class='datepicker'>
 					  </td>\n";
 
 		echo "        <td>Records Per Page<br>
