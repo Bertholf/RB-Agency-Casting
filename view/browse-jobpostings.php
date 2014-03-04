@@ -43,7 +43,11 @@ if (is_user_logged_in()) {
 			// perpage
 			if(isset($_POST['filter_perpage']) && $_POST['filter_perpage'] != ""){
 				$_SESSION['perpage_browse'] = $_POST['filter_perpage'];
-			}		
+			}	
+			// range
+			if(isset($_POST['filter_range']) && $_POST['filter_range'] != ""){
+				$_SESSION['range'] = $_POST['filter_range'];
+			}					
 
 			if(isset($_POST['filter_startdate']) && $_POST['filter_startdate'] != ""){
 				$_SESSION['startdate'] = $_POST['filter_startdate'];
@@ -53,6 +57,7 @@ if (is_user_logged_in()) {
 		// set for display
 		$perpage = (isset($_SESSION['perpage_browse']) && $_SESSION['perpage_browse'] != "") ? $_SESSION['perpage_browse'] : 2;
 		$startdate = (isset($_SESSION['startdate']) && $_SESSION['startdate'] != "") ? $_SESSION['startdate'] : "";
+		$range = (isset($_SESSION['range']) && $_SESSION['range'] != "") ? $_SESSION['range'] : "";
 
 		echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 		echo '<script type="text/javascript">
@@ -61,7 +66,6 @@ if (is_user_logged_in()) {
 					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					var date_start="'.$startdate.'";
     				jQuery("#filter_startdate").val(date_start);
-
 	      })
 		</script>';
 		
@@ -72,9 +76,9 @@ if (is_user_logged_in()) {
 		echo "<tr>";
 		echo "        <td>Start Date<br>
 						 <select name='filter_range'>
-						 	<option value='0'>Before</option>
-						 	<option value='1'>Later than</option>
-						 	<option value='2'>Exact</option>";
+						 	<option value='0' ".selected(0, $range,false).">Before</option>
+						 	<option value='1' ".selected(1, $range,false).">Later than</option>
+						 	<option value='2' ".selected(2, $range,false).">Exact</option>";
 		echo "			 </select>			
 						<input type='text' name='filter_startdate' id='filter_startdate' class='datepicker'>
 					  </td>\n";
