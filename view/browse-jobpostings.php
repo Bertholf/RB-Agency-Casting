@@ -51,6 +51,12 @@ if (is_user_logged_in()) {
 
 			if(isset($_POST['filter_startdate']) && $_POST['filter_startdate'] != ""){
 				$_SESSION['startdate'] = $_POST['filter_startdate'];
+				
+				//validate date
+				list($y,$m,$d)= explode('-',$_SESSION['startdate']);
+				if(checkdate($m,$d,$y)!==true){
+					$_SESSION['startdate'] = "";
+				}				
 			}
 		}
 
