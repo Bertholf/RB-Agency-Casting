@@ -92,7 +92,7 @@ if (is_user_logged_in()) {
 
 		echo "        <td>Location<br>
 						 <select name='filter_location'>
-						 	<option value='0' ".selected(0, $range,false).">Before</option>";
+						 	<option value=''>-- Select Location --</option>";
 		
 		$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job;
 		$result_loc = $wpdb->get_results($get_all_loc) or die(mysql_error());
