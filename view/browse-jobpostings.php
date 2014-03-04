@@ -94,7 +94,11 @@ if (is_user_logged_in()) {
 						 <select name='filter_location'>
 						 	<option value=''>-- Select Location --</option>";
 		
-		$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job;
+		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
+			$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job . " WHERE Job_UserLinked = " . $current_user->ID;
+		} else {
+			$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job;
+		}
 		$result_loc = $wpdb->get_results($get_all_loc) or die(mysql_error());
 		if(count($result_loc) > 0){
 			foreach($result_loc as $loc){
