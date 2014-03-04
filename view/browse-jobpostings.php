@@ -86,9 +86,25 @@ if (is_user_logged_in()) {
 						 	<option value='0' ".selected(0, $range,false).">Before</option>
 						 	<option value='1' ".selected(1, $range,false).">Later than</option>
 						 	<option value='2' ".selected(2, $range,false).">Exact</option>";
-		echo "			 </select>			
+		echo "			 </select> <br>			
 						<input type='text' name='filter_startdate' id='filter_startdate' class='datepicker'>
 					  </td>\n";
+
+		echo "        <td>Location<br>
+						 <select name='filter_location'>
+						 	<option value='0' ".selected(0, $range,false).">Before</option>";
+		
+		$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job;
+		$result_loc = $wpdb->get_results($get_all_loc) or die(mysql_error());
+		if(count($result_loc) > 0){
+			foreach($result_loc as $loc){
+				var_dump($loc);
+				echo "<option value='".$loc->Location."'>" .$loc->Location . "</option>";			
+			}
+		}
+							
+		echo "		     </select> 
+					</td>\n";
 
 		echo "        <td>Records Per Page<br>
 						 <select name='filter_perpage'>
