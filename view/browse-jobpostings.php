@@ -221,6 +221,8 @@ if (is_user_logged_in()) {
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
 				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
+			} else {
+				echo "<p style=\"width:100%;\">You have no Job Postings.</p>\n";
 			}
 			
 		}
