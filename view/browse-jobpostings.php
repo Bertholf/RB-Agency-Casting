@@ -112,7 +112,7 @@ if (is_user_logged_in()) {
 		if(count($result_loc) > 0){
 			foreach($result_loc as $loc){
 				var_dump($loc);
-				echo "<option value='".$loc->Location."'>" .$loc->Location . "</option>";			
+				echo "<option value='".$loc->Location."' ".selected(strtolower($loc->Location),strtolower($location),false).">" .$loc->Location . "</option>";			
 			}
 		}
 							
