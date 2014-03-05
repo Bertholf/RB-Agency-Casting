@@ -6,8 +6,8 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
 wp_deregister_script('jquery'); 
-wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
-wp_enqueue_script('jquery');
+wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+wp_enqueue_script('jquery_latest');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
 
 echo $rb_header = RBAgency_Common::rb_header(); 
