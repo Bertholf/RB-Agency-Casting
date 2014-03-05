@@ -63,13 +63,77 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "  <div id=\"profile-info\">\n";
 	echo "		<h3>Casting</h3>\n";
 	echo "		<ul>\n";
+
 	echo "		<li>Username: <strong>" . $curauth->user_login . "</strong></li>\n";
-	echo "		<li>Company: <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
-	echo "		<li>First Name: <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
-	echo "		<li>Last Name: <strong>" . $data_r->CastingConactNameLast . "</strong></li>\n";
-	echo "		<li>User Email: <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
-	echo "		<li>Work Phone: <strong>" . $data_r->CastingContactPhoneWork . "</strong></li>\n";
-	echo "		<li>Cell Phone: <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
+
+	if($data_r->CastingContactNameFirst != ""){
+		echo "		<li>First Name: <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
+	}
+
+	if($data_r->CastingConactNameLast != ""){
+		echo "		<li>Last Name: <strong>" . $data_r->CastingConactNameLast . "</strong></li>\n";
+	}
+
+	if($data_r->CastingConactEmail != ""){	
+		echo "		<li>User Email: <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
+	}
+
+	if($data_r->CastingConactCompany != ""){	
+		echo "		<li>Company: <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
+	}
+
+	if($data_r->CastingContactWebsite != ""){	
+		echo "		<li>Website: <strong>" . $data_r->CastingContactWebsite . "</strong></li>\n";
+	}
+	
+	if($data_r->CastingLocationStreet != ""){		
+		echo "		<li>Street: <strong>" . $data_r->CastingLocationStreet . "</strong></li>\n";
+	}
+	
+	if($data_r->CastingLocationCity!=""){
+		echo "		<li>City: <strong>" . $data_r->CastingLocationCity . "</strong></li>\n";	
+	}
+
+	if($data_r->CastingLocationCountry!=""){	
+		echo "		<li>Country: <strong>" . $data_r->CastingLocationCountry . "</strong></li>\n";	
+	}
+
+	if($data_r->CastingLocationState!=""){	
+		echo "		<li>State: <strong>" . $data_r->CastingLocationState . "</strong></li>\n";	
+	}
+
+	if($data_r->CastingLocationZip!=""){	
+		echo "		<li>Zip: <strong>" . $data_r->CastingLocationZip . "</strong></li>\n";	
+	}
+
+	if($data_r->CastingContactPhoneHome!=""){	
+		echo "		<li>Home Phone: <strong>" . $data_r->CastingContactPhoneHome . "</strong></li>\n";
+	}
+
+	if($data_r->CastingContactPhoneWork!=""){	
+		echo "		<li>Work Phone: <strong>" . $data_r->CastingContactPhoneWork . "</strong></li>\n";
+	}
+
+	if($data_r->CastingContactPhoneCell!=""){	
+		echo "		<li>Cell Phone: <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
+	}
+
+	if($data_r->CastingContactLinkFacebook!=""){	
+		echo "		<li>Facebook: <strong>" . $data_r->CastingContactLinkFacebook . "</strong></li>\n";	
+	}
+	
+	if($data_r->CastingContactLinkTwitter!=""){	
+		echo "		<li>Twitter: <strong>" . $data_r->CastingContactLinkTwitter . "</strong></li>\n";	
+	}
+	
+	if($data_r->CastingContactLinkYoutube!=""){	
+		echo "		<li>Youtube: <strong>" . $data_r->CastingContactLinkYoutube . "</strong></li>\n";	
+	}
+
+	if($data_r->CastingContactLinkTwitter!=""){		
+		echo "		<li>Flickr: <strong>" . $data_r->CastingContactLinkTwitter . "</strong></li>\n";	
+	}
+	
 	echo "		</ul>\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"rb_button\">Edit Information</a></h4>\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"rb_button\">Post a New Job</a></h4>\n";
