@@ -224,7 +224,7 @@ function job_type_settings(){
 				echo $msg;
 			} elseif($_GET['rec_process'] == 'edit'){
 				$sql_update = "UPDATE " . table_agency_casting_job_type . " SET Job_Type_Title = '".$_GET['Job_Type_Title']."', Job_Type_text = '".$_GET['Job_Type_Text']."' WHERE Job_Type_ID = " . $type ;
-				$wpdb->query($sql_update) or die(mysql_error());
+				mysql_query($sql_update) or die(mysql_error());
 				$msg = __("Successfully Updated Record.<br />", rb_agency_casting_TEXTDOMAIN);
 				echo $msg;
 			}
