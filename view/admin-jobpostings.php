@@ -147,6 +147,7 @@ function job_type_settings(){
 			  </table>"; 	
 		echo "<input type='hidden' name='page' value='".$_GET['page']."'>";
 		echo "<input type='hidden' name='action' value='manage_types'>";
+		echo "<input type='hidden' name='rec_process' value='add'>";
 		echo "<input type='hidden' name='proc' value='save_new_jobtype'>";
 		echo "<p><input type='submit' class='button-primary' value='Save Job Type'></p>";
 		echo "<form>";		
@@ -154,10 +155,55 @@ function job_type_settings(){
 	}
 
 	/*---------------------------------------------------------------------
+	 * Process: page actions EDIT DISPLAY
+	 *---------------------------------------------------------------------*/	
+	elseif(isset($_GET['proc']) && $_GET['proc'] == 'edit_jobtype' ){
+		
+		// get details
+		$type = $_GET['type_id'];
+		$get_details = "SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
+		$results = $wpdb->get_row($get_details) or die(mysql_error());
+		
+		echo "<h2>Edit Job Type</h2>";
+		echo "<form method=\"GET\" action=\"" . admin_url("admin.php") . "\">\n";
+		echo "<table>
+				<tr><td>Job Type Title:</td><td><input type='text' name='Job_Type_Title' value='".$results->Job_Type_Title."'></td></tr>
+				<tr><td>Job Type Description:</td><td><input type='text' name='Job_Type_Text' value='".$results->Job_Type_Text."'></td></tr>
+			  </table>"; 	
+		echo "<input type='hidden' name='page' value='".$_GET['page']."'>";
+		echo "<input type='hidden' name='action' value='manage_types'>";
+		echo "<input type='hidden' name='rec_process' value='edit'>";
+		echo "<input type='hidden' name='typeid' value='".$type."'>";
+		echo "<input type='hidden' name='proc' value='save_new_jobtype'>";
+		echo "<p><input type='submit' class='button-primary' value='Save Job Type'></p>";
+		echo "<form>";		
+
+	}	
+
+	/*---------------------------------------------------------------------
+	 * Process: page actions EDIT DISPLAY
+	 *---------------------------------------------------------------------*/	
+	elseif(isset($_GET['proc']) && $_GET['proc'] == 'delete_jobtype' ){
+		
+		// get details
+		$type = $_GET['type_id'];
+		$delete_details = "DELETE FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
+		$results = $wpdb->query($delete_details) or die(mysql_error());
+		
+		$msg = __("Successfully Deleted Record.<br />", rb_agency_casting_TEXTDOMAIN);
+		echo $msg;		
+
+		echo "<p><a class='button-primary' href='".admin_url("admin.php?page=" . $_GET['page'] . "&action=manage_types&proc=addnew_jobtype")."'>Add New Job Type</a></p>";
+		
+	}	
+		
+	/*---------------------------------------------------------------------
 	 * Process: page actions ADD DISPLAY
 	 *---------------------------------------------------------------------*/	
 	elseif(isset($_GET['proc']) && $_GET['proc'] == 'save_new_jobtype' ){
 		
+		// get id
+		$type = $_GET['typeid'];
 		//check errors
 		$error = '';
 		$have_error = false;
@@ -171,10 +217,17 @@ function job_type_settings(){
 		} 
 		
 		if(!$have_error){
-			$sql_insert = "INSERT INTO " . table_agency_casting_job_type . " ( Job_Type_Title, Job_Type_text ) VALUES ( '".$_GET['Job_Type_Title']."','".$_GET['Job_Type_Text']."' )";
-            $wpdb->query($sql_insert) or die(mysql_error());
-			$msg = __("Successfully Added Record.<br />", rb_agency_casting_TEXTDOMAIN);
-			echo $msg;
+			if($_GET['rec_process'] == 'add'){
+				$sql_insert = "INSERT INTO " . table_agency_casting_job_type . " ( Job_Type_Title, Job_Type_text ) VALUES ( '".$_GET['Job_Type_Title']."','".$_GET['Job_Type_Text']."' )";
+				$wpdb->query($sql_insert) or die(mysql_error());
+				$msg = __("Successfully Added Record.<br />", rb_agency_casting_TEXTDOMAIN);
+				echo $msg;
+			} elseif($_GET['rec_process'] == 'edit'){
+				$sql_update = "UPDATE " . table_agency_casting_job_type . " SET Job_Type_Title = '".$_GET['Job_Type_Title']."', Job_Type_text = '".$_GET['Job_Type_Text']."' WHERE Job_Type_ID = " . $type ;
+				$wpdb->query($sql_update) or die(mysql_error());
+				$msg = __("Successfully Updated Record.<br />", rb_agency_casting_TEXTDOMAIN);
+				echo $msg;
+			}
 		}
 
 		echo "<p><a class='button-primary' href='".admin_url("admin.php?page=" . $_GET['page'] . "&action=manage_types&proc=addnew_jobtype")."'>Add New Job Type</a></p>";
@@ -184,6 +237,8 @@ function job_type_settings(){
 		echo "<p><a class='button-primary' href='".admin_url("admin.php?page=" . $_GET['page'] . "&action=manage_types&proc=addnew_jobtype")."'>Add New Job Type</a></p>";
 	
 	}
+
+
 
 	/*---------------------------------------------------------------------
 	 * Process: page actions ADD DISPLAY
@@ -206,7 +261,12 @@ function job_type_settings(){
 			echo "    <tr>\n";
 			echo "        <td class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"col\"><input type=\"checkbox\"/></td>\n";
 			echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$jtypes->Job_Type_ID."</td>\n";
-			echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$jtypes->Job_Type_Title."</td>\n";
+			echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$jtypes->Job_Type_Title;
+			echo "          <div class=\"row-actions\">\n";
+			echo "            <span class=\"edit\"><a href=\"" . admin_url("admin.php?page=" . $_GET['page']) . "&action=manage_types&proc=edit_jobtype&type_id=" . $jtypes->Job_Type_ID . "\" title=\"" . __("Edit this Record", rb_agency_TEXTDOMAIN) . "\">" . __("Edit", rb_agency_TEXTDOMAIN) . "</a> | </span>\n";
+			echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"" . admin_url("admin.php?page=" . $_GET['page']) . "&action=manage_types&proc=delete_jobtype&type_id=" . $jtypes->Job_Type_ID . "\"  onclick=\"if ( confirm('" . __("You are about to delete the Job Type with ID ", rb_agency_TEXTDOMAIN) . " " . $jtypes->Job_Type_ID . " \'" . __("Cancel", rb_agency_TEXTDOMAIN) . "\' " . __("to stop", rb_agency_TEXTDOMAIN) . ", \'" . __("OK", rb_agency_TEXTDOMAIN) . "\' " . __("to delete", rb_agency_TEXTDOMAIN) . ".') ) { return true;}return false;\" title=\"" . __("Delete this Record", rb_agency_TEXTDOMAIN) . "\">" . __("Delete", rb_agency_TEXTDOMAIN) . "</a> </span>\n";
+			echo "          </div>\n";			
+			echo "		  </td>\n";
 			echo "        <td class=\"column-JobText\" scope=\"col\">".$jtypes->Job_Type_Text."</td>\n";
 			echo "    </tr>\n";		
 		}
