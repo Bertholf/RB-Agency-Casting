@@ -20,8 +20,8 @@
 
 	// add scripts
 	wp_deregister_script('jquery'); 
-	wp_register_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
-	wp_enqueue_script('jquery');
+	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+	wp_enqueue_script('jquery_latest');
 
 	echo $rb_header = RBAgency_Common::rb_header();
 
