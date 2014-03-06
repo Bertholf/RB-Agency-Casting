@@ -106,6 +106,17 @@
 						echo "</tr>																																				
 					  <table>";
 			}
+
+			// only admin and casting should have access to casting dashboard
+			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
+				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+			}
+		
+			// for models
+			if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+			}				
+
 		}
 		
 	} else {

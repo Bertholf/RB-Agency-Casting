@@ -82,7 +82,7 @@
 			
 			echo "<p>Successfully Submitted Your Application</p>";   
 			echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   
-	
+			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 			echo $rb_footer = RBAgency_Common::rb_footer(); 	
 				
 				
@@ -151,6 +151,7 @@
 			
 			echo "<p>You already applied for this job.</p>";   
 			echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   			
+			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 	
 			echo $rb_footer = RBAgency_Common::rb_footer(); 	;   
 
