@@ -10,10 +10,26 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
+wp_deregister_script('jquery'); 
+wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+wp_enqueue_script('jquery_latest');
+
 echo $rb_header = RBAgency_Common::rb_header();
 
 if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
-	
+
+	// add advanced search
+	?>
+	<script type='text/javascript'>
+			jQuery(document).ready(function(){
+				jQuery("#asearch").live('click',function(){
+					window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
+				});
+				var htm = '<input class="button-primary" id="asearch" type="button" value="Advance Search">';
+				jQuery('.rbsubmit').append(htm);
+			});
+    </script>
+	<?php	
 	echo "<div id=\"rbdashboard\">\n";
 	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
 	if (current_user_can( 'manage_options' )){
