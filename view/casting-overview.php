@@ -22,7 +22,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	?>
 	<script type='text/javascript'>
 			jQuery(document).ready(function(){
-				jQuery("#asearch").live('click',function(){
+				jQuery("body").on('click','#asearch', function(){
 					window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
 				});
 				var htm = '<input class="button-primary" id="asearch" type="button" value="Advance Search">';
