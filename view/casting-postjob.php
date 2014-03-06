@@ -136,6 +136,7 @@ if(isset($_GET['save_job'])){
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
 			echo '				<h4 class="entry-title">You have successfully added your new Job Posting! <a href="'.get_bloginfo('wpurl').'/casting-postjob">Add new Job Posting?</a></h4>';
+			echo '				<p style="width:100%;"><a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
