@@ -224,7 +224,7 @@ if (is_user_logged_in()) {
 						
 					//if agent
 					} else {
-						echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a></td>\n";
+						echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>View Details</a></td>\n";
 					}
 					
 				}
