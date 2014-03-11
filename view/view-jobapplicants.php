@@ -245,7 +245,10 @@ if (is_user_logged_in()) {
 				}
 				
 				echo "</td>\n";
-				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>Job Details</a></td>\n";
+				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>Job Details</a><br>";
+				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
+				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
+				echo "        <a class='send_invite' href='javascript:;'>Send Invite</a></td>\n";
 				echo "    </tr>\n";
 			}
 			echo "</table>";
