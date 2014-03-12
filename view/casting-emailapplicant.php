@@ -17,8 +17,9 @@
 	get_currentuserinfo();
 	
 	$job_id = get_query_var('target');
-	
 	$profile_id = get_query_var('value');
+	
+	// get job info and user info
 	
 	// add scripts
 	wp_deregister_script('jquery'); 
@@ -35,13 +36,13 @@
 		
 		echo "<table>";
 		
-		echo "<tr><td> Your Name: </td></tr><td><input type='text' name='sender_name' value=''></td></tr>";
+		echo "<tr><td> Your Name: </td></tr><td><input type='text' name='sender_name' value='".$current_user->user_nicename."'></td></tr>";
 
-		echo "<tr><td> Your Email: </td></tr><td><input type='text' name='sender_email' value=''></td></tr>";
+		echo "<tr><td> Your Email: </td></tr><td><input type='text' name='sender_email' value='".$current_user->user_email."'></td></tr>";
 		
-		echo "<tr><td> Subject: </td></tr><td><input type='text' name='subject' value=''></td></tr>";
+		echo "<tr><td> Subject: </td></tr><td><input type='text' name='subject' style='width:400px' value='[Your Subject Here]'></td></tr>";
 
-		echo "<tr><td> Your Messsage: </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'></textarea></td></tr>";
+		echo "<tr><td> Your Messsage: </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'>Dear Talent,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename."</textarea></td></tr>";
 
 		echo "<tr><td></td></tr><td><input type='submit' name='send_email' value='Send Email' class='button-primary'></td></tr>";
 		
