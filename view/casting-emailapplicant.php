@@ -17,7 +17,9 @@
 	get_currentuserinfo();
 	
 	$job_id = get_query_var('target');
-	$profile_id = get_query_var('value');
+	$user_linked_id = get_query_var('value');
+	
+	$contact_display = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactDisplay");
 	
 	// get job info and user info
 	
@@ -42,7 +44,7 @@
 		
 		echo "<tr><td> Subject: </td></tr><td><input type='text' name='subject' style='width:400px' value='[Your Subject Here]'></td></tr>";
 
-		echo "<tr><td> Your Messsage: </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'>Dear Talent,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename."</textarea></td></tr>";
+		echo "<tr><td> Your Messsage: </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'>Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename."</textarea></td></tr>";
 
 		echo "<tr><td></td></tr><td><input type='submit' name='send_email' value='Send Email' class='button-primary'></td></tr>";
 		
