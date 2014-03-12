@@ -11,8 +11,22 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
-echo $rb_header = RBAgency_Common::rb_header();
+wp_deregister_script('jquery'); 
+wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+wp_enqueue_script('jquery_latest');
 
+echo $rb_header = RBAgency_Common::rb_header();?>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	jQuery(".send_invite").click(function(){
+		jQuery(this).html("Sending...");
+		jQuery(this).html("Invited.");
+	});
+});
+</script>
+
+<?php
 if (is_user_logged_in()) { 
 	
 	// casting agents and admin only
@@ -29,7 +43,7 @@ if (is_user_logged_in()) {
 		}
 
 		//setup filtering sessions
-		if(isset($_POST['filter'])){
+		if(isset($_GET['filter'])){
 
 			$_SESSION['filter'] = "";
 			$_SESSION['job_title'] = "";
@@ -38,29 +52,29 @@ if (is_user_logged_in()) {
 			$_SESSION['perpage'] = "";
 
 			// job title
-			if(isset($_POST['filter_jobtitle']) && $_POST['filter_jobtitle'] != ""){
-				$_SESSION['job_title'] = $_POST['filter_jobtitle'];
+			if(isset($_GET['filter_jobtitle']) && $_GET['filter_jobtitle'] != ""){
+				$_SESSION['job_title'] = $_GET['filter_jobtitle'];
 				$_SESSION['filter'] = "jobs.Job_ID = " . $_SESSION['job_title'];
 			}
 
 			// applicant
-			if(isset($_POST['filter_applicant']) && $_POST['filter_applicant'] != ""){
-				$_SESSION['applicant'] = $_POST['filter_applicant'];
+			if(isset($_GET['filter_applicant']) && $_GET['filter_applicant'] != ""){
+				$_SESSION['applicant'] = $_GET['filter_applicant'];
 				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
 				$_SESSION['filter'] .= $AND . "applicants.Job_UserLinked = " . $_SESSION['applicant'];
 			}
 
 			// percentage
-			if(isset($_POST['filter_jobpercentage']) && $_POST['filter_jobpercentage'] != ""){
-				$_SESSION['percentage'] = $_POST['filter_jobpercentage'];
-				$percent_arr = explode("-",$_POST['filter_jobpercentage']);
+			if(isset($_GET['filter_jobpercentage']) && $_GET['filter_jobpercentage'] != ""){
+				$_SESSION['percentage'] = $_GET['filter_jobpercentage'];
+				$percent_arr = explode("-",$_GET['filter_jobpercentage']);
 				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
 				$_SESSION['filter'] .= $AND . "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
 			}
 
 			// perpage
-			if(isset($_POST['filter_perpage']) && $_POST['filter_perpage'] != ""){
-				$_SESSION['job_perpage'] = $_POST['filter_perpage'];
+			if(isset($_GET['filter_perpage']) && $_GET['filter_perpage'] != ""){
+				$_SESSION['job_perpage'] = $_GET['filter_perpage'];
 			}			
 
 		}
@@ -109,7 +123,7 @@ if (is_user_logged_in()) {
 		}				
 		
 		// setup filter display
-		echo "<form method='POST' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
+		echo "<form method='GET' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
@@ -182,6 +196,7 @@ if (is_user_logged_in()) {
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Criteria Passed</th>\n";
+		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Applicant Message</th>\n";		
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Action</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
@@ -245,6 +260,9 @@ if (is_user_logged_in()) {
 				}
 				
 				echo "</td>\n";
+
+				echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Pitch ."</td>";
+				
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>";
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
