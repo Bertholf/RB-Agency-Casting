@@ -25,7 +25,30 @@
 
 	if (is_user_logged_in()) { 	
 		
-		echo "<h1>email applicant</h1>";	
+		echo "<h1>Email Applicant</h1>";
+		
+		echo "<form method='POST' action='".get_bloginfo('wpurl')."/email-applicant'>";
+		
+		echo "<table>";
+		
+		echo "<tr><td> Your Name: </td></tr><td><input type='text' name='sender_name' value=''></td></tr>";
+
+		echo "<tr><td> Your Email: </td></tr><td><input type='text' name='sender_email' value=''></td></tr>";
+		
+		echo "<tr><td> Subject: </td></tr><td><input type='text' name='subject' value=''></td></tr>";
+
+		echo "<tr><td> Your Messsage: </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'></textarea></td></tr>";
+
+		echo "<tr><td></td></tr><td><input type='submit' name='send_email' value='Send Email' class='button-primary'></td></tr>";
+		
+		echo "</table>";
+				
+		echo "</form>";
+
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go Back to Applicants.</a></p>\n";
+
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+			
 
 	} else {
 		include ("include-login.php");
