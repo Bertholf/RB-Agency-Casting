@@ -147,7 +147,7 @@ if (is_user_logged_in()) {
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Start Date</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Location</th>\n";
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Region</th>\n";
-		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Job Details</th>\n";
+		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Actions</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
 		
@@ -215,9 +215,12 @@ if (is_user_logged_in()) {
 				} else {
 					
 					//if admin, can only edit his own job postings.
-					if(current_user_can( 'manage_options' )){
+					if(current_user_can( 'manage_options' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
 						if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
-							echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a></td>\n";
+							echo "        <td class=\"column-JobType\" scope=\"col\">
+											<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
+											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter=filter'>View Applicants</a>
+								 		  </td>\n";
 						} else {
 							echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 						}
