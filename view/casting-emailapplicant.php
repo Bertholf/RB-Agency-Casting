@@ -23,7 +23,7 @@
 
 	echo $rb_header = RBAgency_Common::rb_header();
 
-	if (is_user_logged_in()) { 	
+	if (is_user_logged_in() && RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) { 	
 		
 		echo "<h1>Email Applicant</h1>";
 		
