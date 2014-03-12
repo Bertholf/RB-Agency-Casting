@@ -34,7 +34,7 @@
 		
 		echo "<h1>Email Applicant</h1>";
 		
-		echo "<form method='POST' action='".get_bloginfo('wpurl')."/email-applicant'>";
+		echo "<form method='POST' action='".get_bloginfo('wpurl')."/email-applicant/$job_id/$user_linked_id'>";
 		
 		echo "<table>";
 		
