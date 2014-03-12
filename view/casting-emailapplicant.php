@@ -16,6 +16,10 @@
 	
 	get_currentuserinfo();
 	
+	$job_id = get_query_var('target');
+	
+	$profile_id = get_query_var('value');
+	
 	// add scripts
 	wp_deregister_script('jquery'); 
 	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 

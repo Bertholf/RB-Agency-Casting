@@ -39,7 +39,7 @@
 			$newrules['profile-casting'] = 'index.php?type=casting&target=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
 			$newrules['profile-favorite'] = 'index.php?type=favorite';
-			$newrules['email-applicant'] = 'index.php?type=emailapplicant';
+			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]';
 			return $newrules + $rules;
 		}
 	
