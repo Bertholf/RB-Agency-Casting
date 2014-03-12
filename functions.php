@@ -39,6 +39,7 @@
 			$newrules['profile-casting'] = 'index.php?type=casting&target=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
 			$newrules['profile-favorite'] = 'index.php?type=favorite';
+			$newrules['email-applicant'] = 'index.php?type=emailapplicant';
 			return $newrules + $rules;
 		}
 	
@@ -72,6 +73,8 @@
 					return dirname(__FILE__) . '/view/casting-jobapplication.php';
 				} elseif (get_query_var( 'type' ) == "viewapplicants") {
 					return dirname(__FILE__) . '/view/view-jobapplicants.php';
+				} elseif (get_query_var( 'type' ) == "emailapplicant") {
+					return dirname(__FILE__) . '/view/casting-emailapplicant.php';
 				}
 
 			}
