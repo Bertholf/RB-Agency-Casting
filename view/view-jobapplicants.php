@@ -43,6 +43,23 @@ jQuery(document).ready(function(){
 			}
 		}
 	});
+	
+	jQuery(".star").mouseover(function(){
+				
+		jQuery(this).css('background-position','0px 0px');
+		jQuery(this).prevAll(".star").css('background-position','0px 0px');
+		jQuery(this).nextAll(".star").css('background-position','0px -15px');
+
+	});
+	
+	jQuery(".rate").click(function(){
+		
+		var loader = "<?php echo plugins_url('rb-agency-casting/view/loader.gif'); ?>";
+		
+		jQuery(this).nextAll(".loading").html("<img src='"+loader+"'>");	
+	
+	});
+	
 });
 </script>
 
@@ -213,11 +230,10 @@ if (is_user_logged_in()) {
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">Select</th>\n";
-		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">ID</th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Criteria Passed</th>\n";
-		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Applicant Message</th>\n";		
+		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Application Letter</th>\n";		
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Action</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
@@ -239,8 +255,7 @@ if (is_user_logged_in()) {
 				}
 				echo "    <tr>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID.":".$load->app_id."'></td>\n";
-				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
-				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
+				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."<br><div style='margin-top:12px; font-size:11px'>Job ID# : ".$load->Job_ID."</div></td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
 				
 				// applicant image
@@ -289,7 +304,20 @@ if (is_user_logged_in()) {
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
 				echo "        <a class='send_invite' href='javascript:;'>Send Invite</a><br>";
-				echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br></td>\n";
+				echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br>";
+				echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
+				
+				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');
+				
+				echo "        <div style='clear:both; margin-top:5px'>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
+				echo "        </div>
+							  <input type='button' class='rate' value='Rate'> <div class='loading' style='float:right; margin-right:15px; margin-top:5px; width:20px; height:20px'></div>	  	
+						  </td>\n";
 				echo "    </tr>\n";
 			}
 			echo "</table>";
