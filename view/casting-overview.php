@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+session_destroy();
+
 global $current_user;
 get_currentuserinfo();
 $curauth = get_user_by('id', $current_user->ID);
