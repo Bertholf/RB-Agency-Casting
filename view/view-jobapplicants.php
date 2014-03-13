@@ -23,6 +23,22 @@ jQuery(document).ready(function(){
 		jQuery(this).html("Sending...");
 		jQuery(this).html("Invited.");
 	});
+	jQuery("#action_submit").click(function(){
+		
+		if(jQuery("#action_dropdown").val() == ''){
+			alert("You need to select an action first to proceed.");
+		} else {
+			if(jQuery("#action_dropdown").val() == '1'){
+				var $href = "All";
+			} else if(jQuery("#action_dropdown").val() == '0'){
+				var $href = "";
+				jQuery(".select_app:checked").each(function(){
+					$href = $href + "|" + jQuery(this).val();				
+				});
+			}
+			window.location.href = "<?php echo get_bloginfo('wpurl') ?>/email-applicant/" + $href;
+		}
+	});
 });
 </script>
 
@@ -218,7 +234,7 @@ if (is_user_logged_in()) {
 					$display = $details->ProfileContactNameFirst;
 				}
 				echo "    <tr>\n";
-				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select'></td>\n";
+				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID."-".$load->app_id."'></td>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
@@ -283,7 +299,16 @@ if (is_user_logged_in()) {
 		
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
-
+		
+		echo "<br><p style=\"width:100%;\">
+				<select id='action_dropdown'>
+					<option value=''>-- Select Action --</option>
+					<option value='0'>Send Email to Selected</option>
+					<option value='1'>Send Email to All</option>
+				</select>
+				<input type='button' id='action_submit' style='margin-left:12px' class='button-primary' value='Submit'>
+			  </p>\n";		
+		
 		if(strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
 		}		
