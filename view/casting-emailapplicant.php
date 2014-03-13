@@ -115,11 +115,34 @@
 				
 				//only selected emails
 				else{
+					
+					$rec = explode(";",$job_id);
+					
+					//get recipients
+					$recipient_array = array();
+					foreach($rec as $details){
+						$r = explode(":",$details);
+						$recipient_array[] = $r[1];
+					}
+					
+					$recipients = array();
+					
+					foreach($recipient_array as $userlinked){
+						$recipient_email = RBAgency_Casting::rb_casting_ismodel($userlinked, "ProfileContactEmail");
+						if(!in_array($recipient_email, $recipients) && $recipient_email != false){
+							$recipients[] = $recipient_email;
+						}
+					}
+					
+					if(!empty($recipients)){
+						$headers = 'From: '. get_option('blogname') .' <'. $_POST['sender_email'] .'>' . "\r\n";
+						wp_mail($recipients, htmlspecialchars($_POST['subject']) , htmlspecialchars($_POST['sender_message']), $headers); 
+						$remarks = __("Message was successfully sent!<br />", rb_agency_casting_TEXTDOMAIN);
+					} else {
+						$remarks = __("Recipients Email is not available.<br />", rb_agency_casting_TEXTDOMAIN);
+					}					
 				
 				}
-				
-			 
-			 
 			 
 			 }
 		
