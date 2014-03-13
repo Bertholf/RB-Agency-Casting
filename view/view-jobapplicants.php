@@ -241,6 +241,17 @@ if (is_user_logged_in()) {
 		
 		echo "			 </select>		
 					  </td>\n";
+		echo "        <td>Your Rating<br>
+						 <select name='filter_rating'>
+						 	<option value=''> - </option>";
+							
+							$page = 1;
+							for($page = 1; $page <= 5; $page ++){
+								echo "<option value='$page' ".selected($page, $rating,false).">$page star</option>";
+							}
+		
+		echo "			 </select>		
+					  </td>\n";					  
 					  
 		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
 		echo "    </tr>\n";
