@@ -265,6 +265,7 @@ class RBAgencyCasting {
 					Job_Criteria_Passed INT(3),
 					Job_Criteria_Details TEXT,
 					Job_Criteria_Percentage INT(3),
+					Job_Client_Rating INT(3),
 					Job_Pitch TEXT,
 					PRIMARY KEY (Job_Application_ID)
 					);";
