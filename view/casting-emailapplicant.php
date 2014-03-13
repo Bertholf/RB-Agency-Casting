@@ -28,7 +28,7 @@
 
 	// check if this is single email only	
 	$single_email = false;
-	if($user_linked_id == ""){
+	if($user_linked_id != ""){
 		$single_email = true;
 		$contact_display = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactDisplay");
 		$message = "Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename;	
@@ -88,6 +88,20 @@
 				
 				//get all emails
 				if($job_id == "All"){
+
+					//load jobs by current user
+					$load_message = $wpdb->get_results("SELECT applicants.Job_UserLinked as app_id  FROM " 
+													  . table_agency_casting_job_application .
+													  " applicants LEFT JOIN " . table_agency_casting_job . 
+									   			      " jobs ON jobs.Job_ID = applicants.Job_ID 
+										 			    WHERE jobs.Job_UserLinked = " . $current_user->ID. " 
+													    GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC") or die(mysql_error());
+					
+					echo "<pre>";
+					print_r($load_message);
+					echo "</pre>";
+					
+					exit;															
 				
 				}
 				
