@@ -18,14 +18,21 @@
 	
 	$job_id = get_query_var('target');
 	$user_linked_id = get_query_var('value');
-	
-	$contact_display = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactDisplay");
-	
-	//setup initial details
+
+	// single data only
 	$name = $current_user->user_nicename;
 	$email = $current_user->user_email;
 	$subject = '[Your Subject Here]';
-	$message = "Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename;
+	$contact_display = "Talent";
+	$message = "Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename;	
+
+	// check if this is single email only	
+	$single_email = false;
+	if($user_linked_id == ""){
+		$single_email = true;
+		$contact_display = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactDisplay");
+		$message = "Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename;	
+	}
 	
 	/*
 	 * SEND EMAIL
@@ -55,7 +62,47 @@
 		}
 		
 		if($remarks == ''){
-			$remarks = "Message was successfully sent!<br>";
+			
+			/*
+			 * Actual Single Email Submission
+			 */
+			 if($single_email){
+				 
+			 		$recipient = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactEmail");
+					if($recipient != ""){
+						$headers = 'From: '. get_option('blogname') .' <'. $_POST['sender_email'] .'>' . "\r\n";
+						wp_mail($recipient, htmlspecialchars($_POST['subject']) , htmlspecialchars($_POST['sender_message']), $headers); 
+						$remarks .= __("You must have a valid message.<br />", rb_agency_casting_TEXTDOMAIN);
+					} else {
+						$remarks .= __("Recipients Email is not available.<br />", rb_agency_casting_TEXTDOMAIN);
+					}
+					
+			 } 
+			 
+			/*
+			 * Actual Multiple Email Submission
+			 */
+			 else {
+			 	
+				$recipients = array();
+				
+				//get all emails
+				if($job_id == "All"){
+				
+				}
+				
+				//only selected emails
+				else{
+				
+				}
+				
+			 
+			 
+			 
+			 }
+			
+			 $remarks = "Message was successfully sent!<br>";
+		
 		}
 		
 		//reset for post details
