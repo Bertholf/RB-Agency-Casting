@@ -90,18 +90,26 @@
 				if($job_id == "All"){
 
 					//load jobs by current user
-					$load_message = $wpdb->get_results("SELECT applicants.Job_UserLinked as app_id  FROM " 
+					$load_emails = $wpdb->get_results("SELECT applicants.Job_UserLinked as app_id  FROM " 
 													  . table_agency_casting_job_application .
 													  " applicants LEFT JOIN " . table_agency_casting_job . 
 									   			      " jobs ON jobs.Job_ID = applicants.Job_ID 
 										 			    WHERE jobs.Job_UserLinked = " . $current_user->ID. " 
 													    GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC") or die(mysql_error());
 					
-					echo "<pre>";
-					print_r($load_message);
-					echo "</pre>";
+					$recipients = array();
 					
-					exit;															
+					foreach($load_emails as $emails){
+						$recipients[] = RBAgency_Casting::rb_casting_ismodel($emails->app_id, "ProfileContactEmail");
+					}
+					
+					if(!empty($recipients)){
+						$headers = 'From: '. get_option('blogname') .' <'. $_POST['sender_email'] .'>' . "\r\n";
+						wp_mail($recipients, htmlspecialchars($_POST['subject']) , htmlspecialchars($_POST['sender_message']), $headers); 
+						$remarks .= __("You must have a valid message.<br />", rb_agency_casting_TEXTDOMAIN);
+					} else {
+						$remarks .= __("Recipients Email is not available.<br />", rb_agency_casting_TEXTDOMAIN);
+					}
 				
 				}
 				
