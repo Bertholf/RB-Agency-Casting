@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
 			} else if(jQuery("#action_dropdown").val() == '0'){
 				var $href = "";
 				jQuery(".select_app:checked").each(function(){
-					$href = $href + "|" + jQuery(this).val();				
+					$href = $href + ";" + jQuery(this).val();				
 				});
 			}
 			window.location.href = "<?php echo get_bloginfo('wpurl') ?>/email-applicant/" + $href;
@@ -234,7 +234,7 @@ if (is_user_logged_in()) {
 					$display = $details->ProfileContactNameFirst;
 				}
 				echo "    <tr>\n";
-				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID."-".$load->app_id."'></td>\n";
+				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID.":".$load->app_id."'></td>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
