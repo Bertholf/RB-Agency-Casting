@@ -25,7 +25,7 @@
 	$name = $current_user->user_nicename;
 	$email = $current_user->user_email;
 	$subject = '[Your Subject Here]';
-	$message = 'Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n'.$current_user->user_nicename;
+	$message = "Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename;
 	
 	/*
 	 * SEND EMAIL
