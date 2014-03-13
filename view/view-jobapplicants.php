@@ -49,15 +49,37 @@ jQuery(document).ready(function(){
 		jQuery(this).css('background-position','0px 0px');
 		jQuery(this).prevAll(".star").css('background-position','0px 0px');
 		jQuery(this).nextAll(".star").css('background-position','0px -15px');
+		var count = jQuery(this).prevAll(".star").length + 1;
+		jQuery(this).parent().nextAll('.clients_rating').eq(0).val(count);
 
 	});
 	
 	jQuery(".rate").click(function(){
 		
 		var loader = "<?php echo plugins_url('rb-agency-casting/view/loader.gif'); ?>";
-		
+		var check = "<?php echo plugins_url('rb-agency-casting/view/check.png'); ?>";
+
 		jQuery(this).nextAll(".loading").html("<img src='"+loader+"'>");	
-	
+		
+		var app_id = jQuery(this).prevAll(".application_id").eq(0).val();
+
+		var rating = jQuery(this).prevAll(".clients_rating").eq(0).val();
+		
+		var loading = jQuery(this).nextAll(".loading");
+		
+		jQuery.ajax({
+				type: "POST",
+				url: "<?php echo admin_url('admin-ajax.php') ?>",
+				data: {
+					action: "rate_applicant",
+					'application_id': app_id,
+					'clients_rating': rating
+				},
+				success: function (results) {
+					loading.html("<img src='"+check+"'>");
+				}
+		});
+
 	});
 	
 });
@@ -240,7 +262,7 @@ if (is_user_logged_in()) {
 		
 		// load all job postings
 		//for admin view
-		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application .
+		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_Application_ID  FROM " . table_agency_casting_job_application .
 											 $where
 											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
 											 LIMIT " . $limit1 . "," . $record_per_page );
@@ -310,12 +332,14 @@ if (is_user_logged_in()) {
 				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');
 				
 				echo "        <div style='clear:both; margin-top:5px'>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") 0px -15px;'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 1 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 2 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 3 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 4 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating == 5 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
 				echo "        </div>
+							  <input type='hidden' class='application_id' value='".$load->Job_Application_ID."'>
+							  <input type='hidden' class='clients_rating' value='".$load->Job_Client_Rating."'>
 							  <input type='button' class='rate' value='Rate'> <div class='loading' style='float:right; margin-right:15px; margin-top:5px; width:20px; height:20px'></div>	  	
 						  </td>\n";
 				echo "    </tr>\n";

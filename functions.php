@@ -93,6 +93,27 @@
 	}
 	add_action('wp_ajax_get_state_json', 'get_state_json');
 	add_action('wp_ajax_nopriv_get_state_json', 'get_state_json');
+	
+   /*
+	* rate applicant
+	*/
+	
+	function rate_applicant(){
+		
+		global $wpdb;
+		
+		$application_id = $_POST['application_id'];
+		$rating = $_POST['clients_rating'];
+		
+		$update = "UPDATE " . table_agency_casting_job_application .
+		          " SET Job_Client_Rating = " . $rating . " WHERE Job_Application_ID = " . $application_id;
+		
+		mysql_query($update) or die(mysql_error());		  
+		
+		die();	
+	}
+	add_action('wp_ajax_rate_applicant', 'rate_applicant');
+	add_action('wp_ajax_rate_applicant', 'rate_applicant');
 
 	/*/
 	* ======================== Get Favorite & Casting Cart Links ===============
