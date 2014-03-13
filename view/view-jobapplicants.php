@@ -192,6 +192,7 @@ if (is_user_logged_in()) {
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
+		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">Select</th>\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">ID</th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
@@ -217,6 +218,7 @@ if (is_user_logged_in()) {
 					$display = $details->ProfileContactNameFirst;
 				}
 				echo "    <tr>\n";
+				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select'></td>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
@@ -281,7 +283,11 @@ if (is_user_logged_in()) {
 		
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
-		
+
+		if(strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
+			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
+		}		
+
 		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";		
 		
 	} else {
