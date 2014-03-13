@@ -36,7 +36,11 @@ jQuery(document).ready(function(){
 					$href = $href + ";" + jQuery(this).val();				
 				});
 			}
-			window.location.href = "<?php echo get_bloginfo('wpurl') ?>/email-applicant/" + $href;
+			if($href == ""){
+				alert("You must select a recipient from applicant lists before proceeding!");
+			} else {
+				window.location.href = "<?php echo get_bloginfo('wpurl') ?>/email-applicant/" + $href;
+			}
 		}
 	});
 });
