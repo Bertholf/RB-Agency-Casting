@@ -167,6 +167,13 @@ echo "					<p id=\"emailSent\">Email Sent Succesfully! Go Back to <a href=\"". g
 
 
 echo "			<div class=\"cb\"></div>\n";
+
+
+echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a></p>\n";		
+
+
+echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";		
+
 echo "			<input type=\"hidden\" name=\"castingcart\" value=\"1\"/>";
 echo "  	</div>\n";
 echo "  </div>\n";
