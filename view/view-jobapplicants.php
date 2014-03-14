@@ -181,6 +181,12 @@ if (is_user_logged_in()) {
 			$limit1 = 0;
 		}				
 		
+		// this query is going to used by email all visible
+		$_SESSION['Current_User_Query'] = "SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_Application_ID  FROM " 
+										  . table_agency_casting_job_application . $where
+										  . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
+										  LIMIT " . $limit1 . "," . $record_per_page ;
+		
 		// setup filter display
 		echo "<form method='GET' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
@@ -371,7 +377,7 @@ if (is_user_logged_in()) {
 				<select id='action_dropdown'>
 					<option value=''>-- Select Action --</option>
 					<option value='0'>Send Email to Selected</option>
-					<option value='1'>Send Email to All</option>
+					<option value='1'>Send Email to All Visible</option>
 				</select>
 				<input type='button' id='action_submit' style='margin-left:12px' class='button-primary' value='Submit'>
 			  </p>\n";		

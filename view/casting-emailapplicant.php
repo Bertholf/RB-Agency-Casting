@@ -88,19 +88,18 @@
 				
 				//get all emails
 				if($job_id == "All"){
+					
+					$main_query = $_SESSION['Current_User_Query'];
 
-					//load jobs by current user
-					$load_emails = $wpdb->get_results("SELECT applicants.Job_UserLinked as app_id  FROM " 
-													  . table_agency_casting_job_application .
-													  " applicants LEFT JOIN " . table_agency_casting_job . 
-									   			      " jobs ON jobs.Job_ID = applicants.Job_ID 
-										 			    WHERE jobs.Job_UserLinked = " . $current_user->ID. " 
-													    GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC") or die(mysql_error());
+					$load_emails = $wpdb->get_results($main_query) or die(mysql_error()); 
 					
 					$recipients = array();
 					
-					foreach($load_emails as $emails){
-						$recipients[] = RBAgency_Casting::rb_casting_ismodel($emails->app_id, "ProfileContactEmail");
+					foreach($load_emails as $user){
+						$recipient_email = RBAgency_Casting::rb_casting_ismodel($user->Job_UserLinked, "ProfileContactEmail");
+						if(!in_array($recipient_email, $recipients) && $recipient_email != false){
+							$recipients[] = $recipient_email;
+						}
 					}
 					
 					if(!empty($recipients)){
