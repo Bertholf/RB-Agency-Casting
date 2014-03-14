@@ -410,7 +410,7 @@ if (is_user_logged_in()) {
 				echo "        </div>
 							  <input type='hidden' class='application_id' value='".$load->Job_Application_ID."'>
 							  <input type='hidden' class='clients_rating' value='".$load->Job_Client_Rating."'>
-							  <input type='button' class='rate' value='Rate'> <div class='loading' style='float:right; margin-right:15px; margin-top:5px; width:20px; height:20px'></div>	  	
+							  <input type='button' class='rate' value='Rate' style='clear:both; float:left'> <div class='loading' style='float:right; margin-right:15px; margin-top:5px; width:20px; height:20px'></div>	  	
 						  </td>\n";
 				echo "    </tr>\n";
 			}
