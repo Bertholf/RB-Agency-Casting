@@ -229,6 +229,18 @@ if (is_user_logged_in()) {
 						 </select>		
 					  </td>\n";
 
+		echo "        <td>Your Rating<br>
+						 <select name='filter_rating'>
+						 	<option value=''> - </option>";
+							
+							$page = 1;
+							for($page = 1; $page <= 5; $page ++){
+								echo "<option value='$page' ".selected($page, $rating,false).">$page star</option>";
+							}
+		
+		echo "			 </select>		
+					  </td>\n";	
+
 		echo "        <td>Records Per Page<br>
 						 <select name='filter_perpage'>
 						 	<option value=''>- # of Rec -</option>";
@@ -241,17 +253,6 @@ if (is_user_logged_in()) {
 		
 		echo "			 </select>		
 					  </td>\n";
-		echo "        <td>Your Rating<br>
-						 <select name='filter_rating'>
-						 	<option value=''> - </option>";
-							
-							$page = 1;
-							for($page = 1; $page <= 5; $page ++){
-								echo "<option value='$page' ".selected($page, $rating,false).">$page star</option>";
-							}
-		
-		echo "			 </select>		
-					  </td>\n";					  
 					  
 		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
 		echo "    </tr>\n";
@@ -263,7 +264,7 @@ if (is_user_logged_in()) {
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">Select</th>\n";
-		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
+		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title / ID</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Criteria Passed</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Application Letter</th>\n";		
