@@ -1312,7 +1312,7 @@ class RBAgency_Casting {
 								foreach($talent_arr as $talent){
 									
 									$data = explode(":",$talent);
-									$talent = $data[1];
+									$talent = self::rb_casting_ismodel($data[1], "ProfileID");
 									$JobID = $data[0];
 									
 									$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
@@ -1332,7 +1332,8 @@ class RBAgency_Casting {
 								echo json_encode($arr);
 							
 							} else {
-							
+								
+								$talent = self::rb_casting_ismodel($talent, "ProfileID");
 								$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
 								$count_castingcart = mysql_num_rows($query_castingcart);
 								$datas_castingcart = mysql_fetch_assoc($query_castingcart);
@@ -1373,7 +1374,8 @@ class RBAgency_Casting {
 					if(is_user_logged_in()){ 
 
 						if(isset($talent) && $talent ){ 
-
+						
+							$talent = self::rb_casting_ismodel($talent, "ProfileID");
 							$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
 							$count_castingcart = mysql_num_rows($query_castingcart);
 							
