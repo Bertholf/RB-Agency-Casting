@@ -82,6 +82,12 @@ jQuery(document).ready(function(){
 
 	});
 	
+	jQuery(".add_casting").click(function(){
+		
+		alert("test");
+		
+	});
+	
 });
 </script>
 
@@ -357,6 +363,7 @@ if (is_user_logged_in()) {
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
 				echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br>";
+				echo "        <a class = 'add_casting' href='javascript:;'>Add to CastingCart</a><br>";				
 				echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
 				
 				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');

@@ -1289,7 +1289,41 @@ class RBAgency_Casting {
 
 				 return "";
 			 
-			 }			  
+			 }		
+			 
+			/* 
+			 *  update casting cart
+			 */
+  			 public static function rb_update_castingcart() {
+
+					global $wpdb;
+		
+					if(is_user_logged_in()){ 
+
+						if(isset($_POST["talentID"])){ 
+
+							$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$_POST["talentID"]."  AND CastingCartProfileID = ".rb_agency_get_current_userid()) or die("error");
+							$count_castingcart = mysql_num_rows($query_castingcart);
+							$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+		
+							if($count_castingcart<=0){ //if not exist insert favorite!
+								$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = " .rb_agency_get_current_userid()  . ", CastingCartTalentID = " . $_POST["talentID"]; 
+								echo "inserted";
+							} else { // favorite model exist, now delete!
+								mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") or die("error");
+								echo "deleted";
+							}
+
+						}
+					}
+
+					else {
+						echo "not_logged";
+					}
+
+					die();
+
+				}	  
 		  		  
 
 // end class
