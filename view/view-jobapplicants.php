@@ -70,7 +70,11 @@ jQuery(document).ready(function(){
 			} else {
 			
 				if(jQuery("#action_dropdown").val() == '1'){
-					var $href = "All";
+					if(jQuery(".select_app").length > 0){
+						var $href = "All";
+					} else {
+						var $href = "";
+					}
 				} else if(jQuery("#action_dropdown").val() == '0'){
 					var $href = "";
 					jQuery(".select_app:checked").each(function(){
