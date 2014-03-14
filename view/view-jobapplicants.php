@@ -182,7 +182,7 @@ if (is_user_logged_in()) {
 		}				
 		
 		// this query is going to used by email all visible
-		$_SESSION['Current_User_Query'] = "SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_Application_ID  FROM " 
+		$_SESSION['Current_User_Query'] = "SELECT applicants.Job_UserLinked FROM " 
 										  . table_agency_casting_job_application . $where
 										  . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
 										  LIMIT " . $limit1 . "," . $record_per_page ;
