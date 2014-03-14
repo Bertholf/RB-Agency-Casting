@@ -1297,27 +1297,58 @@ class RBAgency_Casting {
   			 public static function rb_update_castingcart($talent = NULL, $JobID = NULL) {
 
 					global $wpdb;
-					
+
 					if(is_null($talent) && $talent != '') return "";
 					if(is_null($JobID) && $JobID != '') return "";
 		
 					if(is_user_logged_in()){ 
 
 						if(isset($talent) && $talent ){ 
+							
+							if(strpos("none", $JobID) > -1 ){
+								
+								$talent_arr = trim($talent,";");
+								$talent_arr = explode(";",$talent_arr);
+								foreach($talent_arr as $talent){
+									
+									$data = explode(":",$talent);
+									$talent = $data[1];
+									$JobID = $data[0];
+									
+									$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
+									$count_castingcart = mysql_num_rows($query_castingcart);
+									$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+				
+									if($count_castingcart<=0){ //if not exist insert favorite!
+										$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = " .rb_agency_get_current_userid()  . ", CastingCartTalentID = " . $talent . ", CastingJobID = " . $JobID; 
+										mysql_query($insert) or die(mysql_error());
+									} else { // favorite model exist, now delete!
+										mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = ".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid()." AND CastingJobID = " . $JobID) or die(mysql_error());
+									}
+									
+								}								
 
-							$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die("error");
-							$count_castingcart = mysql_num_rows($query_castingcart);
-							$datas_castingcart = mysql_fetch_assoc($query_castingcart);
-		
-							if($count_castingcart<=0){ //if not exist insert favorite!
-								$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = " .rb_agency_get_current_userid()  . ", CastingCartTalentID = " . $talent . ", CastingJobID = " . $JobID; 
-								mysql_query($insert) or die(mysql_error());
-								$arr = array( "data" => "inserted");
+								$arr = array( "data" => "success");
 								echo json_encode($arr);
-							} else { // favorite model exist, now delete!
-								mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$talent."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") or die("error");
-								$arr = array("data" => "deleted");
-								echo json_encode($arr);							}
+							
+							} else {
+							
+								$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
+								$count_castingcart = mysql_num_rows($query_castingcart);
+								$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+			
+								if($count_castingcart<=0){ //if not exist insert favorite!
+									$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = " .rb_agency_get_current_userid()  . ", CastingCartTalentID = " . $talent . ", CastingJobID = " . $JobID; 
+									mysql_query($insert) or die(mysql_error());
+									$arr = array( "data" => "inserted");
+									echo json_encode($arr);
+								} else { // favorite model exist, now delete!
+									mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = ".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid(). " AND CastingJobID = " . $JobID)  or die("error");
+									$arr = array("data" => "deleted");
+									echo json_encode($arr);							
+								}
+							
+							}
 
 						}
 					}
