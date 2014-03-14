@@ -475,6 +475,8 @@ if (is_user_logged_in()) {
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
 		}		
 
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart.</a></p>\n";		
+		
 		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";		
 		
 	} else {
