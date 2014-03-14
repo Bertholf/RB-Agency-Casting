@@ -451,6 +451,22 @@
 	add_action('wp_ajax_load_criteria_fields', 'load_criteria_fields');
 	add_action('wp_ajax_nopriv_load_criteria_fields', 'load_criteria_fields');	
 
+   /*
+	*  add to casting cart
+	*/
+	function client_add_casting(){
+		
+		$data = $_POST['talent_id'];
+		
+		include (dirname(__FILE__) ."/app/casting.class.php");
+
+		//load ajax functions
+		RBAgency_Casting::rb_update_castingcart($data);
+
+	}
+
+	add_action('wp_ajax_client_add_casting', 'client_add_casting');
+	add_action('wp_ajax_client_add_casting', 'client_add_casting');	
 
 
 	/*/

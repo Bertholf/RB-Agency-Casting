@@ -82,9 +82,34 @@ jQuery(document).ready(function(){
 
 	});
 	
-	jQuery(".add_casting").click(function(){
+	jQuery("body").on('click','.add_casting', function(){
 		
-		alert("test");
+		var loader = "<?php echo plugins_url('rb-agency-casting/view/loader.gif'); ?>";
+
+		jQuery(this).html("<img src='"+loader+"'>");	
+		
+		var $this = jQuery(this);
+		
+		var profile_id = jQuery(this).prevAll(".profile_id").eq(0).val();
+
+		jQuery.ajax({
+				type: "POST",
+				url: "<?php echo admin_url('admin-ajax.php') ?>",
+				dataType: 'json',
+				data: {
+					action: "client_add_casting",
+					'talent_id': profile_id
+				},
+				success: function (results) {
+						if(results.data == ""){
+							$this.html("Failed. Retry.");	
+						} else if(results.data == "inserted"){
+							$this.html("Remove from Casting");	
+						} else if(results.data == "deleted"){
+							$this.html("Add to CastingCart");	
+						}
+  			    }
+		});
 		
 	});
 	
