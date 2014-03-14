@@ -109,6 +109,7 @@ if (is_user_logged_in()) {
 			$_SESSION['applicant'] = "";
 			$_SESSION['percentage'] = "";
 			$_SESSION['perpage'] = "";
+			$_SESSION['rating'] = "";
 
 			// job title
 			if(isset($_GET['filter_jobtitle']) && $_GET['filter_jobtitle'] != ""){
@@ -132,6 +133,17 @@ if (is_user_logged_in()) {
 			}
 
 			// perpage
+			if(isset($_GET['filter_rating']) && $_GET['filter_rating'] != ""){
+				$_SESSION['rating'] = $_GET['filter_rating'];
+				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
+				if($_SESSION['rating'] == 'not_rated'){
+					$_SESSION['filter'] .= $AND . "Job_Client_Rating = ''";
+				} else {
+					$_SESSION['filter'] .= $AND . "Job_Client_Rating = " . $_SESSION['rating'];
+				}
+			}		
+
+			// perpage
 			if(isset($_GET['filter_perpage']) && $_GET['filter_perpage'] != ""){
 				$_SESSION['job_perpage'] = $_GET['filter_perpage'];
 			}			
@@ -142,6 +154,7 @@ if (is_user_logged_in()) {
 		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
 		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
 		$jobtitle = (isset($_SESSION['job_title']) && $_SESSION['job_title'] != "") ? $_SESSION['job_title'] : "";
+		$rating = (isset($_SESSION['rating']) && $_SESSION['rating'] != "") ? $_SESSION['rating'] : "";
 		$perpage = (isset($_SESSION['job_perpage']) && $_SESSION['job_perpage'] != "") ? $_SESSION['job_perpage'] : 2;
 		
 		//pagination setup
@@ -238,10 +251,10 @@ if (is_user_logged_in()) {
 		echo "        <td>Your Rating<br>
 						 <select name='filter_rating'>
 						 	<option value=''> - </option>";
-							
+						    echo "<option value='not_rated' ".selected('not_rated', $rating,false).">No Rating</option>";							
 							$page = 1;
 							for($page = 1; $page <= 5; $page ++){
-								echo "<option value='$page' ".selected($page, $rating,false).">$page star</option>";
+								echo "<option value='$page' ".selected($page, $rating,false).">$page Star</option>";
 							}
 		
 		echo "			 </select>		
