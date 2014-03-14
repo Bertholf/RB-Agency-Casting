@@ -143,7 +143,7 @@ if (is_user_logged_in()) {
 				$_SESSION['rating'] = $_GET['filter_rating'];
 				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
 				if($_SESSION['rating'] == 'not_rated'){
-					$_SESSION['filter'] .= $AND . "Job_Client_Rating = ''";
+					$_SESSION['filter'] .= $AND . "(Job_Client_Rating = '' OR Job_Client_Rating IS NULL)";
 				} else {
 					$_SESSION['filter'] .= $AND . "Job_Client_Rating = " . $_SESSION['rating'];
 				}
