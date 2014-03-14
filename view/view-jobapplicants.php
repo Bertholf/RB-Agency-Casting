@@ -91,6 +91,8 @@ jQuery(document).ready(function(){
 		var $this = jQuery(this);
 		
 		var profile_id = jQuery(this).prevAll(".profile_id").eq(0).val();
+		
+		var job_id = jQuery(this).prevAll(".job_id").eq(0).val();		
 
 		jQuery.ajax({
 				type: "POST",
@@ -98,6 +100,7 @@ jQuery(document).ready(function(){
 				dataType: 'json',
 				data: {
 					action: "client_add_casting",
+					'job_id' : job_id,
 					'talent_id': profile_id
 				},
 				success: function (results) {
@@ -388,7 +391,12 @@ if (is_user_logged_in()) {
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
 				echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br>";
-				echo "        <a class = 'add_casting' href='javascript:;'>Add to CastingCart</a><br>";				
+				
+				if(RBAgency_Casting::rb_check_in_cart($load->app_id,$load->Job_ID)){
+					echo "        <a class = 'add_casting' href='javascript:;'>Remove from Casting</a><br>";				
+				} else {
+					echo "        <a class = 'add_casting' href='javascript:;'>Add to CastingCart</a><br>";				
+				}
 				echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
 				
 				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');

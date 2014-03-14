@@ -456,12 +456,13 @@
 	*/
 	function client_add_casting(){
 		
-		$data = $_POST['talent_id'];
+		$profile_id = $_POST['talent_id'];
+		$job_id = $_POST['job_id'];
 		
 		include (dirname(__FILE__) ."/app/casting.class.php");
 
 		//load ajax functions
-		RBAgency_Casting::rb_update_castingcart($data);
+		RBAgency_Casting::rb_update_castingcart($profile_id,$job_id);
 
 	}
 
