@@ -28,18 +28,52 @@ jQuery(document).ready(function(){
 		if(jQuery("#action_dropdown").val() == ''){
 			alert("You need to select an action first to proceed.");
 		} else {
-			if(jQuery("#action_dropdown").val() == '1'){
-				var $href = "All";
-			} else if(jQuery("#action_dropdown").val() == '0'){
-				var $href = "";
-				jQuery(".select_app:checked").each(function(){
-					$href = $href + ";" + jQuery(this).val();				
-				});
-			}
-			if($href == ""){
-				alert("You must select a recipient from applicant lists before proceeding!");
+			if(jQuery("#action_dropdown").val() == '2'){
+
+					var data = "";
+					jQuery(".select_app:checked").each(function(){
+						data = data + ";" + jQuery(this).val();				
+					});
+					
+					if(data == ""){
+						alert("You must select at least one from the applicants list before proceeding!");
+					} else {
+						var loader = "<?php echo plugins_url('rb-agency-casting/view/loader.gif'); ?>";
+				
+						jQuery(this).nextAll("#re_bottom").html("<img src='"+loader+"'>");	
+					
+						jQuery.ajax({
+								type: "POST",
+								url: "<?php echo admin_url('admin-ajax.php') ?>",
+								dataType: 'json',
+								data: {
+									action: "client_add_casting",
+									'talent_id' : data,
+									'job_id': "none"
+								},
+								success: function (results) {
+									if(results.data == "success"){
+										window.location.href = window.location.pathname;
+									}
+								}
+						});
+					}
 			} else {
-				window.location.href = "<?php echo get_bloginfo('wpurl') ?>/email-applicant/" + $href;
+			
+				if(jQuery("#action_dropdown").val() == '1'){
+					var $href = "All";
+				} else if(jQuery("#action_dropdown").val() == '0'){
+					var $href = "";
+					jQuery(".select_app:checked").each(function(){
+						$href = $href + ";" + jQuery(this).val();				
+					});
+				}
+				if($href == ""){
+					alert("You must select a recipient from applicant lists before proceeding!");
+				} else {
+					window.location.href = "<?php echo get_bloginfo('wpurl') ?>/email-applicant/" + $href;
+				}
+			
 			}
 		}
 	});
@@ -426,14 +460,16 @@ if (is_user_logged_in()) {
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
 		
-		echo "<br><p style=\"width:100%;\">
-				<select id='action_dropdown'>
+		echo "<br><div style=\"width:100%; margin-bottom:20px; clear:both; float:left;\">
+				<select id='action_dropdown' style='float:left'>
 					<option value=''>-- Select Action --</option>
+					<option value='2'>Add/Remove to Casting Cart</option>
 					<option value='0'>Send Email to Selected</option>
 					<option value='1'>Send Email to All Visible</option>
 				</select>
-				<input type='button' id='action_submit' style='margin-left:12px' class='button-primary' value='Submit'>
-			  </p>\n";		
+				<input type='button' id='action_submit' style='margin-left:12px; float:left' class='button-primary' value='Submit'>
+				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
+			  </div>\n";		
 		
 		if(strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
