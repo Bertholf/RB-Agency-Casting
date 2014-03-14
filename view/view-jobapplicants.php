@@ -23,6 +23,15 @@ jQuery(document).ready(function(){
 		jQuery(this).html("Sending...");
 		jQuery(this).html("Invited.");
 	});
+	
+	jQuery("#sel_all").click(function(){
+		if(jQuery(this).is(':checked')){
+			jQuery(".select_app").attr("checked",true);
+		} else {
+			jQuery(".select_app").attr("checked",false);
+		}
+	});
+	
 	jQuery("#action_submit").click(function(){
 		
 		if(jQuery("#action_dropdown").val() == ''){
@@ -350,8 +359,8 @@ if (is_user_logged_in()) {
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
-		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">Select</th>\n";
-		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title / ID</th>\n";
+		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\">Select<br><input type='checkbox' id='sel_all'></th>\n";
+		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:100px;\">Job Title / ID</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Criteria Passed</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Application Letter</th>\n";		
