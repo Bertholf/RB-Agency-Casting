@@ -183,6 +183,7 @@ class RBAgencyCasting {
 			// Setup > Add to Casting Cart
 				$sql = "CREATE TABLE IF NOT EXISTS ". table_agency_castingcart." (
 					CastingCartID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					CastingJobID BIGINT(20) NOT NULL,
 					CastingCartProfileID VARCHAR(255),
 					CastingCartTalentID VARCHAR(255),
 					PRIMARY KEY (CastingCartID)
