@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 
 global $wpdb;
 global $current_user;
@@ -247,7 +247,7 @@ if (is_user_logged_in()) {
 		
 		//for admin view
 		if ( current_user_can( 'manage_options' ) ) {
-			if($_SESSION['filter'] != ""){
+			if(isset($_SESSION['filter']) && $_SESSION['filter'] != ""){
 				$filter = " WHERE " . $_SESSION['filter']; 
 			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
@@ -484,7 +484,7 @@ if (is_user_logged_in()) {
 				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
 			  </div>\n";		
 		
-		if(strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
+		if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
 		}		
 

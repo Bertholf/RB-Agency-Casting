@@ -3,8 +3,7 @@
 // Get Category
 
 // This is the Portfolio-Category page 
-
-session_start();
+if(!headers_sent())
 header("Cache-control: private"); //IE 6 Fix
 
 // Profile Class
@@ -155,7 +154,7 @@ echo "			</div>\n";
 echo "			<div class=\"cb\"></div>\n";
 					
 					if (function_exists('rb_agency_profilelist')) { 
-						$atts = array("type" => $DataTypeID, "profilecasting" => true);
+						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
 						$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($atts);
 						$view_type = 2; // casting
 						echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type);						

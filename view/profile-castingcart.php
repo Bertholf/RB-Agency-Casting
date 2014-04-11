@@ -1,6 +1,11 @@
 <?php
 
-session_start();
+	add_action('init', 'rb_agency_casting_init_sessions');
+		function rb_agency_casting_init_sessions() {
+			if (!session_id()) {
+				session_start();
+			}
+		}
 echo $rb_header = RBAgency_Common::rb_header();
 // Profile Class
 include(rb_agency_BASEREL ."app/profile.class.php");
