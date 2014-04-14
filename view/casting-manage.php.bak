@@ -13,7 +13,7 @@
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
 	$rb_agency_option_profilenaming  = (int)$rb_agency_options_arr['rb_agency_option_profilenaming'];
-	$rb_agency_interact_option_registerconfirm = (int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'];
+	$rb_agencyinteract_option_registerconfirm = (int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'];
 
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );
@@ -146,7 +146,7 @@
 			$CastingID = $wpdb->insert_id;
 
 			// Log them in if no confirmation required.			
-			if ($rb_agency_interact_option_registerconfirm == 1) {
+			if ($rb_agencyinteract_option_registerconfirm == 1) {
 
 				global $error;
 
@@ -160,7 +160,7 @@
 		}
 
 		// Log them in if no confirmation required.
-		if ($rb_agency_interact_option_registerconfirm == 1) {
+		if ($rb_agencyinteract_option_registerconfirm == 1) {
 			if($login){
 				header("Location: ". get_bloginfo("wpurl"). "/casting-member/");
 			}
@@ -308,7 +308,7 @@
 		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFlickr\" name=\"CastingContactLinkFlickr\" value=\"". $CastingContactLinkFlickr ."\" />\n";
 		echo "	</div></div>\n";
 
-		if ($rb_agency_interact_option_registerallow  == 1) {
+		if ($rb_agencyinteract_option_registerallow  == 1) {
 			echo "	<div id=\"profile-username\" class=\"rbfield rbtext rbsingle\">\n";
 			echo "		<label>". __("Username", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
 			echo "		<div>\n";
@@ -343,42 +343,6 @@
 					// if ( current_user_can("create_users") ) {  _e("Add User", rb_agency_interact_TEXTDOMAIN); } else {  _e("Register", rb_agency_interact_TEXTDOMAIN); } echo "\" />\n";
 					
 					wp_nonce_field("add-user");
-					$fb_app_register_uri = "";
-
-					if($rb_agency_interact_option_fb_app_register_uri == 1){
-						$fb_app_register_uri = $rb_agency_interact_option_fb_app_register_uri;
-					}else{
-						$fb_app_register_uri = network_site_url("/")."casting-register/";
-					}
-
-					// Allow facebook login/registration
-					if($rb_agency_interact_option_fb_registerallow ==1){
-						echo "<div>\n";
-						echo "<span>Or</span>\n";
-						echo "<div id=\"fb_RegistrationForm\">\n";
-						if ($rb_agency_interact_option_registerconfirm == 1) {	 // With custom password fields
-							echo "<iframe src=\"https://www.facebook.com/plugins/registration?client_id=".$rb_agency_interact_option_fb_app_id."&redirect_uri=".$fb_app_register_uri."&fields=[ {'name':'name'}, {'name':'email'}, {'name':'location'}, {'name':'gender'}, {'name':'birthday'}, {'name':'username',  'description':'Username',  'type':'text'},{'name':'password'},{'name':'tos','description':'I agree to the terms of service','type':'checkbox'}]\"		 
-								  scrolling=\"auto\"
-								  frameborder=\"no\"
-								  style=\"border:none\"
-								  allowTransparency=\"true\"
-								  width=\"100%\"
-								  height=\"330\">
-							</iframe>";
-						}else{
-							echo "<iframe src=\"https://www.facebook.com/plugins/registration?client_id=".$rb_agency_interact_option_fb_app_id."&redirect_uri=".$fb_app_register_uri."&fields=[ {'name':'name'}, {'name':'email'}, {'name':'location'}, {'name':'gender'}, {'name':'birthday'}, {'name':'username',  'description':'Username',  'type':'text'},{'name':'password'},{'name':'tos','description':'I agree to the terms of service','type':'checkbox'}]\"		 
-								  scrolling=\"auto\"
-								  frameborder=\"no\"
-								  style=\"border:none\"
-								  allowTransparency=\"true\"
-								  width=\"100%\"
-								  height=\"330\">
-							</iframe>";
-						}
-
-						echo "</div>\n";
-
-					}
 
 	echo "       	<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
 	echo "       </div><!-- #casting-submit -->\n";
@@ -398,7 +362,7 @@ echo "</div><!-- #container -->\n";
 
 // Get Sidebar 
 	$LayoutType = "";
-	if ($rb_agency_interact_option_castingmanage_sidebar) {
+	if ($rb_agencyinteract_option_castingmanage_sidebar) {
 		$LayoutType = "casting";
 		get_sidebar(); 
 	}

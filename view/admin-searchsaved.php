@@ -56,7 +56,7 @@ if (isset($_POST['action'])) {
 
 			$lastid = $wpdb->insert_id;
 
-			echo '<div id="message" class="updated"><p>Search saved successfully! <a href="'. admin_url("admin.php?page=". $_GET['page']) .'&action=emailCompose&SearchID='. $lastid .'&SearchMuxHash='.rb_agency_random(8).'">Send Email</a></p></div>'; 
+			echo '<div id="message" class="updated"><p>Search saved successfully! <a href="'. admin_url("admin.php?page=". $_GET['page']) .'&action=emailCompose&SearchID='. $lastid .'&SearchMuxHash='.RBAgency_Common::generate_random_string(8).'">Send Email</a></p></div>'; 
 
 		} else {
        	echo ('<div id="message" class="error"><p>Error creating record, please ensure you have filled out all required fields.</p></div>'); 
@@ -689,7 +689,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 				?>
 
-					<span class="send"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=emailCompose&SearchID=<?php echo $SearchID."&SearchMuxHash=".rb_agency_random(8); ?>">Create Email</a> | </span>
+					<span class="send"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=emailCompose&SearchID=<?php echo $SearchID."&SearchMuxHash=".RBAgency_Common::generate_random_string(8); ?>">Create Email</a> | </span>
 
 				<?php
 
