@@ -2,10 +2,9 @@
 // *************************************************************************************************** //
 // Prepare Page
 
-	session_start();
-
-	header("Cache-control: private"); //IE 6 Fix
-
+	if (!headers_sent()) {
+		header("Cache-control: private"); //IE 6 Fix
+	}
 	global $wpdb;
 	global $current_user, $wp_roles;
 	get_currentuserinfo();
@@ -15,8 +14,8 @@
 
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
-	$rb_agency_option_profilenaming  = (int)$rb_agency_options_arr['rb_agency_option_profilenaming'];
-	$rb_agency_interact_option_registerconfirm = (int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'];
+	$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
+	$rb_agency_interact_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
 
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );	
@@ -55,53 +54,53 @@
 		$have_error = false;
 		
 		if (!$userdata['user_login']) {
-			$error .= __("A username is required for registration.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("A username is required for registration.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( username_exists($userdata['user_login'])) {
-			$error .= __("Sorry, that username already exists!<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Sorry, that username already exists!<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( !is_email($userdata['user_email'], true)) {
-			$error .= __("You must enter a valid email address.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("You must enter a valid email address.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( email_exists($userdata['user_email'])) {
-			$error .= __("Sorry, that email address is already used!<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Sorry, that email address is already used!<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		
 		if ( empty($_POST['casting_company'])) {
-			$error .= __("Company is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Company is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['casting_website'])) {
-			$error .= __("website is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("website is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['casting_address'])) {
-			$error .= __("Address is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Address is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['casting_city'])) {
-			$error .= __("City is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("City is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['CastingState'])) {
-			$error .= __("State is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("State is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['casting_zip'])) {
-			$error .= __("Zip is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Zip is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_POST['CastingCountry'])) {
-			$error .= __("Country is required.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("Country is required.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
 		if ( $_POST['casting_agree'] <> "yes") {
-			$error .= __("You must agree to the terms and conditions to register.<br />", rb_agency_interact_TEXTDOMAIN);
+			$error .= __("You must agree to the terms and conditions to register.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
@@ -124,7 +123,7 @@
 			} elseif ($rb_agency_option_profilenaming == 1) { 
 				$ProfileContactDisplay = $ProfileContactNameFirst . " ". substr($ProfileContactNameLast, 0, 1);
 			} elseif ($rb_agency_option_profilenaming == 2) { 
-				$error .= "<b><i>". __(LabelSingular ." must have a display name identified", rb_agency_interact_TEXTDOMAIN) . ".</i></b><br>";
+				$error .= "<b><i>". __(LabelSingular ." must have a display name identified",rb_agency_casting_TEXTDOMAIN) . ".</i></b><br>";
 				$have_error = true;
 			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
 				$ProfileContactDisplay = "ID ". $ProfileID;
@@ -203,7 +202,7 @@
 	
 	echo $rb_header = RBAgency_Common::rb_header();
 	
-	echo "<div id=\"primary\" class=\"".$column_class." column rb-agency-interact rb-agency-interact-register\">\n";
+	echo "<div id=\"primary\" class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"content\">\n";
 
    
@@ -213,21 +212,21 @@
 		if ( is_user_logged_in() && !current_user_can( 'create_users' ) ) {
 
 	echo "    <p class=\"log-in-out alert\">\n";
-	echo "		". __("You are currently logged in as .", rb_agency_interact_TEXTDOMAIN) ." <a href=\"/casting-member/\" title=\"". $login->display_name ."\">". $login->display_name ."</a>\n";
-				//printf( __("You are logged in as <a href="%1$s" title="%2$s">%2$s</a>.  You don\'t need another account.', rb_agency_interact_TEXTDOMAIN), get_author_posts_url( $curauth->ID ), $user_identity );
-	echo "		 <a href=\"". wp_logout_url( get_permalink() ) ."\" title=\"". __("Log out of this account", rb_agency_interact_TEXTDOMAIN) ."\">". __("Log out", rb_agency_interact_TEXTDOMAIN) ." &raquo;</a>\n";
+	echo "		". __("You are currently logged in as .",rb_agency_casting_TEXTDOMAIN) ." <a href=\"/casting-member/\" title=\"". $login->display_name ."\">". $login->display_name ."</a>\n";
+				//printf( __("You are logged in as <a href="%1$s" title="%2$s">%2$s</a>.  You don\'t need another account.',rb_agency_casting_TEXTDOMAIN), get_author_posts_url( $curauth->ID ), $user_identity );
+	echo "		 <a href=\"". wp_logout_url( get_permalink() ) ."\" title=\"". __("Log out of this account",rb_agency_casting_TEXTDOMAIN) ."\">". __("Log out",rb_agency_casting_TEXTDOMAIN) ." &raquo;</a>\n";
 	echo "    </p><!-- .alert -->\n";
 
 
-		} elseif ( $new_user ) {
+		} elseif ( isset($new_user) ) {
 
 	echo "    <p class=\"alert\">\n";
 				if ( current_user_can( 'create_users' ) )
-					printf( __("A user account for %1$s has been created.", rb_agency_interact_TEXTDOMAIN), $_POST['user-name'] );
+					printf( __("A user account for %1$s has been created.",rb_agency_casting_TEXTDOMAIN), $_POST['user-name'] );
 				else 
-					printf( __("Thank you for registering, %1$s.", rb_agency_interact_TEXTDOMAIN), $_POST['user-name'] );
+					printf( __("Thank you for registering, %1$s.",rb_agency_casting_TEXTDOMAIN), $_POST['user-name'] );
 					echo "<br/>";
-					printf( __("Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)", rb_agency_interact_TEXTDOMAIN) );
+					printf( __("Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)",rb_agency_casting_TEXTDOMAIN) );
 	echo "    </p><!-- .alert -->\n";
 
 		} else {
@@ -239,11 +238,11 @@
 			// Show some admin loving.... (Admins can create)
 			if ( current_user_can("create_users") && $registration ) {
 	echo "    <p class=\"alert\">\n";
-	echo "      ". __("Users can register themselves or you can manually create users here.", rb_agency_interact_TEXTDOMAIN);
+	echo "      ". __("Users can register themselves or you can manually create users here.",rb_agency_casting_TEXTDOMAIN);
 	echo "    </p><!-- .alert -->\n";
 			} elseif ( current_user_can("create_users")) {
 	echo "    <p class=\"alert\">\n";
-	echo "      ". __("Users cannot currently register themselves, but you can manually create users here.", rb_agency_interact_TEXTDOMAIN);
+	echo "      ". __("Users cannot currently register themselves, but you can manually create users here.",rb_agency_casting_TEXTDOMAIN);
 	echo "    </p><!-- .alert -->\n";
 			}
 
@@ -256,54 +255,54 @@
 	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below.</p>";
 	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
 	echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"casting_user_name\">". __("Username (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"casting_user_name\">". __("Username (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #rofile-username -->\n";
 
 	if ($rb_agency_interact_option_registerconfirm == 1) {
 	echo "       <div id=\"casting-password\" class=\"rbfield rbpassword rbsingle\">\n";
-	echo "       	<label for=\"casting_password\">". __("Password (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"casting_password\">". __("Password (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-password -->\n";
 	}
 
 	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"casting_first_name\">". __("First Name", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"casting_first_name\">". __("First Name",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_first_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-first-name -->\n";
 
 	echo "       <div id=\"casting-last-name\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"casting_last_name\">". __("Last Name", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"casting_last_name\">". __("Last Name",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_last_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting_last_name -->\n";
 
 	echo "       <div id=\"casting-email\" class=\"rbfield rbemail rbsingle\">\n";
-	echo "       	<label for=\"email\">". __("E-mail (required)", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"email\">". __("E-mail (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_email'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-email -->\n";
 
 	echo "       <div id=\"casting-company\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"company\">". __("Company", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"company\">". __("Company",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_company'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-company -->\n";
 
 	echo "       <div id=\"casting-website\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"website\">". __("Website", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"website\">". __("Website",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_website'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-website -->\n";
 	
 	echo "       <div id=\"casting-street-address\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"street-address\">". __("Street Address", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"street-address\">". __("Street Address",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_address'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-street-address -->\n";
 
 	echo "       <div id=\"casting-city\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"city\">". __("City", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"city\">". __("City",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_city'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-city -->\n";	
 
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
-				echo "		<label>". __("Country", rbagency_TEXTDOMAIN) ."</label>\n";
+				echo "		<label>". __("Country",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 				echo "		<div>\n";
 
 				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
@@ -318,7 +317,7 @@
 	echo "       </div></div><!-- #casting-country -->\n";
 
 	echo "       <div id=\"casting-state\" class=\"rbfield rbselect rbsingle\">\n";
-				echo "		<label>". __("State", rbagency_TEXTDOMAIN) ."</label>\n";
+				echo "		<label>". __("State", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 				echo "		<div>\n";
 
 				if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry'])){
@@ -338,7 +337,7 @@
 	echo "       </div></div><!-- #casting-state -->\n";
 
 	echo "       <div id=\"casting-zip\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"zip\">". __("Zip", rb_agency_interact_TEXTDOMAIN) ."</label>\n";
+	echo "       	<label for=\"zip\">". __("Zip",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_zip'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-zip -->\n";
 
@@ -348,25 +347,25 @@
 	echo "       <div id=\"casting-argee\" class=\"rbfield rbcheckbox rbsingle\">\n";
 					$casting_agree = get_the_author_meta("casting_agree", $current_user->ID );
 	echo "       	<label></label>\n";
-	echo "       	<div><input type=\"checkbox\" name=\"casting_agree\" value=\"yes\" /> ". sprintf(__("I agree to the %s terms of service", rb_agency_interact_TEXTDOMAIN), "<a href=\"/terms-of-use/\" target=\"_blank\">") ."</a></div>\n";
+	echo "       	<div><input type=\"checkbox\" name=\"casting_agree\" value=\"yes\" /> ". sprintf(__("I agree to the %s terms of service",rb_agency_casting_TEXTDOMAIN), "<a href=\"/terms-of-use/\" target=\"_blank\">") ."</a></div>\n";
 	echo "       </div><!-- #casting-agree -->\n";
  
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 	echo "       	<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Register'/>";
 
-					// if ( current_user_can("create_users") ) {  _e("Add User", rb_agency_interact_TEXTDOMAIN); } else {  _e("Register", rb_agency_interact_TEXTDOMAIN); } echo "\" />\n";
+					// if ( current_user_can("create_users") ) {  _e("Add User",rb_agency_casting_TEXTDOMAIN); } else {  _e("Register",rb_agency_casting_TEXTDOMAIN); } echo "\" />\n";
 					
 					wp_nonce_field("add-user");
 					$fb_app_register_uri = "";
 
-					if($rb_agency_interact_option_fb_app_register_uri == 1){
+					if(isset($rb_agency_interact_option_fb_app_register_uri) && $rb_agency_interact_option_fb_app_register_uri == 1){
 						$fb_app_register_uri = $rb_agency_interact_option_fb_app_register_uri;
 					}else{
 						$fb_app_register_uri = network_site_url("/")."casting-register/";
 					}
 
 					// Allow facebook login/registration
-					if($rb_agency_interact_option_fb_registerallow ==1){
+					if(isset($rb_agency_interact_option_fb_registerallow) && $rb_agency_interact_option_fb_registerallow ==1){
 						echo "<div>\n";
 						echo "<span>Or</span>\n";
 						echo "<div id=\"fb_RegistrationForm\">\n";
@@ -414,7 +413,7 @@ echo "</div><!-- #container -->\n";
 
 // Get Sidebar 
 	$LayoutType = "";
-	if ($rb_agency_interact_option_castingmanage_sidebar) {
+	if (isset($rb_agency_interact_option_castingmanage_sidebar) && $rb_agency_interact_option_castingmanage_sidebar) {
 		$LayoutType = "casting";
 		get_sidebar(); 
 	}
