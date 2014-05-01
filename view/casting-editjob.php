@@ -9,9 +9,9 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
 wp_deregister_script('jquery'); 
-wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1,true); 
 wp_enqueue_script('jquery_latest');
-wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
+wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1,true); 
 
 // set job id
 $JobID = get_query_var('target');
@@ -206,8 +206,9 @@ function load_job_display($error = NULL, $data){
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 	echo '<script type="text/javascript">
 				jQuery(document).ready(function(){
-					jQuery( ".datepicker" ).datepicker();
-					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+
+				jQuery( ".datepicker" ).datepicker();
+				jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					var date_start="'.$data['Job_Date_Start'].'";
     				var date_end="'.$data['Job_Date_End'].'";
     				jQuery("#Job_Date_Start").val(date_start);
@@ -287,13 +288,13 @@ function load_job_display($error = NULL, $data){
 						<tr>
 							<td>Date Start:</td>
 							<td>
-								<input type='text' name='Job_Date_Start' id='Job_Date_Start' class='datepicker'>
+								<input type='text' name='Job_Date_Start' id='Job_Date_Start'  value='".$data['Job_Date_Start']."' class='datepicker'>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
-								<input type='text' name='Job_Date_End' id='Job_Date_End' class='datepicker'>
+								<input type='text' name='Job_Date_End' id='Job_Date_End'  value='".$data['Job_Date_End']."' class='datepicker'>
 							</td>
 						</tr>
 						<tr>
