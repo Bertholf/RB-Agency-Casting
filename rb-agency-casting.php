@@ -376,6 +376,10 @@ class RBAgencyCasting {
 			include_once('view/admin-jobpostings.php');
 		}
 
+		function rb_agency_casting_approveclients(){
+			include_once('view/admin-approveclients.php');
+		}
+
 
 
 // *************************************************************************************************** //
