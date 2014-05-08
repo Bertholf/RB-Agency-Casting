@@ -9,17 +9,14 @@ $rb_agency_options_arr = get_option('rb_agency_options');
 		if (empty($rb_agency_option_agencyimagemaxheight) || $rb_agency_option_agencyimagemaxheight < 500) { $rb_agency_option_agencyimagemaxheight = 800; }
 	$rb_agency_option_profilenaming 		= (int)$rb_agency_options_arr['rb_agency_option_profilenaming'];
 	$rb_agency_option_locationtimezone 		= (int)$rb_agency_options_arr['rb_agency_option_locationtimezone'];
+	
 // *************************************************************************************************** //
 // Handle Post Actions
-if (isset($_POST['action'])) {
+if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 	// Get Post State
-	$action = $_POST['action'];
-	switch($action) {
-	// *************************************************************************************************** //
-	// Delete bulk
-	case 'deleteRecord':
-		foreach($_POST as $CastingID) {
+	foreach($_POST as $CastingID) {
 			// Verify Record
+
 			$queryDelete = "SELECT * FROM ". table_agency_casting ." WHERE CastingID =  ". $CastingID;
 			$resultsDelete = mysql_query($queryDelete);
 			while ($dataDelete = mysql_fetch_array($resultsDelete)) {
@@ -50,18 +47,355 @@ if (isset($_POST['action'])) {
 					
 			echo ('<div id="message" class="updated"><p>'. __("Client deleted successfully!", rb_agency_casting_TEXTDOMAIN) .'</p></div>');
 			} // is there record?
-			
-		}
-		rb_display_list();
-		exit;
-	break;
-	
+		
 	}
+
+}elseif(isset($_GET["action"]) && $_GET["action"] =="deleteRecord"){
+	$CastingID = $_GET["CastingID"];
+	$queryDelete = "SELECT * FROM ". table_agency_casting ." WHERE CastingID =  ". $CastingID;
+			$resultsDelete = mysql_query($queryDelete);
+			while ($dataDelete = mysql_fetch_array($resultsDelete)) {
+				$CastingGallery = $dataDelete['CastingGallery'];
+		
+				// Remove Profile
+				$delete = "DELETE FROM " . table_agency_casting . " WHERE CastingID = ". $CastingID;
+				$results = $wpdb->query($delete);
+					
+				if (isset($CastingGallery)) {
+					// Remove Folder
+					$dir = rb_agency_UPLOADPATH . $CastingGallery ."/";
+					$mydir = opendir($dir);
+					while(false !== ($file = readdir($mydir))) {
+						if($file != "." && $file != "..") {
+							unlink($dir.$file) or DIE("couldn't delete $dir$file<br />");
+						}
+					}
+					// remove dir
+					if(is_dir($dir)) {
+						rmdir($dir) or DIE("couldn't delete $dir$file<br />");
+					}
+					closedir($mydir);
+					
+				} else {
+					echo __("No valid record found.", rb_agency_casting_TEXTDOMAIN);
+				}
+					
+			echo ('<div id="message" class="updated"><p>'. __("Client deleted successfully!", rb_agency_casting_TEXTDOMAIN) .'</p></div>');
+			} // is there record?
+
+			rb_display_list();
 }
-else {
+elseif(!isset($_GET["action"]) || isset($_GET["action"]) && $_GET["action"] =="approveRecord"){
 // *************************************************************************************************** //
-// Show List
+	// Show List
 	rb_display_list();
+}
+elseif(isset($_GET["action"]) && $_GET["action"] !="approveRecord") {
+
+	rb_manage_client($_GET["CastingID"]); 
+
+}
+// *************************************************************************************************** //
+// Edit Record
+
+function rb_manage_client($CastingID) {
+  global $wpdb;
+  $rb_agency_options_arr = get_option('rb_agency_options');
+	$rb_agency_option_locationtimezone 		= (int)$rb_agency_options_arr['rb_agency_option_locationtimezone'];
+  echo "<div class=\"wrap\">\n";
+  echo "  <div id=\"rb-overview-icon\" class=\"icon32\"></div>\n";
+  echo "  <h2>". __("List", rb_agency_casting_TEXTDOMAIN) ." ". LabelPlural ."</h2>\n";
+	
+  echo "  <h3 class=\"title\">". __("Edit Record", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";
+   echo "<a class=\"button-primary\" href=\"".admin_url("admin.php?page=rb_agency_casting_approveclients")."\">Back to Client List</a>";  
+    $rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
+	$rb_agencyinteract_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'])?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
+
+	/* Check if users can register. */
+	$registration = get_option( 'users_can_register' );
+
+	function base64_url_decode($input) {
+		return base64_decode(strtr($input, '-_', '+/'));
+	}
+
+	$have_error = false;
+	$error = "";
+	if(isset($_POST["action"]) && $_POST["action"] == 'updatecasting'){
+		
+		if ( empty($_POST['casting_first_name'])) {
+			$error .= __("First Name is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+
+		if ( empty($_POST['casting_last_name'])) {
+			$error .= __("Last Name is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+
+		if ( !email_exists($_POST['casting_email'])) {
+			$error .= __("You must enter a valid email address.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+		
+		if ( empty($_POST['casting_company'])) {
+			$error .= __("Company is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+		if ( empty($_POST['casting_company'])) {
+			$error .= __("Company is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+
+		if ( empty($_POST['casting_website'])) {
+			$error .= __("website is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+	
+		if ( empty($_POST['casting_address'])) {
+			$error .= __("Address is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+		if ( empty($_POST['casting_city'])) {
+			$error .= __("City is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+		if ( empty($_POST['CastingState'])) {
+			$error .= __("State is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+		if ( empty($_POST['casting_zip'])) {
+			$error .= __("Zip is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+		if ( empty($_POST['CastingCountry'])) {
+			$error .= __("Country is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$have_error = true;
+		}
+	
+
+		// Bug Free!
+		if($have_error == false){
+
+			// Update Record
+			$update = "UPDATE " . table_agency_casting . " SET ";
+
+			$update .= "CastingContactNameFirst = '".$_POST['casting_first_name']."',
+						CastingContactNameLast = '".$_POST['casting_last_name']."',
+						CastingContactEmail = '".$_POST['casting_email']."',
+						CastingContactCompany = '".$_POST['casting_company']."',
+						CastingContactWebsite = '".$_POST['casting_website']."',
+						CastingContactPhoneHome = '".$_POST['CastingContactPhoneHome']."',
+						CastingContactPhoneCell = '".$_POST['CastingContactPhoneCell']."',
+						CastingContactPhoneWork = '".$_POST['CastingContactPhoneWork']."',
+						CastingContactLinkTwitter = '".$_POST['CastingContactLinkTwitter']."',
+						CastingContactLinkFacebook = '".$_POST['CastingContactLinkFacebook']."',
+						CastingContactLinkYoutube = '".$_POST['CastingContactLinkYouTube']."',
+						CastingContactLinkFlickr = '".$_POST['CastingContactLinkFlickr']."',
+						CastingLocationStreet = '".$_POST['casting_address']."',
+						CastingLocationCity = '".$_POST['casting_city']."',
+						CastingLocationState = '".$_POST['CastingState']."',
+						CastingLocationZip = '".$_POST['casting_zip']."',
+						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
+			$update .= "CastingDateUpdated = now() WHERE CastingID = " . $_POST["CastingID"] ;
+			
+			$result = $wpdb->query($update);        
+			
+			$error = '<div id="message" class="updated"><p>'. __("Client updated successfully!", rb_agency_casting_TEXTDOMAIN) .'</p></div>';
+			
+			
+
+		}
+		
+	}	
+	//fetch data from database
+	$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingID = " .$CastingID);
+  	
+
+
+// *************************************************************************************************** //
+// Prepare Page
+	// add scripts
+	wp_deregister_script('jquery'); 
+	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+	wp_enqueue_script('jquery_latest');
+	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
+	
+	
+	echo "<div id=\"primary\" class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
+	echo "  <div id=\"content\">\n";
+
+   
+		// ****************************************************************************************** //
+		// Already logged in 
+
+	if (!empty( $error)) {
+		echo "<p class=\"error\">". $error ."</p>\n";
+	}
+	echo "  <header class=\"entry-header\">";
+	echo "  </header>";
+	echo "  <div id=\"client-register\" class=\"rbform\">";
+	echo "	<h3>". __("Account Information", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";	
+	echo "    <form method=\"post\" action=\"". admin_url("admin.php?page=rb_agency_casting_approveclients&action=editRecord&CastingID=".$_GET["CastingID"]) ."\">\n";
+
+	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"casting_first_name\">". __("First Name", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value='".$data_r->CastingContactNameFirst."' /></div>\n";
+	echo "       </div><!-- #casting-first-name -->\n";
+
+	echo "       <div id=\"casting-last-name\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"casting_last_name\">". __("Last Name", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value='".$data_r->CastingContactNameLast."' /></div>\n";
+	echo "       </div><!-- #casting_last_name -->\n";
+
+	echo "       <div id=\"casting-email\" class=\"rbfield rbemail rbsingle\">\n";
+	echo "       	<label for=\"email\">". __("E-mail (required)", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingContactEmail."' /></div>\n";
+	echo "       </div><!-- #casting-email -->\n";
+
+	echo "       <div id=\"casting-company\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"company\">". __("Company", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" value='".$data_r->CastingContactCompany."' /></div>\n";
+	echo "       </div><!-- #casting-company -->\n";
+
+	echo "       <div id=\"casting-website\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"website\">". __("Website", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingContactWebsite."' /></div>\n";
+	echo "       </div><!-- #casting-website -->\n";
+
+	echo "       <div id=\"casting-street-address\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"street-address\">". __("Street Address", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value='".$data_r->CastingLocationStreet."' /></div>\n";
+	echo "       </div><!-- #casting-street-address -->\n";
+
+	echo "       <div id=\"casting-city\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"city\">". __("City", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingLocationCity."' /></div>\n";
+	echo "       </div><!-- #casting-city -->\n";	
+
+	echo "<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
+	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
+				echo "		<label>". __("Country", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+				echo "		<div>\n";
+				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
+				$result_query_get = $wpdb->get_results($query_get);
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
+				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
+					foreach($result_query_get as $r){
+						echo '<option value='.$r->CountryID.' '.selected($data_r->CastingLocationCountry,$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
+					}
+				echo '</select>';
+	echo "       </div></div><!-- #casting-country -->\n";
+
+	echo "       <div id=\"casting-state\" class=\"rbfield rbselect rbsingle\">\n";
+				echo "		<label>". __("State", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+				echo "		<div>\n";
+
+				if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry']) || $data_r->CastingLocationCountry != ""){
+						$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " .$data_r->CastingLocationCountry ;
+				} else {
+						$query_get ="SELECT * FROM `".table_agency_data_state."`" ;
+				}
+				$result_query_get = $wpdb->get_results($query_get);
+				echo '<select name="CastingState" id="CastingState">';
+				echo '<option value="">'. __("Select state", rb_agency_casting_TEXTDOMAIN) .'</option>';
+					foreach($result_query_get as $r){
+
+						echo '<option value='.$r->StateID.' '.selected($data_r->CastingLocationState,$r->StateID,false).' >'.$r->StateTitle.'</option>';
+					}
+				echo '</select>';
+
+	echo "       </div></div><!-- #casting-state -->\n";
+
+	echo "       <div id=\"casting-zip\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "       	<label for=\"zip\">". __("Zip", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value='".$data_r->CastingLocationZip."' /></div>\n";
+	echo "       </div><!-- #casting-zip -->\n";
+
+		echo "	<h3>". __("Contact Phone", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";
+		echo "	<div id=\"profile-facebook\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Home", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" name=\"CastingContactPhoneHome\" value=\"". $data_r->CastingContactPhoneHome ."\" />\n";
+		echo "	</div></div>\n";
+		echo "	<div id=\"profile-twitter\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Cell", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" name=\"CastingContactPhoneCell\" value=\"".$data_r->CastingContactPhoneCell  ."\" />\n";
+		echo "	</div></div>\n";
+		echo "	<div id=\"profile-youtube\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Work", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" name=\"CastingContactPhoneWork\" value=\"". $data_r->CastingContactPhoneWork  ."\" />\n";
+		echo "  </div></div>\n";
+
+		// Show Social Media Links
+		echo "	<h3>". __("Social Media Castings", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";
+		echo "	<div id=\"profile-facebook\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Facebook", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFacebook\" name=\"CastingContactLinkFacebook\" value=\"".$data_r->CastingContactLinkFacebook ."\" />\n";
+		echo "	</div></div>\n";
+		echo "	<div id=\"profile-twitter\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Twitter", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkTwitter\" name=\"CastingContactLinkTwitter\" value=\"". $data_r->CastingContactLinkTwitter ."\" />\n";
+		echo "	</div></div>\n";
+		echo "	<div id=\"profile-youtube\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("YouTube", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkYouTube\" name=\"CastingContactLinkYouTube\" value=\"". $data_r->CastingContactLinkYoutube ."\" />\n";
+		echo "  </div></div>\n";
+		echo "	<div id=\"profile-flickr\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Flickr", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFlickr\" name=\"CastingContactLinkFlickr\" value=\"". $data_r->CastingContactLinkFlickr ."\" />\n";
+		echo "	</div></div>\n";
+
+		if (isset($rb_agencyinteract_option_registerallow) && $rb_agencyinteract_option_registerallow  == 1) {
+			echo "	<div id=\"profile-username\" class=\"rbfield rbtext rbsingle\">\n";
+			echo "		<label>". __("Username", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+			echo "		<div>\n";
+			if(isset($current_user->user_login)){
+			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" disabled=\"disabled\" value=\"".$current_user->user_login."\" />\n";
+			} else {
+			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" value=\"\" />\n";	
+			}
+			echo "			<small class=\"rbfield-note\">Cannot be changed</small>";
+			echo "		</div>\n";
+			echo "  </div>\n";
+		}
+		echo "	<h3>". __("Login Settings", rb_agency_casting_TEXTDOMAIN) ."</h3>\n";		
+		echo "	<div id=\"rbprofile-password\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Password", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div>";
+		echo "			<input type=\"password\" id=\"CastingPassword\" name=\"CastingPassword\" />\n";
+		echo "			<small class=\"rbfield-note\">Leave blank to keep same password</small>";	
+		echo "	 	</div>\n";
+		echo "	</div>\n";
+		echo "	<div id=\"rbprofile-retype-password\" class=\"rbfield rbtext rbsingle\">\n";
+		echo "		<label>". __("Retype Password", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
+		echo "		<div>";
+		echo "			<input type=\"password\" id=\"CastingPasswordConfirm\" name=\"CastingPasswordConfirm\" />";
+		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";	
+		echo "		</div>\n";
+		echo "	</div>\n";
+
+	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
+	echo "       	<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
+
+					// if ( current_user_can("create_users") ) {  _e("Add User", rb_agency_casting_TEXTDOMAIN); } else {  _e("Register", rb_agency_casting_TEXTDOMAIN); } echo "\" />\n";
+					
+					wp_nonce_field("add-user");
+
+	echo "       	<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
+	echo "       	<input name=\"CastingID\" type=\"hidden\" id=\"action\" value=\"".$_GET["CastingID"]."\" />\n";
+	echo "       </div><!-- #casting-submit -->\n";
+	// Facebook connect
+	?>
+
+<?php
+	echo "   </form>\n";
+	echo "   </div><!-- .rbform -->\n";
+
+
+echo "  </div><!-- #content -->\n";
+echo "</div><!-- #container -->\n";
+	
+
+  echo "</div>";	
 }
 
 // *************************************************************************************************** //
@@ -210,7 +544,7 @@ function rb_display_list() {
 			}
 		}
 		
-		if(isset($_GET["action"])=="approveRecord"){
+		if(isset($_GET["action"]) && $_GET["action"] =="approveRecord"){
 			$CastingID = $_GET["CastingID"];
 			$queryApprove = "UPDATE ". table_agency_casting ." SET CastingIsActive = 1 WHERE CastingID =  %d";
 			$resultsApprove = $wpdb->query($wpdb->prepare($queryApprove,$CastingID));
@@ -383,9 +717,9 @@ function rb_display_list() {
 		echo "          ". $CastingContactNameFirst ."\n";
 		echo "          <div class=\"row-actions\">\n";
 		echo "            <span class=\"allow\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&amp;action=approveRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Approve this Record", rb_agency_casting_TEXTDOMAIN) . "\">". __("Approve", rb_agency_casting_TEXTDOMAIN) . "</a> | </span>\n";
-		//echo "            <span class=\"edit\"><a href=\"". admin_url("admin.php?page=rb_agency_menu_profiles&amp;action=editRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Edit this Record", rb_agency_casting_TEXTDOMAIN) . "\">". __("Edit", rb_agency_casting_TEXTDOMAIN) . "</a> | </span>\n";
+		echo "            <span class=\"edit\"><a href=\"". admin_url("admin.php?page=rb_agency_casting_approveclients&amp;action=editRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Edit this Record", rb_agency_casting_TEXTDOMAIN) . "\">". __("Edit", rb_agency_casting_TEXTDOMAIN) . "</a> | </span>\n";
 		echo "            <span class=\"view\"><a href=\"/profile-casting/".  $CastingGallery ."/\" title=\"". __("View", rb_agency_casting_TEXTDOMAIN) . "\" target=\"_blank\">". __("View", rb_agency_casting_TEXTDOMAIN) . "</a> | </span>\n";
-		//echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"". admin_url("admin.php?page=". $_GET['page']) ."&amp;action=deleteRecord&amp;ProfileID=". $CastingID ."\"  onclick=\"if ( confirm('". __("You are about to delete the profile for ", rb_agency_casting_TEXTDOMAIN) ." ". $CastingContactNameFirst ." ". $CastingContactNameLast ."'". __("Cancel", rb_agency_casting_TEXTDOMAIN) . "\' ". __("to stop", rb_agency_casting_TEXTDOMAIN) . ", \'". __("OK", rb_agency_casting_TEXTDOMAIN) . "\' ". __("to delete", rb_agency_casting_TEXTDOMAIN) . ".') ) { return true;}return false;\" title=\"". __("Delete this Record", rb_agency_casting_TEXTDOMAIN) . "\">". __("Delete", rb_agency_casting_TEXTDOMAIN) . "</a> </span>\n";
+		echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"". admin_url("admin.php?page=". $_GET['page']) ."&amp;action=deleteRecord&amp;CastingID=". $CastingID ."\"  onclick=\"if ( confirm('". __("You are about to delete the profile for ", rb_agency_casting_TEXTDOMAIN) ." ". $CastingContactNameFirst ." ". $CastingContactNameLast ."\'". __("Cancel", rb_agency_casting_TEXTDOMAIN) . "\' ". __("to stop", rb_agency_casting_TEXTDOMAIN) . ", \'". __("OK", rb_agency_casting_TEXTDOMAIN) . "\' ". __("to delete", rb_agency_casting_TEXTDOMAIN) . ".') ) { return true;}return false;\" title=\"". __("Delete this Record", rb_agency_casting_TEXTDOMAIN) . "\">". __("Delete", rb_agency_casting_TEXTDOMAIN) . "</a> </span>\n";
 		echo "          </div>\n";
 		echo "        </td>\n";
 		echo "        <td class=\"CastingContactNameLast column-CastingContactNameLast\">". $CastingContactNameLast ."</td>\n";
