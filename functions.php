@@ -35,6 +35,7 @@
 			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]';
 			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]';
 			// Casting Agent
+			$newrules['profile-casting/jobs/(.*)/(.*)$'] = 'index.php?type=castingjobs&target=$matches[1]&value=$matches[2]';
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]';
 			$newrules['profile-casting'] = 'index.php?type=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
