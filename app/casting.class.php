@@ -677,23 +677,23 @@ class RBAgency_Casting {
 		 * get custom field values
 		 */
 		public static function load_custom_types($data = NULL){
-			
+
 				global $wpdb;
-				
+
 				$dat = explode("|",$data);
-				
+
 				$custom_fields = array();
 				if(count($dat) > 0){
 					foreach($dat as $d){
 						$x = explode("/",$d);
-						$custom_fields[$x[0]] = $x[1]; 						
-					}				
+						$custom_fields[$x[0]] = $x[1];
+					}
 				}
-				
+
 				return $custom_fields;
-		
+
 		}
-		
+
 		/*
 		 * actual loading of criteria fields
 		 */
