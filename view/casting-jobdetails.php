@@ -1,9 +1,5 @@
 <?php
 
-	session_start();
-
-	header("Cache-control: private"); //IE 6 Fix
-
 	// Profile Class
 	include(rb_agency_BASEREL ."app/profile.class.php");
 	
@@ -89,12 +85,13 @@
 							} elseif(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 0){	
 								echo "<td class='jobdesc'>Invite Only</td>";
 							}
-						
+
+
 						echo "</tr>	
 						<tr>	
 							<td></td>";
-							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
-								if(strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){ 
+							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) <= 0){
+								if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){ 
 									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Back to Applicants'></td>";
 								} else {
 									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'></td>";

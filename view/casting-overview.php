@@ -1,8 +1,4 @@
 <?php
-
-session_start();
-session_destroy();
-
 global $current_user;
 get_currentuserinfo();
 $curauth = get_user_by('id', $current_user->ID);
@@ -75,9 +71,9 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	}
   } 
 
-	$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
-	$user_data=get_user_meta($current_user->ID,'rb_agency_interact_clientdata',true);
-	$user_company=$user_data['company'];
+	$data_r = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = %d ",$current_user->ID),OBJECT,0);
+	$user_data = get_user_meta($current_user->ID,'rb_agency_interact_clientdata',true);
+	$user_company = isset($user_data['CastingContactCompany'])?$user_data['CastingContactCompany']:"";
 
 	echo "  <div id=\"profile-info\">\n";
 	echo "		<h3>Casting</h3>\n";
@@ -89,15 +85,15 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 		echo "		<li>First Name: <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
 	}
 
-	if($data_r->CastingConactNameLast != ""){
-		echo "		<li>Last Name: <strong>" . $data_r->CastingConactNameLast . "</strong></li>\n";
+	if($data_r->CastingContactNameLast != ""){
+		echo "		<li>Last Name: <strong>" . $data_r->CastingContactNameLast . "</strong></li>\n";
 	}
 
-	if($data_r->CastingConactEmail != ""){	
+	if($data_r->CastingContactEmail != ""){	
 		echo "		<li>User Email: <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
 	}
 
-	if($data_r->CastingConactCompany != ""){	
+	if($data_r->CastingContactCompany != ""){	
 		echo "		<li>Company: <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
 	}
 
@@ -172,7 +168,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "    <h2>Search Database</h2>\n";
 			
 			//set to simple layout
-			$profilesearch_layout == 'condensed';
+			$profilesearch_layout = 'condensed';
 	
 			echo RBAgency_Profile::search_form("", "", 0);
 

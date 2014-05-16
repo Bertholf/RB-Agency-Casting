@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-header("Cache-control: private"); //IE 6 Fix
 include(rb_agency_BASEREL ."app/profile.class.php");
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
@@ -205,7 +202,7 @@ function load_job_display($error = NULL){
 		//===============================
 		//	table form
 		//===============================
-		echo " <form method='get' actipn='".$_SERVER['PHP_SELF']."'>
+		echo " <form method='get' actipn='".(isset($_SERVER['PHP_SELF'])?$_SERVER['PHP_SELF']:"")."'>
 					<table>
 						<tr>
 							<td><h3>Job Description</h3></td>
@@ -213,15 +210,15 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Title:</td>
-							<td><input type='text' name='Job_Title' value='".$_GET['Job_Title']."'></td>
+							<td><input type='text' name='Job_Title' value='".(isset($_GET['Job_Title'])?$_GET['Job_Title']:"")."'></td>
 						</tr>
 						<tr>
 							<td>Description:</td>
-							<td><input type='text' name='Job_Text' value='".$_GET['Job_Text']."'></td>
+							<td><input type='text' name='Job_Text' value='".(isset($_GET['Job_Text'])?$_GET['Job_Text']:"")."'></td>
 						</tr>	
 						<tr>
 							<td>Offer:</td>
-							<td><input type='text' name='Job_Offering' value='".$_GET['Job_Offering']."'></td>
+							<td><input type='text' name='Job_Offering' value='".(isset($_GET['Job_Offering'])?$_GET['Job_Offering']:"")."'></td>
 						</tr>							
 						<tr>
 							<td><h3>Job Duration</h3></td><td></td>
@@ -229,13 +226,13 @@ function load_job_display($error = NULL){
 						<tr>
 							<td>Date Start:</td>
 							<td>
-								<input type='text' name='Job_Date_Start' class='datepicker' value='".$_GET['Job_Date_Start']."'>
+								<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_GET['Job_Date_Start'])?$_GET['Job_Date_Start']:"")."'>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
-								<input type='text' name='Job_Date_End' class='datepicker' value='".$_GET['Job_Date_End']."'>
+								<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_GET['Job_Date_End'])?$_GET['Job_Date_End']:"")."'>
 							</td>
 						</tr>
 						<tr>
@@ -243,11 +240,11 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Location:</td>
-							<td><input type='text' name='Job_Location' value='".$_GET['Job_Location']."'></td>
+							<td><input type='text' name='Job_Location' value='".(isset($_GET['Job_Location'])?$_GET['Job_Location']:"")."'></td>
 						</tr>
 						<tr>
 							<td>Region:</td>
-							<td><input type='text' name='Job_Region' value='".$_GET['Job_Region']."'></td>
+							<td><input type='text' name='Job_Region' value='".(isset($_GET['Job_Region'])?$_GET['Job_Region']:"")."'></td>
 						</tr>
 						<tr>
 							<td><h3>Job Criteria</h3></td><td></td>
@@ -261,7 +258,7 @@ function load_job_display($error = NULL){
 									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); // or die(mysql_error()
 									if(count($get_job_type)){
 										foreach($get_job_type as $jtype){
-											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$_GET['Job_Type'],false).">".$jtype->Job_Type_Title."</option>";
+											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_GET['Job_Type'])?$_GET['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";
 										}
 									}
 
@@ -273,9 +270,9 @@ function load_job_display($error = NULL){
 							<td>
 								<select id='Job_Visibility' name='Job_Visibility'>
 									<option value=''>-- Select Type --</option>
-									<option value='0' ".selected($_GET['Job_Visibility'],"0",false).">Invite Only</option>
-									<option value='1' ".selected($_GET['Job_Visibility'],"1",false).">Open to All</option>
-									<option value='2' ".selected($_GET['Job_Visibility'],"2",false).">Matching Criteria</option>
+									<option value='0' ".selected(isset($_GET['Job_Visibility'])?$_GET['Job_Visibility']:"","0",false).">Invite Only</option>
+									<option value='1' ".selected(isset($_GET['Job_Visibility'])?$_GET['Job_Visibility']:"","1",false).">Open to All</option>
+									<option value='2' ".selected(isset($_GET['Job_Visibility'])?$_GET['Job_Visibility']:"","2",false).">Matching Criteria</option>
 								</select>
 							</td>
 						</tr>

@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 global $wpdb;
 global $current_user;
 
@@ -138,7 +135,7 @@ if (is_user_logged_in()) {
 		echo "</table>";		
 		echo "</form>";
 		
-		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
+		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . (isset($_GET['page'])?$_GET["page"]:"")) . "\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";

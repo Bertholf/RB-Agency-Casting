@@ -9,6 +9,14 @@
 		  }
 		}*/
 	
+
+	add_action('init', 'rb_agency_casting_init_sessions');
+		function rb_agency_casting_init_sessions() {
+			if (!session_id()) {
+				session_start();
+			}
+		}
+
 	// Remember to flush_rules() when adding rules
 	add_filter('init','rbcasting_flushrules');
 		function rbcasting_flushRules() {
@@ -440,7 +448,7 @@
 
 	function load_criteria_fields(){
 		
-		$data = trim($_POST['value']);
+		$data = isset($_POST['value'])?trim($_POST['value']):"";
 		
 		include (dirname(__FILE__) ."/app/casting.class.php");
 

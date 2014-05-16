@@ -8,7 +8,7 @@ Author: Rob Bertholf
 Author URI: http://rob.bertholf.com/
 Version: 0.0.1
 */
-$rb_agency_casting_VERSION = "0.0.1"; 
+$rb_agency_casting_VERSION = "0.1.0"; 
 /*
 License: CF Commercial-to-GPL License
 Copyright 2007-2013 Rob Bertholf
@@ -70,9 +70,9 @@ See license.txt for full details.
 	if (!defined("table_agency_casting_job"))
 		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job");
 	if (!defined("table_agency_casting_job_type"))
-		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");	
+		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");  
 	if (!defined("table_agency_casting_job_application"))
-		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");					
+		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");                    
 
 
 // *************************************************************************************************** //
@@ -85,6 +85,7 @@ See license.txt for full details.
 	add_action('init',  array('RBAgencyCasting', 'init'));
 	// Check if version number changed and upgrade required
 	add_action('init',  array('RBAgencyCasting', 'check_update_needed'));
+	
 
 
 // *************************************************************************************************** //
@@ -339,7 +340,7 @@ class RBAgencyCasting {
 			} else {
 				// Version Exists, but is it out of date?
 				if(get_option("rb_agency_casting_version") <> rb_agency_casting_VERSION){
-					//require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/upgrade.php");
+					require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/upgrade.php");
 				} else {
 					// Namaste, version is number is correct
 				}
@@ -433,32 +434,32 @@ class RBAgencyCasting {
 
 					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 							echo "<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
-							echo "	<div class=\"box\">\n";
-							echo "		<label for=\"user-name\">". __("Username", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
-							echo "	</div>\n";
-							echo "	<div class=\"box\">\n";
-							echo "		<label for=\"password\">". __("Password", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"password\" name=\"password\" value=\"\" id=\"password\" /> <a href=\"". get_bloginfo('wpurl') ."/wp-login.php?action=lostpassword\">". __("forgot password", rb_agency_casting_TEXTDOMAIN). "?</a>\n";
-							echo "	</div>\n";
-							echo "	<div class=\"box\">\n";
-							echo "		<input type=\"checkbox\" name=\"remember-me\" value=\"forever\" /> ". __("Keep me signed in", rb_agency_casting_TEXTDOMAIN). "\n";
-							echo "	</div>\n";
-							echo "	<div class=\"submit-box\">\n";
-							echo "		<input type=\"hidden\" name=\"action\" value=\"log-in\" />\n";
-							echo "		<input type=\"submit\" value=\"". __("Sign In", rb_agency_casting_TEXTDOMAIN). "\" /><br />\n";
-							echo "	</div>\n";
+							echo "  <div class=\"box\">\n";
+							echo "      <label for=\"user-name\">". __("Username", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
+							echo "  </div>\n";
+							echo "  <div class=\"box\">\n";
+							echo "      <label for=\"password\">". __("Password", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"password\" name=\"password\" value=\"\" id=\"password\" /> <a href=\"". get_bloginfo('wpurl') ."/wp-login.php?action=lostpassword\">". __("forgot password", rb_agency_casting_TEXTDOMAIN). "?</a>\n";
+							echo "  </div>\n";
+							echo "  <div class=\"box\">\n";
+							echo "      <input type=\"checkbox\" name=\"remember-me\" value=\"forever\" /> ". __("Keep me signed in", rb_agency_casting_TEXTDOMAIN). "\n";
+							echo "  </div>\n";
+							echo "  <div class=\"submit-box\">\n";
+							echo "      <input type=\"hidden\" name=\"action\" value=\"log-in\" />\n";
+							echo "      <input type=\"submit\" value=\"". __("Sign In", rb_agency_casting_TEXTDOMAIN). "\" /><br />\n";
+							echo "  </div>\n";
 							echo "</form>\n";
 					} else {
 						if(current_user_can('level_10')){
 							if ( !empty( $title ) ) { echo $before_title . "RB Agency Settings" . $after_title; };
 							echo "<ul>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_menu")."\">Overview</a></li>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_menu_profiles")."\">Manage Profiles</a></li>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_casting_menu_approvemembers")."\">Approve Profiles</a></li>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_menu_search")."\">Search Profiles</a></li>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_menu_searchsaved")."\">Saved Searches</a></li>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_menu_reports")."\">Tools &amp; Reports</a></li>";
-							echo "	<li><a href=\"".admin_url("admin.php?page=rb_agency_menu_settings")."\">Settings</a></li>";
-							echo "	<li><a href=\"/wp-login.php?action=logout&_wpnonce=3bb3c87a3d\">Logout</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu")."\">Overview</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_profiles")."\">Manage Profiles</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_casting_menu_approvemembers")."\">Approve Profiles</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_search")."\">Search Profiles</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_searchsaved")."\">Saved Searches</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_reports")."\">Tools &amp; Reports</a></li>";
+							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_settings")."\">Settings</a></li>";
+							echo "  <li><a href=\"/wp-login.php?action=logout&_wpnonce=3bb3c87a3d\">Logout</a></li>";
 							echo "</ul>";
 						} else{
 							rb_agency_profilesearch(array("layout" =>"simple"));

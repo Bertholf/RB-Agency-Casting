@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 global $wpdb;
 
 header("Cache-control: private"); //IE 6 Fix

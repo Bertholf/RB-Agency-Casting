@@ -31,7 +31,7 @@
 		$first_name = $_POST['casting_first_name'];
 		$last_name  = $_POST['casting_last_name'];
 		$user_email = $_POST['casting_email'];
-		$CastingGender = $_POST['CastingGender'];
+		$CastingGender = isset($_POST['CastingGender'])?$_POST['CastingGender']:0;
 		$user_pass  = NULL;
 
 		if ($rb_agency_interact_option_registerconfirm == 1) {
@@ -61,7 +61,7 @@
 			$error .= __("Sorry, that username already exists!<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( !is_email($userdata['user_email'], true)) {
+		if ( !is_email($userdata['user_email'])) {
 			$error .= __("You must enter a valid email address.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
@@ -99,7 +99,7 @@
 			$have_error = true;
 		}
 
-		if ( $_POST['casting_agree'] <> "yes") {
+		if (isset($_POST['casting_agree'])  && $_POST['casting_agree'] <> "yes") {
 			$error .= __("You must agree to the terms and conditions to register.<br />",rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
@@ -119,16 +119,16 @@
 			}
 
 			if ($rb_agency_option_profilenaming == 0) { 
-				$ProfileContactDisplay = $ProfileContactNameFirst . " ". $ProfileContactNameLast;
+				$CastingContactDisplay = $first_name . " ". $last_name;
 			} elseif ($rb_agency_option_profilenaming == 1) { 
-				$ProfileContactDisplay = $ProfileContactNameFirst . " ". substr($ProfileContactNameLast, 0, 1);
+				$CastingContactDisplay = $first_name . " ". substr($last_name, 0, 1);
 			} elseif ($rb_agency_option_profilenaming == 2) { 
 				$error .= "<b><i>". __(LabelSingular ." must have a display name identified",rb_agency_casting_TEXTDOMAIN) . ".</i></b><br>";
 				$have_error = true;
 			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
-				$ProfileContactDisplay = "ID ". $ProfileID;
+				$CastingContactDisplay = "ID ". $ProfileID;
 			} elseif ($rb_agency_option_profilenaming == 4) {
-							$ProfileContactDisplay = $ProfileContactNameFirst;
+							$CastingContactDisplay = $first_name;
 			}
 			
 			// Create Record
@@ -156,7 +156,7 @@
 						"','" . $wpdb->escape($user_email) . "','" . 
 								$wpdb->escape($_POST['casting_company']) . "','" . 
 								$wpdb->escape($_POST['casting_website']) . "','" . 
-								$wpdb->escape($_POST['casting_street']) . "','" . 
+								$wpdb->escape($_POST['casting_address']) . "','" . 
 								$wpdb->escape($_POST['casting_city']) . "','" . 
 								$wpdb->escape($_POST['CastingState']) . "','" . 
 								$wpdb->escape($_POST['casting_zip']) . "','" . 
@@ -222,9 +222,9 @@
 
 	echo "    <p class=\"alert\">\n";
 				if ( current_user_can( 'create_users' ) )
-					printf( __("A user account for %1$s has been created.",rb_agency_casting_TEXTDOMAIN), $_POST['user-name'] );
+					printf( __("A user account for %1$s has been created.",rb_agency_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 				else 
-					printf( __("Thank you for registering, %1$s.",rb_agency_casting_TEXTDOMAIN), $_POST['user-name'] );
+					printf( __("Thank you for registering, %1$s.",rb_agency_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 					echo "<br/>";
 					printf( __("Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)",rb_agency_casting_TEXTDOMAIN) );
 	echo "    </p><!-- .alert -->\n";
@@ -256,49 +256,49 @@
 	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
 	echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_user_name\">". __("Username (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo esc_html( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #rofile-username -->\n";
 
 	if ($rb_agency_interact_option_registerconfirm == 1) {
 	echo "       <div id=\"casting-password\" class=\"rbfield rbpassword rbsingle\">\n";
 	echo "       	<label for=\"casting_password\">". __("Password (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo esc_html( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-password -->\n";
 	}
 
 	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_first_name\">". __("First Name",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_first_name'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value=\""; if ( $error ) echo esc_html( $_POST['casting_first_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-first-name -->\n";
 
 	echo "       <div id=\"casting-last-name\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_last_name\">". __("Last Name",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_last_name'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value=\""; if ( $error ) echo esc_html( $_POST['casting_last_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting_last_name -->\n";
 
 	echo "       <div id=\"casting-email\" class=\"rbfield rbemail rbsingle\">\n";
 	echo "       	<label for=\"email\">". __("E-mail (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_email'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_email'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-email -->\n";
 
 	echo "       <div id=\"casting-company\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"company\">". __("Company",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_company'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_company'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-company -->\n";
 
 	echo "       <div id=\"casting-website\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"website\">". __("Website",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_website'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_website'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-website -->\n";
 	
 	echo "       <div id=\"casting-street-address\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"street-address\">". __("Street Address",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_address'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value=\""; if ( $error ) echo esc_html( $_POST['casting_address'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-street-address -->\n";
 
 	echo "       <div id=\"casting-city\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"city\">". __("City",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_city'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_city'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-city -->\n";	
 
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
@@ -320,12 +320,13 @@
 				echo "		<label>". __("State", rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 				echo "		<div>\n";
 
+				$result_query_get = array();
+				
 				if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry'])){
 						$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " . $_POST['CastingCountry'] ;
-				} else {
-						$query_get ="SELECT * FROM `".table_agency_data_state."`" ;
+						$result_query_get = $wpdb->get_results($query_get);
+				
 				}
-				$result_query_get = $wpdb->get_results($query_get);
 				echo '<select name="CastingState" id="CastingState">';
 				echo '<option value="">'. __("Select state", rbagency_TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
@@ -338,7 +339,7 @@
 
 	echo "       <div id=\"casting-zip\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"zip\">". __("Zip",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo wp_specialchars( $_POST['casting_zip'], 1 ); echo "\" /></div>\n";
+	echo "       	<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_zip'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-zip -->\n";
 
 	echo "		<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";

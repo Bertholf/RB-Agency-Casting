@@ -1,10 +1,5 @@
 <?php
-
-	session_start();
-
-	header("Cache-control: private"); //IE 6 Fix
-
-	// Profile Class
+// Profile Class
 	include(rb_agency_BASEREL ."app/profile.class.php");
 	
 	// include casting class

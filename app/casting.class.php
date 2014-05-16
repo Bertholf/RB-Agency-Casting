@@ -552,13 +552,14 @@ class RBAgency_Casting {
 				return false;
 			}
 
-			$get_id = $wpdb->get_row( "SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $user_linked ) ;
+			$get_id = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = %d" ,$user_linked ),OBJECT,0);
+          	
 
 			if(count($get_id) > 0){
 				if($field_name == NULL){
 					return $get_id->ProfileID;
 				} else {
-					return @$get_id->$field_name;
+					return @$get_id->field_name;
 				}
 			}
 
@@ -686,7 +687,7 @@ class RBAgency_Casting {
 				if(count($dat) > 0){
 					foreach($dat as $d){
 						$x = explode("/",$d);
-						$custom_fields[$x[0]] = $x[1]; 						
+						$custom_fields[$x[0]] = isset($x[1])?$x[1]:""; 						
 					}				
 				}
 				
@@ -724,10 +725,10 @@ class RBAgency_Casting {
 									
 				while ($data1 = mysql_fetch_array($results1)) { 
 				
-					$ProfileCustomID = $data1['ProfileCustomID'];
-					$ProfileCustomTitle = $data1['ProfileCustomTitle'];
-					$ProfileCustomType = $data1['ProfileCustomType'];
-					$ProfileCustomValue = $data1['ProfileCustomValue'];
+					$ProfileCustomID = isset($data1['ProfileCustomID'])?$data1['ProfileCustomID']:"";
+					$ProfileCustomTitle = isset($data1['ProfileCustomTitle'])?$data1['ProfileCustomTitle']:"";
+					$ProfileCustomType = isset($data1['ProfileCustomType'])?$data1['ProfileCustomType']:"";
+					$ProfileCustomValue = isset($data1['ProfileCustomValue'])?$data1['ProfileCustomValue']:"";
 								
 					if($ProfileCustomType!=4)	{
 						
@@ -786,7 +787,7 @@ class RBAgency_Casting {
 								}
 							
 								if ($ProfileCustomType == 1) { //TEXT		
-									echo "<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".$custom_fields[$data1['ProfileCustomID']]."\" /></div>";
+									echo "<div><input type=\"text\" name=\"ProfileCustomID". $data1['ProfileCustomID'] ."\" value=\"".(isset($custom_fields[$data1['ProfileCustomID']])?$custom_fields[$data1['ProfileCustomID']]:"")."\" /></div>";
 								} elseif ($ProfileCustomType == 2) { // Min Max
 								   
 									$ProfileCustomOptions_String = str_replace(",",":",strtok(strtok($data1['ProfileCustomOptions'],"}"),"{"));
@@ -813,9 +814,12 @@ class RBAgency_Casting {
 									}
 								 
 								} elseif ($ProfileCustomType == 3) { // SELECT
-									
-									list($option1,$option2) = explode(":",$data1['ProfileCustomOptions']);	
-										
+									$option1 = "";
+									$option2 = "";
+
+									if(strpos($data1['ProfileCustomOptions'], ":") !==false){
+										list($option1,$option2) = explode(":",$data1['ProfileCustomOptions']);	
+									}
 									$data = explode("|",$option1);
 									$data2 = explode("|",$option2);				
 								 
@@ -901,8 +905,12 @@ class RBAgency_Casting {
 								elseif ($ProfileCustomType == 7) {
 							
 									// get the values from db				
-									list($min_val,$max_val) =  explode("-", $custom_fields[$data1['ProfileCustomID']]);
-					
+									$min_val = "";
+									$max_val = "";
+									
+									if(isset($custom_fields[$data1['ProfileCustomID']]) && strpos($custom_fields[$data1['ProfileCustomID']], ",") !== false){
+										list($min_val,$max_val) =  explode("-", $custom_fields[$data1['ProfileCustomID']]);
+									}
 										if($data1['ProfileCustomTitle']=="Height" && $data1['ProfileCustomOptions']==3){
 					
 											echo "<div><label>Min</label><select name=\"ProfileCustomID". $data1['ProfileCustomID'] ."[]\">\n";
