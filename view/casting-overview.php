@@ -81,71 +81,71 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 
 	echo "		<li>Username: <strong>" . $curauth->user_login . "</strong></li>\n";
 
-	if($data_r->CastingContactNameFirst != ""){
+	if(isset($data_r->CastingContactNameFirst) && $data_r->CastingContactNameFirst != ""){
 		echo "		<li>First Name: <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactNameLast != ""){
+	if(isset($data_r->CastingContactNameLast) && $data_r->CastingContactNameLast != ""){
 		echo "		<li>Last Name: <strong>" . $data_r->CastingContactNameLast . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactEmail != ""){	
+	if(isset($data_r->CastingContactEmail) && $data_r->CastingContactEmail != ""){	
 		echo "		<li>User Email: <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactCompany != ""){	
+	if(isset($data_r->CastingContactCompany) && $data_r->CastingContactCompany != ""){	
 		echo "		<li>Company: <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactWebsite != ""){	
+	if(isset($data_r->CastingContactWebsite) && $data_r->CastingContactWebsite != ""){	
 		echo "		<li>Website: <strong>" . $data_r->CastingContactWebsite . "</strong></li>\n";
 	}
 	
-	if($data_r->CastingLocationStreet != ""){		
+	if(isset($data_r->CastingLocationStreet) && $data_r->CastingLocationStreet != ""){		
 		echo "		<li>Street: <strong>" . $data_r->CastingLocationStreet . "</strong></li>\n";
 	}
 	
-	if($data_r->CastingLocationCity!=""){
+	if(isset($data_r->CastingLocationCity) && $data_r->CastingLocationCity !=""){
 		echo "		<li>City: <strong>" . $data_r->CastingLocationCity . "</strong></li>\n";	
 	}
 
-	if($data_r->CastingLocationCountry!=""){	
+	if(isset($data_r->CastingLocationCountry) && $data_r->CastingLocationCountry!=""){	
 		echo "		<li>Country: <strong>" . $data_r->CastingLocationCountry . "</strong></li>\n";	
 	}
 
-	if($data_r->CastingLocationState!=""){	
+	if(isset($data_r->CastingLocationState) && $data_r->CastingLocationState!=""){	
 		echo "		<li>State: <strong>" . $data_r->CastingLocationState . "</strong></li>\n";	
 	}
 
-	if($data_r->CastingLocationZip!=""){	
+	if(isset($data_r->CastingLocationZip) && $data_r->CastingLocationZip!=""){	
 		echo "		<li>Zip: <strong>" . $data_r->CastingLocationZip . "</strong></li>\n";	
 	}
 
-	if($data_r->CastingContactPhoneHome!=""){	
+	if(isset($data_r->CastingContactPhoneHome) && $data_r->CastingContactPhoneHome!=""){	
 		echo "		<li>Home Phone: <strong>" . $data_r->CastingContactPhoneHome . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactPhoneWork!=""){	
+	if(isset($data_r->CastingContactPhoneWork) && $data_r->CastingContactPhoneWork!=""){	
 		echo "		<li>Work Phone: <strong>" . $data_r->CastingContactPhoneWork . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactPhoneCell!=""){	
+	if(isset($data_r->CastingContactPhoneCell) && $data_r->CastingContactPhoneCell!=""){	
 		echo "		<li>Cell Phone: <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
 	}
 
-	if($data_r->CastingContactLinkFacebook!=""){	
+	if(isset($data_r->CastingContactLinkFacebook) && $data_r->CastingContactLinkFacebook!=""){	
 		echo "		<li>Facebook: <strong>" . $data_r->CastingContactLinkFacebook . "</strong></li>\n";	
 	}
 	
-	if($data_r->CastingContactLinkTwitter!=""){	
+	if(isset($data_r->CastingContactLinkTwitter) && $data_r->CastingContactLinkTwitter!=""){	
 		echo "		<li>Twitter: <strong>" . $data_r->CastingContactLinkTwitter . "</strong></li>\n";	
 	}
 	
-	if($data_r->CastingContactLinkYoutube!=""){	
+	if(isset($data_r->CastingContactLinkYoutube) && $data_r->CastingContactLinkYoutube!=""){	
 		echo "		<li>Youtube: <strong>" . $data_r->CastingContactLinkYoutube . "</strong></li>\n";	
 	}
 
-	if($data_r->CastingContactLinkTwitter!=""){		
+	if(isset($data_r->CastingContactLinkTwitter) && $data_r->CastingContactLinkTwitter!=""){		
 		echo "		<li>Flickr: <strong>" . $data_r->CastingContactLinkTwitter . "</strong></li>\n";	
 	}
 	

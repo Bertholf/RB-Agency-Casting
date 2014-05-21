@@ -127,8 +127,8 @@ global $wpdb;
    	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.0.9") {
 
 	   // Add Table
-		if ($wpdb->get_var("show tables like '".table_agency_castingcart_jobs."'") !=table_agency_castingcart_jobs) { 
-				$results = $wpdb->query("CREATE TABLE IF NOT EXISTS ".table_agency_castingcart_jobs ." (
+		if ($wpdb->get_var("show tables like '".table_agency_casting_job."'") !=table_agency_casting_job) { 
+				$results = $wpdb->query("CREATE TABLE IF NOT EXISTS ".table_agency_casting_job ." (
 				CastingJobID INT(20) NOT NULL AUTO_INCREMENT,
 				CastingJobAudition VARCHAR(100) ,
 				CastingJobRole VARCHAR(100),
@@ -136,13 +136,20 @@ global $wpdb;
 				CastingJobAuditionVenue VARCHAR(500),
 				CastingJobAuditionTime VARCHAR(100),
 				CastingJobClothing VARCHAR(600),
-				CastingJobRCallBackWardrobe VARCHAR(600),
+				CastingJobRCallBack VARCHAR(600),
 				CastingJobScript VARCHAR(600),
 				CastingJobShootDate VARCHAR(100),
 				CastingJobRoleFee VARCHAR(600),
 				CastingJobComments VARCHAR(1000),
 				CastingJobSelectedFor VARCHAR(100),
 				CastingJobDateCreated TIMESTAMP,
+				CastingJobTalents VARCHAR(500),
+				CastingJobTalentsHash VARCHAR(500),
+				CastingJobWardrobe VARCHAR(600),
+				CastingJobShootLocation VARCHAR(600),
+				CastingJobShootLocationMap VARCHAR(600),
+				CastingJobVisibility INT(10),
+				CastingJobCriteria VARCHAR(1000),
 				PRIMARY KEY (CastingJobID)
 				);") or mysql_error();
 		}
@@ -151,3 +158,33 @@ global $wpdb;
 		update_option('rb_agency_casting_version', "0.1.0");
 	}
 
+   	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.0") {
+
+   			$wpdb->query("DROP TABLE {$wpdb->prefix}agency_casting_job");
+
+			$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_job . " (
+					Job_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					Job_UserLinked BIGINT(20) NOT NULL,
+					Job_Title VARCHAR(255),
+					Job_Text TEXT,
+					Job_Date_Start VARCHAR(255),
+					Job_Date_End VARCHAR(255),
+					Job_Location VARCHAR(255),
+					Job_Region VARCHAR(255),
+					Job_Offering VARCHAR(255),
+					Job_Visibility VARCHAR(255),
+					Job_Criteria VARCHAR(255),
+					Job_Type VARCHAR(255),
+					Job_Talents VARCHAR(1000),
+					Job_Talents_Hash VARCHAR(600),
+					Job_Audition_Date VARCHAR(50),
+					Job_Audition_Venue VARCHAR(500),
+					Job_Audition_Time VARCHAR(100),
+					PRIMARY KEY (Job_ID)
+					);";
+			$wpdb->query($sql) or mysql_error();
+
+
+	// Updating version number
+		update_option('rb_agency_casting_version', "0.1.1");
+	}
