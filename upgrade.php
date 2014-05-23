@@ -226,3 +226,13 @@ global $wpdb;
 
 	}
 
+	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.3") {
+
+
+		rb_agency_addColumn( table_agency_castingcart,"CastingJobID","INT(10)");
+		
+		// Updating version number
+		update_option('rb_agency_casting_version', "0.1.4");
+
+	}
+
