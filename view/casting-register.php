@@ -15,7 +15,8 @@
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
 	$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
-	$rb_agency_interact_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
+	$rb_agency_interact_options_arr = get_option('rb_agencyinteract_options');
+	$rb_agencyinteract_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
 
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );	
@@ -34,7 +35,7 @@
 		$CastingGender = isset($_POST['CastingGender'])?$_POST['CastingGender']:0;
 		$user_pass  = NULL;
 
-		if ($rb_agency_interact_option_registerconfirm == 1) {
+		if ($rb_agencyinteract_option_registerconfirm == 1) {
 			$user_pass = $_POST['casting_password'];
 		} else {
 			$user_pass = wp_generate_password();
@@ -149,18 +150,18 @@
 						   CastingDateCreated,
 						   CastingIsActive)" .
 						"VALUES (". $new_user . 
-						 ",'" . $wpdb->escape($CastingGallery) . "','" . 
-								$wpdb->escape($CastingContactDisplay) . 
-						"','" . $wpdb->escape($first_name) . "','" . 
-								$wpdb->escape($last_name) . 
-						"','" . $wpdb->escape($user_email) . "','" . 
-								$wpdb->escape($_POST['casting_company']) . "','" . 
-								$wpdb->escape($_POST['casting_website']) . "','" . 
-								$wpdb->escape($_POST['casting_address']) . "','" . 
-								$wpdb->escape($_POST['casting_city']) . "','" . 
-								$wpdb->escape($_POST['CastingState']) . "','" . 
-								$wpdb->escape($_POST['casting_zip']) . "','" . 
-								$wpdb->escape($_POST['CastingCountry']) . "'" . 
+						 ",'" . esc_sql($CastingGallery) . "','" . 
+								esc_sql($CastingContactDisplay) . 
+						"','" . esc_sql($first_name) . "','" . 
+								esc_sql($last_name) . 
+						"','" . esc_sql($user_email) . "','" . 
+								esc_sql($_POST['casting_company']) . "','" . 
+								esc_sql($_POST['casting_website']) . "','" . 
+								esc_sql($_POST['casting_address']) . "','" . 
+								esc_sql($_POST['casting_city']) . "','" . 
+								esc_sql($_POST['CastingState']) . "','" . 
+								esc_sql($_POST['casting_zip']) . "','" . 
+								esc_sql($_POST['CastingCountry']) . "'" . 
 								",now(), ". 
 								$CastingIsActive .")";
 
@@ -168,7 +169,7 @@
 				$CastingID = $wpdb->insert_id;
 
 				// Log them in if no confirmation required.			
-				if ($rb_agency_interact_option_registerconfirm == 1) {
+				if ($rb_agencyinteract_option_registerconfirm == 1) {
 
 					global $error;
 					
@@ -182,7 +183,7 @@
 		}
 		
 		// Log them in if no confirmation required.
-		if ($rb_agency_interact_option_registerconfirm == 1) {
+		if ($rb_agencyinteract_option_registerconfirm == 1) {
 			if($login){
 				header("Location: ". get_bloginfo("wpurl"). "/casting-member/");
 			}
@@ -195,9 +196,9 @@
 // *************************************************************************************************** //
 // Prepare Page
 	// add scripts
-	wp_deregister_script('jquery'); 
-	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
-	wp_enqueue_script('jquery_latest');
+	//wp_deregister_script('jquery'); 
+	//wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+	wp_enqueue_script('jquery');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
 	
 	echo $rb_header = RBAgency_Common::rb_header();
@@ -252,14 +253,14 @@
 	echo "  	<h1 class=\"entry-title\">Join Our Team</h1>";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
-	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below.</p>";
+	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below. ".$rb_agencyinteract_option_registerconfirm."</p>";
 	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
 	echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_user_name\">". __("Username (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo esc_html( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #rofile-username -->\n";
 
-	if ($rb_agency_interact_option_registerconfirm == 1) {
+	if ($rb_agencyinteract_option_registerconfirm == 1) {
 	echo "       <div id=\"casting-password\" class=\"rbfield rbpassword rbsingle\">\n";
 	echo "       	<label for=\"casting_password\">". __("Password (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo esc_html( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
@@ -370,7 +371,7 @@
 						echo "<div>\n";
 						echo "<span>Or</span>\n";
 						echo "<div id=\"fb_RegistrationForm\">\n";
-						if ($rb_agency_interact_option_registerconfirm == 1) {	 // With custom password fields
+						if ($rb_agencyinteract_option_registerconfirm == 1) {	 // With custom password fields
 							echo "<iframe src=\"https://www.facebook.com/plugins/registration?client_id=".$rb_agency_interact_option_fb_app_id."&redirect_uri=".$fb_app_register_uri."&fields=[ {'name':'name'}, {'name':'email'}, {'name':'location'}, {'name':'gender'}, {'name':'birthday'}, {'name':'username',  'description':'Username',  'type':'text'},{'name':'password'},{'name':'tos','description':'I agree to the terms of service','type':'checkbox'}]\"		 
 								  scrolling=\"auto\"
 								  frameborder=\"no\"
