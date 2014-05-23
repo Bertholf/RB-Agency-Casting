@@ -151,6 +151,7 @@ jQuery(document).ready(function(){
 					'talent_id': profile_id
 				},
 				success: function (results) {
+					 console.log(results);
 						if(results.data == ""){
 							$this.html("Failed. Retry.");	
 						} else if(results.data == "inserted"){
@@ -158,6 +159,8 @@ jQuery(document).ready(function(){
 						} else if(results.data == "deleted"){
 							$this.html("Add to CastingCart");	
 						}
+  			    },error: function(err){
+  			    	console.log(err);
   			    }
 		});
 		
