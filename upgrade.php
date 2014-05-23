@@ -188,3 +188,41 @@ global $wpdb;
 	// Updating version number
 		update_option('rb_agency_casting_version', "0.1.1");
 	}
+
+	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.2") {
+
+	// Add Table
+		if ($wpdb->get_var("show tables like '".table_agency_castingcart_availability."'") !=table_agency_castingcart_availability) { 
+			$results = $wpdb->query("CREATE TABLE IF NOT EXISTS ".table_agency_castingcart_availability ." (
+			CastingAvailabilityID INT(20) NOT NULL AUTO_INCREMENT,
+			CastingAvailabilityProfileID INT(20) NOT NULL,
+			CastingAvailabilityStatus VARCHAR(255),
+			CastingAvailabilityDateCreated TIMESTAMP,
+			CastingJobID INT(20),
+			PRIMARY KEY (CastingAvailabilityID)
+			);") or mysql_error();
+		}
+
+		if ($wpdb->get_var("show tables like '".table_agency_castingcart_profile_hash."'") !=table_agency_castingcart_profile_hash) { 
+		// Casting Jobs > Invite Profile ID hash
+				$sql = "CREATE TABLE IF NOT EXISTS ". table_agency_castingcart_profile_hash." (
+					CastingProfileHashID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					CastingProfileHashJobID VARCHAR(255),
+					CastingProfileHashProfileID VARCHAR(255),
+					CastingProfileHash VARCHAR(255),
+					PRIMARY KEY (CastingProfileHashID)
+					);";
+				$wpdb->query($sql) or mysql_error();
+		}
+
+		rb_agency_addColumn( table_agency_casting_job,"Job_Talents","VARCHAR(5000)");
+		rb_agency_addColumn( table_agency_casting_job,"Job_Talents_Hash","VARCHAR(100)");
+		rb_agency_addColumn( table_agency_casting_job,"Job_Audition_Date","VARCHAR(100)");
+		rb_agency_addColumn( table_agency_casting_job,"Job_Audition_Venue","VARCHAR(100)");
+		rb_agency_addColumn( table_agency_casting_job,"Job_Audition_Time","VARCHAR(100)");
+		
+	// Updating version number
+		update_option('rb_agency_casting_version', "0.1.3");
+
+	}
+
