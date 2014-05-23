@@ -553,14 +553,11 @@ class RBAgency_Casting {
 			}
 
 			$get_id = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = %d" ,$user_linked ),OBJECT,0);
-          	
 
 			if(count($get_id) > 0){
-				if($field_name == NULL){
+				if(isset($get_id->ProfileID)){
 					return $get_id->ProfileID;
-				} else {
-					return @$get_id->field_name;
-				}
+				} 
 			}
 
 			return false;
@@ -1346,7 +1343,6 @@ class RBAgency_Casting {
 					if(is_null($JobID) && $JobID != '') return "";
 		
 					if(is_user_logged_in()){ 
-
 						if(isset($talent) && $talent ){ 
 							
 							if(strpos("none", $JobID) > -1 ){
@@ -1386,7 +1382,6 @@ class RBAgency_Casting {
 								if($count_castingcart<=0){ //if not exist insert favorite!
 									$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = %s, CastingCartTalentID = %s, CastingJobID = %s"; 
 									$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
-									
 									$arr = array( "data" => "inserted");
 									echo json_encode($arr);
 								} else { // favorite model exist, now delete!
