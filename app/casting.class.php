@@ -1359,15 +1359,15 @@ class RBAgency_Casting {
 									$talent = self::rb_casting_ismodel($data[1], "ProfileID");
 									$JobID = $data[0];
 									
-									$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
-									$count_castingcart = mysql_num_rows($query_castingcart);
-									$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+									$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
+									$count_castingcart = $wpdb->num_rows;
+									$datas_castingcart = $query_castingcart;
 				
 									if($count_castingcart<=0){ //if not exist insert favorite!
-										$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = " .rb_agency_get_current_userid()  . ", CastingCartTalentID = " . $talent . ", CastingJobID = " . $JobID; 
-										mysql_query($insert) or die(mysql_error());
+										$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = %s, CastingCartTalentID = %s, CastingJobID = %s"; 
+										$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
 									} else { // favorite model exist, now delete!
-										mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = ".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid()." AND CastingJobID = " . $JobID) or die(mysql_error());
+										$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
 									}
 									
 								}								
@@ -1378,17 +1378,19 @@ class RBAgency_Casting {
 							} else {
 								
 								$talent = self::rb_casting_ismodel($talent, "ProfileID");
-								$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
-								$count_castingcart = mysql_num_rows($query_castingcart);
-								$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+								$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
+								$count_castingcart = $wpdb->num_rows;
+								$datas_castingcart = $query_castingcart;
+				
 			
 								if($count_castingcart<=0){ //if not exist insert favorite!
-									$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = " .rb_agency_get_current_userid()  . ", CastingCartTalentID = " . $talent . ", CastingJobID = " . $JobID; 
-									mysql_query($insert) or die(mysql_error());
+									$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = %s, CastingCartTalentID = %s, CastingJobID = %s"; 
+									$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
+									
 									$arr = array( "data" => "inserted");
 									echo json_encode($arr);
 								} else { // favorite model exist, now delete!
-									mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = ".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid(). " AND CastingJobID = " . $JobID)  or die("error");
+									$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
 									$arr = array("data" => "deleted");
 									echo json_encode($arr);							
 								}
@@ -1420,8 +1422,8 @@ class RBAgency_Casting {
 						if(isset($talent) && $talent ){ 
 						
 							$talent = self::rb_casting_ismodel($talent, "ProfileID");
-							$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID=".$talent."  AND CastingCartProfileID = ".rb_agency_get_current_userid() . " AND CastingJobID = " . $JobID) or die(mysql_error());
-							$count_castingcart = mysql_num_rows($query_castingcart);
+							$query_castingcart =$wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID= %s  AND CastingCartProfileID = %s AND CastingJobID = %s ",$talent,rb_agency_get_current_userid(),$JobID ));
+							$count_castingcart =$wpdb->num_rows;
 							
 							if($count_castingcart > 0){
 								return true;
