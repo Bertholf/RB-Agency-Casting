@@ -6,6 +6,11 @@ wp_deregister_script('jquery');
 wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1,true); 
 wp_enqueue_script('jquery_latest');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1,true); 
+wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1,true); 
+wp_enqueue_script('jquery-timepicker');
+wp_register_style( 'timepicker-style', plugins_url('../css/timepicker-addon.css', __FILE__) );
+wp_enqueue_style( 'timepicker-style' );
+
 
 echo $rb_header = RBAgency_Common::rb_header(); 
 
@@ -175,11 +180,19 @@ function load_job_display($error = NULL){
 									},
 									success: function (results) {
 										jQuery("#criteria").html(results);
+									},
+									error: function (err){
+										console.log(err);
 									}
 							});
 						} else {
 							jQuery("#criteria").html("");
 						}
+					});
+					jQuery(".timepicker").timepicker({
+						hourGrid: 4,
+						minuteGrid: 10,
+						timeFormat: "hh:mm tt"
 					});
 				});
 		  </script>';
@@ -204,21 +217,7 @@ function load_job_display($error = NULL){
 		//===============================
 		echo " <form method='get' actipn='".(isset($_SERVER['PHP_SELF'])?$_SERVER['PHP_SELF']:"")."'>
 					<table>
-						<tr>
-							<td><h3>Job Audition</h3></td><td></td>
-						</tr>
-						<tr>
-							<td>Date:</td>
-							<td>
-								<input type='text' name='Job_Audition_Date' class='datepicker' value='".(isset($_GET['Job_Audition_Date'])?$_GET['Job_Audition_Date']:"")."'>
-							</td>
-						</tr>
-						<tr>
-							<td>Venue:</td>
-							<td>
-								<input type='text' name='Job_Audition_Venue' value='".(isset($_GET['Job_Audition_Venue'])?$_GET['Job_Audition_Venue']:"")."'>
-							</td>
-						</tr>
+						
 						<tr>
 							<td><h3>Job Description</h3></td>
 							<td></td>
@@ -229,7 +228,7 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Description:</td>
-							<td><input type='text' name='Job_Text' value='".(isset($_GET['Job_Text'])?$_GET['Job_Text']:"")."'></td>
+							<td><textarea name='Job_Text'>".(isset($_GET['Job_Text'])?$_GET['Job_Text']:"")."</textarea></td>
 						</tr>	
 						<tr>
 							<td>Offer:</td>
@@ -260,6 +259,27 @@ function load_job_display($error = NULL){
 						<tr>
 							<td>Region:</td>
 							<td><input type='text' name='Job_Region' value='".(isset($_GET['Job_Region'])?$_GET['Job_Region']:"")."'></td>
+						</tr>
+						<tr>
+							<td><h3>Job Audition</h3></td><td></td>
+						</tr>
+						<tr>
+							<td>Date:</td>
+							<td>
+								<input type='text' name='Job_Audition_Date' class='datepicker' value='".(isset($_GET['Job_Audition_Date'])?$_GET['Job_Audition_Date']:"")."'>
+							</td>
+						</tr>
+						<tr>
+							<td>Time:</td>
+							<td>
+								<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_GET['Job_Audition_Time'])?$_GET['Job_Audition_Time']:"")."'>
+							</td>
+						</tr>
+						<tr>
+						<td>Venue:</td>
+							<td>
+								<textarea name='Job_Audition_Venue'>".(isset($_GET['Job_Audition_Venue'])?$_GET['Job_Audition_Venue']:"")."</textarea>
+							</td>
 						</tr>
 						<tr>
 							<td><h3>Job Criteria</h3></td><td></td>
