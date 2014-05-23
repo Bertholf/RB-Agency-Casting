@@ -209,7 +209,7 @@
 				if(get_query_var('type')=="casting"){ //hides profile block when icon is click
 				 	$divHide="onclick=\"javascript:document.getElementById('div$ProfileID').style.display='none';\"";
 				}
-				$disp .= "<div class=\"gotocastingcard\"><a $divHide href=\"". get_bloginfo("wpurl") ."/profile-casting/\"  title=\"Go to Casting Cart\">VIEW CASTING CART</a></div>";
+				$disp .= "<div class=\"gotocastingcard\"><a ".(isset($divHide)?$divHide:"")." href=\"". get_bloginfo("wpurl") ."/profile-casting/\"  title=\"Go to Casting Cart\">VIEW CASTING CART</a></div>";
 			}
 		}
 

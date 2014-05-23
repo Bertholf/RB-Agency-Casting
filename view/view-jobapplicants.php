@@ -258,7 +258,7 @@ if (is_user_logged_in()) {
 			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
 					 		   " jobs ON jobs.Job_ID = applicants.Job_ID";					 
 		} else {
-			if($_SESSION['filter'] != ""){
+			if(isset($_SESSION['filter']) && $_SESSION['filter'] != ""){
 				$filter = " AND " . $_SESSION['filter']; 
 			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
