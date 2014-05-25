@@ -42,7 +42,7 @@ function table_posting(){
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
-	if ($items > 0) {
+	if (isset($items) && $items > 0) {
 		echo $p->show();  // Echo out the list of paging. 
 	}
 	echo "  </div>\n";
@@ -53,8 +53,8 @@ function table_posting(){
 	echo " <thead>\n";
 	echo "    <tr class=\"thead\">\n";
 	echo "        <th class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"col\"><input type=\"checkbox\"/></th>\n";
-	echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\"><a href=\"" . admin_url("admin.php?page=" . $_GET['page'] . "&sort=ProfileID&dir=" . $sortDirection) . "\">ID</a></th>\n";
-	echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\"><a href=\"" . admin_url("admin.php?page=" . $_GET['page'] . "&sort=JobTitle&dir=" . $sortDirection) . "\">Job Title</a></th>\n";
+	echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\"><a href=\"" . admin_url("admin.php?page=" . $_GET['page'] . "&sort=ProfileID&dir=" . (isset($sortDirection)?$sortDirection:"")) . "\">ID</a></th>\n";
+	echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\"><a href=\"" . admin_url("admin.php?page=" . $_GET['page'] . "&sort=JobTitle&dir=" . (isset($sortDirection)?$sortDirection:"") ) . "\">Job Title</a></th>\n";
 	echo "        <th class=\"column-JobText\" id=\"JobText\" scope=\"col\">Job Description</th>\n";
 	echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Duration</th>\n";
 	echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Location</th>\n";
@@ -107,7 +107,7 @@ function table_posting(){
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
-	if ($items > 0) {
+	if (isset($items) && $items > 0) {
 		echo $p->show();  // Echo out the list of paging. 
 	}
 	echo "  </div>\n";
