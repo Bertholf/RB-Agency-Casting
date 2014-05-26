@@ -546,6 +546,20 @@
 		}*/
 
 
-
+		/**
+		 * Switch casting-login sidebars to widget
+		 *
+		 */
+		function rb_castinglogin_widgets_init() {
+			register_sidebar( array(
+					'name' => 'RB Agency Casting: Login Sidebar',
+					'id' => 'rb-agency-casting-login-sidebar',
+					'before_widget' => '<div>',
+					'after_widget' => '</div>',
+					'before_title' => '<h3>',
+					'after_title' => '</h3>',
+				) );
+		}
+		add_action( 'widgets_init', 'rb_castinglogin_widgets_init' );
 
 ?>
