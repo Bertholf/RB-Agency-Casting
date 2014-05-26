@@ -128,7 +128,7 @@ function job_type_settings(){
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
-	if ($items > 0) {
+	if (isset($items) && $items > 0) {
 		echo $p->show();  // Echo out the list of paging. 
 	}
 	echo "  </div>\n";
@@ -286,7 +286,7 @@ function job_type_settings(){
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
-	if ($items > 0) {
+	if (isset($items) && $items > 0) {
 		echo $p->show();  // Echo out the list of paging. 
 	}
 	echo "  </div>\n";
