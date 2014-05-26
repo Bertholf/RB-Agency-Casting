@@ -161,7 +161,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View Your Applicants</a></h4>\n";
 	}
 	
-	echo "		<h4><a href=\"" . wp_logout_url(get_permalink()) . "\" class=\"rb_button\">Logout</a></h4>\n";
+	echo "		<h4><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\" class=\"rb_button\">Logout</a></h4>\n";
 	echo "  </div>\n";
 	
 	echo "  <div id=\"search\">\n";
