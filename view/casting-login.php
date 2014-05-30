@@ -22,7 +22,7 @@ if ( $_SERVER['REQUEST_METHOD'] == "POST" && !empty( $_POST['action'] ) && $_POS
 function get_user_login_info(){
 
     global $user_ID;
-	$redirect = isset($_POST["lastviewed"])?$_POST["lastviewed"]:"";
+	$redirect = isset($_REQUEST["lastviewed"])?$_REQUEST["lastviewed"]:"";
 	get_currentuserinfo();
 	$user_info = get_userdata( $user_ID );
 
