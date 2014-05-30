@@ -184,7 +184,7 @@
 		
 		// Log them in if no confirmation required.
 		if ($rb_agencyinteract_option_registerconfirm == 1) {
-			if($login){
+			if(isset($login)){
 				header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
 			}
 		}
