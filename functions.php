@@ -10,13 +10,6 @@
 		}*/
 	
 
-	add_action('init', 'rb_agency_casting_init_sessions');
-		function rb_agency_casting_init_sessions() {
-			if (!session_id()) {
-				session_start();
-			}
-		}
-
 	// Remember to flush_rules() when adding rules
 	add_filter('init','rbcasting_flushrules');
 		function rbcasting_flushRules() {
@@ -160,7 +153,7 @@
 						if(get_query_var('type')=="casting"){ //hides profile block when icon is click
 							$divHide="onclick=\"javascript:document.getElementById('div$ProfileID').style.display='none';\"";
 						}
-						$disp .= "<div class=\"castingcart\"><a $divHide href=\"javascript:void(0)\"  id=\"".$ProfileID."\" title=\"Remove from Casting Cart\"  class=\"saved_castingcart\"></a></div>";
+						$disp .= "<div class=\"castingcart\"><a ".(isset($divHide)?$divHide:"")." href=\"javascript:void(0)\"  id=\"".$ProfileID."\" title=\"Remove from Casting Cart\"  class=\"saved_castingcart\"></a></div>";
 				}
 			}
 		}
@@ -561,5 +554,11 @@
 				) );
 		}
 		add_action( 'widgets_init', 'rb_castinglogin_widgets_init' );
+
+
+        function rb_agency_casting_jobs(){
+        	include_once(dirname(__FILE__) .'/view/admin-castingjobs.php');
+        }
+
 
 ?>
