@@ -159,6 +159,8 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	} else {
 		echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View Your Job Postings</a></h4>\n";
 		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View Your Applicants</a></h4>\n";
+		echo "		<h4><a href=\"". get_bloginfo("url") ."/profile-casting\" class=\"rb_button\">View Your Casting Cart</a></h4>\n";
+	
 	}
 	
 	echo "		<h4><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\" class=\"rb_button\">Logout</a></h4>\n";
