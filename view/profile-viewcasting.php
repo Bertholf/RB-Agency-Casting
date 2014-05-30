@@ -124,14 +124,13 @@ echo "					<div class=\"cb\"></div>\n"; ?>
 
 						<script type="text/javascript">
 						jQuery(document).ready(function(){
-							jQuery('#emailbox').toggle('slow'); 
 							jQuery("#sendemail").click(function(){
 								jQuery('#emailbox').toggle('slow'); 
 							});
 						});
 						</script>
 
-						<div id="emailbox" >
+						<div id="emailbox" style="display:none;">
 							<form method="post" enctype="multipart/form-data" action="">
 								<input type="hidden" name="action" value="cartEmail" />	      
 								<div class="field"><label for="SearchMuxToName">Sender Name:</label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
@@ -152,12 +151,26 @@ echo "				</div>\n";
 echo "			</div>\n";
 
 echo "			<div class=\"cb\"></div>\n";
-					
-					if (function_exists('rb_agency_profilelist')) { 
+                   if(is_user_logged_in()){
+	                   $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
+	                   
+	                   echo "<form method=\"get\" action=\"\">";
+	                   echo "<select name=\"Job_ID\">";
+	                   echo "<option value=\"\">- Select a job-</option>";
+	                   foreach ($Jobs as $key) {
+	                    echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
+	                   }
+	                   echo "</select>";
+	                   echo "<input type=\"submit\"  value=\"Search\"/>";
+	                   echo "</form>";
+					}	
+					if (is_user_logged_in() && function_exists('rb_agency_profilelist') && isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])) { 
 						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
 						$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($atts);
 						$view_type = 2; // casting
 						echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type);						
+					}elseif(!is_user_logged_in()) {
+						echo "Please <a href=\"". get_bloginfo("url")."/casting-login/?lastviewed=".get_bloginfo("url")."/profile-casting/?Job_ID=".$wpdb->prepare("%d",$_GET["Job_ID"])."\" style=\"color:##3E85D1 !important;\">login</a> to view the profile(s).";
 					}
 
 					if(isset($_GET["emailSent"])) {
@@ -167,11 +180,10 @@ echo "					<p id=\"emailSent\">Email Sent Succesfully! Go Back to <a href=\"". g
 
 echo "			<div class=\"cb\"></div>\n";
 
-
-echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a></p>\n";		
-
-
-echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";		
+if(is_user_logged_in()){
+	echo "<p style=\"width:50%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a> | \n";		
+	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";		
+}
 
 echo "			<input type=\"hidden\" name=\"castingcart\" value=\"1\"/>";
 echo "  	</div>\n";
