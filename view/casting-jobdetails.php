@@ -87,7 +87,26 @@
 							}
 
 
-						echo "</tr>	
+						echo "</tr>	";
+						if(!empty($r->Job_Audition_Date)){
+						echo "<tr>	
+								<td><b>Job Audition Date:</b></td>
+								<td class='jobdesc'>".$r->Job_Audition_Date."</td>
+							</tr>	";
+						}
+						if(!empty($r->Job_Audition_Time)){
+						echo "<tr>	
+								<td><b>Job Audition Time:</b></td>
+								<td class='jobdesc'>".$r->Job_Audition_Time."</td>
+							</tr>	";	
+						}
+						if(!empty($r->Job_Audition_Venue)){
+						echo "<tr>	
+								<td><b>Job Audition Venue:</b></td>
+								<td class='jobdesc'>".$r->Job_Audition_Venue."</td>
+							</tr>	";	
+						}
+						echo "
 						<tr>	
 							<td></td>";
 							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) <= 0){
@@ -100,8 +119,9 @@
 								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'>
 								<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'></td>";
 							}
-						echo "</tr>																																				
-					  <table>";
+						echo "</tr>	";	
+						
+					 echo "<table>";
 			}
 
 			// only admin and casting should have access to casting dashboard

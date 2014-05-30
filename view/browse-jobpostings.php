@@ -268,6 +268,4 @@ if (is_user_logged_in()) {
 //get_sidebar(); 
 echo $rb_footer = RBAgency_Common::rb_footer(); 
 
-
-
 ?>
