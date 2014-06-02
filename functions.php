@@ -214,7 +214,7 @@
 				$disp .= "<div class=\"viewfavorites\"><a rel=\"nofollow\" title=\"View Favorites\" href=\"".  get_bloginfo("wpurl") ."/profile-favorite/\"/>VIEW FAVORITES</a></div>\n";
 			}
 		}
-
+        $disp .= "<div class=\"\"><a href=\"/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\">GO BACK TO CASTING DASHBOARD</a></div>";
 
 		$disp .= "</div><!-- .favorite-casting -->";
 		return $disp; 
@@ -418,10 +418,14 @@
 													Obj.empty().fadeOut().html("").fadeIn();
 													Obj.attr("class", "saved_castingcart");
 													Obj.attr('title', 'Remove from Casting Cart');
+													Obj.text("VIEW CASTING CART");
+													Obj.attr("href","/profile-casting/");
 												} else {
 													Obj.empty().fadeOut().html("").fadeIn();
 													Obj.attr("class", "save_castingcart");
 													Obj.attr('title', 'Add to Casting Cart');
+													Obj.text("ADD TO CASTING CART");
+													
 													$(this).find("a[class=view_all_castingcart]").remove();
 												}
 											}
