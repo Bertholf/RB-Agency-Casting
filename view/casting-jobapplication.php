@@ -11,7 +11,9 @@
 	
 	// job id
 	$job_id = get_query_var('target');
-	
+
+	$Job = $wpdb->get_row($wpdb->prepare("SELECT job.*,client.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as client ON client.CastingID = job.Job_UserLinked WHERE job.Job_ID = %d",$job_id));
+   
 	// check if already applied
 	$check_applied = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $job_id; 
 	
@@ -72,6 +74,14 @@
 					   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
 			
 			$wpdb->query($insert) or die(mysql_error());		
+
+			$Message  = "Hi ".$Job->CastingContactDisplay.",\n\n";
+			$Message .= "You have a new applicant for the job ".$Job->Job_Title.".\n\n";
+			$Message .= "To review, please click the link below:\n\n";
+			$Message .= get_bloginfo("wpurl")."/view-applicants/?filter_jobtitle=".$Job->Job_ID."\n\n\n";
+			$Message .= get_bloginfo("name");
+
+			RBAgency_Casting::sendClientNewJobNotification($Job->CastingContactEmail,$Job->Job_Title,$Message);
 
 			echo $rb_header = RBAgency_Common::rb_header();
 			
