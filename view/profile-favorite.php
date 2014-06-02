@@ -1,9 +1,6 @@
 <?php
 // *************************************************************************************************** //
 // This is the Profile-favorite page 
-
-session_start();
-header("Cache-control: private"); //IE 6 Fix
 include(rb_agency_BASEREL ."app/profile.class.php");
 
 // Get Profile
