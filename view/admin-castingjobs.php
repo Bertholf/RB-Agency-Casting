@@ -718,7 +718,7 @@ $siteurl = get_option('siteurl');
 						 echo "</tr>";
 						 echo "<tr>";
 						 echo "<td valign=\"top\"><label>Message:</label></td>";
-						 echo "<td  style=\"width:500px;\"><textarea name=\"message\"  style=\"width:100%;height:200px;\">Hi ".$CastingContactDisplay.", \n\nWe have updated the casting cart for the job '".$Job_Title."'.\n\nTo review, please click the link below: \n\n". get_bloginfo("wpurl")."/profile-casting/?Job_ID=".$Job_ID."\n\n\n - ".get_bloginfo("name")."</textarea></td>";
+						 echo "<td  style=\"width:500px;\"><textarea name=\"message\"  style=\"width:100%;height:200px;\">Hi ".$CastingContactDisplay.", \n\nWe have updated the casting cart for the job ".ucfirst($Job_Title).".\n\nTo review, please click the link below: \n\n". get_bloginfo("wpurl")."/profile-casting/?Job_ID=".$Job_ID."\n\n\n - ".get_bloginfo("name")."</textarea></td>";
 						 echo "</tr>";
 						 echo "<tr>";
 						 echo "<td>&nbsp;</td><td><input type=\"submit\" value=\"Send\" class=\"button-primary\"/></td>";
