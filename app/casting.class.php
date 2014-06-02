@@ -1688,21 +1688,13 @@ class RBAgency_Casting {
 
 	public static function sendEmail($emails,$link){
 			// Mail it
-		    $headers[]  = 'MIME-Version: 1.0';
-			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-			$headers[]  = 'From: '. get_bloginfo("name") .' <'. get_bloginfo("email").'>' . "\r\n";
-			$MassEmailMessage	= get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
+		    $MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
 			$isSent = wp_mail(trim($emails[0]), get_bloginfo("name").": Job Availability", $MassEmailMessage);
-
 	}
 
 	public static function sendEmailCastingAvailability($Talents_Display_Name,$Availability,$Job_Name,$link){
 			// Mail it
-		    $headers[]  = 'MIME-Version: 1.0';
-			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-			$headers[]  = 'From: '. get_bloginfo("name") .' <noreply@'.get_bloginfo("siteurl").'>' . "\r\n";
-				
-			$MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
+		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
 								 . "\nClick here to review your casting cart: ".$link
 								 .  "\n\n-".$get_bloginfo("name");
 			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage);
@@ -1710,11 +1702,14 @@ class RBAgency_Casting {
 
 	public static function sendClientNotification($Client_Email_Address,$Message){
 			// Mail it
-		    $headers[]  = 'MIME-Version: 1.0';
-			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-			$headers[]  = 'From: '. get_bloginfo("name") .' <'. get_bloginfo("email").'>' . "\r\n";
+		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message);
 			
-		    $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message);
+			
+	}
+
+	public static function sendClientNewJobNotification($Client_Email_Address,$Job_Name,$Message){
+			// Mail it
+		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": New Job Applicant for ".$Job_Name, $Message);
 			
 			
 	}
@@ -1743,4 +1738,14 @@ if(isset($_POST["SendEmail"])){
 if(isset($_REQUEST["action"]) && $_REQUEST['action'] == 'cartEmpty' ) {
 		// Empty Cart
 		unset($_SESSION['cartArray']);
+}
+
+add_filter('wp_mail_from','custom_wp_mail_from');
+function custom_wp_mail_from($email) {
+  return get_bloginfo("admin_email");
+}
+ 
+add_filter('wp_mail_from_name','custom_wp_mail_from_name');
+function custom_wp_mail_from_name($name) {
+  return get_bloginfo("name");
 }
