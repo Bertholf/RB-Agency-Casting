@@ -178,7 +178,8 @@ $siteurl = get_option('siteurl');
 												Job_Criteria,
 												Job_Type,
 												Job_Talents_Hash,	
-												Job_Audition_Date,
+												Job_Audition_Date_Start,
+												Job_Audition_Date_End,
 												Job_Audition_Venue,
 												Job_Audition_Time,
 												Job_UserLinked
@@ -196,7 +197,8 @@ $siteurl = get_option('siteurl');
 												'".esc_attr($_POST["Job_Criteria"])."',
 												'".esc_attr($_POST["Job_Type"])."',
 												'".$hash."',	
-												'".esc_attr($_POST["Job_Audition_Date"])."',
+												'".esc_attr($_POST["Job_Audition_Date_Start"])."',
+												'".esc_attr($_POST["Job_Audition_Date_End"])."',
 												'".esc_attr($_POST["Job_Audition_Venue"])."',
 												'".esc_attr($_POST["Job_Audition_Time"])."',
 												'".esc_attr($_POST["Job_AgencyName"])."'
@@ -245,7 +247,8 @@ $siteurl = get_option('siteurl');
 												Job_Criteria = '".esc_attr($_POST["Job_Criteria"])."',
 												Job_Type = '".esc_attr($_POST["Job_Type"])."',
 												Job_Talents_Hash = '".esc_attr($_POST["Job_Talents_Hash"])."',	
-												Job_Audition_Date = '".esc_attr($_POST["Job_Audition_Date"])."',
+												Job_Audition_Date_Start = '".esc_attr($_POST["Job_Audition_Date_Start"])."',
+												Job_Audition_Date_End = '".esc_attr($_POST["Job_Audition_Date_End"])."',
 												Job_Audition_Venue = '".esc_attr($_POST["Job_Audition_Venue"])."',
 												Job_Audition_Time = '".esc_attr($_POST["Job_Audition_Time"])."'
 											WHERE Job_ID = ".esc_attr($_GET["Job_ID"])."
@@ -289,7 +292,8 @@ $siteurl = get_option('siteurl');
 				$Job_Criteria = "";
 				$Job_Type = "";
 				$Job_Talents_Hash = "";	
-				$Job_Audition_Date = "";
+				$Job_Audition_Date_Start = "";
+				$Job_Audition_Date_End = "";
 				$Job_Audition_Venue = "";
 				$Job_Audition_Time = "";
 				$CastingContactEmail = "";
@@ -315,7 +319,8 @@ $siteurl = get_option('siteurl');
 				$Job_Criteria = $data->Job_Criteria;
 				$Job_Type = $data->Job_Type;
 				$Job_Talents_Hash = $data->Job_Talents_Hash;	
-				$Job_Audition_Date = $data->Job_Audition_Date;
+				$Job_Audition_Date_Start = $data->Job_Audition_Date_Start;
+				$Job_Audition_Date_End = $data->Job_Audition_Date_End;
 				$Job_Audition_Venue = $data->Job_Audition_Venue;
 				$Job_Audition_Time = $data->Job_Audition_Time;
 				$CastingContactEmail = $data->CastingContactEmail;
@@ -514,8 +519,12 @@ $siteurl = get_option('siteurl');
 					echo "</div>";
 					
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
-						echo "<label for=\"Job_Audition_Date\">Audition Date</label>";
-						echo "<div><input type=\"text\"  class=\"datepicker\" id=\"Job_Audition_Date\" name=\"Job_Audition_Date\" value=\"".$Job_Audition_Date."\"></div>";
+						echo "<label for=\"Job_Audition_Date_Start\">Audition Date Start</label>";
+						echo "<div><input type=\"text\"  class=\"datepicker\" id=\"Job_Audition_Date_Start\" name=\"Job_Audition_Date_Start\" value=\"".$Job_Audition_Date_Start."\"></div>";
+					echo "</div>";
+					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
+						echo "<label for=\"Job_Audition_Date_End\">Audition Date End</label>";
+						echo "<div><input type=\"text\"  class=\"datepicker\" id=\"Job_Audition_Date_End\" name=\"Job_Audition_Date_End\" value=\"".$Job_Audition_Date_End."\"></div>";
 					echo "</div>";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
 						echo "<label for=\"Job_Audition_Time\">Audition Time</label>";
@@ -561,9 +570,10 @@ $siteurl = get_option('siteurl');
 								jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 								jQuery("#Job_Date_Start").val("'.$Job_Date_Start.'");
 								jQuery("#Job_Date_End").val("'.$Job_Date_End.'");
-								jQuery("#Job_Audition_Date").val("'.$Job_Audition_Date.'");
-								
-				
+								jQuery("#Job_Audition_Date_Start").val("'.$Job_Audition_Date_Start.'");
+								jQuery("#Job_Audition_Date_End").val("'.$Job_Audition_Date_End.'");
+											
+					
 								jQuery("#Job_Visibility").change(function(){
 									if(jQuery(this).val() == 2){
 										jQuery("#job_criteria_field").show();
