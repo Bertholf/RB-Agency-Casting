@@ -724,6 +724,22 @@ class RBAgency_Casting {
 			
 				$field_results = $wpdb->get_results($field_sql,ARRAY_A);
 
+				if(isset($custom_fields["age"]) && is_array($custom_fields["age"])){
+									$custom_fields["age"] = @implode("-",$custom_fields["age"]);
+				}
+
+				 $list_value = isset($custom_fields["age"])?$custom_fields["age"]:"";
+				 @list($min_val,$max_val) =  @explode("-",$list_value);
+
+				echo "<div class=\"rbfield rbmulti rbmetric rbsingle profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
+				echo "<label for=\"ProfileCustomIDage\">Age</label>";
+				echo "<div class=\"clear\"></div>";				
+				echo "<div><label for=\"ProfileCustomIDage_min\">Min</label>";
+				echo "<input value=\"".(isset($min_val)?$min_val:"")."\" class=\"stubby rbmin\" type=\"text\" name=\"ProfileCustomIDage[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
+				echo "<div><label for=\"ProfileCustomIDage_max\">Max</label>";
+				echo "<input value=\"".(isset($max_val)?$max_val:"")."\" class=\"stubby rbmax\" type=\"text\" name=\"ProfileCustomIDage[]\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
+				echo "</div>";
+
 				foreach($field_results  as $data){
 
 					// Set Variables
@@ -1696,7 +1712,7 @@ class RBAgency_Casting {
 			// Mail it
 		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
 								 . "\nClick here to review your casting cart: ".$link
-								 .  "\n\n-".$get_bloginfo("name");
+								 .  "\n\n-".get_bloginfo("name");
 			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage);
 	}
 
