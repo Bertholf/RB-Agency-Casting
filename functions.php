@@ -31,10 +31,10 @@
 			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]&rbgroup=casting';
 			$newrules['view-applicants'] = 'index.php?type=viewapplicants&rbgroup=casting';
 			// User/Profile View
-			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]&rbgroup=casting';
-			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings&rbgroup=casting';
-			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]&rbgroup=casting';
-			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]&rbgroup=casting';
+			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]';
+			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings';
+			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]';
+			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]';
 			// Casting Agent
 			$newrules['profile-casting/jobs/(.*)/(.*)$'] = 'index.php?type=castingjobs&target=$matches[1]&value=$matches[2]&rbgroup=casting';
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]&rbgroup=casting';
@@ -49,38 +49,43 @@
 	// Set Custom Template
 	add_filter('template_include', 'rb_agency_casting_template_include', 1, 1); 
 		function rb_agency_casting_template_include( $template ) {
-			if ( get_query_var( 'type' ) && get_query_var( 'rbgroup' ) == "casting") {
+			if ( get_query_var( 'type' )) {
 				
-				rb_agency_group_permission(get_query_var( 'rbgroup' ));
+				if(get_query_var( 'rbgroup' ) == "casting"){
+					
+					rb_agency_group_permission(get_query_var( 'rbgroup' ));
 
-				if (get_query_var( 'type' ) == "castingoverview") {
-					return dirname(__FILE__) . '/view/casting-overview.php'; 
-				} elseif (get_query_var( 'type' ) == "castingmanage") {
-					return dirname(__FILE__) . '/view/casting-manage.php'; 
-				} elseif (get_query_var( 'type' ) == "castinglogin") {
-					return dirname(__FILE__) . '/view/casting-login.php'; 
-				} elseif (get_query_var( 'type' ) == "castingregister") {
-					return dirname(__FILE__) . '/view/casting-register.php'; 
-				} elseif (get_query_var( 'type' ) == "favorite") {
-					return dirname(__FILE__) . '/view/profile-favorite.php';
-				} elseif (get_query_var( 'type' ) == "casting") {
-					return dirname(__FILE__) . '/view/profile-viewcasting.php';
-				} elseif (get_query_var( 'type' ) == "profilecastingcart") {
-					return dirname(__FILE__) . '/view/profile-castingcart.php';
-				} elseif (get_query_var( 'type' ) == "castingpostjob") {
-					return dirname(__FILE__) . '/view/casting-postjob.php';
-				} elseif (get_query_var( 'type' ) == "castingeditjob") {
-					return dirname(__FILE__) . '/view/casting-editjob.php';
-				} elseif (get_query_var( 'type' ) == "browsejobpostings") {
-					return dirname(__FILE__) . '/view/browse-jobpostings.php';
-				} elseif (get_query_var( 'type' ) == "jobdetail") {
-					return dirname(__FILE__) . '/view/casting-jobdetails.php';
-				} elseif (get_query_var( 'type' ) == "jobapplication") {
-					return dirname(__FILE__) . '/view/casting-jobapplication.php';
-				} elseif (get_query_var( 'type' ) == "viewapplicants") {
-					return dirname(__FILE__) . '/view/view-jobapplicants.php';
-				} elseif (get_query_var( 'type' ) == "emailapplicant") {
-					return dirname(__FILE__) . '/view/casting-emailapplicant.php';
+					if (get_query_var( 'type' ) == "castingoverview") {
+						return dirname(__FILE__) . '/view/casting-overview.php'; 
+					} elseif (get_query_var( 'type' ) == "castingmanage") {
+						return dirname(__FILE__) . '/view/casting-manage.php'; 
+					} elseif (get_query_var( 'type' ) == "castinglogin") {
+						return dirname(__FILE__) . '/view/casting-login.php'; 
+					} elseif (get_query_var( 'type' ) == "castingregister") {
+						return dirname(__FILE__) . '/view/casting-register.php'; 
+					} elseif (get_query_var( 'type' ) == "favorite") {
+						return dirname(__FILE__) . '/view/profile-favorite.php';
+					} elseif (get_query_var( 'type' ) == "casting") {
+						return dirname(__FILE__) . '/view/profile-viewcasting.php';
+					} elseif (get_query_var( 'type' ) == "profilecastingcart") {
+						return dirname(__FILE__) . '/view/profile-castingcart.php';
+					} elseif (get_query_var( 'type' ) == "castingpostjob") {
+						return dirname(__FILE__) . '/view/casting-postjob.php';
+					} elseif (get_query_var( 'type' ) == "castingeditjob") {
+						return dirname(__FILE__) . '/view/casting-editjob.php';
+					}
+				}else{
+					if (get_query_var( 'type' ) == "browsejobpostings") {
+						return dirname(__FILE__) . '/view/browse-jobpostings.php';
+					} elseif (get_query_var( 'type' ) == "jobdetail") {
+						return dirname(__FILE__) . '/view/casting-jobdetails.php';
+					} elseif (get_query_var( 'type' ) == "jobapplication") {
+						return dirname(__FILE__) . '/view/casting-jobapplication.php';
+					} elseif (get_query_var( 'type' ) == "viewapplicants") {
+						return dirname(__FILE__) . '/view/view-jobapplicants.php';
+					} elseif (get_query_var( 'type' ) == "emailapplicant") {
+						return dirname(__FILE__) . '/view/casting-emailapplicant.php';
+					}
 				}
 
 			}
