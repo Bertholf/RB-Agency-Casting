@@ -22,34 +22,37 @@
 		function rb_agency_casting_rewriteRules($rules) {
 			$newrules = array();
 			// Casting Agent
-			$newrules['casting-register'] = 'index.php?type=castingregister';
-			$newrules['casting-login'] = 'index.php?type=castinglogin';
-			$newrules['casting-dashboard'] = 'index.php?type=castingoverview';
-			$newrules['casting-manage'] = 'index.php?type=castingmanage';
-			$newrules['casting-editjob/(.*)$'] = 'index.php?type=castingeditjob&target=$matches[1]';
-			$newrules['casting-postjob'] = 'index.php?type=castingpostjob';
-			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]';
-			$newrules['view-applicants'] = 'index.php?type=viewapplicants';
+			$newrules['casting-register'] = 'index.php?type=castingregister&rbgroup=casting';
+			$newrules['casting-login'] = 'index.php?type=castinglogin&rbgroup=casting';
+			$newrules['casting-dashboard'] = 'index.php?type=castingoverview&rbgroup=casting';
+			$newrules['casting-manage'] = 'index.php?type=castingmanage&rbgroup=casting';
+			$newrules['casting-editjob/(.*)$'] = 'index.php?type=castingeditjob&target=$matches[1]&rbgroup=casting';
+			$newrules['casting-postjob'] = 'index.php?type=castingpostjob&rbgroup=casting';
+			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]&rbgroup=casting';
+			$newrules['view-applicants'] = 'index.php?type=viewapplicants&rbgroup=casting';
 			// User/Profile View
-			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]';
-			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings';
-			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]';
-			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]';
+			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]&rbgroup=casting';
+			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings&rbgroup=casting';
+			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]&rbgroup=casting';
+			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]&rbgroup=casting';
 			// Casting Agent
-			$newrules['profile-casting/jobs/(.*)/(.*)$'] = 'index.php?type=castingjobs&target=$matches[1]&value=$matches[2]';
-			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]';
-			$newrules['profile-casting'] = 'index.php?type=casting';
-			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]';
-			$newrules['profile-favorite'] = 'index.php?type=favorite';
-			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]';
-			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]';
+			$newrules['profile-casting/jobs/(.*)/(.*)$'] = 'index.php?type=castingjobs&target=$matches[1]&value=$matches[2]&rbgroup=casting';
+			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]&rbgroup=casting';
+			$newrules['profile-casting'] = 'index.php?type=casting&rbgroup=casting';
+			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]&rbgroup=casting';
+			$newrules['profile-favorite'] = 'index.php?type=favorite&rbgroup=casting';
+			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]&rbgroup=casting';
+			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&rbgroup=casting';
 			return $newrules + $rules;
 		}
 	
 	// Set Custom Template
 	add_filter('template_include', 'rb_agency_casting_template_include', 1, 1); 
 		function rb_agency_casting_template_include( $template ) {
-			if ( get_query_var( 'type' ) ) {
+			if ( get_query_var( 'type' ) && get_query_var( 'rbgroup' ) == "casting") {
+				
+				rb_agency_group_permission(get_query_var( 'rbgroup' ));
+
 				if (get_query_var( 'type' ) == "castingoverview") {
 					return dirname(__FILE__) . '/view/casting-overview.php'; 
 				} elseif (get_query_var( 'type' ) == "castingmanage") {
@@ -309,12 +312,14 @@
 									if (Obj.attr("class") == "save_favorite") {
 										Obj.empty().fadeOut().empty().html("").fadeIn();
 										Obj.attr("class", "favorited");
-										Obj.attr('title', 'Remove from Favorites')
+										Obj.attr('title', 'Remove from Favorites');
+										Obj.text('REMOVE FROM FAVORITES')
 									} else {
 										Obj.empty().fadeOut().empty().html("").fadeIn();
 										Obj.attr('title', 'Save to Favorites');
 										jQuery(this).find("a[class=view_all_favorite]").remove();
 										Obj.attr("class", "save_favorite");
+										Obj.text('SAVE TO FAVORITES');
 									}
 								}
 						<?php } ?>
@@ -419,7 +424,7 @@
 													Obj.attr("class", "saved_castingcart");
 													Obj.attr('title', 'Remove from Casting Cart');
 													Obj.text("VIEW CASTING CART");
-													Obj.attr("href","/profile-casting/");
+													Obj.attr("href","<?php echo get_bloginfo('url');?>/profile-casting/");
 												} else {
 													Obj.empty().fadeOut().html("").fadeIn();
 													Obj.attr("class", "save_castingcart");
