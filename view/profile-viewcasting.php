@@ -164,7 +164,7 @@ echo "			<div class=\"cb\"></div>\n";
 	                   echo "<input type=\"submit\"  value=\"Search\"/>";
 	                   echo "</form>";
 					}	
-					if (is_user_logged_in() && function_exists('rb_agency_profilelist') && isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])) { 
+					if (is_user_logged_in() && function_exists('rb_agency_profilelist')) { 
 						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
 						$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($atts);
 						$view_type = 2; // casting
