@@ -236,3 +236,17 @@ global $wpdb;
 
 	}
 
+	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.3") {
+
+
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Date_End","VARCHAR(100)");
+		
+		$wpdb->query("ALTER TABLE ".table_agency_casting_job." CHANGE Job_Audition_Date Job_Audition_Date_Start VARCHAR(100)");
+		// Updating version number
+		update_option('rb_agency_casting_version', "0.1.4");
+
+	}
+
+
+	
+
