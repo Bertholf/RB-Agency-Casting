@@ -17,7 +17,8 @@
 	$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
 	$rb_agency_interact_options_arr = get_option('rb_agencyinteract_options');
 	$rb_agencyinteract_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
-
+	$rb_agency_option_casting_toc = isset($rb_agency_options_arr['rb_agency_option_agency_casting_toc'])?$rb_agency_options_arr['rb_agency_option_agency_casting_toc']:"/casting-terms-of-conditions";
+	
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );	
 
@@ -349,7 +350,7 @@
 	echo "       <div id=\"casting-argee\" class=\"rbfield rbcheckbox rbsingle\">\n";
 					$casting_agree = get_the_author_meta("casting_agree", $current_user->ID );
 	echo "       	<label></label>\n";
-	echo "       	<div><input type=\"checkbox\" name=\"casting_agree\" value=\"yes\" /> ". sprintf(__("I agree to the %s terms of service",rb_agency_casting_TEXTDOMAIN), "<a href=\"/terms-of-use/\" target=\"_blank\">") ."</a></div>\n";
+	echo "       	<div><input type=\"checkbox\" name=\"casting_agree\" value=\"yes\" /> ". sprintf(__("I agree to the %s terms of service",rb_agency_casting_TEXTDOMAIN), "<a href=\"".$rb_agency_option_casting_toc ."\" target=\"_blank\">") ."</a></div>\n";
 	echo "       </div><!-- #casting-agree -->\n";
  
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
