@@ -177,6 +177,8 @@
 	/*/
 	function rb_agency_get_new_miscellaneousLinks($ProfileID = ""){
 
+		 global $user_ID, $wpdb;
+	    
 		$rb_agency_options_arr 				= get_option('rb_agency_options');
 		$rb_agency_option_profilelist_favorite		= isset($rb_agency_options_arr['rb_agency_option_profilelist_favorite']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_favorite'] : 0;
 		$rb_agency_option_profilelist_castingcart 	= isset($rb_agency_options_arr['rb_agency_option_profilelist_castingcart']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_castingcart'] : 0;
@@ -185,25 +187,44 @@
 		if ($rb_agency_option_profilelist_favorite) {
 			//Execute query - Favorite Model
 			if(!empty($ProfileID)){
-				$queryFavorite = mysql_query("SELECT fav.SavedFavoriteTalentID as favID FROM ".table_agency_savedfavorite." fav WHERE ".rb_agency_get_current_userid()." = fav.SavedFavoriteProfileID AND fav.SavedFavoriteTalentID = '".$ProfileID."' ") or die(mysql_error());
-				$dataFavorite = mysql_fetch_assoc($queryFavorite); 
-				$countFavorite = mysql_num_rows($queryFavorite);
+				$favorites_results = $wpdb->get_results("SELECT SavedFavoriteTalentID FROM ".table_agency_savedfavorite." WHERE SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'");
 			}
 		}
 
 		if ($rb_agency_option_profilelist_castingcart) {
 			//Execute query - Casting Cart
 			if(!empty($ProfileID)){
-				$queryCastingCart = mysql_query("SELECT cart.CastingCartTalentID as cartID FROM ".table_agency_castingcart."  cart WHERE ".rb_agency_get_current_userid()." = cart.CastingCartProfileID AND cart.CastingCartTalentID = '".$ProfileID."' ") or die(mysql_error());
-				$dataCastingCart = mysql_fetch_assoc($queryCastingCart); 
-				$countCastingCart = mysql_num_rows($queryCastingCart);
+				$castingcart_results = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingCartProfileID = '".rb_agency_get_current_userid()."'");
 			}
 		}
 
-		$disp = "";
-		$disp .= "<div class=\"favorite-casting\">";
+		$disp = "";		
+		$arr_castingcart = array();
+		foreach ($castingcart_results as $key) {
+					array_push($arr_castingcart, $key->CastingCartTalentID);
+		}
 
-		if ($rb_agency_option_profilelist_castingcart) {
+		$arr_favorites = array();
+		foreach ($favorites_results  as $key) {
+					array_push($arr_favorites, $key->SavedFavoriteTalentID);
+		}
+
+		 $displayActions = "";  
+		 $displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
+	    if ($rb_agency_option_profilelist_castingcart) {
+		
+	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>Favorite</span></a> | <a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a><br/>";
+	    }
+	    if ($rb_agency_option_profilelist_favorite) {
+		
+	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>Casting Cart</span></a> | <a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
+	    }
+	            $displayActions .= "</div>";
+	  
+		$disp .= "<div class=\"favorite-casting\">";
+		$disp = $displayActions;
+		
+		/*if ($rb_agency_option_profilelist_castingcart) {
 			if($countCastingCart <=0){
 				$disp .= "<div class=\"newcastingcart\"><a title=\"Add to Casting Cart\" href=\"javascript:;\" id=\"".$ProfileID."\"  class=\"save_castingcart\">ADD TO CASTING CART</a></div></li>";
 			} else {
@@ -221,9 +242,14 @@
 			}else{
 				$disp .= "<div class=\"viewfavorites\"><a rel=\"nofollow\" title=\"View Favorites\" href=\"".  get_bloginfo("wpurl") ."/profile-favorite/\"/>VIEW FAVORITES</a></div>\n";
 			}
-		}
-        $disp .= "<div class=\"\"><a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\">GO BACK TO CASTING DASHBOARD</a></div>";
-
+		}*/
+		   if(is_user_logged_in()){
+	       
+				$is_model = get_user_meta( $user_ID, 'rb_agency_interact_profiletype',true);
+				if(!$is_model){
+	       		   $disp .= "<div class=\"\"><a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\">GO BACK TO CASTING DASHBOARD</a></div>";
+				}
+	       	}
 		$disp .= "</div><!-- .favorite-casting -->";
 		return $disp; 
 	}
