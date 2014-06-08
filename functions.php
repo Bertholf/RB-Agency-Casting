@@ -29,7 +29,7 @@
 			$newrules['casting-editjob/(.*)$'] = 'index.php?type=castingeditjob&target=$matches[1]&rbgroup=casting';
 			$newrules['casting-postjob'] = 'index.php?type=castingpostjob&rbgroup=casting';
 			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]&rbgroup=casting';
-			$newrules['view-applicants'] = 'index.php?type=viewapplicants&rbgroup=casting';
+			$newrules['view-applicants'] = 'index.php?type=viewapplicants';
 			// User/Profile View
 			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]';
 			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings';
@@ -40,9 +40,9 @@
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]&rbgroup=casting';
 			$newrules['profile-casting'] = 'index.php?type=casting&rbgroup=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]&rbgroup=casting';
-			$newrules['profile-favorite'] = 'index.php?type=favorite&rbgroup=casting';
-			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]&rbgroup=casting';
-			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&rbgroup=casting';
+			$newrules['profile-favorite'] = 'index.php?type=favorite';
+			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]';
+			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]';
 			return $newrules + $rules;
 		}
 	
@@ -63,8 +63,6 @@
 						return dirname(__FILE__) . '/view/casting-login.php'; 
 					} elseif (get_query_var( 'type' ) == "castingregister") {
 						return dirname(__FILE__) . '/view/casting-register.php'; 
-					} elseif (get_query_var( 'type' ) == "favorite") {
-						return dirname(__FILE__) . '/view/profile-favorite.php';
 					} elseif (get_query_var( 'type' ) == "casting") {
 						return dirname(__FILE__) . '/view/profile-viewcasting.php';
 					} elseif (get_query_var( 'type' ) == "profilecastingcart") {
@@ -85,6 +83,8 @@
 						return dirname(__FILE__) . '/view/view-jobapplicants.php';
 					} elseif (get_query_var( 'type' ) == "emailapplicant") {
 						return dirname(__FILE__) . '/view/casting-emailapplicant.php';
+					} elseif (get_query_var( 'type' ) == "favorite") {
+						return dirname(__FILE__) . '/view/profile-favorite.php';
 					}
 				}
 
@@ -222,7 +222,7 @@
 				$disp .= "<div class=\"viewfavorites\"><a rel=\"nofollow\" title=\"View Favorites\" href=\"".  get_bloginfo("wpurl") ."/profile-favorite/\"/>VIEW FAVORITES</a></div>\n";
 			}
 		}
-        $disp .= "<div class=\"\"><a href=\"/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\">GO BACK TO CASTING DASHBOARD</a></div>";
+        $disp .= "<div class=\"\"><a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\">GO BACK TO CASTING DASHBOARD</a></div>";
 
 		$disp .= "</div><!-- .favorite-casting -->";
 		return $disp; 
@@ -273,6 +273,26 @@
 		<script type="text/javascript" >
 		var layout_favorite = "<?php echo $rb_agency_option_layoutprofile; ?>";
 		jQuery(document).ready(function () {
+			jQuery(".rb_profile_tool a.favorite").click(function(){
+				var Obj = jQuery(this);
+				jQuery.ajax({
+					type: 'POST',
+					url: '<?php echo admin_url('admin-ajax.php'); ?>',
+					data: {
+						action: 'rb_agency_save_favorite',
+						'talentID': Obj.attr("attr-id")
+					},
+					success: function (results) {
+						if(Obj.hasClass("inactive")){
+							Obj.attr("title","Remove from Favorites");
+							Obj.removeClass("inactive").addClass("active");
+						}else if(Obj.hasClass("active")){
+							Obj.attr("title","Add to Favorites");
+							Obj.removeClass("active").addClass("inactive");
+						}
+					}
+				});
+			});
 			jQuery(".newfavorite a:first, .newfavorite a").click(function () {
 				var Obj = jQuery(this);
 				jQuery.ajax({
@@ -381,6 +401,26 @@
 		?>
 				<!--RB Agency CastingCart -->
 				<script type="text/javascript" >
+				jQuery(".rb_profile_tool a.castingcart").click(function(){
+					var Obj = jQuery(this);
+					jQuery.ajax({
+						type: 'POST',
+						url: '<?php echo admin_url('admin-ajax.php'); ?>',
+						data: {
+							action: 'rb_agency_save_castingcart',
+							'talentID': Obj.attr("attr-id")
+						},
+						success: function (results) {
+							if(Obj.hasClass("inactive")){
+								Obj.attr("title","Remove from Casting Cart");
+								Obj.removeClass("inactive").addClass("active");
+							}else if(Obj.hasClass("active")){
+								Obj.attr("title","Add to Casting Cart");
+								Obj.removeClass("active").addClass("inactive");
+							}
+						}
+					});
+				});
 					var layout_casting = "<?php echo $rb_agency_option_layoutprofile; ?>";
 					jQuery(document).ready(function ($) {
 						$(".newcastingcart a").click(function () {
