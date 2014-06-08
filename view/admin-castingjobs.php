@@ -159,9 +159,9 @@ $siteurl = get_option('siteurl');
 		}
 		// Insert Profiles to Casting Job
 		  if(isset($_POST["action2"]) && $_POST["action2"] =="add"){
-          	   	if (isset($_SESSION['cartArray']) && !isset($_GET["Job_ID"])) {
+          	   	if (!isset($_GET["Job_ID"])) {
 
-									$cartArray = $_SESSION['cartArray'];
+									$cartArray = isset($_SESSION['cartArray'])?$_SESSION['cartArray']:array();
 									$cartString = implode(",", array_unique($cartArray));
 									$cartString = RBAgency_Common::clean_string($cartString);
 									$hash = RBAgency_Common::generate_random_string(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -208,7 +208,7 @@ $siteurl = get_option('siteurl');
 
 									$wpdb->query($sql) or die(mysql_error());
 								
-									$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".$cartString.")",ARRAY_A);
+									$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
 								
 									foreach($results as $mobile){
 										$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -347,9 +347,9 @@ $siteurl = get_option('siteurl');
 						 	echo "<h3>Talent Jobs</h3>";
 						}
 				 echo "<div class=\"innerr\" style=\"padding: 10px;\">";
-				  if(!isset($_GET["Job_ID"]) && (empty( $_SESSION['cartArray'] ) || !isset($_GET["action"]) )){
+/*				  if(!isset($_GET["Job_ID"]) && (empty( $_SESSION['cartArray'] ) || !isset($_GET["action"]) )){
 			      	  echo "Casting cart is empty. Click <a href=\"?page=rb_agency_search\">here</a> to search and add profiles to casting jobs.";
-			      }else{
+			      }else{*/
 				 echo "<form class=\"castingtext\" method=\"post\" action=\"\">";
 				   echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
 						echo "<label for=\"Job_AgencyName\">Agency/Producer</label>";
@@ -563,7 +563,7 @@ $siteurl = get_option('siteurl');
 				  	
 				  echo "</form>";
 				  echo "</div>";
-				  } // if casting cart is not empty
+				//  } // if casting cart is not empty
 					echo '<script type="text/javascript">
 							jQuery(document).ready(function(){
 								jQuery( ".datepicker" ).datepicker();
