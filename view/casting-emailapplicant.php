@@ -26,7 +26,7 @@
 	$single_email = false;
 	if($user_linked_id != ""){
 		$single_email = true;
-		$contact_display = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactDisplay");
+		$contact_display = RBAgency_Casting::rb_casting_ismodel($user_linked_id, "ProfileContactDisplay",true);
 		$message = "Dear $contact_display,\n\n[Your message here]\n\nRespectfully yours,\n".$current_user->user_nicename;	
 	}
 	
@@ -44,7 +44,7 @@
 		if($_POST['sender_email'] == ''){
 			$remarks .= __("Sender email must not be equal to blanks.<br>", rb_agency_casting_TEXTDOMAIN);
 		} else {
-			if ( !is_email($_POST['sender_email'], true)) {
+			if ( !is_email($_POST['sender_email'])) {
 				$remarks .= __("You must enter a valid sender email address.<br />", rb_agency_casting_TEXTDOMAIN);
 			}		
 		}

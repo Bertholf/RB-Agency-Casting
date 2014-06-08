@@ -15,6 +15,11 @@ wp_deregister_script('jquery');
 wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
 wp_enqueue_script('jquery_latest');
 
+// rb agency settings
+	$rb_agency_options = get_option('rb_agency_options');
+	$rb_agency_option_allowsendemail = isset($rb_agency_options["rb_agency_option_allowsendemail"])?$rb_agency_options["rb_agency_option_allowsendemail"]:""; 
+
+
 echo $rb_header = RBAgency_Common::rb_header();?>
 
 <script type="text/javascript">
@@ -174,7 +179,7 @@ if (is_user_logged_in()) {
 	
 	// casting agents and admin only
 	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
-		
+	
 		echo "	<style>
 					table td{border:1px solid #CCC;padding:12px;}
 					table th{border:1px solid #CCC;padding:12px;}
@@ -440,8 +445,9 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>";
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
-				echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br>";
-				
+				if($rb_agency_option_allowsendemail == 1){
+					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br>";
+				}	
 				if(RBAgency_Casting::rb_check_in_cart($load->app_id,$load->Job_ID)){
 					echo "        <a class = 'add_casting' href='javascript:;'>Remove from Casting</a><br>";				
 				} else {
