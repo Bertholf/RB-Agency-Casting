@@ -544,7 +544,7 @@ class RBAgency_Casting {
 		 * can also be used to return any column in table
 		 * just assign it in the parameter $field_name
 		 */
-		public static function rb_casting_ismodel($user_linked = NULL, $field_name = NULL){
+		public static function rb_casting_ismodel($user_linked = NULL, $field_name = NULL, $name = false){
 
 			global $wpdb;
 
@@ -556,7 +556,11 @@ class RBAgency_Casting {
 
 			if(count($get_id) > 0){
 				if(isset($get_id->ProfileID)){
-					return $get_id->ProfileID;
+					if(!$name){
+						return $get_id->ProfileID;
+					}else{
+						return $get_id->ProfileContactDisplay;
+					}
 				} 
 			}
 
