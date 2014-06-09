@@ -81,20 +81,26 @@ $siteurl = get_option('siteurl');
 		if(isset($_POST["addprofilestocasting"])){
 
 			$profiles = explode(",",$_POST["addprofilestocasting"]);
+			  $job_id = 0;
+			$agent_id = 0;
 			
-			$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$_GET["Job_ID"]."'",ARRAY_A);
-			
+			if(isset($_GET["Job_ID"]) && !isset($_POST["addtoexisting"])){
+				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$_GET["Job_ID"]."'",ARRAY_A);
+				$job_id  = $_GET["Job_ID"];
+				$agent_id = $_POST["Agent_ID"];
+			}elseif(isset($_POST["addtoexisting"])){
+				list($job_id,$agent_id) = explode("-",$_POST["Job_ID"]);
+				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$job_id."'",ARRAY_A);
+			}
 			$arr_profiles = array();
-
 			foreach ($existing_profiles as $key) {
 				array_push($arr_profiles, $key["CastingCartTalentID"]);
 			}
-			
-			
+
 			$sql = "";
 			foreach ($profiles as $key) {
 				if(!in_array($key,$arr_profiles)){
-					$sql .="('','".$_POST["Agent_ID"]."','".$key."','".$_GET["Job_ID"]."')";
+					$sql .="('','".$agent_id."','".$key."','".$job_id."')";
 					if(end($profiles) != $key){
 						$sql .= ",";
 					}
@@ -332,10 +338,43 @@ $siteurl = get_option('siteurl');
       // Notify Client
 	if(isset($_POST["notifyclient"])){
 		   $notified = RBAgency_Casting::sendClientNotification($CastingContactEmail,$_POST["message"]);
-		   	echo ('<div id="message" class="updated"><p>Notification successfully sent!</p></div>');
-	
+		   		   	echo ('<div id="message" class="updated"><p>Notification successfully sent!</p></div>');
+		   	
 	}
-
+		   
+/*	if(isset($_GET["action2"]) && $_GET["action2"] == "addtoexisting"){
+									$cartArray = isset($_SESSION['cartArray'])?$_SESSION['cartArray']:array();
+									$cartString = implode(",", array_unique($cartArray));
+									$cartString = RBAgency_Common::clean_string($cartString);
+						
+		 echo "<div class=\"boxblock-container\">";
+				 echo "<div class=\"boxblock\" style=\"width:50%\" >";
+				 
+							echo "<h3>Add to existing Job</h3>";
+						 
+					 echo "<div class=\"innerr\" style=\"padding: 10px;\">";
+	 				 echo "<form class=\"castingtext\" method=\"post\" action=\"\">";
+					   echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
+							echo "<div>";
+								echo "<select name=\"Job_ID\" style=\"width:80%;\">";
+								echo "<option value=\"\">- Select -</option>";
+								$castings = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ORDER BY Job_ID DESC");
+								foreach ($castings as $key) {
+									echo "<option value=\"".$key->Job_ID."-".$key->Job_UserLinked."\">".$key->Job_Title."</option>";
+								}
+								echo "<select>";
+							    echo "&nbsp;<input type=\"submit\" class=\"button-primary button\" name=\"addtoexisting\" value=\"Submit\"/>";
+							echo "</div>";
+						echo "</div>";
+						echo "<input type=\"hidden\" name=\"addprofilestocasting\" value=\"".$cartString."\"/>";
+					 echo "</form>";
+					echo "</div>";
+				echo "</div>";
+		echo "</div>";
+				
+				 	 
+	}*/
+    
     if(isset($_GET["action2"]) && $_GET["action2"] == "addnew" || isset($_GET["Job_ID"])){
 	
 				 echo "<div class=\"boxblock-container\">";
@@ -510,6 +549,10 @@ $siteurl = get_option('siteurl');
 						});
 					';
 					echo "</script>";
+					echo "<style type='text/css'>";
+				    echo ".rbfield label{float: left;margin-top: 5px;width:150px;}";
+				    echo ".rbfield {border-bottom:1px solid #ccc;padding-bottom:10px;padding-top:10px;}";
+				    echo "</style>";
 					echo '<div  style="margin:auto;width:70%;">';
 						echo '<div id="criteria"></div>';
 						echo "<div class=\"rbfield\"><a href=\"javascript:;\" id=\"getcriteria\" class=\"button-primary button\">Update</a><span class=\"updatecriteria\"></span></div>";

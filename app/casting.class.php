@@ -719,10 +719,7 @@ class RBAgency_Casting {
 							}
 						}	  
 					  </script>";
-			    echo "<style type='text/css'>";
-			    echo ".rbfield label{float: left;margin-top: 5px;width:150px;}";
-			    echo ".rbfield {border-bottom:1px solid #ccc;padding-bottom:10px;padding-top:10px;}";
-			    echo "</style>";
+			   
 
 					$field_sql = "SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomView = 0 ORDER BY ProfileCustomOrder ASC";
 			
