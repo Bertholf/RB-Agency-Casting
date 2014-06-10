@@ -1533,7 +1533,7 @@ class RBAgency_Casting {
 
 							?>
 							
-				 <?php if(empty($_GET["action2"]) && empty($_GET["Job_ID"])){?>
+				 <?php if((empty($_GET["action2"]) && empty($_GET["Job_ID"])) || isset($_GET["action2"]) && $_GET["action2"] == "deleteCastingJob"){?>
 				 	      <a href="<?php echo admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&action2=addnew") ?>" class="button-primary">Add New Job</a>
 						
 							<table cellspacing="0" class="widefat fixed">
