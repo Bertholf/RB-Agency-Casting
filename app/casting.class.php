@@ -741,6 +741,31 @@ class RBAgency_Casting {
 				echo "<input value=\"".(isset($max_val)?$max_val:"")."\" class=\"stubby rbmax\" type=\"text\" name=\"ProfileCustomIDage[]\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 				echo "</div>";
 
+				echo "<div class=\"rbfield rbselect rbsingle profilecustomid_gender\"  attrid=\"gender\"  id=\"profilecustomid_gender\">";
+				echo "	<label for=\"ProfileCustomIDgender\">Gender</label>";
+				echo "	<div>";
+				echo "		<select name=\"ProfileCustomIDgender[]\">";
+				echo "			<option value=\"\">--</option>";
+												$values = $wpdb->get_results("SELECT * FROM ".table_agency_data_gender);
+												foreach($values as $value){
+													// Validate Value
+													if(!empty($value)) {
+														// Identify Existing Value
+														$isSelected = "";
+														if($custom_fields["gender"]==stripslashes($value->GenderID)  || in_array(stripslashes($value->GenderID), $custom_fields["gender"])){
+															$isSelected = "selected=\"selected\"";
+															echo "		<option value=\"".stripslashes($value->GenderID)."\" ".$isSelected .">".stripslashes($value->GenderTitle)."</option>";
+														}else{
+															echo "		<option value=\"".stripslashes($value->GenderID)."\" >".stripslashes($value->GenderTitle)."</option>"; 
+														}
+													}
+												}
+				echo "		</select>";
+				echo "	</div>";
+				echo "</div>";
+
+
+
 				foreach($field_results  as $data){
 
 					// Set Variables
@@ -1440,9 +1465,10 @@ class RBAgency_Casting {
 							$talent = self::rb_casting_ismodel($talent, "ProfileID");
 							$query_castingcart =$wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID= %s  AND CastingCartProfileID = %s AND CastingJobID = %s ",$talent,rb_agency_get_current_userid(),$JobID ));
 							$count_castingcart =$wpdb->num_rows;
-							
 							if($count_castingcart > 0){
 								return true;
+							}else{
+								return false;
 							}
 	
 						}
@@ -1626,7 +1652,7 @@ class RBAgency_Casting {
 									<?php  echo count($Job_Talents); ?>
 								</td>
 								<td>
-									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Start"]));?>
+									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
 								</td>
 							</tr>
 							<?php
