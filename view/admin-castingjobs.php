@@ -188,7 +188,8 @@ $siteurl = get_option('siteurl');
 												Job_Audition_Date_End,
 												Job_Audition_Venue,
 												Job_Audition_Time,
-												Job_UserLinked
+												Job_UserLinked,
+												Job_Date_Created
 										)
 										VALUES(
 												'".esc_attr($_POST["Job_Title"])."', 
@@ -207,7 +208,8 @@ $siteurl = get_option('siteurl');
 												'".esc_attr($_POST["Job_Audition_Date_End"])."',
 												'".esc_attr($_POST["Job_Audition_Venue"])."',
 												'".esc_attr($_POST["Job_Audition_Time"])."',
-												'".esc_attr($_POST["Job_AgencyName"])."'
+												'".esc_attr($_POST["Job_AgencyName"])."',
+												'".date("y-m-d h:i:s")."'
 											)
 									";
 

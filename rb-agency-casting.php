@@ -8,7 +8,7 @@ Author: Rob Bertholf
 Author URI: http://rob.bertholf.com/
 Version: 0.0.1
 */
-$rb_agency_casting_VERSION = "0.1.4"; 
+$rb_agency_casting_VERSION = "0.1.5"; 
 /*
 License: CF Commercial-to-GPL License
 Copyright 2007-2013 Rob Bertholf

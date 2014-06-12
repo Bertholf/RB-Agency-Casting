@@ -63,6 +63,7 @@ function table_posting(){
 	echo "        <th class=\"column-JobVisibility\" id=\"ProfileDetails\" scope=\"col\">Visibility</th>\n";
 	echo "        <th class=\"column-JobCriteria\" id=\"ProfileDetails\" scope=\"col\">Criteria</th>\n";
 	echo "        <th class=\"column-JobType\" id=\"ProfileStatHits\" scope=\"col\">Type</th>\n";
+	echo "        <th class=\"column-JobType\"  scope=\"col\">Date posted</th>\n";
 	echo "    </tr>\n";
 	echo " </thead>\n";
 	
@@ -82,6 +83,7 @@ function table_posting(){
 			echo "        <td class=\"column-JobVisibility\" scope=\"col\">".$load->Job_Visibility."</td>\n";
 			echo "        <td class=\"column-JobCriteria\" scope=\"col\">".$load->Job_Criteria."</td>\n";
 			echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Type."</td>\n";
+			echo "        <td class=\"column-JobDateCreated\" scope=\"col\">".$load->Job_Date_Created."</td>\n";
 			echo "    </tr>\n";
 		}
 		
@@ -100,6 +102,7 @@ function table_posting(){
 	echo "        <th class=\"column-JobVisibility\" scope=\"col\">Visibility</th>\n";
 	echo "        <th class=\"column-JobCriteria\" scope=\"col\">Criteria</th>\n";
 	echo "        <th class=\"column-JobType\" scope=\"col\">Type</th>\n";
+    echo "        <th class=\"column-JobType\" scope=\"col\">Date posted</th>\n";
 	echo "    </tr>\n";
 	echo " </tfoot>\n";
 	echo "</table>\n";

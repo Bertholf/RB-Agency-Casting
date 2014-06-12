@@ -128,7 +128,7 @@ if(isset($_GET['save_job'])){
 				}
 			}	
 			$job_talents_hash = RBAgency_Common::generate_random_string(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria, Job_Talents_Hash) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' ,'".$job_talents_hash."')";
+			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria, Job_Talents_Hash, Job_Date_Created) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' ,'".$job_talents_hash."',Now())";
 		
 			$wpdb->query($sql_Insert) or die(mysql_error());
 			
@@ -264,9 +264,15 @@ function load_job_display($error = NULL){
 							<td><h3>Job Audition</h3></td><td></td>
 						</tr>
 						<tr>
-							<td>Date:</td>
+							<td>Date Start:</td>
 							<td>
-								<input type='text' name='Job_Audition_Date' class='datepicker' value='".(isset($_GET['Job_Audition_Date'])?$_GET['Job_Audition_Date']:"")."'>
+								<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_GET['Job_Audition_Date_Start'])?$_GET['Job_Audition_Date_Start']:"")."'>
+							</td>
+						</tr>
+						<tr>
+							<td>Date End:</td>
+							<td>
+								<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_GET['Job_Audition_Date_End'])?$_GET['Job_Audition_Date_End']:"")."'>
 							</td>
 						</tr>
 						<tr>

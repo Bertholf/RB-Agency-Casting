@@ -144,6 +144,7 @@ if (is_user_logged_in()) {
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Start Date</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Location</th>\n";
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Region</th>\n";
+		echo "        <th class=\"column-JobDateCreated\" id=\"JobDateCreated\" scope=\"col\">Date posted</th>\n";
 		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Actions</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
@@ -205,6 +206,7 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobDate\" scope=\"col\">".$load->Job_Date_Start."</td>\n";
 				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Location."</td>\n";
 				echo "        <td class=\"column-JobRegion\" scope=\"col\">".$load->Job_Region."</td>\n";
+				echo "        <td class=\"column-JobDateCreated\" scope=\"col\">".date("M d, Y - h:iA",strtotime($load->Job_Date_Created))."</td>\n";
 				
 				// if model is viewing
 				if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){

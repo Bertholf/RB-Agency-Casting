@@ -405,7 +405,9 @@ if (is_user_logged_in()) {
 				if($image!= ""){			
 					echo "<div style='float:left; display:block; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
 					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
+					echo "<a href=\"".get_bloginfo('wpurl')."/profile/".$details->ProfileGallery."\">";
 					echo "<img src='".$image."' style='max-width:120px; max-height:120px; vertical-align:middle'>";
+					echo "</a>";
 					echo "</span>";
 					echo "</div>";
 				} else {
@@ -442,18 +444,20 @@ if (is_user_logged_in()) {
 
 				echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Pitch ."</td>";
 				
-				echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>";
+				echo "        <td class=\"column-JobType\" scope=\"col\">";
+				echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">Edit Job Details</a><br>";
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
 				if($rb_agency_option_allowsendemail == 1){
-					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."'>Send Email</a><br>";
+					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."' style=\"font-size:12px;\">Send Email</a><br>";
 				}	
 				if(RBAgency_Casting::rb_check_in_cart($load->app_id,$load->Job_ID)){
-					echo "        <a class = 'add_casting' href='javascript:;'>Remove from Casting</a><br>";				
+					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">Remove from Casting</a><br>";				
 				} else {
-					echo "        <a class = 'add_casting' href='javascript:;'>Add to CastingCart</a><br>";				
+					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">Add to CastingCart</a><br>";				
 				}
-				echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
+			    echo "<a href=\"".get_bloginfo("url")."/profile-casting/\" style=\"font-size:12px;\">View Casting Cart</a>";
+	            echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
 				
 				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');
 				

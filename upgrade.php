@@ -247,6 +247,16 @@ global $wpdb;
 
 	}
 
+	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.4") {
+
+
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Date_Created","DateTime");
+		
+		// Updating version number
+		update_option('rb_agency_casting_version', "0.1.5");
+
+	}
+
 
 	
 
