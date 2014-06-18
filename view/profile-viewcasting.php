@@ -152,8 +152,11 @@ echo "			</div>\n";
 
 echo "			<div class=\"cb\"></div>\n";
                    if(is_user_logged_in()){
-	                   $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
-	                   
+                   	   if(current_user_can("manage_options")){
+                   	   	    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ");
+		               }else{
+		                    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
+		               }  
 	                   echo "<form method=\"get\" action=\"\">";
 	                   echo "<select name=\"Job_ID\">";
 	                   echo "<option value=\"\">- Select a job-</option>";

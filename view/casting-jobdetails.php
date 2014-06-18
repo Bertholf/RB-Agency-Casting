@@ -115,22 +115,27 @@
 								} else {
 									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'></td>";
 								}
-							} else {
-								echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Apply to this Job'>
-								<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'></td>";
+							} else if(!current_user_can( 'manage_options' )){
+								echo "<td class='jobdesc'>";
+								echo "<input id='apply_job' type='button' class='button-primary' value='Apply to this Job'>";
+								echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+								echo "</td>";
+							}
+
+							if(current_user_can("manage_options")){
+								echo "<td class='jobdesc'>";
+								echo "<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=4&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"View Applicants\"/>";
+								echo "</td>";
 							}
 						echo "</tr>	";	
 						
 					 echo "<table>";
 			}
 
-			// only admin and casting should have access to casting dashboard
-			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
-				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
-			}
-		
+			
+			
 			// for models
-			if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+			if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) && !current_user_can( 'manage_options' )){
 				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 			}				
 
@@ -140,7 +145,10 @@
 		include ("include-login.php");
 	}
 	
+	
 	//get_sidebar(); 
 	echo $rb_footer = RBAgency_Common::rb_footer(); 
+
+
 
 ?>

@@ -12,8 +12,8 @@
 		$active_page = isset( $_GET['page'] ) ? $_GET['page'] : 'display_options';
 	}  
 	echo '<h2 class="nav-tab-wrapper">
-			<a href="?page=rb_agency_casting_jobpostings" class="nav-tab ' . (($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action']) ) ? "nav-tab-active" : "") . '" > Manage Jobs</a>  
-			<a href="?page=rb_agency_casting_jobpostings&action=manage_types" class="nav-tab ' . ((isset($_GET['action']) && $_GET['action'] == 'manage_types' ) ? "nav-tab-active" : "") . '" > Manage Job Types</a>  
+			<!-- <a href="?page=rb_agency_casting_jobpostings" class="nav-tab ' . (($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action']) ) ? "nav-tab-active" : "") . '" > Manage Jobs</a> -->  
+			<a href="?page=rb_agency_casting_jobpostings&action=manage_types" class="nav-tab nav-tab-active" > Manage Job Types</a>  
 		 </h2>';
 
 
@@ -22,15 +22,15 @@
  *---------------------------------------------------------------------
  */
 
-if ($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action'])) {
+/*if ($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action'])) {
 	
 	table_posting();
 
 } elseif(isset($_GET['action']) && $_GET['action'] == 'manage_types'){
-	
+	*/
 	job_type_settings();
 	
-}
+//}
 
 
 /*---------------------------------------------------------------------
@@ -262,7 +262,7 @@ function job_type_settings(){
 	if(count($load_jobtypes) > 0 ){
 		foreach($load_jobtypes as $jtypes){
 			echo "    <tr>\n";
-			echo "        <td class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"col\"><input type=\"checkbox\"/></td>\n";
+			echo "        <td class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"row\" style=\"text-align:center;\"><input type=\"checkbox\"/></td>\n";
 			echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$jtypes->Job_Type_ID."</td>\n";
 			echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$jtypes->Job_Type_Title;
 			echo "          <div class=\"row-actions\">\n";

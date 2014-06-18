@@ -445,7 +445,11 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Pitch ."</td>";
 				
 				echo "        <td class=\"column-JobType\" scope=\"col\">";
-				echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">Edit Job Details</a><br>";
+				if(current_user_can("manage_options")){
+					echo "<a href='".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$load->Job_ID)."' style=\"font-size:12px;\">Edit Job Details</a><br>";
+				}else{
+					echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">Edit Job Details</a><br>";
+				}
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
 				if($rb_agency_option_allowsendemail == 1){
