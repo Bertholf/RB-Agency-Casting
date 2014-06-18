@@ -253,7 +253,17 @@ global $wpdb;
 		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Date_Created","DateTime");
 		
 		// Updating version number
-		update_option('rb_agency_casting_version', "0.1.5");
+		update_option('rb_agency_casting_version', "0.1.5"); 
+
+	}
+
+	if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.5") {
+
+
+		$wpdb->query("ALTER TABLE ".table_agency_casting_job." CHANGE Job_Date_Created Job_Date_Created TIMESTAMP");
+	
+		// Updating version number
+		update_option('rb_agency_casting_version', "0.1.6"); 
 
 	}
 
