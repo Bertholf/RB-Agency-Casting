@@ -209,7 +209,7 @@ $siteurl = get_option('siteurl');
 												'".esc_attr($_POST["Job_Audition_Venue"])."',
 												'".esc_attr($_POST["Job_Audition_Time"])."',
 												'".esc_attr($_POST["Job_AgencyName"])."',
-												'".date("y-m-d h:i:s")."'
+												NOW()
 											)
 									";
 
