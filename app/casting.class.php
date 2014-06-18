@@ -1639,8 +1639,9 @@ class RBAgency_Casting {
 								<td>
 									<?php echo $Job_Title; ?>
 									<div class="row-actions">
-									
-											<span class="send"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
+											<span class="view"><a href="<?php echo get_bloginfo("url")."/job-detail/".$Job_ID; ?>" target="_blank">View</a> | </span>
+								
+											<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
 								
 											<span class="delete"><a class='submitdelete' title='Delete this Record' href='<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent&amp;action2=deleteCastingJob&amp;removeJob_ID=<?php echo $Job_ID; ?>' onclick="if ( confirm('You are about to delete this record\'\n \'Cancel\' to stop, \'OK\' to delete.') ) { return true;}return false;">Delete</a></span>
 									</div>
@@ -1649,7 +1650,7 @@ class RBAgency_Casting {
 								  <?php echo $Job_AgencyName; ?>
 								</td>
 								<td>
-									<?php  echo count($Job_Talents); ?>
+									<?php  echo count(array_filter($Job_Talents)); ?>
 								</td>
 								<td>
 									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
