@@ -145,19 +145,34 @@ $siteurl = get_option('siteurl');
 												'".$profileid."',
 												'".$hash_profile_id."')";
 												$wpdb->query($sql);
+
+												$results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
+												if(!empty( $results )){
+													RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+													RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+												}
 												
 											}
 										}else{
 											 	$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-									
+												$profileid = str_replace(",","",(isset($_POST["addprofiles"])?$_POST["addprofiles"]:""));
 											$sql = "INSERT INTO ".table_agency_castingcart_profile_hash." VALUES(
 												'',
 												'".$castingHash->Job_Talents_Hash."',
-												'".str_replace(",","",(isset($_POST["addprofiles"])?$_POST["addprofiles"]:""))."',
+												'".$profileid."',
 												'".$hash_profile_id."')";
 												$wpdb->query($sql);
+
+											    $results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
+												if(!empty( $results )){
+													RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+													RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+												}
 												
 										}
+
+									
+									
 										$wpdb->query($wpdb->prepare("UPDATE ".table_agency_casting_job." SET Job_Talents=%s WHERE Job_ID = %d", implode(",",array_unique(explode(",",$add_new_profiles))), $_GET["Job_ID"]));
 	 									echo ('<div id="message" class="updated"><p>Added successfully!</p></div>');
 	 			}
@@ -670,6 +685,22 @@ $siteurl = get_option('siteurl');
 	                 		jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
 	                 });
 
+	                 jQuery("#selectallcasting").change(function(){
+	                 		var ischecked = jQuery(this).is(':checked');
+	                 		jQuery("form[name=formDeleteCastingProfile] input[type=checkbox]").each(function(){
+	                 			if(ischecked){
+	                 			 jQuery(this).removeAttr("checked");
+	                 			 jQuery(this).prop("checked",true);
+	                 			 arr.push(jQuery(this).val());
+	                 			}else{
+	                 		     jQuery(this).prop("checked",true);
+	                 		     jQuery(this).removeAttr("checked");
+	                 			 arr = [];
+								}
+							});
+	                 		jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
+	                 });
+
 	                  jQuery("#selectallcasting").change(function(){
 	                 		var ischecked = jQuery(this).is(':checked');
 	                 		jQuery("#castingcartbox input[type=checkbox]").each(function(){
@@ -702,7 +733,7 @@ $siteurl = get_option('siteurl');
 	                
 
 	           
-		             jQuery("#shortlisted input[name^=profiletalent]").click(function(){
+		             jQuery("#shortlisted input[name^=profiletalent],#castingcartbox input[name^=profiletalent]").click(function(){
 		             	Array.prototype.remove = function(value) {
 						  var idx = this.indexOf(value);
 						  if (idx != -1) {
