@@ -1735,7 +1735,9 @@ class RBAgency_Casting {
 	public static function sendEmail($emails,$link){
 			// Mail it
 		    $MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
-		    $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+		    $headers[] = 'MIME-Version: 1.0';
+			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		    $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
 		   
 			$isSent = wp_mail(trim($emails[0]), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
 	}
@@ -1747,7 +1749,9 @@ class RBAgency_Casting {
 		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
 								 . "\nClick here to review your casting cart: ".$link
 								 .  "\n\n-".get_bloginfo("name");
-			 $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+			$headers[] = 'MIME-Version: 1.0';
+			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		    $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
 		   
 			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
 	}
@@ -1756,7 +1760,9 @@ class RBAgency_Casting {
      */
 	public static function sendClientNotification($Client_Email_Address,$Message){
 			// Mail it
-		   $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+		   $headers[] = 'MIME-Version: 1.0';
+		   $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		   $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
 		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message, $headers);
 			
 			
