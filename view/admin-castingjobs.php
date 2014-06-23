@@ -107,6 +107,12 @@ $siteurl = get_option('siteurl');
 				}
 			}
 			if(!empty($sql)){
+			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
+			/*$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) 
+				SELECT Job_ID, Job_UserLinked FROM " . table_agency_casting_job_application . " 
+				WHERE NOT EXISTS (SELECT * FROM " . table_agency_profile . " WHERE ProfileID IN (".implode(",",$profiles).") ) ");		
+			*/
+			     //$wpdb->query($insert) or die(mysql_error());		
 				$wpdb->query("INSERT INTO ".table_agency_castingcart." VALUES".$sql);
 				echo ('<div id="message" class="updated"><p>'.count($profiles).(count($profiles) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
 			}
