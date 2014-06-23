@@ -124,7 +124,7 @@
 
 							if(current_user_can("manage_options")){
 								echo "<td class='jobdesc'>";
-								echo "<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=4&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"View Applicants\"/>";
+								echo "<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$r->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"View Applicants\"/>";
 								echo "</td>";
 							}
 						echo "</tr>	";	
