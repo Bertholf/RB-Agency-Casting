@@ -9,6 +9,10 @@ wp_deregister_script('jquery');
 wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1,true); 
 wp_enqueue_script('jquery_latest');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1,true); 
+	wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1,true); 
+	wp_enqueue_script('jquery-timepicker');
+	wp_register_style( 'timepicker-style', plugins_url('../css/timepicker-addon.css', __FILE__) );
+	wp_enqueue_style( 'timepicker-style' );
 
 // set job id
 $JobID = get_query_var('target');
@@ -201,47 +205,7 @@ function load_job_display($error = NULL, $data){
 	global $current_user;
 	
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
-	echo '<script type="text/javascript">
-				jQuery(document).ready(function(){
-
-				jQuery( ".datepicker" ).datepicker();
-				jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
-					var date_start="'.$data['Job_Date_Start'].'";
-    				var date_end="'.$data['Job_Date_End'].'";
-    				jQuery("#Job_Date_Start").val(date_start);
-					jQuery("#Job_Date_End").val(date_end);
-					jQuery("#Job_Visibility").change(function(){
-						if(jQuery(this).val() == 2){
-							jQuery("#criteria").html("Loading Criteria List");
-							jQuery.ajax({
-									type: "POST",
-									url: "'. admin_url('admin-ajax.php') .'",
-									data: {
-										action: "load_criteria_fields"
-									},
-									success: function (results) {
-										jQuery("#criteria").html(results);
-									}
-							});
-						} else {
-							jQuery("#criteria").html("");
-						}
-					});';
-					if($data['Job_Visibility'] == 2){
-							echo 'jQuery.ajax({
-									type: "POST",
-									url: "'. admin_url('admin-ajax.php') .'",
-									data: {
-										action: "load_criteria_fields",
-										value: "'.$data['Job_Criteria'].'"
-									},
-									success: function (results) {
-										jQuery("#criteria").html(results);
-									}
-								 });';	
-					}
-	echo '});
-		  </script>';
+	
 
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
@@ -306,6 +270,33 @@ function load_job_display($error = NULL, $data){
 							<td><input type='text' name='Job_Region' value='".$data['Job_Region']."'></td>
 						</tr>
 						<tr>
+							<td><h3>Job Audition</h3></td><td></td>
+						</tr>
+						<tr>
+							<td>Date Start:</td>
+							<td>
+								<input type='text' name='Job_Audition_Date_Start' id='Job_Audition_Date_Start' class='datepicker' value='".$data['Job_Audition_Date_Start']."'>
+							</td>
+						</tr>
+						<tr>
+							<td>Date End:</td>
+							<td>
+								<input type='text' name='Job_Audition_Date_End' id='Job_Audition_Date_End' class='datepicker' value='".$data['Job_Audition_Date_End']."'>
+							</td>
+						</tr>
+						<tr>
+							<td>Time:</td>
+							<td>
+								<input type='text' name='Job_Audition_Time' id='Job_Audition_Time' class='timepicker' value='".$data['Job_Audition_Time']."'>
+							</td>
+						</tr>
+						<tr>
+						<td>Venue:</td>
+							<td>
+								<textarea name='Job_Audition_Venue'>".$data['Job_Audition_Venue']."</textarea>
+							</td>
+						</tr>
+						<tr>
 							<td><h3>Job Criteria</h3></td><td></td>
 						</tr>
 						<tr>
@@ -356,6 +347,62 @@ function load_job_display($error = NULL, $data){
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "  	</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
+
+
+		echo '<script type="text/javascript">
+				jQuery(document).ready(function(){
+
+				jQuery( ".datepicker" ).datepicker();
+				jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+					var date_start="'.$data['Job_Date_Start'].'";
+    				var date_end="'.$data['Job_Date_End'].'";
+    				var date_audition_start = "'.$data["Job_Audition_Date_Start"].'";
+    				var date_audition_end = "'.$data["Job_Audition_Date_End"].'";
+
+    				jQuery("#Job_Date_Start").val(date_start);
+					jQuery("#Job_Date_End").val(date_end);
+					jQuery("#Job_Audition_Date_Start").val(date_audition_start);
+					jQuery("#Job_Audition_Date_End").val(date_audition_end);
+
+					jQuery("#Job_Visibility").change(function(){
+						if(jQuery(this).val() == 2){
+							jQuery("#criteria").html("Loading Criteria List");
+							jQuery.ajax({
+									type: "POST",
+									url: "'. admin_url('admin-ajax.php') .'",
+									data: {
+										action: "load_criteria_fields"
+									},
+									success: function (results) {
+										jQuery("#criteria").html(results);
+									}
+							});
+						} else {
+							jQuery("#criteria").html("");
+						}
+					});';
+
+					if($data['Job_Visibility'] == 2){
+							echo 'jQuery.ajax({
+									type: "POST",
+									url: "'. admin_url('admin-ajax.php') .'",
+									data: {
+										action: "load_criteria_fields",
+										value: "'.$data['Job_Criteria'].'"
+									},
+									success: function (results) {
+										jQuery("#criteria").html(results);
+									}
+								 });';	
+					}
+					echo '	jQuery(".timepicker").timepicker({
+									hourGrid: 4,
+									minuteGrid: 10,
+									timeFormat: "hh:mm tt"
+								});';
+
+	echo '});
+		  </script>';
 
 	} else {
 
