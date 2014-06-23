@@ -66,15 +66,20 @@ $siteurl = get_option('siteurl');
 									  	$arr_selected_profile = array();
 									  	$data = current($wpdb->get_results($wpdb->prepare("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID= %d ", $_GET["Job_ID"])));
 										$arr_profiles = explode(",",$data->Job_Talents);
-									  		
+									    			 
 										foreach($_POST as $key => $val ){
 									  		 if(strpos($key, "profiletalent") !== false){
 									  		 		$wpdb->query($wpdb->prepare("DELETE FROM ".table_agency_castingcart." WHERE CastingCartTalentID = %s",$val));
 									  	
 									  		 	  	array_push($arr_selected_profile, $val);
+									  		 	  	$profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID = '".$val."' ");
+									  		 	  	$wpdb->query("DELETE FROM ".table_agency_casting_job_application." WHERE Job_ID = '".$_GET["Job_ID"]."' AND Job_UserLinked = '".$profile_user_linked->ProfileUserLinked."'");
+										
 													
 									  		 }
 									  	}
+
+
 									  	echo ('<div id="message" class="updated"><p>'.count($arr_selected_profile).(count($arr_selected_profile) <=1?" profile":" profiles").' removed successfully!</p></div>');
 		}
 		// Remove to Profile Casting
@@ -105,13 +110,18 @@ $siteurl = get_option('siteurl');
 						$sql .= ",";
 					}
 				}
+				$wpdb->get_results("SELECT * FROM ".table_agency_casting_job_application." WHERE Job_ID='".$job_id."' AND Job_UserLinked = '".$key."'");
+				$is_applied = $wpdb->num_rows;
+				if($is_applied <= 0){
+					$get_profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID ='".$key."' ");
+				
+					$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) VALUES('".$job_id."','".$get_profile_user_linked->ProfileUserLinked."') ");		
+				}
 			}
 			if(!empty($sql)){
 			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
-			/*$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) 
-				SELECT Job_ID, Job_UserLinked FROM " . table_agency_casting_job_application . " 
-				WHERE NOT EXISTS (SELECT * FROM " . table_agency_profile . " WHERE ProfileID IN (".implode(",",$profiles).") ) ");		
-			*/
+			
+
 			     //$wpdb->query($insert) or die(mysql_error());		
 				$wpdb->query("INSERT INTO ".table_agency_castingcart." VALUES".$sql);
 				echo ('<div id="message" class="updated"><p>'.count($profiles).(count($profiles) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
