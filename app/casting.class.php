@@ -1729,7 +1729,9 @@ class RBAgency_Casting {
 				//echo $output;
 				curl_close($ch);
 	}
-
+    /*
+     * Notiffy talents for the job availability
+     */
 	public static function sendEmail($emails,$link){
 			// Mail it
 		    $MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
@@ -1737,7 +1739,9 @@ class RBAgency_Casting {
 		   
 			$isSent = wp_mail(trim($emails[0]), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
 	}
-
+	 /*
+     * Notify admin about the confirmed job availability
+     */
 	public static function sendEmailCastingAvailability($Talents_Display_Name,$Availability,$Job_Name,$link){
 			// Mail it
 		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
@@ -1747,7 +1751,9 @@ class RBAgency_Casting {
 		   
 			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
 	}
-
+	 /*
+     * Notify casting about the casting cart changes
+     */
 	public static function sendClientNotification($Client_Email_Address,$Message){
 			// Mail it
 		   $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
@@ -1755,6 +1761,9 @@ class RBAgency_Casting {
 			
 			
 	}
+	 /*
+     * Notify casting about the new applicant for a job
+     */
 
 	public static function sendClientNewJobNotification($Client_Email_Address,$Job_Name,$Message){
 			// Mail it
