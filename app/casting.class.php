@@ -1726,14 +1726,16 @@ class RBAgency_Casting {
 				curl_setopt($ch, CURLOPT_POSTFIELDS, "$xml_data");
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				$output = curl_exec($ch);
-				echo $output;
+				//echo $output;
 				curl_close($ch);
 	}
 
 	public static function sendEmail($emails,$link){
 			// Mail it
 		    $MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
-			$isSent = wp_mail(trim($emails[0]), get_bloginfo("name").": Job Availability", $MassEmailMessage);
+		    $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+		   
+			$isSent = wp_mail(trim($emails[0]), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
 	}
 
 	public static function sendEmailCastingAvailability($Talents_Display_Name,$Availability,$Job_Name,$link){
@@ -1741,19 +1743,23 @@ class RBAgency_Casting {
 		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
 								 . "\nClick here to review your casting cart: ".$link
 								 .  "\n\n-".get_bloginfo("name");
-			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage);
+			 $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+		   
+			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
 	}
 
 	public static function sendClientNotification($Client_Email_Address,$Message){
 			// Mail it
-		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message);
+		   $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message, $headers);
 			
 			
 	}
 
 	public static function sendClientNewJobNotification($Client_Email_Address,$Job_Name,$Message){
 			// Mail it
-		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": New Job Applicant for ".$Job_Name, $Message);
+		   $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
+		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": New Job Applicant for ".$Job_Name, $Message, $headers);
 			
 			
 	}
@@ -1784,7 +1790,7 @@ if(isset($_REQUEST["action"]) && $_REQUEST['action'] == 'cartEmpty' ) {
 		unset($_SESSION['cartArray']);
 }
 
-add_filter('wp_mail_from','custom_wp_mail_from');
+/*add_filter('wp_mail_from','custom_wp_mail_from');
 function custom_wp_mail_from($email) {
   return get_bloginfo("admin_email");
 }
@@ -1793,3 +1799,4 @@ add_filter('wp_mail_from_name','custom_wp_mail_from_name');
 function custom_wp_mail_from_name($name) {
   return get_bloginfo("name");
 }
+*/
