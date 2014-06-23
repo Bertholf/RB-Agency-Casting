@@ -87,7 +87,7 @@ if (isset($_POST['action'])) {
 
 	case 'emailSend':
 
-		if (!empty($SearchID)) {
+		if (!empty($SearchID) && isset($_POST['SearchMuxFromName'])) {
 
 		
 
@@ -241,7 +241,7 @@ if (isset($_POST['action'])) {
 	?>
    <div style="width:500px; float:left;">
      <h2><?php echo __("Search Saved", rb_agency_casting_TEXTDOMAIN); ?></h2>
-      <form method="post" enctype="multipart/form-data" action="<?php echo admin_url("admin.php?page=". $_GET['page'])."&SearchID=".$_GET['SearchID']."&SearchMuxHash=".$_GET["SearchMuxHash"]; ?>">
+      <form method="post" enctype="multipart/form-data" action="<?php echo admin_url("admin.php?page=". $_GET['page'])."&SearchID=".$_GET['SearchID']."&SearchMuxHash=".(isset($_GET["SearchMuxHash"]) && !empty($_GET["SearchMuxHash"])?$_GET["SearchMuxHash"]:""); ?>">
        <input type="hidden" name="action" value="cartEmail" />
        <div><label for="SearchMuxToEmail"><strong>From Name:(Leave as blank to use admin name)</strong></label><br/><input  style="width:300px;" type="text" id="SearchMuxFromName" name="SearchMuxFromName" value="<?php echo $dataSearchSavedMux["SearchMuxToName"]; ?>" /></div>
        <div><label for="SearchMuxToEmail"><strong>From Email:(Leave as blank to use admin email)</strong></label><br/><input  style="width:300px;" type="text" id="SearchMuxFromEmail" name="SearchMuxFromEmail" value="<?php echo $dataSearchSavedMux["SearchMuxToEmail"]; ?>" /></div>
