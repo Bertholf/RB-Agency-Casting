@@ -14,7 +14,7 @@ $rb_agency_options_arr = get_option('rb_agency_options');
 
 	$rb_agency_option_agencyheader	= $rb_agency_options_arr['rb_agency_option_agencyheader'];
 
-	$SearchMuxHash			= $_GET["SearchMuxHash"]; // Set Hash
+	$SearchMuxHash			= isset($_GET["SearchMuxHash"])?$_GET["SearchMuxHash"]:""; // Set Hash
 
 if (isset($_POST['action'])) {
 
@@ -199,7 +199,7 @@ if (isset($_POST['action'])) {
 
 	
 
-} elseif ($_GET['action'] == "deleteRecord") {
+} elseif (isset( $_GET['action'] ) && $_GET['action'] == "deleteRecord") {
 
 	$SearchID = $_GET['SearchID'];
 
@@ -227,7 +227,7 @@ if (isset($_POST['action'])) {
 
 			
 
-} elseif (($_GET['action'] == "emailCompose") && isset($_GET['SearchID'])) {
+} elseif ((isset($_GET['action'] ) && $_GET['action'] == "emailCompose") && isset($_GET['SearchID'])) {
 
 	$SearchID = $_GET['SearchID'];
 
@@ -313,7 +313,7 @@ if (isset($_POST['action'])) {
 
 	<?php
    
-   if ($_GET["action"] == "searchSave") { // Add to Cart
+   if (isset($_GET["action"]) && $_GET["action"] == "searchSave") { // Add to Cart
 
 
 
@@ -481,9 +481,9 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 			$p->limit(50); // Limit entries per page
 
-			$p->target("admin.php?page=". $_GET['page'] .$query);
+			$p->target("admin.php?page=". @$_GET['page'] .@$query);
 
-			$p->currentPage($_GET[$p->paging]); // Gets and validates the current page
+			$p->currentPage(@$_GET[$p->paging]); // Gets and validates the current page
 
 			$p->calculate(); // Calculates what to show
 
@@ -549,7 +549,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 						<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">
 
-						 <input type='hidden' name='page_index' id='page_index' value='<?php echo $_GET['page_index']; ?>' />  
+						 <input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
 
 						 <input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
 
@@ -557,7 +557,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 						 Search by : 
 
-						 Title: <input type="text" name="SearchTitle" value="<?php echo $SearchTitle; ?>" style="width: 100px;" />
+						 Title: <input type="text" name="SearchTitle" value="<?php echo isset($SearchTitle)?$SearchTitle:""; ?>" style="width: 100px;" />
 
 							<input type="submit" value="Filter" class="button-primary" />
 
@@ -569,7 +569,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 						<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">
 
-						 <input type='hidden' name='page_index' id='page_index' value='<?php echo $_GET['page_index']; ?>' />  
+						 <input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
 
 						 <input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
 
@@ -663,7 +663,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 		?>
 
-		<tr<?php echo $rowColor; ?>>
+		<tr<?php echo isset($rowColor)?$rowColor:""; ?>>
 
 			<th class="check-column" scope="row">
                  

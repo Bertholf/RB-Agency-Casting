@@ -215,7 +215,9 @@ function rb_manage_client($CastingID) {
 // *************************************************************************************************** //
 // Prepare Page
 	// add scripts
-	wp_deregister_script('jquery'); 
+	if(!is_admin()){
+		wp_deregister_script('jquery'); 
+	}
 	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
 	wp_enqueue_script('jquery_latest');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
@@ -554,7 +556,7 @@ function rb_display_list() {
 		}
 		
 		//Paginate
-		$items = mysql_num_rows(mysql_query("SELECT * FROM ". table_agency_casting ." profile LEFT JOIN ". table_agency_data_type ." castingtype ON client.CastingType = castingtype.DataTypeID ". $filter  ."")); // number of total rows in the database
+		$items = @mysql_num_rows(@mysql_query("SELECT * FROM ". table_agency_casting ." profile LEFT JOIN ". table_agency_data_type ." castingtype ON client.CastingType = castingtype.DataTypeID ". $filter  ."")); // number of total rows in the database
 		if($items > 0) {
 			$p = new rb_agency_pagination;
 			$p->items($items);
@@ -592,12 +594,12 @@ function rb_display_list() {
 	
 	
 		echo "        	<form method=\"GET\" action=\"". admin_url("admin.php?page=". $_GET['page']) ."\">\n";
-		echo "        		<input type=\"hidden\" name=\"page_index\" id=\"page_index\" value=\"". $_GET['page_index'] ."\" />  \n";
+		echo "        		<input type=\"hidden\" name=\"page_index\" id=\"page_index\" value=\"". (isset($_GET['page_index']) && !empty($_GET['page_index'])?$_GET['page_index']:"" )."\" />  \n";
 		echo "        		<input type=\"hidden\" name=\"page\" id=\"page\" value=\"". $_GET['page'] ."\" />\n";
 		echo "        		<input type=\"hidden\" name=\"type\" value=\"name\" />\n";
 		echo "        		". __("Search By", rb_agency_casting_TEXTDOMAIN) .": \n";
-		echo "        		". __("First Name", rb_agency_casting_TEXTDOMAIN) .": <input type=\"text\" name=\"CastingContactNameFirst\" value=\"". $selectedNameFirst ."\" style=\"width: 100px;\" />\n";
-		echo "        		". __("Last Name", rb_agency_casting_TEXTDOMAIN) .": <input type=\"text\" name=\"CastingContactNameLast\" value=\"". $selectedNameLast ."\" style=\"width: 100px;\" />\n";
+		echo "        		". __("First Name", rb_agency_casting_TEXTDOMAIN) .": <input type=\"text\" name=\"CastingContactNameFirst\" value=\"". (isset($selectedNameFirst) && !empty($selectedNameFirst) ?$selectedNameFirst:"") ."\" style=\"width: 100px;\" />\n";
+		echo "        		". __("Last Name", rb_agency_casting_TEXTDOMAIN) .": <input type=\"text\" name=\"CastingContactNameLast\" value=\"". (isset($selectedNameLast) && !empty($selectedNameLast)?$selectedNameLast:"" )."\" style=\"width: 100px;\" />\n";
 		echo "        		". __("Location", rb_agency_casting_TEXTDOMAIN) .": \n";
 		echo "        		<select name=\"CastingLocationCity\">\n";
 		echo "				  <option value=\"\">". __("Any Location", rb_agency_casting_TEXTDOMAIN) ."</option>";
@@ -606,7 +608,7 @@ function rb_display_list() {
 								$count = mysql_num_rows($results);
 								while ($data = mysql_fetch_array($results)) {
 									if (isset($data['CastingLocationCity']) && !empty($data['CastingLocationCity'])) {
-									echo "<option value=\"". $data['CastingLocationCity'] ."\" ". selected($selectedCity, $data["CastingLocationCity"]) ."\">". $data['CastingLocationCity'] .", ". strtoupper($dataLocation["CastingLocationState"]) ."</option>\n";
+									echo "<option value=\"". $data['CastingLocationCity'] ."\" ". selected(isset($selectedCity)?$selectedCity:"", $data["CastingLocationCity"]) ."\">". $data['CastingLocationCity'] .", ". strtoupper($data["CastingLocationState"]) ."</option>\n";
 									}
 								} 
 		echo "        		</select>\n";
@@ -615,7 +617,7 @@ function rb_display_list() {
 		echo "        </td>\n";
 		echo "        <td style=\"width: 10%;\" nowrap=\"nowrap\">\n";
 		echo "        	<form method=\"GET\" action=\"". admin_url("admin.php?page=". $_GET['page']) ."\">\n";
-		echo "        		<input type=\"hidden\" name=\"page_index\" id=\"page_index\" value=\"". $_GET['page_index'] ."\" />  \n";
+		echo "        		<input type=\"hidden\" name=\"page_index\" id=\"page_index\" value=\"". (isset($_GET['page_index'])?$_GET['page_index']:"") ."\" />  \n";
 		echo "        		<input type=\"hidden\" name=\"page\" id=\"page\" value=\"". $_GET['page'] ."\" />\n";
 		echo "        		<input type=\"submit\" value=\"". __("Clear Filters", rb_agency_casting_TEXTDOMAIN) ."\" class=\"button-secondary\" />\n";
 		echo "        	</form>\n";
@@ -641,7 +643,7 @@ function rb_display_list() {
 		echo "        <th class=\"column-CastingContactNameFirst\" id=\"CastingContactNameFirst\" scope=\"col\" style=\"width:130px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactNameFirst&dir=". $sortDirection) ."\">First Name</a></th>\n";
 		echo "        <th class=\"column-CastingContactNameLast\" id=\"CastingContactNameLast\" scope=\"col\" style=\"width:130px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactNameLast&dir=". $sortDirection) ."\">Last Name</a></th>\n";
 		echo "        <th class=\"column-CastingContactEmail\" id=\"CastingContactEmail\" scope=\"col\" style=\"width:165px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactEmail&dir=". $sortDirection) ."\">Email Address</a></th>\n";
-		echo "        <th class=\"column-ProfilesProfileDate\" id=\"ProfilesProfileDate\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileDateBirth&dir=". $sortDirection) ."\">Age</a></th>\n";
+		//echo "        <th class=\"column-ProfilesProfileDate\" id=\"ProfilesProfileDate\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileDateBirth&dir=". $sortDirection) ."\">Age</a></th>\n";
 		echo "        <th class=\"column-CastingLocationCity\" id=\"CastingLocationCity\" scope=\"col\" style=\"width:100px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationCity&dir=". $sortDirection) ."\">City</a></th>\n";
 		echo "        <th class=\"column-CastingLocationState\" id=\"CastingLocationState\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationState&dir=". $sortDirection) ."\">State</a></th>\n";
 		echo "        <th class=\"column-ProfileDateViewLast\" id=\"ProfileDateViewLast\" scope=\"col\">Date Created</th>\n";
@@ -654,7 +656,7 @@ function rb_display_list() {
 		echo "        <th class=\"column\" scope=\"col\">First Name</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">Last Name</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">Email Address</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">Age</th>\n";
+		//echo "        <th class=\"column\" scope=\"col\">Age</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">City</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">State</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">Date Created</th>\n";
@@ -673,7 +675,7 @@ function rb_display_list() {
             $CastingLocationCity = RBAgency_Common::format_propercase(stripslashes($data['CastingLocationCity']));
             $CastingLocationState = stripslashes($data['CastingLocationState']);
             $CastingContactEmail = stripslashes($data['CastingContactEmail']);
-            $CastingDateBirth = stripslashes($data['CastingDateBirth']);
+           // $CastingDateBirth = stripslashes($data['CastingDateBirth']);
             $CastingStatHits = stripslashes($data['CastingStatHits']);
             $CastingDateCreated = stripslashes($data['CastingDateCreated']);
             
@@ -708,7 +710,7 @@ function rb_display_list() {
         
         $DataTypeTitle = stripslashes($new_title);
 			
-		echo "    <tr". $rowColor .">\n";
+		echo "    <tr". (isset($rowColor)?$rowColor:"") .">\n";
 		echo "        <th class=\"check-column\" scope=\"row\">\n";
 		echo "          <input type=\"checkbox\" value=\"". $CastingID ."\" class=\"administrator\" id=\"". $CastingID ."\" name=\"castingID[". $CastingID ."]\"/>\n";
 		echo "        </th>\n";
@@ -724,7 +726,7 @@ function rb_display_list() {
 		echo "        </td>\n";
 		echo "        <td class=\"CastingContactNameLast column-CastingContactNameLast\">". $CastingContactNameLast ."</td>\n";
 		echo "        <td class=\"CastingContactEmail column-CastingContactEmail\">". $CastingContactEmail ."</td>\n";
-		echo "        <td class=\"ProfilesProfileDate column-ProfilesProfileDate\">". rb_agency_get_age($ProfileDateBirth) ."</td>\n";
+		//echo "        <td class=\"ProfilesProfileDate column-ProfilesProfileDate\">". rb_agency_get_age($ProfileDateBirth) ."</td>\n";
 		echo "        <td class=\"CastingLocationCity column-CastingLocationCity\">". $CastingLocationCity ."</td>\n";
 		echo "        <td class=\"CastingLocationCity column-CastingLocationState\">". $CastingLocationState ."</td>\n";
 		echo "        <td class=\"ProfileDateViewLast column-ProfileDateViewLast\">\n";
