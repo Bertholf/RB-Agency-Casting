@@ -178,13 +178,13 @@ jQuery(document).ready(function(){
 if (is_user_logged_in()) { 
 	
 	// casting agents and admin only
-	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
+	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'publish_pages' )){
 	
 		echo "	<style>
 					table td{border:1px solid #CCC;padding:12px;}
 					table th{border:1px solid #CCC;padding:12px;}
 				</style>";
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( 'publish_pages' ) ) {
 			echo "<p><h3>All Applicants to All Job Postings from Casting Agents</h3></p><br>";
 		} else {
 			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
@@ -254,7 +254,7 @@ if (is_user_logged_in()) {
 		$table_name = table_agency_casting_job_application;
 		
 		//for admin view
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( 'publish_pages' ) ) {
 			if(isset($_SESSION['filter']) && $_SESSION['filter'] != ""){
 				$filter = " WHERE " . $_SESSION['filter']; 
 			}
@@ -295,26 +295,36 @@ if (is_user_logged_in()) {
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <td>Job Title<br>
-						 <select name='filter_jobtitle'>
+						 <select name='filter_jobtitle' style='width: 100%;'>
 						 	<option value=''>-- Select Job Title --</option>";
 		
-		//load jobs by current user
-		$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application .
-											 $where_wo_filter
-											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
-		
-		// store applicants
 		$job_applicant = array();
-		
-		if(count($load_job_filter) > 0){
-			foreach($load_job_filter as $j){
-				if(!array_key_exists($j->app_id,$job_applicant)){
-					$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay"); 
+
+		if(current_user_can("publish_pages")){
+			$load_job_filter = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ORDER BY Job_Title");
+			if(count($load_job_filter) > 0){
+				foreach($load_job_filter as $j){
+					echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
 				}
-				echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
-			}
-		}									 
-							
+			}	
+		}else{
+			//load jobs by current user
+			$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application .
+												 $where_wo_filter
+												 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+			
+			// store applicants
+			
+			
+			if(count($load_job_filter) > 0){
+				foreach($load_job_filter as $j){
+					if(!array_key_exists($j->app_id,$job_applicant)){
+						$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay"); 
+					}
+					echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
+				}
+			}									 
+		}						
 		echo "			 </select>		
 					  </td>\n";
 		echo "        <td>Applicant<br>
@@ -384,9 +394,9 @@ if (is_user_logged_in()) {
 		//for admin view
 		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_Application_ID  FROM " . table_agency_casting_job_application .
 											 $where
-											 . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC 
+											 . " GROUP By app_id ORDER By applicants.Job_Criteria_Passed DESC 
 											 LIMIT " . $limit1 . "," . $record_per_page );
-		
+	
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
 				$details = RBAgency_Casting::rb_casting_get_model_details($load->app_id);
@@ -445,7 +455,7 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Pitch ."</td>";
 				
 				echo "        <td class=\"column-JobType\" scope=\"col\">";
-				if(current_user_can("manage_options")){
+				if(current_user_can("publish_pages")){
 					echo "<a href='".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$load->Job_ID)."' style=\"font-size:12px;\">Edit Job Details</a><br>";
 				}else{
 					echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">Edit Job Details</a><br>";
@@ -466,14 +476,14 @@ if (is_user_logged_in()) {
 				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');
 				
 				echo "        <div style='clear:both; margin-top:5px'>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 1 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 2 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 3 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating >= 4 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
-				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".($load->Job_Client_Rating == 5 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".(isset($load->Job_Client_Rating) && $load->Job_Client_Rating >= 1 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".(isset($load->Job_Client_Rating) && $load->Job_Client_Rating >= 2 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".(isset($load->Job_Client_Rating) && $load->Job_Client_Rating >= 3 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".(isset($load->Job_Client_Rating) && $load->Job_Client_Rating >= 4 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
+				echo "			  	<div class='star' style='float:left; width:15px; height:15px; background:url(\"$link_bg\") ".(isset($load->Job_Client_Rating) && $load->Job_Client_Rating == 5 ? "0px 0px;" : '0px -15px;' ) ."'></div>";
 				echo "        </div>
 							  <input type='hidden' class='application_id' value='".$load->Job_Application_ID."'>
-							  <input type='hidden' class='clients_rating' value='".$load->Job_Client_Rating."'>
+							  <input type='hidden' class='clients_rating' value='".(isset($load->Job_Client_Rating) ?$load->Job_Client_Rating:"")."'>
 							  <input type='button' class='rate' value='Rate' style='clear:both; float:left'> <div class='loading' style='float:right; margin-right:15px; margin-top:5px; width:20px; height:20px'></div>	  	
 						  </td>\n";
 				echo "    </tr>\n";

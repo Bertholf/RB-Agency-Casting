@@ -36,7 +36,7 @@
 			$have_error = true;
 		}
 
-		if ( !is_email($_POST['casting_email'], true)) {
+		if ( !is_email($_POST['casting_email'])) {
 			$error .= __("You must enter a valid email address.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
@@ -101,13 +101,13 @@
 						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
 			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
 			
-			$result = $wpdb->query($update) or die(mysql_error());        
+			$result = $wpdb->query($update); // or die(mysql_error());        
 			
 			$error = "Successfully Updated!";
 
 			$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
 			
-			header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");			
+			//header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");			
 
 		}
 	

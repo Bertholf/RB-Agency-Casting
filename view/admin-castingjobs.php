@@ -89,6 +89,7 @@ $siteurl = get_option('siteurl');
 			  $job_id = 0;
 			$agent_id = 0;
 			
+
 			if(isset($_GET["Job_ID"]) && !isset($_POST["addtoexisting"])){
 				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$_GET["Job_ID"]."'",ARRAY_A);
 				$job_id  = $_GET["Job_ID"];
@@ -110,20 +111,21 @@ $siteurl = get_option('siteurl');
 						$sql .= ",";
 					}
 				}
-				$wpdb->get_results("SELECT * FROM ".table_agency_casting_job_application." WHERE Job_ID='".$job_id."' AND Job_UserLinked = '".$key."'");
+				/*$wpdb->get_results("SELECT * FROM ".table_agency_casting_job_application." WHERE Job_ID='".$job_id."' AND Job_UserLinked = '".$key."'");
 				$is_applied = $wpdb->num_rows;
 				if($is_applied <= 0){
 					$get_profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID ='".$key."' ");
 				
 					$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) VALUES('".$job_id."','".$get_profile_user_linked->ProfileUserLinked."') ");		
-				}
+				}*/
+
 			}
 			if(!empty($sql)){
 			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
 			
 
 			     //$wpdb->query($insert) or die(mysql_error());		
-				$wpdb->query("INSERT INTO ".table_agency_castingcart." VALUES".$sql);
+				$wpdb->query("INSERT INTO ".table_agency_castingcart."(CastingCartID, CastingCartProfileID, CastingCartTalentID,CastingJobID) VALUES".$sql);
 				echo ('<div id="message" class="updated"><p>'.count($profiles).(count($profiles) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
 			}
 
@@ -801,11 +803,20 @@ $siteurl = get_option('siteurl');
 
 			         if( (isset($_GET["action2"]) && $_GET["action2"] != "addnew") || !isset($_GET["action2"])) { 
 
-			         	
+			         	 $casting_cart = $wpdb->get_results($wpdb->prepare("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$_GET["Job_ID"]),ARRAY_A);
+							 // Show Cart  
+							 $arr_profiles = array();
+							 foreach ($casting_cart as $key) {
+							 	array_push($arr_profiles, $key["CastingCartTalentID"]);
+							 }
+							 $query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($arr_profiles)?implode(",", $arr_profiles):"''").") ORDER BY profile.ProfileContactNameFirst ASC";
+							 $results = $wpdb->get_results($query, ARRAY_A);
+							 $total_casting_profiles = $wpdb->num_rows;
 						 echo "<div id=\"castingcartbox\" class=\"boxblock-container\" >";
 						 echo "<div class=\"boxblock\">";
-						 echo "<h3>Client's Casting Cart";
+						 echo "<h3>Client's Casting Cart - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						 echo "<span style=\"font-size:12px;float:right;margin-top: -5px;\">";
+						 echo "<a href=\"".get_bloginfo("url")."/view-applicants/?filter_jobtitle=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0)."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"  class=\"button-primary\">View Applicants</a>";
 						 echo "<a  href=\"#TB_inline?width=600&height=350&inlineId=notifyclient\" class=\"thickbox button-primary\" title=\"Notify Client\">Notify Client</a>";
 						 echo "| <input type=\"submit\" name=\"deleteprofilescasting\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
 						 echo "<input type=\"checkbox\" id=\"selectallcasting\"/>Select all</span>";
@@ -832,17 +843,9 @@ $siteurl = get_option('siteurl');
 							echo "<input type=\"hidden\" name=\"action2\" value=\"deletecastingprofile\"/>";
 			
 							 echo "<div class=\"innerr\" style=\"padding: 10px;\">";
-							 $casting_cart = $wpdb->get_results($wpdb->prepare("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$_GET["Job_ID"]),ARRAY_A);
-							 // Show Cart  
-							 $arr_profiles = array();
-							 foreach ($casting_cart as $key) {
-							 	array_push($arr_profiles, $key["CastingCartTalentID"]);
-							 }
+							
 	
-								$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($arr_profiles)?implode(",", $arr_profiles):"''").") ORDER BY profile.ProfileContactNameFirst ASC";
-								$results = $wpdb->get_results($query, ARRAY_A);
-
-												$count = $wpdb->num_rows;
+								
 												foreach ($results as $data) {
 													echo "<div style=\"width: 16.6%;float:left\" id=\"profile-".$data["ProfileID"]."\">";
 													echo "<div style=\"height: 200px; margin-right: 5px; overflow: hidden; \"><span style=\"text-align:center;background:#ccc;color:#000;font-weight:bold;width:100%;padding:10px;display:block;\">".(isset($_GET["Job_ID"])?"<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>":""). stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</span><a href=\"". rb_agency_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\"><img style=\"width: 100%; \" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".rb_agency_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=178&w=118\" /></a>";
@@ -865,7 +868,9 @@ $siteurl = get_option('siteurl');
 														}
 													}
 													echo "</div>\n";
-													
+													echo "<style type=\"text/css\">";
+													echo "#shortlisted #profile-".$data["ProfileID"]."{opacity: 0.3;}";
+													echo "</style>";
 
 												}
 								
@@ -882,7 +887,16 @@ $siteurl = get_option('siteurl');
 						 // Talents Shortlisted
                 		 echo "<div id=\"shortlisted\" class=\"boxblock-container\" >";
 						 echo "<div class=\"boxblock\">";
-						 echo "<h3>Talents Shortlisted by Admin";
+						 if(!empty($cartArray)){		   
+									$cartString = implode(",", array_unique($cartArray));
+									$cartString = RBAgency_Common::clean_string($cartString);
+				}
+						// Show Cart  
+						$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						$results = $wpdb->get_results($query, ARRAY_A);
+						$count = $wpdb->num_rows;
+						$total_casting_profiles = $count;
+						 echo "<h3>Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						 if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
 							 echo "<span style=\"font-size:12px;float:right;margin-top: -5px;\">";
 							 echo "<a  href=\"#TB_inline?width=600&height=550&inlineId=add-profiles\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
@@ -1094,14 +1108,7 @@ $siteurl = get_option('siteurl');
 				echo "<input type=\"hidden\" value=\"".(isset($Job_Agency_ID)?$Job_Agency_ID:"") ."\" name=\"Agent_ID\" />";
 				echo "</form>";
  
-				if(!empty($cartArray)){		   
-									$cartString = implode(",", array_unique($cartArray));
-									$cartString = RBAgency_Common::clean_string($cartString);
-				}
-				// Show Cart  
-				$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
-				$results = $wpdb->get_results($query, ARRAY_A);
-				$count = $wpdb->num_rows;
+				
 				
 				echo "<form method=\"post\" name=\"formDeleteProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";								
 				echo "<input type=\"hidden\" name=\"action2\" value=\"deleteprofile\"/>";

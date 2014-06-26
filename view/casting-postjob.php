@@ -88,7 +88,7 @@ if(isset($_GET['save_job'])){
 			$error .= __("Job type is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_GET['Job_Visibility'])) {
+		if ( $_GET['Job_Visibility'] == "") {
 			$error .= __("Visibility is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}

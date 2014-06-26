@@ -15,7 +15,7 @@ wp_enqueue_script('jquery_latest');
 
 echo $rb_header = RBAgency_Common::rb_header();
 
-if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'manage_options' )){
+if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'publish_pages' )){
 
 	// add advanced search
 	?>
@@ -31,7 +31,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	<?php	
 	echo "<div id=\"rbdashboard\">\n";
 	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
-	if (current_user_can( 'manage_options' )){
+	if (current_user_can( 'publish_pages' )){
 		echo "<h1>You are logged in as Administrator.</h1>\n";
 	} else {
 		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
@@ -153,7 +153,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"rb_button\">Edit Information</a></h4>\n";
 	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"rb_button\">Post a New Job</a></h4>\n";
 	
-	if (current_user_can( 'manage_options' )){
+	if (current_user_can( 'publish_pages' )){
 		echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View All Job Postings</a></h4>\n";
 		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View All Applicants</a></h4>\n";
 	} else {
