@@ -1522,9 +1522,9 @@ class RBAgency_Casting {
 							// Filter
 							$filter = " WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked ";
 							if (isset($_GET['Job_Title']) && !empty($_GET['Job_Title'])){
-								$selectedTitle = isset($_GET['SearchTitle'])?$_GET['Job_Title']:"";
+								$selectedTitle = isset($_GET['Job_Title'])?$_GET['Job_Title']:"";
 								$query .= "&Job_Title". $selectedTitle ."";
-								$filter .= " AND jobs.Job_Title'". $selectedTitle ."'";
+								$filter .= " AND jobs.Job_Title LIKE '%". $selectedTitle ."%'";
 							}
 
 							//Paginate
@@ -1569,7 +1569,7 @@ class RBAgency_Casting {
 											<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent">
 											 <input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
 											 Search by : 
-											 Title: <input type="text" name="SearchTitle" value="<?php echo isset($SearchTitle)?$SearchTitle:""; ?>" style="width: 100px;" />
+											 Title: <input type="text" name="Job_Title" value="<?php echo isset($Job_Title)?$Job_Title:""; ?>" style="width: 100px;" />
 												<input type="submit" value="Filter" class="button-primary" />
 												 <input type="hidden" name="action" value="informTalent"/>
 												  <input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
@@ -1616,7 +1616,7 @@ class RBAgency_Casting {
 
 							<?php
 
-							$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting."  as agency". $filter  ." ORDER BY $sort $dir $limit";
+							$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting."  as agency ". $filter  ." ORDER BY $sort $dir $limit";
 						
 							$results2 = $wpdb->get_results($query2, ARRAY_A);
 							$count2 = $wpdb->num_rows;
@@ -1700,15 +1700,21 @@ class RBAgency_Casting {
 		}
 
 					
-		public static  function sendText($mobile, $link){
+		public static  function sendText($mobile, $link, $message = ""){
 			
 			    $rb_agency_options_arr = get_option('rb_agency_options');
 				$rb_agency_value_agency_easytxturl = isset($rb_agency_options_arr['rb_agency_option_agency_easytxturl'])?$rb_agency_options_arr['rb_agency_option_agency_easytxturl']:"";
 				$rb_agency_value_agency_easytxtkey = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtkey'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtkey']:"";
 				$rb_agency_value_agency_easytxtsecret = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtsecret'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtsecret']:"";
-				
+				$content = "";
+				if(!empty($message)){
+					$content = str_replace("[casting-job-url]", $link, $message);;
+				}else{
+					$content = get_bloginfo("name").' has put you forward for a Job. See the following link: '.$link;
+				}
+
 				$xml_data ='<request>
-								<content>'.get_bloginfo("name").' has put you forward for a Job. See the following link: '.$link.'</content>
+								<content>'.$content.'</content>
 								<recipients>';
 								foreach($mobile as $number){
 									    $number = str_replace(' ', '', $number);
@@ -1732,9 +1738,14 @@ class RBAgency_Casting {
     /*
      * Notiffy talents for the job availability
      */
-	public static function sendEmail($emails,$link){
+	public static function sendEmail($emails,$link, $message = ""){
 			// Mail it
-		    $MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
+			$MassEmailMessage = "";
+			if(!empty($message)){
+					$MassEmailMessage = str_replace("[casting-job-url]", $link, $message);;
+			}else{
+					$MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
+		    }
 		    $headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 		    $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
@@ -1753,7 +1764,18 @@ class RBAgency_Casting {
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 		    $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
 		   
-			$isSent = wp_mail(get_bloginfo("email"), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
+			$isSent = wp_mail(get_bloginfo("admin_email"), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
+	}
+	 /*
+     * Notify admin about the availability of shortlisted profiles for a specifc job
+     */
+	public static function sendEmailAdminCheckAvailability($castingname, $castingemail, $message, $link){
+			// Mail it
+		    $Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
+		    $headers[] = 'MIME-Version: 1.0';
+			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		    $headers[] = 'From: '. $castingname .' <'.  $castingemail .'>';
+            $isSent = wp_mail(get_bloginfo("admin_email"), get_bloginfo("name").": Check availability", $Message, $headers);
 	}
 	 /*
      * Notify casting about the casting cart changes
