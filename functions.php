@@ -606,7 +606,7 @@
 			if( $user_ID ) {
 				$user_info = get_userdata( $user_ID ); 
 
-				if( current_user_can( 'manage_options' )) {
+				if( current_user_can( 'publish_pages' )) {
 					header("Location: ". get_bloginfo("wpurl"). "/wp-admin/");
 				} elseif ( strtotime( $user_info->user_registered ) > ( time() - 172800 ) ) {
 					// If user_registered date/time is less than 48hrs from now
