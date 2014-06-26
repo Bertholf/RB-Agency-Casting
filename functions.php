@@ -35,14 +35,14 @@
 			$newrules['browse-jobs'] = 'index.php?type=browsejobpostings';
 			$newrules['job-detail/(.*)$'] = 'index.php?type=jobdetail&value=$matches[1]';
 			$newrules['job-application/(.*)$'] = 'index.php?type=jobapplication&target=$matches[1]';
+			$newrules['profile-favorite'] = 'index.php?type=favorite';
 			// Casting Agent
 			$newrules['profile-casting/jobs/(.*)/(.*)$'] = 'index.php?type=castingjobs&target=$matches[1]&value=$matches[2]&rbgroup=casting';
 			$newrules['profile-casting/(.*)$'] = 'index.php?type=casting&target=$matches[1]&rbgroup=casting';
 			$newrules['profile-casting'] = 'index.php?type=casting&rbgroup=casting';
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]&rbgroup=casting';
-			$newrules['profile-favorite'] = 'index.php?type=favorite';
-			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]';
-			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]';
+			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]&rbgroup=casting';
+			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&rbgroup=casting';
 			return $newrules + $rules;
 		}
 	
@@ -71,6 +71,8 @@
 						return dirname(__FILE__) . '/view/casting-postjob.php';
 					} elseif (get_query_var( 'type' ) == "castingeditjob") {
 						return dirname(__FILE__) . '/view/casting-editjob.php';
+					} elseif (get_query_var( 'type' ) == "emailapplicant") {
+						return dirname(__FILE__) . '/view/casting-emailapplicant.php';
 					}
 				}else{
 					if (get_query_var( 'type' ) == "browsejobpostings") {
@@ -81,8 +83,6 @@
 						return dirname(__FILE__) . '/view/casting-jobapplication.php';
 					} elseif (get_query_var( 'type' ) == "viewapplicants") {
 						return dirname(__FILE__) . '/view/view-jobapplicants.php';
-					} elseif (get_query_var( 'type' ) == "emailapplicant") {
-						return dirname(__FILE__) . '/view/casting-emailapplicant.php';
 					} elseif (get_query_var( 'type' ) == "favorite") {
 						return dirname(__FILE__) . '/view/profile-favorite.php';
 					}

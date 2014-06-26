@@ -159,7 +159,7 @@
 
 	echo $rb_header = RBAgency_Common::rb_header();
 
-	if (is_user_logged_in() && RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) { 	
+	if (is_user_logged_in() /*&& RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)*/) { 	
 		
 		echo "<p style='color:red; margin-bottom:20px'>$remarks</p>";
 		
