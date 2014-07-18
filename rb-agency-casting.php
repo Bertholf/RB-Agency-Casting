@@ -390,6 +390,9 @@ class RBAgencyCasting {
 		function rb_agency_casting_approveclients(){
 			include_once('view/admin-approveclients.php');
 		}
+		function rb_agency_casting_calendar(){
+			include_once('view/admin-castingcalendar.php');
+		}
 
 
 

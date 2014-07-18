@@ -146,9 +146,9 @@ $siteurl = get_option('siteurl');
 						}
 						
 			}else{
-										$data = current($wpdb->get_results($wpdb->prepare("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID= %d ", $_GET["Job_ID"])));
+										$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID= %d ", $_GET["Job_ID"]));
 									  	$add_new_profiles = $data->Job_Talents.",".$_POST["addprofiles"];
-									 	$castingHash = current($wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'"));
+									 	$castingHash = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'");
 									
 										$profiles = $_POST["addprofiles"];
 										
@@ -157,11 +157,18 @@ $siteurl = get_option('siteurl');
 											foreach($profiles as $profileid){
 												 	$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 									
-												$sql = "INSERT INTO ".table_agency_castingcart_profile_hash." VALUES(
-												'',
-												'".$castingHash->Job_Talents_Hash."',
-												'".$profileid."',
-												'".$hash_profile_id."')";
+												$sql = "INSERT INTO ".table_agency_castingcart_profile_hash."
+												(
+													CastingProfileHashID,
+													CastingProfileHashJobID,
+													CastingProfileHashProfileID,
+													CastingProfileHash
+												)  VALUES(
+													'',
+													'".$castingHash->Job_Talents_Hash."',
+													'".$profileid."',
+													'".$hash_profile_id."'
+												)";
 												$wpdb->query($sql);
 
 												$results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
@@ -174,14 +181,22 @@ $siteurl = get_option('siteurl');
 										}else{
 											 	$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 												$profileid = str_replace(",","",(isset($_POST["addprofiles"])?$_POST["addprofiles"]:""));
-											$sql = "INSERT INTO ".table_agency_castingcart_profile_hash." VALUES(
+											$sql = "INSERT INTO ".table_agency_castingcart_profile_hash."
+												(
+													CastingProfileHashID,
+													CastingProfileHashJobID,
+													CastingProfileHashProfileID,
+													CastingProfileHash
+												) 
+												VALUES
+												(
 												'',
 												'".$castingHash->Job_Talents_Hash."',
 												'".$profileid."',
-												'".$hash_profile_id."')";
+												'".$hash_profile_id."'
+												)";
 												$wpdb->query($sql);
-
-											    $results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
+												 $results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
 												if(!empty( $results )){
 													RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
 													RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
@@ -254,11 +269,19 @@ $siteurl = get_option('siteurl');
 									foreach($results as $mobile){
 										$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 					
-										$sql = "INSERT INTO ".table_agency_castingcart_profile_hash." VALUES(
-										'',
-										'".$hash."',
-										'".$mobile["ProfileID"]."',
-										'".$hash_profile_id."')";
+										$sql = "INSERT INTO ".table_agency_castingcart_profile_hash."
+										(
+											CastingProfileHashID,
+											CastingProfileHashJobID,
+											CastingProfileHashProfileID,
+											CastingProfileHash
+										) 
+										VALUES(
+											'',
+											'".$hash."',
+											'".$mobile["ProfileID"]."',
+											'".$hash_profile_id."'
+										)";
 										$wpdb->query($sql);
 
 										RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$hash."/".$hash_profile_id);
@@ -301,13 +324,13 @@ $siteurl = get_option('siteurl');
 									$results = $wpdb->get_results("SELECT ProfileID,ProfileContactPhoneCell,ProfileContactEmail FROM ".table_agency_profile." WHERE ProfileID IN(". implode(",",array_filter(explode(",",$_POST["Job_Talents_Resend_To"]))).")",ARRAY_A);
 									$arr_mobile_numbers = array();
 									$arr_email = array();
-									$castingHash = current($wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'"));
+									$castingHash = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'");
 									foreach($results as $mobile){
 										array_push($arr_mobile_numbers, $mobile["ProfileContactPhoneCell"]);
 										array_push($arr_email, $mobile["ProfileContactEmail"]);
-										$results = current($wpdb->get_results($wpdb->prepare("SELECT * FROM  ".table_agency_castingcart_profile_hash." WHERE  CastingProfileHashProfileID = %s",$mobile["ProfileID"])));
-										RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$results->CastingProfileHash);
-										RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$results->CastingProfileHash);
+										$results_hash = $wpdb->get_row($wpdb->prepare("SELECT * FROM  ".table_agency_castingcart_profile_hash." WHERE  CastingProfileHashProfileID = %s",$mobile["ProfileID"]));
+										RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$results_hash->CastingProfileHash);
+										RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$results_hash->CastingProfileHash);
 									}
 	
 							  }
@@ -372,7 +395,9 @@ $siteurl = get_option('siteurl');
 
       // Notify Client
 	if(isset($_POST["notifyclient"])){
-		   $notified = RBAgency_Casting::sendClientNotification($CastingContactEmail,$_POST["message"]);
+		   $bcc_emails = isset($_POST["bcc_emails"])?$_POST["bcc_emails"]:"";
+
+		   $notified = RBAgency_Casting::sendClientNotification($CastingContactEmail,$_POST["message"],$bcc_emails);
 		   		   	echo ('<div id="message" class="updated"><p>Notification successfully sent!</p></div>');
 		   	
 	}
@@ -431,7 +456,7 @@ $siteurl = get_option('siteurl');
 						if(isset($_GET["action2"]) && $_GET["action2"] == "addnew"){
 							echo "<select name=\"Job_AgencyName\" style=\"width:186px;\">";
 							echo "<option value=\"\">- Select -</option>";
-							$castings = $wpdb->get_results("SELECT * FROM ".table_agency_casting." ORDER BY CastingContactCompany DESC");
+							$castings = $wpdb->get_results("SELECT * FROM ".table_agency_casting." WHERE CastingIsActive = 1 ORDER BY CastingContactCompany DESC");
 							foreach ($castings as $key) {
 								echo "<option value=\"".$key->CastingUserLinked."\">".$key->CastingContactDisplay." - ".$key->CastingContactCompany."</option>";
 							}
@@ -627,7 +652,8 @@ $siteurl = get_option('siteurl');
                     	echo "<input type=\"hidden\" name=\"Job_Talents_Hash\" value=\"".$Job_Talents_Hash."\"/>";
                     	echo "<input type=\"hidden\" name=\"Job_Talents_Resend_To\" value=\"\"/>";
                     	echo "<a href=\"".admin_url("admin.php?page=". $_GET['page'])."\" class=\"button\">Cancel</a>\t";
-                    	
+                    	echo "<a target=\"_blank\" style=\"float:right;\" href=\"".get_bloginfo("url")."/view-applicants/?filter_jobtitle=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0)."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"  class=\"button-primary\">View Applicants</a>";
+						echo "<div style=\"clear:both\"></div>";
 
 
                     }else{
@@ -816,7 +842,6 @@ $siteurl = get_option('siteurl');
 						 echo "<div class=\"boxblock\">";
 						 echo "<h3>Client's Casting Cart - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						 echo "<span style=\"font-size:12px;float:right;margin-top: -5px;\">";
-						 echo "<a href=\"".get_bloginfo("url")."/view-applicants/?filter_jobtitle=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0)."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"  class=\"button-primary\">View Applicants</a>";
 						 echo "<a  href=\"#TB_inline?width=600&height=350&inlineId=notifyclient\" class=\"thickbox button-primary\" title=\"Notify Client\">Notify Client</a>";
 						 echo "| <input type=\"submit\" name=\"deleteprofilescasting\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
 						 echo "<input type=\"checkbox\" id=\"selectallcasting\"/>Select all</span>";
@@ -828,6 +853,13 @@ $siteurl = get_option('siteurl');
 						 echo "<tr>";
 						 echo "<td><label>Client's Email:</label></td>";
 						 echo "<td   style=\"width:500px;\"><input type=\"text\" disabled=\"disabled\" name=\"emailaddress\" style=\"width:100%;\" value=\"".$CastingContactEmail."\"/></td>";
+						 echo "</tr>";
+						 echo "<tr>";
+						 echo "<td style=\"vertical-align: top;\"><label>BCC:</label></td>";
+						 echo "<td   style=\"width:500px;\">";
+						 echo "<input type=\"text\" name=\"bcc_emails\" style=\"width:100%;\" value=\"\"/>";
+						 echo "<span style=\"font-size:11px;color:#ccc;\">You can enter multiple addresses, separated by commas.</span>";
+						 echo "</td>";
 						 echo "</tr>";
 						 echo "<tr>";
 						 echo "<td valign=\"top\"><label>Message:</label></td>";
@@ -853,7 +885,7 @@ $siteurl = get_option('siteurl');
 													if(isset($_GET["Job_ID"])){
 														$query = "SELECT CastingAvailabilityStatus as status FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
 														$prepared = $wpdb->prepare($query,$data["ProfileID"],$_GET["Job_ID"]);
-														$availability = current($wpdb->get_results($prepared));
+														$availability = $wpdb->get_row($prepared);
 														
 														$count2 = $wpdb->num_rows;
 

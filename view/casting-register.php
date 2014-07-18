@@ -254,7 +254,7 @@
 	echo "  	<h1 class=\"entry-title\">Join Our Team</h1>";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
-	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below. ".$rb_agencyinteract_option_registerconfirm."</p>";
+	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below. </p>";
 	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
 	echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_user_name\">". __("Username (required)",rb_agency_casting_TEXTDOMAIN) ."</label>\n";

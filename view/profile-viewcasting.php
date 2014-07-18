@@ -314,12 +314,17 @@ Click this link to view Job details: [casting-job-url]
 					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
  
 					<?php
-					if (is_user_logged_in() && function_exists('rb_agency_profilelist')) { 
+					if (function_exists('rb_agency_profilelist')) { 
 						echo "<div id=\"profile-casting-list\">";
 						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
 						$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($atts);
 						$view_type = 2; // casting
-						echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type);
+						if($rb_agency_option_allowsendemail == 1){
+							$castingcart =  true;
+							echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type, $castingcart);
+						}else{
+							echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type);
+						}
 						echo "</div>";
 					}elseif(!is_user_logged_in()) {
 						echo "<div id=\"profile-casting-list\">";

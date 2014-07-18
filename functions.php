@@ -28,7 +28,7 @@
 			$newrules['casting-manage'] = 'index.php?type=castingmanage&rbgroup=casting';
 			$newrules['casting-editjob/(.*)$'] = 'index.php?type=castingeditjob&target=$matches[1]&rbgroup=casting';
 			$newrules['casting-postjob'] = 'index.php?type=castingpostjob&rbgroup=casting';
-			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]&rbgroup=casting';
+			$newrules['view-applicants/(.*)$'] = 'index.php?type=viewapplicants&target=$matches[1]';
 			$newrules['view-applicants'] = 'index.php?type=viewapplicants';
 			// User/Profile View
 			$newrules['browse-jobs/(.*)$'] = 'index.php?type=browsejobpostings&target=$matches[1]';
@@ -183,6 +183,8 @@
 		$rb_agency_option_profilelist_favorite		= isset($rb_agency_options_arr['rb_agency_option_profilelist_favorite']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_favorite'] : 0;
 		$rb_agency_option_profilelist_castingcart 	= isset($rb_agency_options_arr['rb_agency_option_profilelist_castingcart']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_castingcart'] : 0;
 		rb_agency_checkExecution();
+		$castingcart_results = array();
+		$favorites_results = array();
 
 		if ($rb_agency_option_profilelist_favorite) {
 			//Execute query - Favorite Model

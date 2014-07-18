@@ -1780,11 +1780,15 @@ class RBAgency_Casting {
 	 /*
      * Notify casting about the casting cart changes
      */
-	public static function sendClientNotification($Client_Email_Address,$Message){
+	public static function sendClientNotification($Client_Email_Address,$Message,$bcc_emails){
 			// Mail it
 		   $headers[] = 'MIME-Version: 1.0';
 		   $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 		   $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
+		   $bcc_emails_arr = explode(",",$bcc_emails);
+		   foreach ($bcc_emails_arr as $key) {
+		   	 $headers[] = 'Bcc: '.$key;
+		   }
 		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message, $headers);
 			
 			
