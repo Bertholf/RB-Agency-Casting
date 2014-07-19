@@ -25,7 +25,7 @@ if (is_user_logged_in()) {
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 				echo "<p><h3>Job Postings</h3></p><br>";
 		} else {
-			if ( current_user_can( 'publish_pages' ) ) {
+			if ( current_user_can( 'edit_posts' ) ) {
 				echo "<p><h3>All Job Postings from Casting Agents</h3></p><br>";
 			} elseif ( RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) {
 				echo "<p><h3>Your Job Postings</h3></p><br>";
@@ -177,7 +177,7 @@ if (is_user_logged_in()) {
 
 		}
 		
-		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'publish_pages' )){
+		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'edit_posts' )){
 			if($filter!=''){
 				$where = "WHERE $filter"; 
 			} else {
@@ -214,7 +214,7 @@ if (is_user_logged_in()) {
 				} else {
 					
 					//if admin, can only edit his own job postings.
-					if(current_user_can( 'publish_pages' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
+					if(current_user_can( 'edit_posts' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
 						if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
 							echo "        <td class=\"column-JobType\" scope=\"col\">
 											<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
@@ -245,7 +245,7 @@ if (is_user_logged_in()) {
 			echo "</table>";
 			
 			// only admin and casting should post jobs
-			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'publish_pages' )){
+			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 			} else {
 				echo "<p style=\"width:100%;\">There are no available job postings.</p>\n";
@@ -254,7 +254,7 @@ if (is_user_logged_in()) {
 		}
 
 		// only admin and casting should have access to casting dashboard
-		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'publish_pages' )){
+		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 		}
 

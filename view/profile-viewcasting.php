@@ -173,7 +173,7 @@ echo "			</div>\n";
 
 echo "			<div class=\"cb\"></div>\n";
                    if(is_user_logged_in()){
-                   	   if(current_user_can("publish_pages")){
+                   	   if(current_user_can("edit_posts")){
                    	   	    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ");
 		               }else{
 		                    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());

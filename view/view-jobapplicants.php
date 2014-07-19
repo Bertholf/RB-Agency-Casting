@@ -178,13 +178,13 @@ jQuery(document).ready(function(){
 if (is_user_logged_in()) { 
 	
 	// casting agents and admin only
-	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'publish_pages' )){
+	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 	
 		echo "	<style>
 					table td{border:1px solid #CCC;padding:12px;}
 					table th{border:1px solid #CCC;padding:12px;}
 				</style>";
-		if ( current_user_can( 'publish_pages' ) ) {
+		if ( current_user_can( 'edit_posts' ) ) {
 			echo "<p><h3>All Applicants to All Job Postings from Casting Agents</h3></p><br>";
 		} else {
 			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
@@ -254,7 +254,7 @@ if (is_user_logged_in()) {
 		$table_name = table_agency_casting_job_application;
 		
 		//for admin view
-		if ( current_user_can( 'publish_pages' ) ) {
+		if ( current_user_can( 'edit_posts' ) ) {
 			if(isset($_SESSION['filter']) && $_SESSION['filter'] != ""){
 				$filter = " WHERE " . $_SESSION['filter']; 
 			}
@@ -300,7 +300,7 @@ if (is_user_logged_in()) {
 		
 		$job_applicant = array();
 
-		if(current_user_can("publish_pages")){
+		if(current_user_can("edit_posts")){
 			$load_job_filter = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ORDER BY Job_Title");
 			if(count($load_job_filter) > 0){
 				foreach($load_job_filter as $j){
@@ -455,7 +455,7 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Pitch ."</td>";
 				
 				echo "        <td class=\"column-JobType\" scope=\"col\">";
-				if(current_user_can("publish_pages")){
+				if(current_user_can("edit_posts")){
 					echo "<a href='".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$load->Job_ID)."' style=\"font-size:12px;\">Edit Job Details</a><br>";
 				}else{
 					echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">Edit Job Details</a><br>";
