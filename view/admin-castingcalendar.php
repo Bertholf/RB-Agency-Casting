@@ -82,23 +82,42 @@ padding: 4px;
 	jQuery(document).ready(function() {
          <?php 
          	$defaultDate =  isset($_GET["year"]) && isset($_GET["month"])?$_GET["year"]."-".$_GET["month"]:date("Y-m");
+
+         	if(!isset($_GET["filter"]) || (isset($_GET["filter"]) && $_GET["filter"] == "jobs")){ // jobs
+	         	$casting_jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job."  ");
+	         }else{
+ 				$casting_jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job."  ");
+	        }
          ?>
 		jQuery('#calendar').fullCalendar({
 			header: {
-				right: 'month' // ,basicWeek,basicDay
+				right: 'month' //,basicWeek,basicDay'
 			},
 			defaultDate: '<?php echo $defaultDate;?>',
 			editable: true,
-			events: [
+			 eventSources: [
+			<?php foreach($casting_jobs as $job): ?>
 				
+			{
+				events: [
 				{
-					title: 'Test Casting Job',
-					start: '2014-07-07',
-					end: '2014-07-10',
-					url: 'http://google.com/',
+					title: '<?php echo $job->Job_Title;?>',
+					<?php if(!isset($_GET["filter"]) || (isset($_GET["filter"]) && $_GET["filter"] == "jobs")): // jobs ?>
+	        			start: '<?php echo date("Y-m-d",strtotime($job->Job_Date_Start)); ?>',
+						end: '<?php echo date("Y-m-d",strtotime($job->Job_Date_End)); ?>',
+					<?php else: ?>
+	        			start: '<?php echo date("Y-m-d",strtotime($job->Job_Audition_Date_Start)); ?>',
+						end: '<?php echo date("Y-m-d",strtotime($job->Job_Audition_Date_End)); ?>',
+					<?php endif; ?>
+					url: '<?php echo admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$job->Job_ID); ?>',
 					
-				}
+				}],
+				//color: 'black !important',   
+                //textColor: 'yellow !important' 
+          	},
+			<?php endforeach; ?>
 			]
+			
 		});
 		
 	});

@@ -1406,7 +1406,7 @@ class RBAgency_Casting {
 									$datas_castingcart = $query_castingcart;
 				
 									if($count_castingcart<=0){ //if not exist insert favorite!
-										$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = %s, CastingCartTalentID = %s, CastingJobID = %s"; 
+										$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
 										$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
 									} else { // favorite model exist, now delete!
 										$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
@@ -1426,7 +1426,7 @@ class RBAgency_Casting {
 				
 			
 								if($count_castingcart<=0){ //if not exist insert favorite!
-									$insert = "INSERT INTO " . table_agency_castingcart . " SET CastingCartProfileID = %s, CastingCartTalentID = %s, CastingJobID = %s"; 
+									$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
 									$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
 									$arr = array( "data" => "inserted");
 									echo json_encode($arr);
