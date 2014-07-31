@@ -214,16 +214,20 @@
 		 $displayActions = "";  
 		 $displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
 	    if ($rb_agency_option_profilelist_castingcart) {
-		
-	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>Favorite</span></a> | <a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a><br/>";
+			$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
+	        $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>Favorite</span></a>";
+	        $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
+	        $displayActions .= "</div>";
 	    }
 	    if ($rb_agency_option_profilelist_favorite) {
-		
-	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>Casting Cart</span></a> | <a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
+				$displayActions .= "<div id=\"profile-favorite\" class=\"rbbtn-group\">";
+	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>Casting Cart</span></a>";
+	            $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
+	            $displayActions .= "</div>";
 	    }
 	            $displayActions .= "</div>";
 	  
-		$disp .= "<div class=\"favorite-casting\">";
+		
 		$disp = $displayActions;
 		
 		/*if ($rb_agency_option_profilelist_castingcart) {
@@ -249,10 +253,10 @@
 	       
 				$is_model = get_user_meta( $user_ID, 'rb_agency_interact_profiletype',true);
 				if(!$is_model){
-	       		   $disp .= "<div class=\"\"><a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\">GO BACK TO CASTING DASHBOARD</a></div>";
+	       		   $disp .= "<a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\" class=\"btn btn-primary\">GO BACK TO CASTING DASHBOARD</a>";
 				}
 	       	}
-		$disp .= "</div><!-- .favorite-casting -->";
+		
 		return $disp; 
 	}
 
