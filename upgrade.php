@@ -267,6 +267,32 @@ global $wpdb;
 
 	}
 
+    if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.6") {
+
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Talents","VARCHAR(5000)");
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Talents_Hash","VARCHAR(100)");
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Date","VARCHAR(100)");
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Venue","VARCHAR(100)");
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Time","VARCHAR(100)");
+
+
+		// Updating version number
+		update_option('rb_agency_casting_version', "0.1.7"); 
+
+	}
+	 if (substr(get_option('rb_agency_casting_version'), 0, 7) == "0.1.7") {
+
+			rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Date_End","VARCHAR(100)");
+		
+		$wpdb->query("ALTER TABLE ".table_agency_casting_job." CHANGE Job_Audition_Date Job_Audition_Date_Start VARCHAR(100)");
+
+
+		// Updating version number
+		update_option('rb_agency_casting_version', "0.1.8"); 
+
+	}
+		
+
 
 	
 
