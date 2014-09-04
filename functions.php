@@ -318,9 +318,11 @@
 						if(Obj.hasClass("inactive")){
 							Obj.attr("title","Remove from Favorites");
 							Obj.removeClass("inactive").addClass("active");
+							//Obj.text("Remove from Favorites");
 						}else if(Obj.hasClass("active")){
 							Obj.attr("title","Add to Favorites");
 							Obj.removeClass("active").addClass("inactive");
+							//Obj.text("Add to Favorites");
 						}
 					}
 				});
@@ -343,9 +345,12 @@
 								if (Obj.attr("class") == "save_favorite") {
 									Obj.fadeOut().empty().html("").fadeIn();
 									Obj.attr('title', 'Save to Favorites');
+									//Obj.text('Save to Favorites');
 								} else {
 									Obj.fadeOut().empty().html("Favorited").fadeIn();
 									Obj.attr('title', 'Remove from Favorites');
+									//Obj.text('Remove from Favorites');
+								
 								}
 							}, 2000);
 						} else {
@@ -446,9 +451,11 @@
 							if(Obj.hasClass("inactive")){
 								Obj.attr("title","Remove from Casting Cart");
 								Obj.removeClass("inactive").addClass("active");
+								//Obj.text("Remove from Casting Cart");
 							}else if(Obj.hasClass("active")){
 								Obj.attr("title","Add to Casting Cart");
 								Obj.removeClass("active").addClass("inactive");
+								//Obj.text("Add to Casting Cart");
 							}
 						}
 					});

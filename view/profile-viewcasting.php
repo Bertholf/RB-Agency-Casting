@@ -16,6 +16,8 @@ include( rb_agency_casting_BASEREL."app/casting.class.php");
 
 $rb_agency_options_arr = get_option("rb_agency_options");
 $rb_agency_option_allowsendemail = $rb_agency_options_arr["rb_agency_option_allowsendemail"];
+$rb_agency_option_agencyname = $rb_agency_options_arr["rb_agency_option_agencyname"];
+$rb_agency_option_agencyemail = $rb_agency_options_arr["rb_agency_option_agencyemail"];
 
 if (isset($ProfileType) && !empty($ProfileType)){
 	$DataTypeID = 0;
@@ -297,7 +299,7 @@ Click this link to view Job details: [casting-job-url]
 					  <strong>Check Availability</strong>
 					  <form method="post" action="">
 					  	<div>
-					  	Admin Email: <input type="text" name="adminemail" disabled="disabled" value="<?php echo get_bloginfo("admin_email");?>" />
+					  	Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
 					  	</div>
 					  	<div>
 					  	Message:<br/>
