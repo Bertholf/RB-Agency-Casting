@@ -245,6 +245,13 @@ class RBAgencyCasting {
 					Job_Title VARCHAR(255),
 					Job_Text TEXT,
 					Job_Date_Start VARCHAR(255),
+					Job_Talents VARCHAR(1000),
+					Job_Talents_Hash VARCHAR(100),
+					Job_Audition_Date_Start VARCHAR(100),
+					Job_Audition_Date_End VARCHAR(100),
+					Job_Audition_Venue VARCHAR(100),
+					Job_Audition_Time VARCHAR(100),
+					Job_Date_Created DateTime,
 					Job_Date_End VARCHAR(255),
 					Job_Location VARCHAR(255),
 					Job_Region VARCHAR(255),
@@ -282,8 +289,30 @@ class RBAgencyCasting {
 					PRIMARY KEY (Job_Application_ID)
 					);";
 				dbDelta($sql);
-
-
+			/*
+			 * Casting Cart Availability
+			 */
+				$sql ="CREATE TABLE IF NOT EXISTS ".table_agency_castingcart_availability ." (
+					CastingAvailabilityID INT(20) NOT NULL AUTO_INCREMENT,
+					CastingAvailabilityProfileID INT(20) NOT NULL,
+					CastingAvailabilityStatus VARCHAR(255),
+					CastingAvailabilityDateCreated TIMESTAMP,
+					CastingJobID INT(20),
+					PRIMARY KEY (CastingAvailabilityID)
+					);";
+					dbDelta($sql);
+			/*
+			 * Casting Cart Profile Hash
+			 */
+				$sql = "CREATE TABLE IF NOT EXISTS ". table_agency_castingcart_profile_hash." (
+					CastingProfileHashID BIGINT(20) NOT NULL AUTO_INCREMENT,
+					CastingProfileHashJobID VARCHAR(255),
+					CastingProfileHashProfileID VARCHAR(255),
+					CastingProfileHash VARCHAR(255),
+					PRIMARY KEY (CastingProfileHashID)
+					);";
+					dbDelta($sql);
+		
 
 		}
 
