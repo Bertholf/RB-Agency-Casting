@@ -1726,14 +1726,18 @@ class RBAgency_Casting {
 							</request>';
 
 				$url = "http://".$rb_agency_value_agency_easytxtkey.":".$rb_agency_value_agency_easytxtsecret."@".$rb_agency_value_agency_easytxturl."/api2/xml/sms";
-				$ch = curl_init($url);
-				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
-				curl_setopt($ch, CURLOPT_POSTFIELDS, "$xml_data");
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				$output = curl_exec($ch);
-				//echo $output;
-				curl_close($ch);
+				$ch = "";
+				if(function_exists("curl_init")){
+					$ch = curl_init($url);
+					curl_setopt($ch, CURLOPT_POST, 1);
+					curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+					curl_setopt($ch, CURLOPT_POSTFIELDS, "$xml_data");
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					$output = curl_exec($ch);
+					//echo $output;
+					curl_close($ch);
+				}
+				
 	}
     /*
      * Notiffy talents for the job availability
