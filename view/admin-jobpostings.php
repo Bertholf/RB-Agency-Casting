@@ -206,7 +206,7 @@ function job_type_settings(){
 	elseif(isset($_GET['proc']) && $_GET['proc'] == 'save_new_jobtype' ){
 		
 		// get id
-		$type = $_GET['typeid'];
+		$type = isset($_GET['typeid'])?$_GET['typeid']:"";
 		//check errors
 		$error = '';
 		$have_error = false;
