@@ -315,6 +315,9 @@
 						'talentID': Obj.attr("attr-id")
 					},
 					success: function (results) {
+					<?php if (get_query_var('type') == "favorite"){?>
+								jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
+					<?php } else { ?>
 						if(Obj.hasClass("inactive")){
 							Obj.attr("title","Remove from Favorites");
 							Obj.removeClass("inactive").addClass("active");
@@ -324,6 +327,7 @@
 							Obj.removeClass("active").addClass("inactive");
 							//Obj.text("Add to Favorites");
 						}
+					<?php } ?>
 					}
 				});
 			});
@@ -356,7 +360,7 @@
 						} else {
 							<?php
 							if (get_query_var('type') == "favorite"){?>
-									Obj.parents(".rbprofile-list").hide("slow",function(){Obj.parents(".rbprofile-list").remove();});
+								jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
 							<?php } else { ?>
 								if(layout_favorite == "00"){
 									if (Obj.hasClass("save_favorite") || (Obj.hasClass("favorited") && jQuery.trim(results)=="inserted") ) {
@@ -448,15 +452,20 @@
 							'talentID': Obj.attr("attr-id")
 						},
 						success: function (results) {
-							if(Obj.hasClass("inactive")){
-								Obj.attr("title","Remove from Casting Cart");
-								Obj.removeClass("inactive").addClass("active");
-								//Obj.text("Remove from Casting Cart");
-							}else if(Obj.hasClass("active")){
-								Obj.attr("title","Add to Casting Cart");
-								Obj.removeClass("active").addClass("inactive");
-								//Obj.text("Add to Casting Cart");
-							}
+							<?php 
+							if (get_query_var('type') == "casting"){?>
+											jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
+						<?php } else { ?>
+								if(Obj.hasClass("inactive")){
+									Obj.attr("title","Remove from Casting Cart");
+									Obj.removeClass("inactive").addClass("active");
+									//Obj.text("Remove from Casting Cart");
+								}else if(Obj.hasClass("active")){
+									Obj.attr("title","Add to Casting Cart");
+									Obj.removeClass("active").addClass("inactive");
+									//Obj.text("Add to Casting Cart");
+								}
+							<?php } ?>
 						}
 					});
 				});
@@ -469,9 +478,10 @@
 								url: '<?php echo admin_url('admin-ajax.php'); ?>',
 								data: {
 									action: 'rb_agency_save_castingcart',
-									'talentID': $(this).attr("id")
+									'talentID': Obj.attr("attr-id")
 								},
 								success: function (results) {
+									console.log(results);
 									if (results == 'error') {
 										Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
 									} else if (results == -1) {
@@ -486,7 +496,8 @@
 									} else {
 										<?php 
 										if (get_query_var('type') == "casting"){?>
-											Obj.parents(".rbprofile-list").hide("slow",function(){Obj.parents(".rbprofile-list").remove();});
+											$("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){$("#rbprofile-"+Obj.attr("attr-id")).remove();});
+											console.log("#rbprofile-"+Obj.attr("attr-id"));
 										<?php
 										} else { 
 										?>
