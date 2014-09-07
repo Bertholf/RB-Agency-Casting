@@ -202,6 +202,12 @@ echo "			<div class=\"cb\"></div>\n";
 	                  	      wp_redirect(get_bloginfo("url")."/profile-casting/?Job_ID=".$_POST["job_id"]);
 	                   }
 
+	                   if(isset($_POST["removefromcart"])){
+
+	                   	    $wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+	                  	   echo "<div class=\"\">Succesfully removed.</div>";
+	                   }
+
 	                   if(isset($_POST["removefromjob"])){
 	                   	    $wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
 	                   }
@@ -209,7 +215,8 @@ echo "			<div class=\"cb\"></div>\n";
 	                    echo "<input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all&nbsp;";
 		              
 	                   if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
-	                   	   echo "<form method=\"post\" action=\"\"  style=\"float:right;\">";
+	                   	   echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"  style=\"float:right;\">";
+	                   	   echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s)\"/>";
 		                   echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
 		                   echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 		                   echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
