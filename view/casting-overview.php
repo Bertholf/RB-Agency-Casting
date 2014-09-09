@@ -110,11 +110,11 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	}
 
 	if(isset($data_r->CastingLocationCountry) && $data_r->CastingLocationCountry!=""){	
-		echo "		<li>Country: <strong>" . $data_r->CastingLocationCountry . "</strong></li>\n";	
+		echo "		<li>Country: <strong>" . rb_agency_getCountryTitle($data_r->CastingLocationCountry) . "</strong></li>\n";	
 	}
 
 	if(isset($data_r->CastingLocationState) && $data_r->CastingLocationState!=""){	
-		echo "		<li>State: <strong>" . $data_r->CastingLocationState . "</strong></li>\n";	
+		echo "		<li>State: <strong>" . rb_agency_getStateTitle($data_r->CastingLocationState) . "</strong></li>\n";	
 	}
 
 	if(isset($data_r->CastingLocationZip) && $data_r->CastingLocationZip!=""){	
