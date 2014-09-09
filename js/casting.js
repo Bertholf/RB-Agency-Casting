@@ -24,15 +24,19 @@ function populateStates(){
 							dataType: 'json',
 							url: url,
 							data: { 
-								'action': 'get_state_json', 
-								'countryid': jQuery("#CastingCountry").val()
+								action: 'get_state_ajax', 
+								country: jQuery("#CastingCountry").val()
 							},
 							success: function(data){
+								console.log(data);
 								jQuery("<option/>").attr("value", "").text("Select State").appendTo(jQuery("#CastingState"));	
 											for (var i = 0; i < data.length; i++) {
 									jQuery("<option/>").attr("value", data[i].StateID).text(data[i].StateTitle).appendTo(jQuery("#CastingState"));
 								}
 								jQuery("#CastingState").find("option:eq(0)").remove();
+							},
+							error: function(e){
+								console.log(e);
 							}
 						});
 				}else{
