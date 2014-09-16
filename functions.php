@@ -184,7 +184,7 @@
 		$rb_agency_option_profilelist_castingcart 	= isset($rb_agency_options_arr['rb_agency_option_profilelist_castingcart']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_castingcart'] : 0;
 		rb_agency_checkExecution();
 		$castingcart_results = array();
-		$favorites_results = array();
+		  $favorites_results = array();
 
 		if ($rb_agency_option_profilelist_favorite) {
 			//Execute query - Favorite Model
@@ -215,14 +215,14 @@
 		 $displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
 	    if ($rb_agency_option_profilelist_favorite) {
 			$displayActions .= "<div id=\"profile-favorite\" class=\"rbbtn-group\">";
-	        $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>Favorite</span></a>";
-	        $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
+	        $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")."</span></a>";
+	       // $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
 	        $displayActions .= "</div>";
 	    }
 	    if ($rb_agency_option_profilelist_castingcart) {
 				$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
-	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>Casting Cart</span></a>";
-	            $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
+	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
+	          //  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
 	            $displayActions .= "</div>";
 	    }
 	            $displayActions .= "</div>";
@@ -321,11 +321,11 @@
 						if(Obj.hasClass("inactive")){
 							Obj.attr("title","Remove from Favorites");
 							Obj.removeClass("inactive").addClass("active");
-							//Obj.text("Remove from Favorites");
+							Obj.find("span").text("Remove from Favorites");
 						}else if(Obj.hasClass("active")){
 							Obj.attr("title","Add to Favorites");
 							Obj.removeClass("active").addClass("inactive");
-							//Obj.text("Add to Favorites");
+							Obj.find("span").text("Add to Favorites");
 						}
 					<?php } ?>
 					}
@@ -349,11 +349,11 @@
 								if (Obj.attr("class") == "save_favorite") {
 									Obj.fadeOut().empty().html("").fadeIn();
 									Obj.attr('title', 'Save to Favorites');
-									//Obj.text('Save to Favorites');
+									Obj.find("span").text('Add to Favorites');
 								} else {
 									Obj.fadeOut().empty().html("Favorited").fadeIn();
-									Obj.attr('title', 'Remove from Favorites');
-									//Obj.text('Remove from Favorites');
+									//Obj.attr('title', 'Remove from Favorites');
+									Obj.find("span").text('Remove from Favorites');
 								
 								}
 							}, 2000);
@@ -367,12 +367,12 @@
 										Obj.removeClass("save_favorite");
 										Obj.addClass("favorited");
 										Obj.attr('title', 'Remove from Favorites');
-										Obj.html('Remove from Favorites');
+										Obj.find("span").text('Remove from Favorites');
 									} else {
 										Obj.removeClass("favorited");
 										Obj.addClass("save_favorite");
 										Obj.attr('title', 'Add to Favorites');
-										Obj.html('Add to Favorites');
+										Obj.find("span").text('Add to Favorites');
 									}
 								} else {
 									if (Obj.attr("class") == "save_favorite") {
@@ -459,11 +459,11 @@
 								if(Obj.hasClass("inactive")){
 									Obj.attr("title","Remove from Casting Cart");
 									Obj.removeClass("inactive").addClass("active");
-									//Obj.text("Remove from Casting Cart");
+									Obj.find("span").text("Remove from Casting Cart");
 								}else if(Obj.hasClass("active")){
 									Obj.attr("title","Add to Casting Cart");
 									Obj.removeClass("active").addClass("inactive");
-									//Obj.text("Add to Casting Cart");
+									Obj.find("span").text("Add to Casting Cart");
 								}
 							<?php } ?>
 						}
@@ -506,25 +506,25 @@
 													Obj.removeClass("save_castingcart");
 													Obj.addClass("saved_castingcart");
 													Obj.attr('title', 'Remove from Casting Cart');
-													Obj.html('Remove from Casting Cart');
+													Obj.find("span").text('Remove from Casting Cart');
 												} else {
 													Obj.removeClass("saved_castingcart");
 													Obj.addClass("save_castingcart");
 													Obj.attr('title', 'Add to Casting Cart');
-													Obj.html('Add to Casting Cart');
+													Obj.find("span").text('Add to Casting Cart');
 												}
 											} else {
 												if (Obj.attr("class") == "save_castingcart") {
 													Obj.empty().fadeOut().html("").fadeIn();
 													Obj.attr("class", "saved_castingcart");
 													Obj.attr('title', 'Remove from Casting Cart');
-													Obj.text("VIEW CASTING CART");
-													Obj.attr("href","<?php echo get_bloginfo('url');?>/profile-casting/");
+													//Obj.text("VIEW CASTING CART");
+													Obj.find("span").text("href","<?php echo get_bloginfo('url');?>/profile-casting/");
 												} else {
 													Obj.empty().fadeOut().html("").fadeIn();
 													Obj.attr("class", "save_castingcart");
 													Obj.attr('title', 'Add to Casting Cart');
-													Obj.text("ADD TO CASTING CART");
+													//Obj.text("ADD TO CASTING CART");
 													
 													$(this).find("a[class=view_all_castingcart]").remove();
 												}
