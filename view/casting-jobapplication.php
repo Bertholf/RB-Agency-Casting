@@ -17,7 +17,7 @@
 	// check if already applied
 	$check_applied = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $job_id; 
 	
-	$get_checkapplied = $wpdb->get_results($check_applied,ARRAY_A;
+	$get_checkapplied = $wpdb->get_results($check_applied,ARRAY_A);
 	$count = $wpdb->num_rows;
 	if($count == 0){
 			   	
