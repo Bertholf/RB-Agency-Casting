@@ -118,7 +118,7 @@
 		$update = "UPDATE " . table_agency_casting_job_application .
 		          " SET Job_Client_Rating = " . $rating . " WHERE Job_Application_ID = " . $application_id;
 		
-		mysql_query($update) or die(mysql_error());		  
+		$wpdb->query($update);		  
 		
 		die();	
 	}
@@ -130,7 +130,8 @@
 	* @Returns links
 	/*/
 	function rb_agency_get_miscellaneousLinks($ProfileID = ""){
-	 
+	    
+	    global $wpdb;
 		rb_agency_checkExecution();
 
 		$disp = "";
@@ -138,9 +139,9 @@
 
 		if (is_permitted('favorite')) {
 			if(!empty($ProfileID)){
-				$queryFavorite = mysql_query("SELECT fav.SavedFavoriteTalentID as favID FROM ".table_agency_savedfavorite." fav WHERE ".rb_agency_get_current_userid()." = fav.SavedFavoriteProfileID AND fav.SavedFavoriteTalentID = '".$ProfileID."' ") or die(mysql_error());
-				$dataFavorite = mysql_fetch_assoc($queryFavorite); 
-				$countFavorite = mysql_num_rows($queryFavorite);
+				$queryFavorite = $wpdb->get_row("SELECT fav.SavedFavoriteTalentID as favID FROM ".table_agency_savedfavorite." fav WHERE ".rb_agency_get_current_userid()." = fav.SavedFavoriteProfileID AND fav.SavedFavoriteTalentID = '".$ProfileID."' ",ARRAY_A);
+				$dataFavorite = $queryFavorite; 
+				$countFavorite = $wpdb->num_rows;
 				if($countFavorite <= 0){
 						$disp .= "    <div class=\"favorite\"><a title=\"Save to Favorites\" rel=\"nofollow\" href=\"javascript:;\" class=\"save_favorite\" id=\"".$ProfileID."\"></a></div>\n";
 				}else{
@@ -152,9 +153,9 @@
 
 		if (is_permitted('casting')) {
 			if(!empty($ProfileID)){
-				$queryCastingCart = mysql_query("SELECT cart.CastingCartTalentID as cartID FROM ".table_agency_castingcart."  cart WHERE ".rb_agency_get_current_userid()." = cart.CastingCartProfileID AND cart.CastingCartTalentID = '".$ProfileID."' ") or die(mysql_error());
-				$dataCastingCart = mysql_fetch_assoc($queryCastingCart); 
-				$countCastingCart = mysql_num_rows($queryCastingCart);
+				$queryCastingCart = $wpdb->get_row("SELECT cart.CastingCartTalentID as cartID FROM ".table_agency_castingcart."  cart WHERE ".rb_agency_get_current_userid()." = cart.CastingCartProfileID AND cart.CastingCartTalentID = '".$ProfileID."' ",ARRAY_A);
+				$dataCastingCart = $queryCastingCart; 
+				$countCastingCart = $wpdb->num_rows;
 				if($countCastingCart <=0){
 						$disp .= "<div class=\"castingcart\"><a title=\"Add to Casting Cart\" href=\"javascript:;\" id=\"".$ProfileID."\"  class=\"save_castingcart\"></a></div></li>";
 				} else {
@@ -270,18 +271,18 @@
 		global $wpdb;
 		if(is_user_logged_in()){
 			if(isset($_POST["talentID"])){
-				$query_favorite = mysql_query("SELECT * FROM ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'" ) or die("error");
-				$count_favorite = mysql_num_rows($query_favorite);
-				$datas_favorite = mysql_fetch_assoc($query_favorite);
+				$query_favorite = $wpdb->get_results("SELECT * FROM ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'" ,ARRAY_A);
+				$count_favorite = $query_favorite;
+				$datas_favorite = $wpdb->num_rows;
 
 				if($count_favorite<=0){ //if not exist insert favorite!
 
-					mysql_query("INSERT INTO ".table_agency_savedfavorite."(SavedFavoriteID,SavedFavoriteProfileID,SavedFavoriteTalentID) VALUES('','".rb_agency_get_current_userid()."','".$_POST["talentID"]."')") or die("error");
+					$wpdb->query("INSERT INTO ".table_agency_savedfavorite."(SavedFavoriteID,SavedFavoriteProfileID,SavedFavoriteTalentID) VALUES('','".rb_agency_get_current_userid()."','".$_POST["talentID"]."')") or die("error");
 					echo "inserted";
 
 				} else { // favorite model exist, now delete!
 
-					mysql_query("DELETE FROM  ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'") or die("error");
+					$wpdb->query("DELETE FROM  ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'") or die("error");
 					echo "deleted";
 				
 				}
@@ -413,15 +414,15 @@
 
 			if(is_user_logged_in()){ 
 				if(isset($_POST["talentID"])){ 
-					$query_castingcart = mysql_query("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'" ) or die("error");
-					$count_castingcart = mysql_num_rows($query_castingcart);
-					$datas_castingcart = mysql_fetch_assoc($query_castingcart);
+					$query_castingcart = $wpdb->get_row("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'" ,ARRAY_A);
+					$count_castingcart = $wpdb->num_rows;
+					$datas_castingcart = $query_castingcart;
 
 					if($count_castingcart<=0){ //if not exist insert favorite!
 						$wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
 						echo "inserted";
 					} else { // favorite model exist, now delete!
-						mysql_query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") or die("error");
+						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'");
 						echo "deleted";
 					}
 				}

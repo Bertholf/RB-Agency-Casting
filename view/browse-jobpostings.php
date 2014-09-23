@@ -105,9 +105,10 @@ if (is_user_logged_in()) {
 		} else {
 			$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job;
 		}
-		$result_loc = mysql_query($get_all_loc) or die(mysql_error());
-		if(mysql_num_rows($result_loc) > 0){
-			while ($loc = mysql_fetch_assoc($result_loc)){
+		$result_loc = $wpdb->get_results($get_all_loc,ARRAY_A);
+		$count = $wpdb->num_rows;
+		if($count > 0){
+			foreach($result_loc as $loc){
 				echo "<option value='".$loc['Location']."' ".selected(strtolower($loc['Location']),strtolower($location),false).">" .$loc['Location'] . "</option>";			
 			}
 		}

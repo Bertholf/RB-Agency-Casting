@@ -125,6 +125,7 @@ class RBAgency_Casting {
 	 */
 
 		public static function cart_show(){
+			global $wpdb;
 
 			if (isset($_SESSION['cartArray']) && !empty($_SESSION['cartArray'])) {
 
@@ -134,8 +135,8 @@ class RBAgency_Casting {
 
 				// Show Cart  
 				$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (". $cartString .") ORDER BY profile.ProfileContactNameFirst ASC";
-				$results = mysql_query($query) or  die( "<a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("No profile selected. Try again", rb_agency_casting_TEXTDOMAIN) ."</a>"); //die ( __("Error, query failed", rb_agency_casting_TEXTDOMAIN ));
-				$count = mysql_num_rows($results);
+				$results = $wpdb->get_results($query,ARRAY_A) or  die( "<a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("No profile selected. Try again", rb_agency_casting_TEXTDOMAIN) ."</a>"); //die ( __("Error, query failed", rb_agency_casting_TEXTDOMAIN ));
+				$count = $wpdb->num_rows;
 				echo "<div class=\"boxblock-container\" style=\"float: left; padding-top:24px; width: 49%; min-width: 500px;\">\n";
 				echo "<div style=\"float: right; width: 100px; \"><a href=\"?page=". $_GET['page'] ."&action=cartEmpty\" class=\"button-secondary\">". __("Empty Cart", rb_agency_casting_TEXTDOMAIN) ."</a></div>";
 				echo "<div style=\"float: left; line-height: 22px; font-family:Georgia; font-size:13px; font-style: italic; color: #777777; \">". __("Currently", rb_agency_casting_TEXTDOMAIN) ." <strong>". $count ."</strong> ". __("in Cart", rb_agency_casting_TEXTDOMAIN) ."</div>";
@@ -150,7 +151,7 @@ class RBAgency_Casting {
 					$cartAction = "cartRemove";
 				}
 				
-				while ($data = mysql_fetch_array($results)) {
+				foreach ($results as $data) {
 					
 					$ProfileDateUpdated = $data['ProfileDateUpdated'];
 					echo "  <div style=\"position: relative; border: 1px solid #e1e1e1; line-height: 22px; float: left; padding: 10px; width: 210px; margin: 6px; \">";
@@ -168,7 +169,7 @@ class RBAgency_Casting {
 					echo "    <div style=\"clear: both; \"></div>";
 					echo "  </div>";
 				}
-				mysql_free_result($results);
+				
 				echo "  <div style=\"clear: both;\"></div>\n";
 				echo "</div>";
 				
@@ -228,7 +229,7 @@ class RBAgency_Casting {
 			$cartString = rb_agency_cleanString($cartString);
 			
 			global $wpdb;
-		$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID,SearchTitle) VALUES('".$cartString."','".$SearchMuxSubject."')") or die(mysql_error());
+		$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID,SearchTitle) VALUES('".$cartString."','".$SearchMuxSubject."')");
 					
 		$lastid = $wpdb->insert_id;
 		
@@ -258,12 +259,12 @@ class RBAgency_Casting {
 			$profileimage = "";  
 			$profileimage .='<p><div style="width:550px;min-height: 170px;">';
 			$query = "SELECT search.SearchTitle, search.SearchProfileID, search.SearchOptions, searchsent.SearchMuxHash FROM ". table_agency_searchsaved ." search LEFT JOIN ". table_agency_searchsaved_mux ." searchsent ON search.SearchID = searchsent.SearchID WHERE search.SearchID = \"". $lastid ."\"";
-			$qProfiles =  mysql_query($query);
-			$data = mysql_fetch_array($qProfiles);
+			$qProfiles =  $wpdb->get_row($query,ARRAY_A);
+			$data = $qProfiles;
 			$query = "SELECT * FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".$data['SearchProfileID'].") ORDER BY ProfileContactNameFirst ASC";
-			$results = mysql_query($query);
-			$count = mysql_num_rows($results);
-			while ($data2 = mysql_fetch_array($results)) {
+			$results = $wpdb->get_results($query,ARRAY_A);
+			$count = $wpdb->num_rows;
+			foreach($results as $data2) {
 				$profileimage .= " <div style=\"background:black; color:white;float: left; max-width: 100px; height: 150px; margin: 2px; overflow:hidden;  \">";
 				$profileimage .= " <div style=\"margin:3px;max-width:250px; max-height:300px; overflow:hidden;\">";
 				$profileimage .= stripslashes($data2['ProfileContactNameFirst']) ." ". stripslashes($data2['ProfileContactNameLast']);
@@ -314,6 +315,7 @@ class RBAgency_Casting {
 
 		public static function cart_send_form(){
 		
+		 global $wpdb;
 		/*if(isset($_POST["SendEmail"])){
 				// Process Form
 				$isSent = RBAgency_Casting::cart_send_process();
@@ -333,11 +335,11 @@ class RBAgency_Casting {
 				$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 				// Search Results	
 				$query = "SELECT profile.*  FROM ". table_agency_profile ." profile WHERE profile.ProfileID > 0 ".$cartQuery;
-				$results2 = mysql_query($query);
-				$count = mysql_num_rows($results2);
+				$results2 = $wpdb->get_results($query,ARRAY_A);
+				$count = $wpdb->num_rows;
 				$pos = 0;
 				$recipient = "";
-				while ($data = mysql_fetch_array($results2)) {
+				foreach ($results2 as $data) {
 					$pos ++;
 					$ProfileID = $data['ProfileID'];
 					$recipient .=$data['ProfileContactEmail'];
@@ -414,10 +416,11 @@ class RBAgency_Casting {
 			global $wbdp;
 			
 			if($id==NULL || $id=="" || empty($id)) return "";
-			$job_type = mysql_query("SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $id) or die(mysql_error());
+			$job_type = $wpdb->get_row("SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $id,ARRAY_A);
 			$type_name = "";
-			if(mysql_num_rows($job_type) > 0){
-				$t = mysql_fetch_row($job_type,MYSQL_BOTH);
+			$count = $wpdb->num_rows;
+			if($count > 0){
+				$t = $job_type;
 				$type_name = $t['Job_Type_Title'];
 			}
 			
@@ -606,8 +609,8 @@ class RBAgency_Casting {
 						$val = explode("-",$val);
 				}
 
-				$q = mysql_query("SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomID = ".$key);
-				$ProfileCustomType = mysql_fetch_assoc($q);
+				$q = $wpdb->get_row("SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomID = ".$key,ARRAY_A);
+				$ProfileCustomType = $q;
 
 				// NOW COMPARE ALL
 
@@ -1093,18 +1096,19 @@ class RBAgency_Casting {
 			   if(($link == NULL || $link == "") || 
 			      ($table == NULL || $table == "" ) ||
 				  ($count_per_page == NULL || $count_per_page == "")) return "";
-			   
-			   if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table."'"))==1) { 
+			   $results = $wpdb->get_row("SHOW TABLES LIKE '".$table."'");
+                 $count = $wpdb->num_rows;
+			   if($count == 1) { 
 				   
 				   if(!empty($where) && $where != "" && $where != NULL){
-				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table . " " . $where) or die(mysql_error());	 
+				   		$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table . " " . $where, ARRAY_A);	 
 				   } else {
-				   		$get_row_count = mysql_query("SELECT COUNT(1) FROM " . $table) or die(mysql_error());	 
+				   		$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table, ARRAY_A);	 
 				   }
 				   
-				   $total = mysql_fetch_array($get_row_count);
+				   $total = $get_row_count;
 				   
-				   $ceiling = ceil($total[0] / $count_per_page);
+				   $ceiling = ceil($total["total"] / $count_per_page);
 				   
 				   if($ceiling > 1){
 					    
@@ -1210,7 +1214,7 @@ class RBAgency_Casting {
 										 " SET Job_Criteria_Details = '" . $Job_Criteria_Details . "',
 											  Job_Criteria_Passed = " . count($job_criterias) . ", 
 											  Job_Criteria_Percentage = " . $percentage .
-										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
+										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 			 
 					   }
 	
@@ -1230,7 +1234,7 @@ class RBAgency_Casting {
 										 " SET Job_Criteria_Details = '',
 											  Job_Criteria_Passed = 10, 
 											  Job_Criteria_Percentage = 100 " . 
-										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
+										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 			 
 					   }
 	
@@ -1250,7 +1254,7 @@ class RBAgency_Casting {
 										 " SET Job_Criteria_Details = '',
 											  Job_Criteria_Passed = 0, 
 											  Job_Criteria_Percentage = 0 " . 
-										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID ) or die(mysql_error());
+										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 			 
 					   }
 	
@@ -1658,7 +1662,7 @@ class RBAgency_Casting {
 							</tr>
 							<?php
 							}
-							//	mysql_free_result($results2);
+							
 								if ($count2 < 1) {
 									if (isset($filter)) { 
 							?>

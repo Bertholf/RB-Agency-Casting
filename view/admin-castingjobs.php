@@ -124,8 +124,7 @@ $siteurl = get_option('siteurl');
 			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
 			
 
-			     //$wpdb->query($insert) or die(mysql_error());		
-				$wpdb->query("INSERT INTO ".table_agency_castingcart."(CastingCartID, CastingCartProfileID, CastingCartTalentID,CastingJobID) VALUES".$sql);
+			    $wpdb->query("INSERT INTO ".table_agency_castingcart."(CastingCartID, CastingCartProfileID, CastingCartTalentID,CastingJobID) VALUES".$sql);
 				echo ('<div id="message" class="updated"><p>'.count($profiles).(count($profiles) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
 			}
 
@@ -262,7 +261,7 @@ $siteurl = get_option('siteurl');
 									";
 
 
-									$wpdb->query($sql) or die(mysql_error());
+									$wpdb->query($sql);
 								
 									$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
 								
@@ -498,7 +497,7 @@ $siteurl = get_option('siteurl');
 						echo "<label for=\"Job_Type\">Job Type</label>";
 						echo "<div>";
 						echo "<select id='Job_Type' name='Job_Type'>";
-							$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); // or die(mysql_error()
+							$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
 						    $count = $wpdb->num_rows;
 									echo "<option value=''>-- Select Type --</option>";
 

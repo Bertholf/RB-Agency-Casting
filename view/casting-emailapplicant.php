@@ -87,7 +87,7 @@
 					
 					$main_query = $_SESSION['Current_User_Query'];
 
-					$load_emails = $wpdb->get_results($main_query) or die(mysql_error()); 
+					$load_emails = $wpdb->get_results($main_query); 
 					
 					$recipients = array();
 					

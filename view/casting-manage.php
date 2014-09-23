@@ -101,7 +101,7 @@
 						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
 			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
 			
-			$result = $wpdb->query($update); // or die(mysql_error());        
+			$result = $wpdb->query($update);        
 			
 			$error = "Successfully Updated!";
 

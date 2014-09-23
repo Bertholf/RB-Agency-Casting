@@ -1,5 +1,6 @@
 <?php
 global $user_ID;
+global $wpdb;
 // *************************************************************************************************** //
 // Get Category
 
@@ -24,8 +25,8 @@ if (isset($ProfileType) && !empty($ProfileType)){
 	$DataTypeTitle = "";
 	$query = "SELECT DataTypeID, DataTypeTitle FROM ". table_agency_data_type ." WHERE DataTypeTag = '". $ProfileType ."'";
 
-	$results = mysql_query($query);
-	while ($data = mysql_fetch_array($results)) {
+	$results = $wpdb->get_results($query,ARRAY_A);
+	foreach ($results as $data) {
 		$DataTypeID = $data['DataTypeID'];
 		$DataTypeTitle = $data['DataTypeTitle'];
 		$filter .= " AND profile.ProfileType=". $DataTypeID ."";
@@ -45,16 +46,16 @@ if(isset($_POST["action"]) && $_POST["action"] == "sendEmailCastingCart"){
 
 	// Get Casting Cart
 	$query = "SELECT  profile.*, profile.ProfileGallery, profile.ProfileContactDisplay, profile.ProfileDateBirth, profile.ProfileLocationState, profile.ProfileID as pID , cart.CastingCartTalentID, cart.CastingCartTalentID, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1) AS ProfileMediaURL FROM ". table_agency_profile ." profile INNER JOIN  ".table_agency_castingcart."  cart WHERE  cart.CastingCartTalentID = profile.ProfileID   AND cart.CastingCartProfileID = '".rb_agency_get_current_userid()."' AND ProfileIsActive = 1 ORDER BY profile.ProfileContactNameFirst";
-	$result = mysql_query($query);
+	$result = $wpdb->get_results($query,ARRAY_A);
 	$pID = "";
 	$profileid_arr = array();
 
-	while($fetch = mysql_fetch_assoc($result)){
+	foreach($result as $fetch){
 		$profileid_arr[] = $fetch["pID"];
 	}
 
 	$casting = implode(",",$profileid_arr);
-	$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID) VALUES('".$casting."')") or die(mysql_error());
+	$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID) VALUES('".$casting."')");
 
 	$lastid = $wpdb->insert_id;
 

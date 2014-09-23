@@ -165,7 +165,7 @@ function job_type_settings(){
 		// get details
 		$type = $_GET['type_id'];
 		$get_details = "SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
-		$results = $wpdb->get_row($get_details) or die(mysql_error());
+		$results = $wpdb->get_row($get_details);
 		
 		echo "<h2>Edit Job Type</h2>";
 		echo "<form method=\"GET\" action=\"" . admin_url("admin.php") . "\">\n";
@@ -191,7 +191,7 @@ function job_type_settings(){
 		// get details
 		$type = $_GET['type_id'];
 		$delete_details = "DELETE FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
-		$results = $wpdb->query($delete_details) or die(mysql_error());
+		$results = $wpdb->query($delete_details);
 		
 		$msg = __("Successfully Deleted Record.<br />", rb_agency_casting_TEXTDOMAIN);
 		echo $msg;		
@@ -222,12 +222,12 @@ function job_type_settings(){
 		if(!$have_error){
 			if($_GET['rec_process'] == 'add'){
 				$sql_insert = "INSERT INTO " . table_agency_casting_job_type . " ( Job_Type_Title, Job_Type_text ) VALUES ( '".$_GET['Job_Type_Title']."','".$_GET['Job_Type_Text']."' )";
-				$wpdb->query($sql_insert) or die(mysql_error());
+				$wpdb->query($sql_insert);
 				$msg = __("Successfully Added Record.<br />", rb_agency_casting_TEXTDOMAIN);
 				echo $msg;
 			} elseif($_GET['rec_process'] == 'edit'){
 				$sql_update = "UPDATE " . table_agency_casting_job_type . " SET Job_Type_Title = '".$_GET['Job_Type_Title']."', Job_Type_text = '".$_GET['Job_Type_Text']."' WHERE Job_Type_ID = " . $type ;
-				mysql_query($sql_update) or die(mysql_error());
+ 				$wpdb->query($sql_update);
 				$msg = __("Successfully Updated Record.<br />", rb_agency_casting_TEXTDOMAIN);
 				echo $msg;
 			}
@@ -258,7 +258,7 @@ function job_type_settings(){
 	echo " </thead>\n";
 	
 	// load job type settings	
-	$load_jobtypes = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type) or die(mysql_error());
+	$load_jobtypes = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
 	if(count($load_jobtypes) > 0 ){
 		foreach($load_jobtypes as $jtypes){
 			echo "    <tr>\n";

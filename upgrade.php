@@ -7,7 +7,7 @@ global $wpdb;
 		global $wpdb;
 		$debug = debug_backtrace();
 		if($wpdb->get_var("SHOW COLUMNS FROM ".trim($tbl)." LIKE '%".trim($column)."%' ") != trim($column)){
-			$result = $wpdb->query(" ALTER TABLE ".trim($tbl)." ADD ".trim($column)." ".$atts.";");// or die("rb_agency_casting_addColumn()  - Adding column ".trim($column)." in line ".$debug["line"]." <br/> ".mysql_error());
+			$result = $wpdb->query(" ALTER TABLE ".trim($tbl)." ADD ".trim($column)." ".$atts.";");
 			return $result;
 		}
 	}
@@ -31,7 +31,7 @@ global $wpdb;
 			CastingJobSelectedFor VARCHAR(100),
 			CastingJobDateCreated TIMESTAMP,
 			PRIMARY KEY (CastingJobID)
-			);") or mysql_error();
+			);");
 		}
 
 		// Add Table
@@ -42,7 +42,7 @@ global $wpdb;
 			CastingAvailabilityStatus VARCHAR(255),
 			CastingAvailabilityDateCreated TIMESTAMP,
 			PRIMARY KEY (CastingAvailabilityID)
-			);") or mysql_error();
+			);");
 		}
 
 		// Updating version number!
@@ -103,7 +103,7 @@ global $wpdb;
 					CastingProfileHash VARCHAR(255),
 					PRIMARY KEY (CastingProfileHashID)
 					);";
-				$wpdb->query($sql) or mysql_error();
+				$wpdb->query($sql);
 		}
 		// Updating version number!
 		update_option('rb_agency_casting_version', "0.0.8");
@@ -151,7 +151,7 @@ global $wpdb;
 				CastingJobVisibility INT(10),
 				CastingJobCriteria VARCHAR(1000),
 				PRIMARY KEY (CastingJobID)
-				);") or mysql_error();
+				);");
 		}
 
 		// Updating version number!
@@ -182,7 +182,7 @@ global $wpdb;
 					Job_Audition_Time VARCHAR(100),
 					PRIMARY KEY (Job_ID)
 					);";
-			$wpdb->query($sql) or mysql_error();
+			$wpdb->query($sql);
 
 
 	// Updating version number
@@ -200,7 +200,7 @@ global $wpdb;
 			CastingAvailabilityDateCreated TIMESTAMP,
 			CastingJobID INT(20),
 			PRIMARY KEY (CastingAvailabilityID)
-			);") or mysql_error();
+			);");
 		}
 
 		if ($wpdb->get_var("show tables like '".table_agency_castingcart_profile_hash."'") !=table_agency_castingcart_profile_hash) { 
@@ -212,7 +212,7 @@ global $wpdb;
 					CastingProfileHash VARCHAR(255),
 					PRIMARY KEY (CastingProfileHashID)
 					);";
-				$wpdb->query($sql) or mysql_error();
+				$wpdb->query($sql);
 		}
 
 		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Talents","VARCHAR(5000)");

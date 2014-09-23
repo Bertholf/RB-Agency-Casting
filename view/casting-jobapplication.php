@@ -17,9 +17,9 @@
 	// check if already applied
 	$check_applied = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $job_id; 
 	
-	$get_checkapplied = mysql_query($check_applied) or die(mysql_error());
-	
-	if(mysql_num_rows($get_checkapplied) == 0){
+	$get_checkapplied = $wpdb->get_results($check_applied,ARRAY_A;
+	$count = $wpdb->num_rows;
+	if($count == 0){
 			   	
 		// message
 		$remarks = "";
@@ -73,7 +73,7 @@
 					   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,Job_Criteria_Percentage, job_Pitch) VALUES
 					   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
 			
-			$wpdb->query($insert) or die(mysql_error());		
+			$wpdb->query($insert);		
 
 			$Message  = "Hi ".$Job->CastingContactDisplay.",\n\n";
 			$Message .= "You have a new applicant for the job ".$Job->Job_Title.".\n\n";

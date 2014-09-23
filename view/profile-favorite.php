@@ -2,15 +2,15 @@
 // *************************************************************************************************** //
 // This is the Profile-favorite page 
 include(rb_agency_BASEREL ."app/profile.class.php");
-
+global $wpdb;
 // Get Profile
 if (isset($ProfileType) && !empty($ProfileType)){
 	$DataTypeID = 0;
 	$DataTypeTitle = "";
 	$query = "SELECT DataTypeID, DataTypeTitle FROM ". table_agency_data_type ." WHERE DataTypeTag = '". $ProfileType ."'";
 
-	$results = mysql_query($query);
-	while ($data = mysql_fetch_array($results)) {
+	$results = $wpdb->get_results($query,ARRAY_A);
+	foreach($results as $data) {
 		$DataTypeID = $data['DataTypeID'];
 		$DataTypeTitle = $data['DataTypeTitle'];
 		$filter .= " AND profile.ProfileType=". $DataTypeID ."";

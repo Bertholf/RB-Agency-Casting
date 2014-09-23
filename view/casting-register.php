@@ -166,7 +166,7 @@
 								",now(), ". 
 								$CastingIsActive .")";
 
-				$results = $wpdb->query($insert) or die(mysql_error());
+				$results = $wpdb->query($insert);
 				$CastingID = $wpdb->insert_id;
 
 				// Log them in if no confirmation required.			

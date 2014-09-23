@@ -130,7 +130,7 @@ if(isset($_GET['save_job'])){
 			$job_talents_hash = RBAgency_Common::generate_random_string(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria, Job_Talents_Hash, Job_Date_Created) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' ,'".$job_talents_hash."',Now())";
 		
-			$wpdb->query($sql_Insert) or die(mysql_error());
+			$wpdb->query($sql_Insert);
 			
 			echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
@@ -296,7 +296,7 @@ function load_job_display($error = NULL){
 								<select id='Job_Type' name='Job_Type'>
 									<option value=''>-- Select Type --</option>";
 
-									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); // or die(mysql_error()
+									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
 									if(count($get_job_type)){
 										foreach($get_job_type as $jtype){
 											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_GET['Job_Type'])?$_GET['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";

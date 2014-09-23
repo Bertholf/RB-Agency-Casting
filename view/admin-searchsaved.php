@@ -73,7 +73,7 @@ if (isset($_POST['action'])) {
 
 		foreach($_POST as $SearchID) {
 
-			mysql_query("DELETE FROM " . table_agency_searchsaved . " WHERE SearchID=$SearchID");
+			$wpdb->query("DELETE FROM " . table_agency_searchsaved . " WHERE SearchID=$SearchID");
 
 		}
 
@@ -207,9 +207,9 @@ if (isset($_POST['action'])) {
 
 	$queryDelete = "SELECT * FROM ". table_agency_searchsaved ." WHERE SearchID =  \"". $SearchID ."\"";
 
-	$resultsDelete = mysql_query($queryDelete);
+	$resultsDelete = $wpdb->get_results($queryDelete,ARRAY_A);
 
-	while ($dataDelete = mysql_fetch_array($resultsDelete)) {
+	foreach($resultsDelete as $dataDelete) {
 
 
 
@@ -232,9 +232,9 @@ if (isset($_POST['action'])) {
 	$SearchID = $_GET['SearchID'];
 
 	
-      $querySearch = mysql_query("SELECT * FROM " . table_agency_searchsaved_mux ." WHERE SearchID=".$SearchID." ");
+      $querySearch = $wpdb->get_row("SELECT * FROM " . table_agency_searchsaved_mux ." WHERE SearchID=".$SearchID." ",ARRAY_A);
 
-	 $dataSearchSavedMux = mysql_fetch_assoc($querySearch);
+	 $dataSearchSavedMux = $querySearch;
 
 	
 
@@ -269,15 +269,15 @@ if (isset($_POST['action'])) {
 			
                   $query = "SELECT search.SearchTitle, search.SearchProfileID, search.SearchOptions, searchsent.SearchMuxHash FROM ". table_agency_searchsaved ." search LEFT JOIN ". table_agency_searchsaved_mux ." searchsent ON search.SearchID = searchsent.SearchID WHERE searchsent.SearchMuxHash = \"". $SearchMuxHash ."\"";
       */
-                  $qProfiles =  mysql_query($query);
+                  $qProfiles =  $wpdb->get_row($query,ARRAY_A);
                   
-                  $data = mysql_fetch_array($qProfiles);
+                  $data = $qProfiles;
                         
                   $query = "SELECT * FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".$data['SearchProfileID'].") ORDER BY ProfileContactNameFirst ASC";
             
-                  $results = mysql_query($query);
+                  $results = $wpdb->get_results($query,ARRAY_A);
             
-                  $count = mysql_num_rows($results);
+                  $count = $wpdb->num_rows;
                               
 	 ?>
        <div style="padding:10px;max-width:580px;float:left;">
@@ -286,7 +286,7 @@ if (isset($_POST['action'])) {
                   <?php
                 
                 
-                  while ($data2 = mysql_fetch_array($results)) {
+                 foreach($results as $data2) {
                         echo " <div style=\"background:black; color:white;float: left; max-width: 100px; height: 180px; margin: 2px; overflow:hidden;  \">";
 				echo " <div style=\"margin:3px;max-width:250px; max-height:300px; overflow:hidden;\">";
 				echo stripslashes($data2['ProfileContactNameFirst']) ." ". stripslashes($data2['ProfileContactNameLast']);
@@ -347,13 +347,14 @@ if (isset($_POST['action'])) {
 						<?php
                                    
 						$query = "SELECT * FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (". $cartString .") ORDER BY ProfileContactNameFirst ASC";
-						$results = mysql_query($query) or die ( __("Error, query failed", rb_agency_casting_TEXTDOMAIN ));
+						
+						$results = $wpdb->get_results($query,ARRAY_A);
 
-						$count = mysql_num_rows($results);
+						$count = $wpdb->num_rows;
 
 						
 
-						while ($data = mysql_fetch_array($results)) {
+						foreach($results as $data) {
 
 							echo " <div style=\"float: left; width: 80px; height: 100px; margin-right: 5px; overflow: hidden; \">". stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "<br /><a href=\"". rb_agency_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\"><img style=\"width: 80px; \" src=\"". rb_agency_UPLOADDIR ."". $data['ProfileGallery'] ."/". $data['ProfileMediaURL'] ."\" /></a></div>\n";
 
@@ -470,8 +471,8 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 		
 
 		//Paginate
-
-		$items = mysql_num_rows(mysql_query("SELECT * FROM ". table_agency_searchsaved ." search LEFT JOIN ". table_agency_searchsaved_mux ." searchsent ON search.SearchID = search.SearchID ". $filter  ."")); // number of total rows in the database
+        $wpdb->get_results("SELECT * FROM ". table_agency_searchsaved ." search LEFT JOIN ". table_agency_searchsaved_mux ." searchsent ON search.SearchID = search.SearchID ". $filter  ."",ARRAY_A);
+		$items = $wpdb->num_rows; // number of total rows in the database
 
 		if($items > 0) {
 
@@ -637,11 +638,11 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 		//$query2 = "SELECT search.SearchID, search.SearchTitle, search.SearchProfileID, search.SearchOptions, search.SearchDate FROM ". table_agency_searchsaved_mux ." searchsent LEFT JOIN ". table_agency_searchsaved ." search ON searchsent.SearchID = search.SearchID ". $filter  ." ORDER BY $sort $dir $limit";
 
-		$results2 = mysql_query($query2);
+		$results2 = $wpdb->get_results($query2,ARRAY_A);
 
-		$count2 = mysql_num_rows($results2);
+		$count2 =  $wpdb->num_rows;
 
-		while ($data2 = mysql_fetch_array($results2)) {
+		foreach($results2 as $data2) {
 
 			
 
@@ -657,9 +658,9 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 			$query3 = "SELECT SearchID,SearchMuxHash, SearchMuxToName, SearchMuxToEmail, SearchMuxSent FROM ". table_agency_searchsaved_mux ." WHERE SearchID = ". $SearchID;
 
-			$results3 = mysql_query($query3);
+			$results3 = $wpdb->get_row($query3,ARRAY_A);
 
-			$count3 = mysql_num_rows($results3);
+			$count3 = $wpdb->num_rows;
 
 		?>
 
@@ -718,7 +719,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 				$pos = 0;
 
-				while ($data3 = mysql_fetch_array($results3)) {
+				foreach ($results3 as $data3) {
 
 				$pos++;
 
@@ -736,8 +737,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 				}
 
-				//mysql_free_result($results2);
-
+				
 				if ($count3 < 1) {
 
 					echo "Not emailed yet\n";	
@@ -754,8 +754,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 		}
 
-			mysql_free_result($results2);
-
+			
 			if ($count2 < 1) {
 
 				if (isset($filter)) { 

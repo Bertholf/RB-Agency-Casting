@@ -19,10 +19,11 @@ $JobID = get_query_var('target');
 
 //fetch data from DB
 $get_data = "SELECT * FROM " . table_agency_casting_job . " WHERE Job_ID = " . $JobID;
-$get_results = mysql_query($get_data);
+$get_results = $wpdb->get_row($get_data,ARRAY_A);
 $data = array();
-if(mysql_num_rows($get_results) > 0){
-	$d = mysql_fetch_array($get_results, MYSQL_ASSOC);
+$count = $wpdb->num_rows;
+if($count > 0){
+	$d = $get_results;
 	foreach($d as $key => $val){
 		$data[$key] = $val;
 	}	
@@ -165,7 +166,7 @@ if(isset($_GET['save_job'])){
 			
 			$sql_update .=  implode(",",$sql_update_arr) . ", Job_Criteria = '".implode("|",$criteria)."' WHERE Job_ID = " . $JobID;
 			
-			mysql_query($sql_update) or die(mysql_error());
+			$wpdb->query($sql_update);
 			
 			//check data integrity for applicants for new criterias only
 			if(trim(implode("|",$criteria)) != $Job_criteria_old){
@@ -305,7 +306,7 @@ function load_job_display($error = NULL, $data){
 								<select id='Job_Type' name='Job_Type'>
 									<option value=''>-- Select Type --</option>";
 
-									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); // or die(mysql_error()
+									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
 									if(count($get_job_type)){
 										foreach($get_job_type as $jtype){
 											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$data['Job_Type'],false).">".$jtype->Job_Type_Title."</option>";
