@@ -413,7 +413,7 @@ class RBAgency_Casting {
 		 */
 		public static function rb_get_job_type_name($id=NULL){
 			
-			global $wbdp;
+			global $wpdb;
 			
 			if($id==NULL || $id=="" || empty($id)) return "";
 			$job_type = $wpdb->get_row("SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $id,ARRAY_A);

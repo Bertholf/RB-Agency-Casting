@@ -6,7 +6,6 @@
 	// include casting class
 	include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
-	global $wpdb;
 	
 	global $current_user, $wp_roles;
 	
@@ -20,7 +19,7 @@
 	wp_enqueue_script('jquery_latest');
 
 	echo $rb_header = RBAgency_Common::rb_header();
-
+   
 	if (is_user_logged_in()) { 	
 	
 		echo "<style>
@@ -45,6 +44,7 @@
 			 </script>";
 			
 		echo "<p><h2>Job Details</h2><p><br>";	
+		 global $wpdb;
 	
 		//fetch data from database
 		$data_r = $wpdb->get_results("SELECT * FROM ". table_agency_casting_job . " WHERE Job_ID = " . $job_id);
@@ -131,7 +131,6 @@
 						
 					 echo "<table>";
 			}
-
 			
 			
 			// for models
@@ -140,6 +139,10 @@
 			}				
 
 		}
+		else{
+				echo "<p>Job doesn't exist</p>";
+			}
+
 		
 	} else {
 		include ("include-login.php");
