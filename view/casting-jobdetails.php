@@ -117,7 +117,7 @@
 								}
 							} else if(!current_user_can( 'edit_posts' )){
 								echo "<td class='jobdesc'>";
-								echo "<input id='apply_job' type='button' class='button-primary' value='Apply to this Job'>";
+								echo "<input id='apply_job' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
 								echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
 								echo "</td>";
 							}
