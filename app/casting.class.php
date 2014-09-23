@@ -1710,11 +1710,14 @@ class RBAgency_Casting {
 				$rb_agency_value_agency_easytxturl = isset($rb_agency_options_arr['rb_agency_option_agency_easytxturl'])?$rb_agency_options_arr['rb_agency_option_agency_easytxturl']:"";
 				$rb_agency_value_agency_easytxtkey = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtkey'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtkey']:"";
 				$rb_agency_value_agency_easytxtsecret = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtsecret'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtsecret']:"";
+				$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+				$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
 				$content = "";
 				if(!empty($message)){
 					$content = str_replace("[casting-job-url]", $link, $message);;
 				}else{
-					$content = get_bloginfo("name").' has put you forward for a Job. See the following link: '.$link;
+					$content = $rb_agency_value_agencyname.' has put you forward for a Job. See the following link: '.$link;
 				}
 
 				$xml_data ='<request>
@@ -1747,57 +1750,73 @@ class RBAgency_Casting {
      * Notiffy talents for the job availability
      */
 	public static function sendEmail($emails,$link, $message = ""){
+			 $rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
 			// Mail it
 			$MassEmailMessage = "";
 			if(!empty($message)){
 					$MassEmailMessage = str_replace("[casting-job-url]", $link, $message);;
 			}else{
-					$MassEmailMessage = get_bloginfo("name")." has put you forward for a Job. See the following link: ".$link."\r\n";
+					$MassEmailMessage = $rb_agency_value_agencyname." has put you forward for a Job. See the following link: ".$link."\r\n";
 		    }
 		    $headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		    $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
+		    $headers[] = 'From: '.$rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
 		   
-			$isSent = wp_mail(trim($emails[0]), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
+			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
 	}
 	 /*
      * Notify admin about the confirmed job availability
      */
 	public static function sendEmailCastingAvailability($Talents_Display_Name,$Availability,$Job_Name,$link){
+		    $rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
 			// Mail it
 		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
 								 . "\nClick here to review your casting cart: ".$link
 								 .  "\n\n-".get_bloginfo("name");
 			$headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		    $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
+		    $headers[] = 'From: '. $rb_agency_value_agencyname .' <'.$rb_agency_value_agencyemail .'>';
 		   
-			$isSent = wp_mail(get_bloginfo("admin_email"), get_bloginfo("name").": Job Availability", $MassEmailMessage, $headers);
+			$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
 	}
 	 /*
      * Notify admin about the availability of shortlisted profiles for a specifc job
      */
 	public static function sendEmailAdminCheckAvailability($castingname, $castingemail, $message, $link){
+		 	$rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
 			// Mail it
 		    $Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
 		    $headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 		    $headers[] = 'From: '. $castingname .' <'.  $castingemail .'>';
-            $isSent = wp_mail(get_bloginfo("admin_email"), get_bloginfo("name").": Check availability", $Message, $headers);
+            $isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Check availability", $Message, $headers);
 	}
 	 /*
      * Notify casting about the casting cart changes
      */
 	public static function sendClientNotification($Client_Email_Address,$Message,$bcc_emails){
+			$rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
 			// Mail it
 		   $headers[] = 'MIME-Version: 1.0';
 		   $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		   $headers[] = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>';
+		   $headers[] = 'From: '. $rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
 		   $bcc_emails_arr = explode(",",$bcc_emails);
 		   foreach ($bcc_emails_arr as $key) {
 		   	 $headers[] = 'Bcc: '.$key;
 		   }
-		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": Casting Cart", $Message, $headers);
+		   $isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": Casting Cart", $Message, $headers);
 			
 			
 	}
@@ -1806,9 +1825,13 @@ class RBAgency_Casting {
      */
 
 	public static function sendClientNewJobNotification($Client_Email_Address,$Job_Name,$Message){
+			$rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
 			// Mail it
-		   $headers = 'From: '. get_bloginfo('blogname') .' <'. get_bloginfo('admin_email') .'>' . "\r\n";
-		   $isSent = wp_mail($Client_Email_Address, get_bloginfo("name").": New Job Applicant for ".$Job_Name, $Message, $headers);
+		   $headers = 'From: '. $rb_agency_value_agencyname.' <'. $rb_agency_value_agencyemail .'>' . "\r\n";
+		   $isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": New Job Applicant for ".$Job_Name, $Message, $headers);
 			
 			
 	}
