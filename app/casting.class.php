@@ -1654,7 +1654,9 @@ class RBAgency_Casting {
 								  <?php echo $Job_AgencyName; ?>
 								</td>
 								<td>
-									<?php  echo count(array_filter($Job_Talents)); ?>
+								    <?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
+						 
+									<?php  echo $casting_cart->total; ?>
 								</td>
 								<td>
 									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
@@ -1791,14 +1793,15 @@ class RBAgency_Casting {
 	public static function sendEmailAdminCheckAvailability($castingname, $castingemail, $message, $link){
 		 	$rb_agency_options_arr = get_option('rb_agency_options');
 			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
-			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+			$rb_agency_value_agencyemail = trim($rb_agency_options_arr['rb_agency_option_agencyemail']);
 
 			// Mail it
 		    $Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
 		    $headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		    $headers[] = 'From: '. $castingname .' <'.  $castingemail .'>';
-            $isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Check availability", $Message, $headers);
+		    $headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+		    $isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Check availability", $Message, $headers);
+	
 	}
 	 /*
      * Notify casting about the casting cart changes
