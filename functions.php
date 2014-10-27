@@ -252,8 +252,7 @@
 		}*/
 		   if(is_user_logged_in()){
 	       
-				$is_model = get_user_meta( $user_ID, 'rb_agency_interact_profiletype',true);
-				if(!$is_model && !current_user_can("manage_options")){
+				if(rb_get_casting_profileid() > 0 && !current_user_can("manage_options")){
 	       		   $disp .= "<a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\" class=\"btn btn-primary\">Go Back to My Account</a>";
 				}
 	       	}
