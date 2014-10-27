@@ -1654,9 +1654,8 @@ class RBAgency_Casting {
 								  <?php echo $Job_AgencyName; ?>
 								</td>
 								<td>
-								    <?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
-						 
-									<?php  echo $casting_cart->total; ?>
+								    <?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total,* FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
+						 	      <?php  echo $casting_cart->total; ?>
 								</td>
 								<td>
 									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>

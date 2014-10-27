@@ -905,7 +905,7 @@ $siteurl = get_option('siteurl');
 
 												}
 								
-								if($count <= 0){
+								if($total_casting_profiles <= 0){
 									echo "No profiles found.";
 								}
 							
