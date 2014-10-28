@@ -95,7 +95,7 @@
 	function get_state_json(){
 		global $wpdb;
 		$states=array();
-		$country=$_POST['countryid'];
+		$country=isset($_POST['countryid'])?$_POST['countryid']:$_POST['country'];
 		$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID='".$country."'";
 		$result_query_get = $wpdb->get_results($query_get);
 		echo json_encode($result_query_get);

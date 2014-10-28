@@ -1,7 +1,7 @@
 // JavaScript Document
 
 //Populate state options for selected  country
-function populateStates(){
+/*function populateStates(){
 	
 	}
 
@@ -45,4 +45,4 @@ function populateStates(){
 
 	});
 
-});
+});*/
