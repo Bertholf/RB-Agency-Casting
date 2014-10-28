@@ -310,7 +310,7 @@
 				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
 				$result_query_get = $wpdb->get_results($query_get);
 				$location=site_url().'/club/';
-				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates(\'CastingCountry\',\'CastingState\');">';
 				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
 						echo '<option value='.$r->CountryID.' '.selected($_POST['CastingCountry'],$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
