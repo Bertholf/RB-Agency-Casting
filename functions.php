@@ -250,12 +250,7 @@
 				$disp .= "<div class=\"viewfavorites\"><a rel=\"nofollow\" title=\"View Favorites\" href=\"".  get_bloginfo("wpurl") ."/profile-favorite/\"/>VIEW FAVORITES</a></div>\n";
 			}
 		}*/
-		   if(is_user_logged_in()){
-	       
-				if(rb_get_casting_profileid() > 0 && !current_user_can("manage_options")){
-	       		   $disp .= "<a href=\"".  get_bloginfo("wpurl") ."/casting-dashboard/\" rel=\"nofollow\" title=\"View Favorites\" class=\"btn btn-primary\">Go Back to My Account</a>";
-				}
-	       	}
+		   
 		
 		return $disp; 
 	}
