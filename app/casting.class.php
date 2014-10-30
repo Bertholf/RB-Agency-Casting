@@ -1498,6 +1498,15 @@ class RBAgency_Casting {
 								echo "<div id=\"message\" class=\"updated\"><p>Email Messages successfully sent!</p></div>";
 							}
 
+							if(isset($_POST["mass_delete"])){
+								 unset($_POST["mass_delete"]);
+								 $ids = implode(",",$_POST);
+								 $wpdb->query("DELETE FROM ".table_agency_casting_job." WHERE Job_ID IN(".$ids.") ");
+          	     
+								 	echo "<div id=\"message\" class=\"updated\"><p>Successfully deleted.</p></div>";
+							
+							}
+
 							$rb_agency_options_arr = get_option('rb_agency_options');
 								$rb_agency_option_locationtimezone = (int)$rb_agency_options_arr['rb_agency_option_locationtimezone'];
 
@@ -1654,8 +1663,8 @@ class RBAgency_Casting {
 								  <?php echo $Job_AgencyName; ?>
 								</td>
 								<td>
-								    <?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total,* FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
-						 	      <?php  echo $casting_cart->total; ?>
+								    <?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
+						 	      <?php  echo isset($casting_cart->total)?$casting_cart->total:0; ?>
 								</td>
 								<td>
 									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
@@ -1699,7 +1708,7 @@ class RBAgency_Casting {
 						</div>
 						<?php } ?>
 					</div>
-					
+					<input type="submit" class="btn button-secondary" onclick="javascript:return !confirm('Are you sure that you want to delete the selected?')?false:true;" name="mass_delete" value="Delete"/>
 						<?php 		  
 						}
 		}
