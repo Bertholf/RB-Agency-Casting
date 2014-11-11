@@ -131,6 +131,9 @@ class RBAgencyCasting {
 				// Identify Folder for PO files
 				load_plugin_textdomain( rb_agency_casting_TEXTDOMAIN, false, basename( dirname( __FILE__ ) ) . '/translation/' ); 
 
+				// Load Jquery if not registered
+				 	
+
 
 			/*
 			 * Admin Related

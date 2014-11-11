@@ -187,6 +187,11 @@
 		$castingcart_results = array();
 		  $favorites_results = array();
 
+
+			
+		    $disp = "";		
+		
+   
 		if ($rb_agency_option_profilelist_favorite) {
 			//Execute query - Favorite Model
 			if(!empty($ProfileID)){
@@ -201,7 +206,8 @@
 			}
 		}
 
-		$disp = "";		
+	
+
 		$arr_castingcart = array();
 		foreach ($castingcart_results as $key) {
 					array_push($arr_castingcart, $key->CastingCartTalentID);
@@ -222,14 +228,20 @@
 	    }
 	    if ($rb_agency_option_profilelist_castingcart) {
 				$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
-	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
+	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
 	          //  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
 	            $displayActions .= "</div>";
 	    }
 	            $displayActions .= "</div>";
 	  
+	    	
+			if($is_model_or_talent > 0){
+				$displayActions .= "<div class=\"rb-goback-link\"><a href=\"".get_bloginfo("url")."/casting-dashboard/\">Go Back to My Dashboard</a></div>";
+			}
 		
 		$disp = $displayActions;
+
+
 		
 		/*if ($rb_agency_option_profilelist_castingcart) {
 			if($countCastingCart <=0){
@@ -240,7 +252,7 @@
 				}
 				$disp .= "<div class=\"gotocastingcard\"><a ".(isset($divHide)?$divHide:"")." href=\"". get_bloginfo("wpurl") ."/profile-casting/\"  title=\"Go to Casting Cart\">VIEW CASTING CART</a></div>";
 			}
-		}
+		} shr
 
 		if ($rb_agency_option_profilelist_favorite) {
 			
@@ -250,7 +262,6 @@
 				$disp .= "<div class=\"viewfavorites\"><a rel=\"nofollow\" title=\"View Favorites\" href=\"".  get_bloginfo("wpurl") ."/profile-favorite/\"/>VIEW FAVORITES</a></div>\n";
 			}
 		}*/
-		   
 		
 		return $disp; 
 	}
@@ -266,17 +277,17 @@
 		if(is_user_logged_in()){
 			if(isset($_POST["talentID"])){
 				$query_favorite = $wpdb->get_results("SELECT * FROM ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'" ,ARRAY_A);
-				$count_favorite = $query_favorite;
-				$datas_favorite = $wpdb->num_rows;
+				$datas_favorite = $query_favorite;
+				$count_favorite = $wpdb->num_rows;
 
 				if($count_favorite<=0){ //if not exist insert favorite!
 
-					$wpdb->query("INSERT INTO ".table_agency_savedfavorite."(SavedFavoriteID,SavedFavoriteProfileID,SavedFavoriteTalentID) VALUES('','".rb_agency_get_current_userid()."','".$_POST["talentID"]."')") or die("error");
+					$wpdb->query("INSERT INTO ".table_agency_savedfavorite."(SavedFavoriteID,SavedFavoriteProfileID,SavedFavoriteTalentID) VALUES('','".rb_agency_get_current_userid()."','".$_POST["talentID"]."')");
 					echo "inserted";
 
 				} else { // favorite model exist, now delete!
 
-					$wpdb->query("DELETE FROM  ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'") or die("error");
+					$wpdb->query("DELETE FROM  ".table_agency_savedfavorite." WHERE SavedFavoriteTalentID='".$_POST["talentID"]."'  AND SavedFavoriteProfileID = '".rb_agency_get_current_userid()."'");
 					echo "deleted";
 				
 				}
@@ -307,7 +318,7 @@
 					url: '<?php echo admin_url('admin-ajax.php'); ?>',
 					data: {
 						action: 'rb_agency_save_favorite',
-						'talentID': Obj.attr("attr-id")
+						talentID: Obj.attr("attr-id")
 					},
 					success: function (results) {
 					<?php if (get_query_var('type') == "favorite"){?>
@@ -323,6 +334,9 @@
 							Obj.find("span").text("Add to Favorites");
 						}
 					<?php } ?>
+					},
+					error: function(e){
+						console.log(e);
 					}
 				});
 			});
@@ -333,9 +347,10 @@
 					url: '<?php echo admin_url('admin-ajax.php'); ?>',
 					data: {
 						action: 'rb_agency_save_favorite',
-						'talentID': jQuery(this).attr("id")
+						talentID: jQuery(this).attr("id")
 					},
 					success: function (results) {
+
 						if (results == 'error') {
 							Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
 						} else if (results == -1) {
