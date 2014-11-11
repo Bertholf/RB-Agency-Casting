@@ -15,12 +15,14 @@
 	$Job = $wpdb->get_row($wpdb->prepare("SELECT job.*,client.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as client ON client.CastingID = job.Job_UserLinked WHERE job.Job_ID = %d",$job_id));
    
 	// check if already applied
-	$check_applied = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $job_id; 
+	$check_applied = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $job_id."  AND Job_UserLinked='".$current_user->ID."'"; 
 	
+
 	$get_checkapplied = $wpdb->get_results($check_applied,ARRAY_A);
 	$count = $wpdb->num_rows;
-	if($count == 0){
+	if($count <= 0){
 			   	
+
 		// message
 		$remarks = "";
 		
@@ -68,27 +70,37 @@
 				
 			}
 
-			// insert
-			$insert = "INSERT INTO " . table_agency_casting_job_application . " 
-					   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,Job_Criteria_Percentage, job_Pitch) VALUES
-					   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
-			
-			$wpdb->query($insert);		
-
-			$Message  = "Hi ".$Job->CastingContactDisplay.",\n\n";
-			$Message .= "You have a new applicant for the job ".$Job->Job_Title.".\n\n";
-			$Message .= "To review, please click the link below:\n\n";
-			$Message .= get_bloginfo("wpurl")."/view-applicants/?filter_jobtitle=".$Job->Job_ID."\n\n\n";
-			$Message .= get_bloginfo("name");
-
-			RBAgency_Casting::sendClientNewJobNotification($Job->CastingContactEmail,$Job->Job_Title,$Message);
+			$wpdb->get_results("SELECT * FROM " . table_agency_casting_job_application . "  WHERE Job_ID='".$job_id."' AND Job_UserLinked='".$current_user->ID."'");
+			$has_applied = $wpdb->num_rows;
 
 			echo $rb_header = RBAgency_Common::rb_header();
+				
+				if($has_applied <=0 ){
+					// insert
+					$insert = "INSERT INTO " . table_agency_casting_job_application . " 
+							   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,Job_Criteria_Percentage, Job_Pitch) VALUES
+							   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
+					
+					$id = $wpdb->query($insert);	
+					if($id > 0){
+						$Message  = "Hi ".$Job->CastingContactDisplay.",\n\n";
+						$Message .= "You have a new applicant for the job ".$Job->Job_Title.".\n\n";
+						$Message .= "To review, please click the link below:\n\n";
+						$Message .= get_bloginfo("wpurl")."/view-applicants/?filter_jobtitle=".$Job->Job_ID."\n\n\n";
+						$Message .= get_bloginfo("name");
+
+						RBAgency_Casting::sendClientNewJobNotification($Job->CastingContactEmail,$Job->Job_Title,$Message);
+						echo "<p>Successfully Submitted Your Application</p>";   
+						echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   
+						echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+					}
+				
+
+				}else{
+					echo "You've already applied to this Job.";
+				}
 			
-			echo "<p>Successfully Submitted Your Application</p>";   
-			echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   
-			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
-			echo $rb_footer = RBAgency_Common::rb_footer(); 	
+				echo $rb_footer = RBAgency_Common::rb_footer(); 	
 				
 				
 		} else {
@@ -158,7 +170,7 @@
 			echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   			
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 	
-			echo $rb_footer = RBAgency_Common::rb_footer(); 	;   
+			echo $rb_footer = RBAgency_Common::rb_footer(); 	  
 
 	}
 

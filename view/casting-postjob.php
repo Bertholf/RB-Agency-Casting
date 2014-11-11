@@ -3,10 +3,10 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
 wp_deregister_script('jquery'); 
-wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1,true); 
+wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1); 
 wp_enqueue_script('jquery_latest');
-wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1,true); 
-wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1,true); 
+wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1); 
+wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1); 
 wp_enqueue_script('jquery-timepicker');
 wp_register_style( 'timepicker-style', plugins_url('../css/timepicker-addon.css', __FILE__) );
 wp_enqueue_style( 'timepicker-style' );
@@ -137,8 +137,8 @@ if(isset($_GET['save_job'])){
 			echo '			<div class="entry-content">';	
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
-			echo '				<h4 class="entry-title">You have successfully added your new Job Posting! <a href="'.get_bloginfo('wpurl').'/casting-postjob">Add new Job Posting?</a>';
-			echo '				<a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></h4>';
+			echo '				<h4 class="entry-title">You have successfully added your new Job Posting!<br/> <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-postjob\'" class="button-primary" value="Add new Job Posting?"/>';
+			echo '				| <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-dashboard\'" class="button-primary" value="Go Back to Casting Dashboard"/></h4>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
