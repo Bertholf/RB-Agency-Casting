@@ -19,7 +19,7 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 
 			$queryDelete = "SELECT * FROM ". table_agency_casting ." WHERE CastingID =  ". $CastingID;
 			$resultsDelete = $wpdb->get_results($queryDelete,ARRAY_A);
-			while ($resultsDelete as $dataDelete) {
+			foreach ($resultsDelete as $dataDelete) {
 				$CastingGallery = $dataDelete['CastingGallery'];
 		
 				// Remove Profile
@@ -54,7 +54,7 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 	$CastingID = $_GET["CastingID"];
 	$queryDelete = "SELECT * FROM ". table_agency_casting ." WHERE CastingID =  ". $CastingID;
 			$resultsDelete = $wpdb->get_results($queryDelete,ARRAY_A);
-			while ($resultsDelete as $dataDelete) {
+			foreach ($resultsDelete as $dataDelete) {
 				$CastingGallery = $dataDelete['CastingGallery'];
 		
 				// Remove Profile

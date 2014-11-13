@@ -1653,6 +1653,7 @@ class RBAgency_Casting {
 									<?php echo $Job_Title; ?>
 									<div class="row-actions">
 											<span class="view"><a href="<?php echo get_bloginfo("url")."/job-detail/".$Job_ID; ?>" target="_blank">View</a> | </span>
+											<span class="view"><a href="<?php echo get_bloginfo("url")."/view-applicants/?filter_jobtitle=".$Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter"; ?>" target="_blank">Applicants</a> | </span>
 								
 											<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
 								
