@@ -202,7 +202,7 @@
 		if ($rb_agency_option_profilelist_castingcart) {
 			//Execute query - Casting Cart
 			if(!empty($ProfileID)){
-				$castingcart_results = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingCartProfileID = '".rb_agency_get_current_userid()."'");
+				$castingcart_results = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingCartProfileID = '".rb_agency_get_current_userid()."' AND CastingJobID <= 0");
 			}
 		}
 
@@ -423,7 +423,7 @@
 
 			if(is_user_logged_in()){ 
 				if(isset($_POST["talentID"])){ 
-					$query_castingcart = $wpdb->get_row("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'" ,ARRAY_A);
+					$query_castingcart = $wpdb->get_row("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND CastingJobID <= 0" ,ARRAY_A);
 					$count_castingcart = $wpdb->num_rows;
 					$datas_castingcart = $query_castingcart;
 
@@ -431,7 +431,7 @@
 						$wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
 						echo "inserted";
 					} else { // favorite model exist, now delete!
-						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'");
+						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND CastingJobID <= 0");
 						echo "deleted";
 					}
 				}

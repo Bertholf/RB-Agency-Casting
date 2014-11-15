@@ -121,58 +121,58 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 <?php
 
-echo "	<div id=\"primary\" class=\"".fullwidth_class()."  clearfix\">\n";
-echo "  	<div id=\"content\" role=\"main\" >\n";
-echo '			<header class="entry-header">';
-echo '				<h1 class="entry-title">Casting Cart</h1>';
-echo '			</header>';
-echo '			<div class="entry-content">';
-echo "				<div id=\"rbcasting-cart\">\n";
-echo "					<div class=\"cb\"></div>\n"; ?>
+	echo "	<div id=\"primary\" class=\"".fullwidth_class()."  clearfix\">\n";
+	echo "  	<div id=\"content\" role=\"main\" >\n";
+	echo '			<header class="entry-header">';
+	echo '				<h1 class="entry-title">Casting Cart</h1>';
+	echo '			</header>';
+	echo '			<div class="entry-content">';
+	echo "				<div id=\"rbcasting-cart\">\n";
+	echo "					<div class=\"cb\"></div>\n"; ?>
 
-						<script type="text/javascript">
-						jQuery(document).ready(function(){
-							jQuery("#sendemail").click(function(){
-								jQuery('#emailbox').toggle('slow'); 
+							<script type="text/javascript">
+							jQuery(document).ready(function(){
+								jQuery("#sendemail").click(function(){
+									jQuery('#emailbox').toggle('slow'); 
+								});
+								jQuery("#checkavailability").click(function(){
+										jQuery("#checkavailabilityForm").toggle('slow'); 
+										if(jQuery(this).val() == "[+]Check Availability"){
+											jQuery(this).val("[-]Check Availability");
+										}else{
+											jQuery(this).val("[+]Check Availability");
+										}
+								});
+								jQuery("#inviteprofiles").click(function(){
+										jQuery("#inviteprofilesForm").toggle('slow'); 
+										if(jQuery(this).val() == "[+]Invite Profiles"){
+											jQuery(this).val("[-]Invite Profiles");
+										}else{
+											jQuery(this).val("[+]Invite Profiles");
+										}
+								});
 							});
-							jQuery("#checkavailability").click(function(){
-									jQuery("#checkavailabilityForm").toggle('slow'); 
-									if(jQuery(this).val() == "[+]Check Availability"){
-										jQuery(this).val("[-]Check Availability");
-									}else{
-										jQuery(this).val("[+]Check Availability");
-									}
-							});
-							jQuery("#inviteprofiles").click(function(){
-									jQuery("#inviteprofilesForm").toggle('slow'); 
-									if(jQuery(this).val() == "[+]Invite Profiles"){
-										jQuery(this).val("[-]Invite Profiles");
-									}else{
-										jQuery(this).val("[+]Invite Profiles");
-									}
-							});
-						});
-						</script>
+							</script>
 
-						<div id="emailbox" style="display:none;">
-							<form method="post" enctype="multipart/form-data" action="">
-								<input type="hidden" name="action" value="cartEmail" />	      
-								<div class="field"><label for="SearchMuxToName">Sender Name:</label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
-								<div class="field"><label for="SearchMuxToEmail">Sender Email:</label><br/><input type="email" id="SearchMuxToEmail" name="SearchMuxToEmail" value="" required/></div>
-								<div class="field"><label for="SearchMuxSubject">Subject:</label><br/><input type="text" id="SearchMuxSubject" name="SearchMuxSubject" value="Casting Cart" required></div>
-								<div class="field"><label for="SearchMuxMessage">Message to Admin:</label><br/>
-									<textarea id="SearchMuxMessage" name="SearchMuxMessage" style="width: 500px; height: 300px; ">[casting-link-placeholder]</textarea>
-								</div>
-								<p>(Note: The "[casting-link-placeholder]" will be the link to your casting cart page) </p>
-								<div class="field submit">
-									<input type="hidden" name="action" value="sendEmailCastingCart" />
-									<input type="submit" name="submit" value="Send Email" class="button-primary" /> 
-								</div>      
-							</form>
-						</div>
-<?php 
-echo "				</div>\n";
-echo "			</div>\n";
+							<div id="emailbox" style="display:none;">
+								<form method="post" enctype="multipart/form-data" action="">
+									<input type="hidden" name="action" value="cartEmail" />	      
+									<div class="field"><label for="SearchMuxToName">Sender Name:</label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
+									<div class="field"><label for="SearchMuxToEmail">Sender Email:</label><br/><input type="email" id="SearchMuxToEmail" name="SearchMuxToEmail" value="" required/></div>
+									<div class="field"><label for="SearchMuxSubject">Subject:</label><br/><input type="text" id="SearchMuxSubject" name="SearchMuxSubject" value="Casting Cart" required></div>
+									<div class="field"><label for="SearchMuxMessage">Message to Admin:</label><br/>
+										<textarea id="SearchMuxMessage" name="SearchMuxMessage" style="width: 500px; height: 300px; ">[casting-link-placeholder]</textarea>
+									</div>
+									<p>(Note: The "[casting-link-placeholder]" will be the link to your casting cart page) </p>
+									<div class="field submit">
+										<input type="hidden" name="action" value="sendEmailCastingCart" />
+										<input type="submit" name="submit" value="Send Email" class="button-primary" /> 
+									</div>      
+								</form>
+							</div>
+	<?php 
+	echo "				</div>\n";
+	echo "			</div>\n";
 
 echo "			<div class=\"cb\"></div>\n";
                    if(is_user_logged_in()){
@@ -281,9 +281,9 @@ echo "			<div class=\"cb\"></div>\n";
 						  	Message:<br/>
 						  		<p>(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job) </p>
 									
-<textarea name="message" style="width:100%;height:200px;">Add your message here...
-Click this link to view Job details: [casting-job-url]	
-</textarea>
+								<textarea name="message" style="width:100%;height:200px;">Add your message here...
+								Click this link to view Job details: [casting-job-url]	
+								</textarea>
 						  	<br/>
 						  	<input type="submit" name="inviteprofiles" value="Send" />
 						  	<input type="hidden" name="shortlistprofiles" value=""/>
@@ -314,7 +314,7 @@ Click this link to view Job details: [casting-job-url]
 					  		<p>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </p>
 								
 					  	<textarea name="message" style="width:100%;height:200px;">Add your message here...
-[shortlisted-link-placeholder]	
+							[shortlisted-link-placeholder]	
 					  	</textarea>
 					  	<br/>
 					  	<input type="submit" name="checkavailability" value="Send" />
