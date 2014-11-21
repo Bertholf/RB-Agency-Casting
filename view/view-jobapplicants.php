@@ -18,6 +18,7 @@ wp_enqueue_script('jquery_latest');
 // rb agency settings
 	$rb_agency_options = get_option('rb_agency_options');
 	$rb_agency_option_allowsendemail = isset($rb_agency_options["rb_agency_option_allowsendemail"])?$rb_agency_options["rb_agency_option_allowsendemail"]:""; 
+	$rb_agency_option_agencyemail = $rb_agency_options["rb_agency_option_agencyemail"];
 
 
 echo $rb_header = RBAgency_Common::rb_header();?>
@@ -503,9 +504,13 @@ if (is_user_logged_in()) {
 		echo "<br><div style=\"width:100%; margin-bottom:20px; clear:both; float:left;\">
 				<select id='action_dropdown' style='float:left'>
 					<option value=''>-- Select Action --</option>
-					<option value='2'>Add/Remove to Casting Cart</option>
-					<option value='0'>Send Email to Selected</option>
-					<option value='1'>Send Email to All Visible</option>
+					<option value='2'>Add/Remove to Casting Cart</option>";
+				if($rb_agency_option_agencyemail == 1){
+						echo "<option value='0'>Send Email to Selected</option>";
+						echo "<option value='1'>Send Email to All Visible</option>";
+				}
+
+		echo "			
 				</select>
 				<input type='button' id='action_submit' style='margin-left:12px; float:left' class='button-primary' value='Submit'>
 				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
