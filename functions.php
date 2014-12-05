@@ -220,18 +220,22 @@
 
 		 $displayActions = "";  
 		 $displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
-	    if ($rb_agency_option_profilelist_favorite) {
-			$displayActions .= "<div id=\"profile-favorite\" class=\"rbbtn-group\">";
-	        $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")."</span></a>";
-	       // $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
-	        $displayActions .= "</div>";
-	    }
-	    if ($rb_agency_option_profilelist_castingcart) {
-				$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
-	            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
-	          //  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
-	            $displayActions .= "</div>";
-	    }
+
+		if(rb_get_casting_profileid() > 0 || current_user_can("manage_options")){
+		       		
+		    if ($rb_agency_option_profilelist_favorite) {
+				$displayActions .= "<div id=\"profile-favorite\" class=\"rbbtn-group\">";
+		        $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")."</span></a>";
+		       // $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
+		        $displayActions .= "</div>";
+		    }
+		    if ($rb_agency_option_profilelist_castingcart) {
+					$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
+		            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
+		          //  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
+		            $displayActions .= "</div>";
+		    }
+		}
 	            $displayActions .= "</div>";
 	  
 	    	
