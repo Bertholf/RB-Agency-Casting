@@ -18,34 +18,34 @@ echo $rb_header = RBAgency_Common::rb_header();
 // if sumitted process here	
 //===============================
 
-if(isset($_GET['save_job'])){
+if(isset($_POST['save_job'])){
 	
 		// Error checking
 		$error = "";
 		$have_error = false;
 		$date_confirm = 0;		
 		
-		if ( empty($_GET['Job_Title'])) {
+		if ( empty($_POST['Job_Title'])) {
 			$error .= __("Job Title is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
-		if ( empty($_GET['Job_Text'])) {
+		if ( empty($_POST['Job_Text'])) {
 			$error .= __("Job Description is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
-		if ( empty($_GET['Job_Offering'])) {
+		if ( empty($_POST['Job_Offering'])) {
 			$error .= __("Job Offer is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
-		if ( empty($_GET['Job_Date_Start'])) {
+		if ( empty($_POST['Job_Date_Start'])) {
 			$error .= __("Start Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
 		} else {
-			list($y,$m,$d)= explode('-',$_GET['Job_Date_Start']);
+			list($y,$m,$d)= explode('-',$_POST['Job_Date_Start']);
 			if(checkdate($m,$d,$y)!==true){
 				$error .= __("Start Date is invalid date.<br />", rb_agency_casting_TEXTDOMAIN);
 				$have_error = true;
@@ -53,12 +53,12 @@ if(isset($_GET['save_job'])){
 			}
 		}
 
-		if ( empty($_GET['Job_Date_End'])) {
+		if ( empty($_POST['Job_Date_End'])) {
 			$error .= __("End Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
 		} else {
-			list($y,$m,$d)= explode('-',$_GET['Job_Date_End']);
+			list($y,$m,$d)= explode('-',$_POST['Job_Date_End']);
 			if(checkdate($m,$d,$y)!==true){
 				$error .= __("End Date is invalid date.<br />", rb_agency_casting_TEXTDOMAIN);
 				$have_error = true;
@@ -68,27 +68,27 @@ if(isset($_GET['save_job'])){
 
 
 		if($date_confirm == 0){
-			$date_start = strtotime($_GET['Job_Date_Start']);
-			$date_end = strtotime($_GET['Job_Date_End']);
+			$date_start = strtotime($_POST['Job_Date_Start']);
+			$date_end = strtotime($_POST['Job_Date_End']);
 			if($date_start > $date_end){
 				$error .= __("Start Date cannot be greate than the End Date.<br />", rb_agency_casting_TEXTDOMAIN);
 				$have_error = true;
 			} 
 		}
 	
-		if ( empty($_GET['Job_Location'])) {
+		if ( empty($_POST['Job_Location'])) {
 			$error .= __("Job Location is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_GET['Job_Region'])) {
+		if ( empty($_POST['Job_Region'])) {
 			$error .= __("Job Region is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_GET['Job_Type'])) {
+		if ( empty($_POST['Job_Type'])) {
 			$error .= __("Job type is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( $_GET['Job_Visibility'] == "") {
+		if ( $_POST['Job_Visibility'] == "") {
 			$error .= __("Visibility is required.<br />", rb_agency_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
@@ -102,7 +102,7 @@ if(isset($_GET['save_job'])){
 			$criteria = array();
 			
 			//get string values
-			foreach($_GET as $key => $val){
+			foreach($_POST as $key => $val){
 				if($key != "save_job"){
 					if (strpos($key, "ProfileCustomID") > -1){
 						if($val != "" && !empty($val)){ 
@@ -215,7 +215,7 @@ function load_job_display($error = NULL){
 		//===============================
 		//	table form
 		//===============================
-		echo " <form method='get' actipn='".(isset($_SERVER['PHP_SELF'])?$_SERVER['PHP_SELF']:"")."'>
+		echo " <form method='post' action=''>
 					<table>
 						
 						<tr>
@@ -224,15 +224,15 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Title:</td>
-							<td><input type='text' name='Job_Title' value='".(isset($_GET['Job_Title'])?$_GET['Job_Title']:"")."'></td>
+							<td><input type='text' name='Job_Title' value='".(isset($_POST['Job_Title'])?$_POST['Job_Title']:"")."'></td>
 						</tr>
 						<tr>
 							<td>Description:</td>
-							<td><textarea name='Job_Text'>".(isset($_GET['Job_Text'])?$_GET['Job_Text']:"")."</textarea></td>
+							<td><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea></td>
 						</tr>	
 						<tr>
 							<td>Offer:</td>
-							<td><input type='text' name='Job_Offering' value='".(isset($_GET['Job_Offering'])?$_GET['Job_Offering']:"")."'></td>
+							<td><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'></td>
 						</tr>							
 						<tr>
 							<td><h3>Job Duration</h3></td><td></td>
@@ -240,13 +240,13 @@ function load_job_display($error = NULL){
 						<tr>
 							<td>Date Start:</td>
 							<td>
-								<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_GET['Job_Date_Start'])?$_GET['Job_Date_Start']:"")."'>
+								<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
-								<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_GET['Job_Date_End'])?$_GET['Job_Date_End']:"")."'>
+								<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_POST['Job_Date_End'])?$_POST['Job_Date_End']:"")."'>
 							</td>
 						</tr>
 						<tr>
@@ -254,11 +254,11 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Location:</td>
-							<td><input type='text' name='Job_Location' value='".(isset($_GET['Job_Location'])?$_GET['Job_Location']:"")."'></td>
+							<td><input type='text' name='Job_Location' value='".(isset($_POST['Job_Location'])?$_POST['Job_Location']:"")."'></td>
 						</tr>
 						<tr>
 							<td>Region:</td>
-							<td><input type='text' name='Job_Region' value='".(isset($_GET['Job_Region'])?$_GET['Job_Region']:"")."'></td>
+							<td><input type='text' name='Job_Region' value='".(isset($_POST['Job_Region'])?$_POST['Job_Region']:"")."'></td>
 						</tr>
 						<tr>
 							<td><h3>Job Audition</h3></td><td></td>
@@ -266,25 +266,25 @@ function load_job_display($error = NULL){
 						<tr>
 							<td>Date Start:</td>
 							<td>
-								<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_GET['Job_Audition_Date_Start'])?$_GET['Job_Audition_Date_Start']:"")."'>
+								<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_POST['Job_Audition_Date_Start'])?$_POST['Job_Audition_Date_Start']:"")."'>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
-								<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_GET['Job_Audition_Date_End'])?$_GET['Job_Audition_Date_End']:"")."'>
+								<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_POST['Job_Audition_Date_End'])?$_POST['Job_Audition_Date_End']:"")."'>
 							</td>
 						</tr>
 						<tr>
 							<td>Time:</td>
 							<td>
-								<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_GET['Job_Audition_Time'])?$_GET['Job_Audition_Time']:"")."'>
+								<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_POST['Job_Audition_Time'])?$_POST['Job_Audition_Time']:"")."'>
 							</td>
 						</tr>
 						<tr>
 						<td>Venue:</td>
 							<td>
-								<textarea name='Job_Audition_Venue'>".(isset($_GET['Job_Audition_Venue'])?$_GET['Job_Audition_Venue']:"")."</textarea>
+								<textarea name='Job_Audition_Venue'>".(isset($_POST['Job_Audition_Venue'])?$_POST['Job_Audition_Venue']:"")."</textarea>
 							</td>
 						</tr>
 						<tr>
@@ -299,7 +299,7 @@ function load_job_display($error = NULL){
 									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
 									if(count($get_job_type)){
 										foreach($get_job_type as $jtype){
-											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_GET['Job_Type'])?$_GET['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";
+											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_POST['Job_Type'])?$_POST['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";
 										}
 									}
 
@@ -311,9 +311,9 @@ function load_job_display($error = NULL){
 							<td>
 								<select id='Job_Visibility' name='Job_Visibility'>
 									<option value=''>-- Select Type --</option>
-									<option value='0' ".selected(isset($_GET['Job_Visibility'])?$_GET['Job_Visibility']:"","0",false).">Invite Only</option>
-									<option value='1' ".selected(isset($_GET['Job_Visibility'])?$_GET['Job_Visibility']:"","1",false).">Open to All</option>
-									<option value='2' ".selected(isset($_GET['Job_Visibility'])?$_GET['Job_Visibility']:"","2",false).">Matching Criteria</option>
+									<option value='0' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","0",false).">Invite Only</option>
+									<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">Open to All</option>
+									<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">Matching Criteria</option>
 								</select>
 							</td>
 						</tr>
