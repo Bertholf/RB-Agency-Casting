@@ -324,7 +324,7 @@ echo "			<div class=\"cb\"></div>\n";
 					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
  
 					<?php
-					if (function_exists('rb_agency_profilelist')) { 
+					if (class_exists('RBAgency_Profile')) { 
 						echo "<div id=\"profile-casting-list\">";
 						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
 						$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($atts);

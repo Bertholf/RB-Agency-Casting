@@ -45,7 +45,7 @@
 			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&rbgroup=casting';
 			return $newrules + $rules;
 		}
-	
+
 	// Set Custom Template
 	add_filter('template_include', 'rb_agency_casting_template_include', 1, 1); 
 		function rb_agency_casting_template_include( $template ) {
@@ -239,7 +239,7 @@
 	            $displayActions .= "</div>";
 	  
 	    	
-			if($is_model_or_talent > 0){
+			if(isset($is_model_or_talent) && $is_model_or_talent > 0){
 				$displayActions .= "<div class=\"rb-goback-link\"><a href=\"".get_bloginfo("url")."/casting-dashboard/\">Go Back to My Dashboard</a></div>";
 			}
 		
@@ -411,7 +411,7 @@
 		</script>
 		<!--END RB Agency Favorite -->
 
-		<!-- [class=profile-list-layout<?php echo (int)$rb_agency_option_layoutprofilelist; ?>]-->
+		<!-- [class=profile-list-layout<?php echo (int)$rb_agency_option_layoutprofile; ?>]-->
 		<?php
 	}
 
