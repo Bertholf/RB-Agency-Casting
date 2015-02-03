@@ -559,7 +559,7 @@ function rb_display_list() {
 			}
 		}
 		
-		$wpdb->get_results("SELECT * FROM ". table_agency_casting ." profile LEFT JOIN ". table_agency_data_type ." castingtype ON client.CastingType = castingtype.DataTypeID ". $filter  ."",ARRAY_A);
+		$wpdb->get_results("SELECT * FROM ". table_agency_casting ." client LEFT JOIN ". table_agency_data_type ." castingtype ON client.CastingType = castingtype.DataTypeID ". $filter  ."",ARRAY_A);
 		
 		//Paginate
 		$items =$wpdb->num_rows; // number of total rows in the database
