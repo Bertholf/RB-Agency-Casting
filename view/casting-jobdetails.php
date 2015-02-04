@@ -1,8 +1,5 @@
 <?php
 
-	// Profile Class
-	include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
-	
 	// include casting class
 	include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 

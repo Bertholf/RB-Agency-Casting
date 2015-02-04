@@ -2,7 +2,6 @@
 global $wpdb;
 
 header("Cache-control: private"); //IE 6 Fix
-include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
 wp_deregister_script('jquery'); 
