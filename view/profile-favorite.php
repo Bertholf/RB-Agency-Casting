@@ -1,7 +1,7 @@
 <?php
 // *************************************************************************************************** //
 // This is the Profile-favorite page 
-include(rb_agency_BASEREL ."app/profile.class.php");
+include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 global $wpdb;
 // Get Profile
 if (isset($ProfileType) && !empty($ProfileType)){

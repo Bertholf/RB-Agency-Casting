@@ -28,7 +28,7 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 					
 				if (isset($CastingGallery)) {
 					// Remove Folder
-					$dir = rb_agency_UPLOADPATH . $CastingGallery ."/";
+					$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 					$mydir = opendir($dir);
 					while(false !== ($file = readdir($mydir))) {
 						if($file != "." && $file != "..") {
@@ -67,7 +67,7 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 					
 				if (isset($CastingGallery)) {
 					// Remove Folder
-					$dir = rb_agency_UPLOADPATH . $CastingGallery ."/";
+					$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 					$mydir = opendir($dir);
 					while(false !== ($file = readdir($mydir))) {
 						if($file != "." && $file != "..") {
@@ -488,7 +488,7 @@ function rb_display_list() {
 											
 										if (isset($CastingGallery)) {
 											// Remove Folder
-											$dir = rb_agency_UPLOADPATH . $CastingGallery ."/";
+											$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 											$mydir = opendir($dir);
 											while(false !== ($file = readdir($mydir))) {
 												if($file != "." && $file != "..") {

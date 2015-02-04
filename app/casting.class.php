@@ -156,7 +156,7 @@ class RBAgency_Casting {
 					$ProfileDateUpdated = $data['ProfileDateUpdated'];
 					echo "  <div style=\"position: relative; border: 1px solid #e1e1e1; line-height: 22px; float: left; padding: 10px; width: 210px; margin: 6px; \">";
 					echo "    <div style=\"text-align: center; \"><h3>". stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</h3></div>"; 
-					echo "    <div style=\"float: left; width: 100px; height: 100px; overflow: hidden; margin-top: 2px; \"><img style=\"width: 100px; \" src=\"". rb_agency_UPLOADDIR ."". $data['ProfileGallery'] ."/". $data['ProfileMediaURL'] ."\" /></div>\n";
+					echo "    <div style=\"float: left; width: 100px; height: 100px; overflow: hidden; margin-top: 2px; \"><img style=\"width: 100px; \" src=\"". RBAGENCY_UPLOADDIR ."". $data['ProfileGallery'] ."/". $data['ProfileMediaURL'] ."\" /></div>\n";
 					echo "    <div style=\"float: left; width: 100px; height: 100px; overflow: scroll-y; margin-left: 10px; line-height: 11px; font-size: 9px; \">\n";
 
 					if (!empty($data['ProfileDateBirth'])) {
@@ -165,7 +165,7 @@ class RBAgency_Casting {
 					// TODO: ADD MORE FIELDS
 
 					echo "    </div>";
-					echo "    <div style=\"position: absolute; z-index: 20; top: 120px; left: 200px; width: 20px; height: 20px; overflow: hidden; \"><a href=\"?page=". $_GET['page'] ."&actiontwo=cartRemove&action=cartAdd&RemoveID=". $data['ProfileID'] ."&\" title=\"". __("Remove from Cart", rb_agency_casting_TEXTDOMAIN) ."\"><img src=\"". rb_agency_BASEDIR ."style/remove.png\" style=\"width: 20px; \" alt=\"". __("Remove from Cart", rb_agency_casting_TEXTDOMAIN) ."\" /></a></div>";
+					echo "    <div style=\"position: absolute; z-index: 20; top: 120px; left: 200px; width: 20px; height: 20px; overflow: hidden; \"><a href=\"?page=". $_GET['page'] ."&actiontwo=cartRemove&action=cartAdd&RemoveID=". $data['ProfileID'] ."&\" title=\"". __("Remove from Cart", rb_agency_casting_TEXTDOMAIN) ."\"><img src=\"". RBAGENCY_PLUGIN_URL ."style/remove.png\" style=\"width: 20px; \" alt=\"". __("Remove from Cart", rb_agency_casting_TEXTDOMAIN) ."\" /></a></div>";
 					echo "    <div style=\"clear: both; \"></div>";
 					echo "  </div>";
 				}
@@ -269,7 +269,7 @@ class RBAgency_Casting {
 				$profileimage .= " <div style=\"margin:3px;max-width:250px; max-height:300px; overflow:hidden;\">";
 				$profileimage .= stripslashes($data2['ProfileContactNameFirst']) ." ". stripslashes($data2['ProfileContactNameLast']);
 				$profileimage .= "<br /><a href=\"". rb_agency_PROFILEDIR . $data2['ProfileGallery'] ."/\" target=\"_blank\">";
-				$profileimage .= "<img style=\"max-width:130px; max-height:150px; \" src=\"".rb_agency_UPLOADDIR ."". $data2['ProfileGallery'] ."/". $data2['ProfileMediaURL'] ."\" /></a>";
+				$profileimage .= "<img style=\"max-width:130px; max-height:150px; \" src=\"".RBAGENCY_UPLOADDIR ."". $data2['ProfileGallery'] ."/". $data2['ProfileMediaURL'] ."\" /></a>";
 				$profileimage .= "</div>\n";
 				$profileimage .= "</div>\n";
 			  }
@@ -826,20 +826,20 @@ class RBAgency_Casting {
 
 							if(!empty($ProfileCustomOptions_Min_value) && !empty($ProfileCustomOptions_Max_value)){
 								echo "<div>";
-								echo "		<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
+								echo "		<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", RBAGENCY_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
 								echo "		<div><input type=\"text\" name=\"ProfileCustomID". $ProfileCustomID ."[]\" value=\"". $ProfileCustomOptions_Min_value ."\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 								echo "</div>";
 								echo "<div>";
-								echo "		<label for=\"ProfileCustomLabel_max\" style=\"text-align:right;\">". __("Max", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
+								echo "		<label for=\"ProfileCustomLabel_max\" style=\"text-align:right;\">". __("Max", RBAGENCY_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
 								echo "		<div><input type=\"text\" name=\"ProfileCustomID". $ProfileCustomID ."[]\" value=\"". $ProfileCustomOptions_Max_value ."\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
 								echo "</div>";
 							} else {
 								echo "<div>";
-								echo "		<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
+								echo "		<label for=\"ProfileCustomLabel_min\" style=\"text-align:right;\">". __("Min", RBAGENCY_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
 								echo "		<div><input type=\"text\" name=\"ProfileCustomID". $ProfileCustomID ."[]\" value=\"".$min_val2."\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
 								echo "</div>";
 								echo "<div>";
-								echo "		<label for=\"ProfileCustomLabel_max\" style=\"text-align:right;\">". __("Max", rb_agency_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
+								echo "		<label for=\"ProfileCustomLabel_max\" style=\"text-align:right;\">". __("Max", RBAGENCY_TEXTDOMAIN) . "&nbsp;&nbsp;</label>";
 								echo "		<div><input type=\"text\" name=\"ProfileCustomID". $ProfileCustomID ."[]\" value=\"".$max_val2."\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
 								echo "</div>";
 							}

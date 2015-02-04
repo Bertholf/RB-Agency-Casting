@@ -614,9 +614,9 @@
 	// Make Directory for new profile
 /*     function rb_agency_casting_checkdir($ProfileGallery){
 	      	
-			if (!is_dir(rb_agency_UPLOADPATH . $ProfileGallery)) {
-				mkdir(rb_agency_UPLOADPATH . $ProfileGallery, 0755);
-				chmod(rb_agency_UPLOADPATH . $ProfileGallery, 0777);
+			if (!is_dir(RBAGENCY_UPLOADPATH . $ProfileGallery)) {
+				mkdir(RBAGENCY_UPLOADPATH . $ProfileGallery, 0755);
+				chmod(RBAGENCY_UPLOADPATH . $ProfileGallery, 0777);
 			}
 			return $ProfileGallery;
      }*/

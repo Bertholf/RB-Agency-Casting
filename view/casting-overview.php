@@ -4,7 +4,7 @@ get_currentuserinfo();
 $curauth = get_user_by('id', $current_user->ID);
 
 // Profile Class
-include(rb_agency_BASEREL ."app/profile.class.php");
+include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");

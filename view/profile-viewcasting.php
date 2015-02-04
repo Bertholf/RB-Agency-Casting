@@ -9,7 +9,7 @@ if(!headers_sent())
 header("Cache-control: private"); //IE 6 Fix
 
 // Profile Class
-include(rb_agency_BASEREL ."app/profile.class.php");
+include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 include( rb_agency_casting_BASEREL."app/casting.class.php");
 
 // Get Profile

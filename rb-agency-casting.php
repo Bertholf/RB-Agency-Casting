@@ -39,16 +39,16 @@ See license.txt for full details.
  */
 
 	// Version
-	define("rb_agency_casting_VERSION", $rb_agency_casting_VERSION); // e.g. 1.0
+	define("RBAGENCY_casting_VERSION", $rb_agency_casting_VERSION); // e.g. 1.0
 	// Paths
-	define("rb_agency_casting_BASENAME", plugin_basename(__FILE__) );  // rb-agency/rb-agency.php
+	define("RBAGENCY_casting_BASENAME", plugin_basename(__FILE__) );  // rb-agency/rb-agency.php
 	$rb_agency_casting_WPURL = get_bloginfo("wpurl"); // http://domain.com/wordpress
 	$rb_agency_casting_WPUPLOADARRAY = wp_upload_dir(); // Array  $rb_agency_casting_WPUPLOADARRAY['baseurl'] $rb_agency_casting_WPUPLOADARRAY['basedir']
-	define("rb_agency_casting_BASEDIR", get_bloginfo("wpurl") ."/". PLUGINDIR ."/". dirname( plugin_basename(__FILE__) ) ."/" );  // http://domain.com/wordpress/wp-content/plugins/rb-agency-casting/
-	define("rb_agency_casting_UPLOADDIR", $rb_agency_casting_WPUPLOADARRAY['baseurl'] ."/profile-media/" );  // http://domain.com/wordpress/wp-content/uploads/profile-media/
-	define("rb_agency_casting_UPLOADPATH", $rb_agency_casting_WPUPLOADARRAY['basedir'] ."/profile-media/" ); // /home/content/99/6048999/html/domain.com/wordpress/wp-content/uploads/profile-media/
-	define("rb_agency_casting_TEXTDOMAIN", basename(dirname( __FILE__ )) ); //   rb-agency
-	define("rb_agency_casting_BASEREL", plugin_dir_path( __FILE__ ) );
+	define("RBAGENCY_casting_BASEDIR", get_bloginfo("wpurl") ."/". PLUGINDIR ."/". dirname( plugin_basename(__FILE__) ) ."/" );  // http://domain.com/wordpress/wp-content/plugins/rb-agency-casting/
+	define("RBAGENCY_casting_UPLOADDIR", $rb_agency_casting_WPUPLOADARRAY['baseurl'] ."/profile-media/" );  // http://domain.com/wordpress/wp-content/uploads/profile-media/
+	define("RBAGENCY_casting_UPLOADPATH", $rb_agency_casting_WPUPLOADARRAY['basedir'] ."/profile-media/" ); // /home/content/99/6048999/html/domain.com/wordpress/wp-content/uploads/profile-media/
+	define("RBAGENCY_casting_TEXTDOMAIN", basename(dirname( __FILE__ )) ); //   rb-agency
+	define("RBAGENCY_casting_BASEREL", plugin_dir_path( __FILE__ ) );
 
 
 // *************************************************************************************************** //
@@ -144,7 +144,7 @@ class RBAgencyCasting {
 
 
 				// Load Menus
-				//add_action('admin_menu', array('RBAgency', 'menu_admin'));
+				//add_action('admin_menu', array('RBAgency_Admin', 'menu_admin'));
 
 				// Register Settings
 				add_action('admin_init', array('RBAgencyCasting', 'do_register_settings') );

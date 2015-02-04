@@ -115,7 +115,7 @@
 
 			//create folder
 			$CastingGallery 		= "casting-agent-" . $new_user;
-			if (!is_dir(rb_agency_UPLOADPATH . $CastingGallery)) {
+			if (!is_dir(RBAGENCY_UPLOADPATH . $CastingGallery)) {
 				mkdir(rb_agency_casting_UPLOADPATH . $CastingGallery, 0755);
 				chmod(rb_agency_casting_UPLOADPATH . $CastingGallery, 0777);
 			}

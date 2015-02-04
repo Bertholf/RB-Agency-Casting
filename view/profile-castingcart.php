@@ -9,7 +9,7 @@ global $wpdb;
 		}
 echo $rb_header = RBAgency_Common::rb_header();
 // Profile Class
-include(rb_agency_BASEREL ."app/profile.class.php");
+include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 	$rb_agency_options_arr = get_option('rb_agency_options');
 		$rb_agency_option_profilenaming = $rb_agency_options_arr['rb_agency_option_profilenaming'];
 
@@ -50,7 +50,7 @@ include(rb_agency_BASEREL ."app/profile.class.php");
 
 		}
 		if (empty($SearchMuxHash) || ($count == 0)) {
-			echo "<strong>". __("No search results found.  Please check link again.", rb_agency_TEXTDOMAIN) ."</strong>";
+			echo "<strong>". __("No search results found.  Please check link again.", RBAGENCY_TEXTDOMAIN) ."</strong>";
 		}
 
 		echo "  <div style=\"clear: both;\"></div>";
