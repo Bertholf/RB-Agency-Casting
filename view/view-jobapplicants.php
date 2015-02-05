@@ -81,7 +81,7 @@ jQuery(document).ready(function(){
 				} else if(jQuery("#action_dropdown").val() == '0'){
 					var $href = "";
 					jQuery(".select_app:checked").each(function(){
-						$href = $href + ";" + jQuery(this).val();				
+						$href = $href + ";" + jQuery(this).val();
 					});
 				}
 				if($href == ""){
@@ -105,11 +105,11 @@ jQuery(document).ready(function(){
 	});
 	
 	jQuery(".rate").click(function(){
-		
+		// TODO PATH INVALID
 		var loader = "<?php echo plugins_url('rb-agency-casting/view/loader.gif'); ?>";
 		var check = "<?php echo plugins_url('rb-agency-casting/view/check.png'); ?>";
 
-		jQuery(this).nextAll(".loading").html("<img src='"+loader+"'>");	
+		jQuery(this).nextAll(".loading").html("<img src='"+loader+"'>");
 		
 		var app_id = jQuery(this).prevAll(".application_id").eq(0).val();
 
