@@ -165,11 +165,8 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	
 	echo "  <div id=\"search\">\n";
 	echo "    <h2>Search Database</h2>\n";
-			
-			//set to simple layout
-			$profilesearch_layout = 'condensed';
-	
-			echo RBAgency_Profile::search_form("", "", 0);
+
+			echo RBAgency_Profile::search_form("", "", 0, 0);
 
 	echo "  </div>\n";
 
