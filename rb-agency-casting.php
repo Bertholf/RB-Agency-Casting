@@ -50,7 +50,17 @@ See license.txt for full details.
 	define("RBAGENCY_casting_TEXTDOMAIN", basename(dirname( __FILE__ )) ); //   rb-agency
 	define("RBAGENCY_casting_BASEREL", plugin_dir_path( __FILE__ ) );
 
+		// RB Agency  Casting Plugin Path
+	if (!defined('RBAGENCY_casting_PLUGIN_NAME')) // rb-agency-casting
+		define('RBAGENCY_casting_PLUGIN_NAME', strtolower(trim(dirname(plugin_basename(__FILE__)), '/')));
 
+	if (!defined('RBAGENCY_casting_PLUGIN_DIR')) // httdocs/domain/wp-content/plugins/rb-agency-casting/
+		define('RBAGENCY_casting_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . RBAGENCY_casting_PLUGIN_NAME . '/');
+
+	if (!defined('RBAGENCY_casting_PLUGIN_URL')) // http://localhost/wp-content/plugins/rb-agency-casting/
+		define('RBAGENCY_casting_PLUGIN_URL', WP_PLUGIN_URL . '/' . RBAGENCY_casting_PLUGIN_NAME . '/');
+
+	
 // *************************************************************************************************** //
 
 /*
@@ -148,10 +158,14 @@ class RBAgencyCasting {
 
 				// Register Settings
 				add_action('admin_init', array('RBAgencyCasting', 'do_register_settings') );
+			}else{
+				
+				wp_enqueue_script('jquery-core');
+
 			}
 
 		}
-
+	
 
 	/*
 	 * Plugin Activation
