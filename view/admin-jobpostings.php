@@ -193,7 +193,7 @@ function job_type_settings(){
 		$delete_details = "DELETE FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
 		$results = $wpdb->query($delete_details);
 		
-		$msg = __("Successfully Deleted Record.<br />", rb_agency_casting_TEXTDOMAIN);
+		$msg = __("Successfully Deleted Record.<br />", RBAGENCY_casting_TEXTDOMAIN);
 		echo $msg;		
 
 		echo "<p><a class='button-primary' href='".admin_url("admin.php?page=" . $_GET['page'] . "&action=manage_types&proc=addnew_jobtype")."'>Add New Job Type</a></p>";
@@ -211,11 +211,11 @@ function job_type_settings(){
 		$error = '';
 		$have_error = false;
 		if(empty($_GET['Job_Type_Title'])){
-			$error .= __("Job Type Title is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Type Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		} 
 		if(empty($_GET['Job_Type_Text'])){
-			$error .= __("Job Type Description is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Type Description is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		} 
 		
@@ -223,12 +223,12 @@ function job_type_settings(){
 			if($_GET['rec_process'] == 'add'){
 				$sql_insert = "INSERT INTO " . table_agency_casting_job_type . " ( Job_Type_Title, Job_Type_text ) VALUES ( '".$_GET['Job_Type_Title']."','".$_GET['Job_Type_Text']."' )";
 				$wpdb->query($sql_insert);
-				$msg = __("Successfully Added Record.<br />", rb_agency_casting_TEXTDOMAIN);
+				$msg = __("Successfully Added Record.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				echo $msg;
 			} elseif($_GET['rec_process'] == 'edit'){
 				$sql_update = "UPDATE " . table_agency_casting_job_type . " SET Job_Type_Title = '".$_GET['Job_Type_Title']."', Job_Type_text = '".$_GET['Job_Type_Text']."' WHERE Job_Type_ID = " . $type ;
  				$wpdb->query($sql_update);
-				$msg = __("Successfully Updated Record.<br />", rb_agency_casting_TEXTDOMAIN);
+				$msg = __("Successfully Updated Record.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				echo $msg;
 			}
 		}

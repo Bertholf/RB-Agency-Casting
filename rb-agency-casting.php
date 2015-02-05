@@ -8,7 +8,7 @@ Author: Rob Bertholf
 Author URI: http://rob.bertholf.com/
 Version: 0.0.1
 */
-$rb_agency_casting_VERSION = "0.1.8"; 
+$RBAGENCY_casting_VERSION = "0.1.8"; 
 /*
 License: CF Commercial-to-GPL License
 Copyright 2007-2013 Rob Bertholf
@@ -39,7 +39,7 @@ See license.txt for full details.
  */
 
 	// Version
-	define("RBAGENCY_casting_VERSION", $rb_agency_casting_VERSION); // e.g. 1.0
+	define("RBAGENCY_casting_VERSION", $RBAGENCY_casting_VERSION); // e.g. 1.0
 	// Paths
 	define("RBAGENCY_casting_BASENAME", plugin_basename(__FILE__) );  // rb-agency/rb-agency.php
 	$rb_agency_casting_WPURL = get_bloginfo("wpurl"); // http://domain.com/wordpress
@@ -129,7 +129,7 @@ class RBAgencyCasting {
 			 */
 
 				// Identify Folder for PO files
-				load_plugin_textdomain( rb_agency_casting_TEXTDOMAIN, false, basename( dirname( __FILE__ ) ) . '/translation/' ); 
+				load_plugin_textdomain( RBAGENCY_casting_TEXTDOMAIN, false, basename( dirname( __FILE__ ) ) . '/translation/' ); 
 
 				// Load Jquery if not registered
 				 	
@@ -363,7 +363,7 @@ class RBAgencyCasting {
 			update_option('active_plugins', $current);
 			do_action('deactivate_' . $thepluginfile );
 
-			echo "<div style=\"padding:50px;font-weight:bold;\"><p>". __("Almost done...", rb_agency_casting_TEXTDOMAIN) ."</p><h1>". __("One More Step", rb_agency_casting_TEXTDOMAIN) ."</h1><a href=\"plugins.php?deactivate=true\">". __("Please click here to complete the uninstallation process", rb_agency_casting_TEXTDOMAIN) ."</a></h1></div>";
+			echo "<div style=\"padding:50px;font-weight:bold;\"><p>". __("Almost done...", RBAGENCY_casting_TEXTDOMAIN) ."</p><h1>". __("One More Step", RBAGENCY_casting_TEXTDOMAIN) ."</h1><a href=\"plugins.php?deactivate=true\">". __("Please click here to complete the uninstallation process", RBAGENCY_casting_TEXTDOMAIN) ."</a></h1></div>";
 			die;
 
 		}
@@ -377,11 +377,11 @@ class RBAgencyCasting {
 		public static function check_update_needed(){
 
 			// Hold the version in a seprate option
-			if(!get_option("rb_agency_casting_version")) {
-				update_option("rb_agency_casting_version", rb_agency_casting_VERSION);
+			if(!get_option("RBAGENCY_casting_VERSION")) {
+				update_option("RBAGENCY_casting_VERSION", RBAGENCY_casting_VERSION);
 			} else {
 				// Version Exists, but is it out of date?
-				if(get_option("rb_agency_casting_version") <> rb_agency_casting_VERSION){
+				if(get_option("RBAGENCY_casting_VERSION") <> RBAGENCY_casting_VERSION){
 					require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/upgrade.php");
 				} else {
 					// Namaste, version is number is correct
@@ -463,8 +463,8 @@ class RBAgencyCasting {
 
 			// Setup
 			function rb_agency_casting_widget_loginactions() {
-				$widget_ops = array('classname' => 'rb_agency_casting_widget_profileaction', 'description' => __("Displays profile actions such as login and links to edit", rb_agency_casting_TEXTDOMAIN) );
-				$this->WP_Widget('rb_agency_casting_widget_profileaction', __("Agency casting Login", rb_agency_casting_TEXTDOMAIN), $widget_ops);
+				$widget_ops = array('classname' => 'rb_agency_casting_widget_profileaction', 'description' => __("Displays profile actions such as login and links to edit", RBAGENCY_casting_TEXTDOMAIN) );
+				$this->WP_Widget('rb_agency_casting_widget_profileaction', __("Agency casting Login", RBAGENCY_casting_TEXTDOMAIN), $widget_ops);
 			}
 
 			// What Displays
@@ -480,17 +480,17 @@ class RBAgencyCasting {
 					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 							echo "<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
 							echo "  <div class=\"box\">\n";
-							echo "      <label for=\"user-name\">". __("Username", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
+							echo "      <label for=\"user-name\">". __("Username", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
 							echo "  </div>\n";
 							echo "  <div class=\"box\">\n";
-							echo "      <label for=\"password\">". __("Password", rb_agency_casting_TEXTDOMAIN). "</label><input type=\"password\" name=\"password\" value=\"\" id=\"password\" /> <a href=\"". get_bloginfo('wpurl') ."/wp-login.php?action=lostpassword\">". __("forgot password", rb_agency_casting_TEXTDOMAIN). "?</a>\n";
+							echo "      <label for=\"password\">". __("Password", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"password\" name=\"password\" value=\"\" id=\"password\" /> <a href=\"". get_bloginfo('wpurl') ."/wp-login.php?action=lostpassword\">". __("forgot password", RBAGENCY_casting_TEXTDOMAIN). "?</a>\n";
 							echo "  </div>\n";
 							echo "  <div class=\"box\">\n";
-							echo "      <input type=\"checkbox\" name=\"remember-me\" value=\"forever\" /> ". __("Keep me signed in", rb_agency_casting_TEXTDOMAIN). "\n";
+							echo "      <input type=\"checkbox\" name=\"remember-me\" value=\"forever\" /> ". __("Keep me signed in", RBAGENCY_casting_TEXTDOMAIN). "\n";
 							echo "  </div>\n";
 							echo "  <div class=\"submit-box\">\n";
 							echo "      <input type=\"hidden\" name=\"action\" value=\"log-in\" />\n";
-							echo "      <input type=\"submit\" value=\"". __("Sign In", rb_agency_casting_TEXTDOMAIN). "\" /><br />\n";
+							echo "      <input type=\"submit\" value=\"". __("Sign In", RBAGENCY_casting_TEXTDOMAIN). "\" /><br />\n";
 							echo "  </div>\n";
 							echo "</form>\n";
 					} else {

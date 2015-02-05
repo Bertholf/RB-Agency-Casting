@@ -53,41 +53,41 @@ if(isset($_GET['save_job'])){
 		$date_confirm = 0;
 		
 		if ( empty($_GET['Job_Title'])) {
-			$error .= __("Job Title is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
 		if ( empty($_GET['Job_Text'])) {
-			$error .= __("Job Description is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Description is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
 		if ( empty($_GET['Job_Offering'])) {
-			$error .= __("Job Offer is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Offer is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		
 		if ( empty($_GET['Job_Date_Start'])) {
-			$error .= __("Start Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Start Date is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
 		} else {
 			list($y,$m,$d)= explode('-',$_GET['Job_Date_Start']);
 			if(checkdate($m,$d,$y)!==true){
-				$error .= __("Start Date is invalid date.<br />", rb_agency_casting_TEXTDOMAIN);
+				$error .= __("Start Date is invalid date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
 				$date_confirm++;
 			}
 		}
 
 		if ( empty($_GET['Job_Date_End'])) {
-			$error .= __("End Date is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("End Date is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
 		} else {
 			list($y,$m,$d)= explode('-',$_GET['Job_Date_End']);
 			if(checkdate($m,$d,$y)!==true){
-				$error .= __("End Date is invalid date.<br />", rb_agency_casting_TEXTDOMAIN);
+				$error .= __("End Date is invalid date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
 				$date_confirm++;
 			}
@@ -97,25 +97,25 @@ if(isset($_GET['save_job'])){
 			$date_start = strtotime($_GET['Job_Date_Start']);
 			$date_end = strtotime($_GET['Job_Date_End']);
 			if($date_start > $date_end){
-				$error .= __("Start Date cannot be greate than the End Date.<br />", rb_agency_casting_TEXTDOMAIN);
+				$error .= __("Start Date cannot be greate than the End Date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
 			} 
 		}
 	
 		if ( empty($_GET['Job_Location'])) {
-			$error .= __("Job Location is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Location is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Region'])) {
-			$error .= __("Job Region is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job Region is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Type'])) {
-			$error .= __("Job type is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Job type is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 		if ( empty($_GET['Job_Visibility'])) {
-			$error .= __("Visibility is required.<br />", rb_agency_casting_TEXTDOMAIN);
+			$error .= __("Visibility is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 

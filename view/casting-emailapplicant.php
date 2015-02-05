@@ -35,23 +35,23 @@
 		
 		// validate details
 		if($_POST['sender_name'] == ''){
-			$remarks = __("Sender name must not be equal to blanks.<br>", rb_agency_casting_TEXTDOMAIN);
+			$remarks = __("Sender name must not be equal to blanks.<br>", RBAGENCY_casting_TEXTDOMAIN);
 		}
 
 		if($_POST['sender_email'] == ''){
-			$remarks .= __("Sender email must not be equal to blanks.<br>", rb_agency_casting_TEXTDOMAIN);
+			$remarks .= __("Sender email must not be equal to blanks.<br>", RBAGENCY_casting_TEXTDOMAIN);
 		} else {
 			if ( !is_email($_POST['sender_email'])) {
-				$remarks .= __("You must enter a valid sender email address.<br />", rb_agency_casting_TEXTDOMAIN);
+				$remarks .= __("You must enter a valid sender email address.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			}		
 		}
 		
 		if($_POST['subject'] == ''){
-			$remarks .= __("Subject must not be equal to blanks.<br>", rb_agency_casting_TEXTDOMAIN);
+			$remarks .= __("Subject must not be equal to blanks.<br>", RBAGENCY_casting_TEXTDOMAIN);
 		}
 				
 		if($_POST['sender_message'] == ''){
-				$remarks .= __("You must have a valid message.<br />", rb_agency_casting_TEXTDOMAIN);
+				$remarks .= __("You must have a valid message.<br />", RBAGENCY_casting_TEXTDOMAIN);
 		}
 		
 		if($remarks == ''){
@@ -65,9 +65,9 @@
 					if($recipient != ""){
 						$headers = 'From: '. get_option('blogname') .' <'. $_POST['sender_email'] .'>' . "\r\n";
 						wp_mail($recipient, htmlspecialchars($_POST['subject']) , htmlspecialchars($_POST['sender_message']), $headers); 
-						$remarks = __("Message was successfully sent!<br />", rb_agency_casting_TEXTDOMAIN);
+						$remarks = __("Message was successfully sent!<br />", RBAGENCY_casting_TEXTDOMAIN);
 					} else {
-						$remarks = __("Recipients Email is not available.<br />", rb_agency_casting_TEXTDOMAIN);
+						$remarks = __("Recipients Email is not available.<br />", RBAGENCY_casting_TEXTDOMAIN);
 					}
 					
 			 } 
@@ -98,9 +98,9 @@
 					if(!empty($recipients)){
 						$headers = 'From: '. get_option('blogname') .' <'. $_POST['sender_email'] .'>' . "\r\n";
 						wp_mail($recipients, htmlspecialchars($_POST['subject']) , htmlspecialchars($_POST['sender_message']), $headers); 
-						$remarks = __("Message was successfully sent!<br />", rb_agency_casting_TEXTDOMAIN);
+						$remarks = __("Message was successfully sent!<br />", RBAGENCY_casting_TEXTDOMAIN);
 					} else {
-						$remarks = __("Recipients Email is not available.<br />", rb_agency_casting_TEXTDOMAIN);
+						$remarks = __("Recipients Email is not available.<br />", RBAGENCY_casting_TEXTDOMAIN);
 					}
 				
 				}
@@ -129,9 +129,9 @@
 					if(!empty($recipients)){
 						$headers = 'From: '. get_option('blogname') .' <'. $_POST['sender_email'] .'>' . "\r\n";
 						wp_mail($recipients, htmlspecialchars($_POST['subject']) , htmlspecialchars($_POST['sender_message']), $headers); 
-						$remarks = __("Message was successfully sent!<br />", rb_agency_casting_TEXTDOMAIN);
+						$remarks = __("Message was successfully sent!<br />", RBAGENCY_casting_TEXTDOMAIN);
 					} else {
-						$remarks = __("Recipients Email is not available.<br />", rb_agency_casting_TEXTDOMAIN);
+						$remarks = __("Recipients Email is not available.<br />", RBAGENCY_casting_TEXTDOMAIN);
 					}					
 				
 				}
