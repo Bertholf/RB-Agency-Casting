@@ -32,7 +32,7 @@ echo "				<div id=\"profile-favorites\">\n";
 			$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($search_array);
 			
 			//query type favorite
-			$query_type = 1;
+			$query_type = 4;
 			
 			// Process Form Submission
 			echo $search_results = RBAgency_Profile::search_results($search_sql_query, $query_type);
