@@ -1,15 +1,13 @@
 <?php
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
-
 wp_deregister_script('jquery'); 
-wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1); 
+wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1,true); 
 wp_enqueue_script('jquery_latest');
-wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1); 
-wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1); 
-wp_enqueue_script('jquery-timepicker');
-wp_register_style( 'timepicker-style', plugins_url('../css/timepicker-addon.css', __FILE__) );
-wp_enqueue_style( 'timepicker-style' );
-
+wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1,true); 
+	wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1,true); 
+	wp_enqueue_script('jquery-timepicker');
+	wp_register_style( 'timepicker-style', plugins_url('../css/timepicker-addon.css', __FILE__) );
+	wp_enqueue_style( 'timepicker-style' );
 
 echo $rb_header = RBAgency_Common::rb_header(); 
 
@@ -162,10 +160,10 @@ function load_job_display($error = NULL){
 
 	global $wpdb;
 	global $current_user;
-	
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
-	echo '<script type="text/javascript">
+		echo '<script type="text/javascript">
 				jQuery(document).ready(function(){
+						
 					jQuery( ".datepicker" ).datepicker();
 					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					jQuery("#Job_Visibility").change(function(){
@@ -189,10 +187,11 @@ function load_job_display($error = NULL){
 						}
 					});
 					jQuery(".timepicker").timepicker({
-						hourGrid: 4,
-						minuteGrid: 10,
-						timeFormat: "hh:mm tt"
-					});
+									hourGrid: 4,
+									minuteGrid: 10,
+									timeFormat: \'g:ia\' 
+								});
+					
 				});
 		  </script>';
 

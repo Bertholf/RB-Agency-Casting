@@ -398,7 +398,7 @@ function load_job_display($error = NULL, $data){
 					echo '	jQuery(".timepicker").timepicker({
 									hourGrid: 4,
 									minuteGrid: 10,
-									timeFormat: "hh:mm tt"
+									timeFormat: \'g:ia\' 
 								});';
 
 	echo '});
