@@ -11,11 +11,13 @@
 	
 
 	// Remember to flush_rules() when adding rules
-	add_filter('init','rbcasting_flushrules');
+	// Todo: Remove lines below. Causes permalink incompatibility with other plugins such as woocommerce
+	
+	/*add_filter('init','rbcasting_flushrules');
 		function rbcasting_flushRules() {
 			global $wp_rewrite;
 			$wp_rewrite->flush_rules();
-	}
+	}*/
 
 	// Adding a new rule
 	add_filter('rewrite_rules_array','rb_agency_casting_rewriteRules');
