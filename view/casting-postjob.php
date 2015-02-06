@@ -1,8 +1,8 @@
 <?php
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
-wp_deregister_script('jquery'); 
+/*wp_deregister_script('jquery'); 
 wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js',false,1,true); 
-wp_enqueue_script('jquery_latest');
+wp_enqueue_script('jquery_latest');*/
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',false,1,true); 
 	wp_register_script('jquery-timepicker',  plugins_url('../js/jquery-timepicker.js', __FILE__),false,1,true); 
 	wp_enqueue_script('jquery-timepicker');
