@@ -8,7 +8,7 @@ global $wpdb;
 if(!headers_sent())
 header("Cache-control: private"); //IE 6 Fix
 
-include( rb_agency_casting_BASEREL."app/casting.class.php");
+include( RBAGENCY_casting_BASEREL."/app/casting.class.php");
 
 // Get Profile
 //$ProfileType = get_query_var('target'); 
