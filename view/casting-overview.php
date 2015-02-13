@@ -6,10 +6,6 @@ $curauth = get_user_by('id', $current_user->ID);
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
-wp_deregister_script('jquery'); 
-wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
-wp_enqueue_script('jquery_latest');
-
 echo $rb_header = RBAgency_Common::rb_header();
 
 if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){

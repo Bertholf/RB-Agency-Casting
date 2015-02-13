@@ -161,6 +161,8 @@ class RBAgencyCasting {
 			}else{
 				
 				wp_enqueue_script('jquery-core');
+				wp_enqueue_script( 'jquery-ui-core' );
+				wp_enqueue_script( 'jquery-ui-datepicker' );
 
 			}
 
