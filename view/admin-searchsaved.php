@@ -476,7 +476,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 		if($items > 0) {
 
-			$p = new rb_agency_pagination;
+			$p = new RBAgency_Pagination;
 
 			$p->items($items);
 
