@@ -311,107 +311,119 @@
 			$rb_agency_option_layoutprofile = (int)$rb_agency_options_arr['rb_agency_option_layoutprofile'];
 			$rb_agency_option_layoutprofile = sprintf("%02s", $rb_agency_option_layoutprofile);
 
-	?>
+			?>
 
-		<!--RB Agency Favorite -->
-		<script type="text/javascript" >
-		var layout_favorite = "<?php echo $rb_agency_option_layoutprofile; ?>";
-		jQuery(document).ready(function () {
-			jQuery(".rb_profile_tool a.favorite").click(function(){
-				var Obj = jQuery(this);
-				jQuery.ajax({
-					type: 'POST',
-					url: '<?php echo admin_url('admin-ajax.php'); ?>',
-					data: {
-						action: 'rb_agency_save_favorite',
-						talentID: Obj.attr("attr-id")
-					},
-					success: function (results) {
-					<?php if (get_query_var('type') == "favorite"){?>
-								jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
-					<?php } else { ?>
-						if(Obj.hasClass("inactive")){
-							Obj.attr("title","Remove from Favorites");
-							Obj.removeClass("inactive").addClass("active");
-							Obj.find("span").text("Remove from Favorites");
-						}else if(Obj.hasClass("active")){
-							Obj.attr("title","Add to Favorites");
-							Obj.removeClass("active").addClass("inactive");
-							Obj.find("span").text("Add to Favorites");
-						}
-					<?php } ?>
-					},
-					error: function(e){
-						console.log(e);
-					}
-				});
-			});
-			jQuery(".newfavorite a:first, .newfavorite a").click(function () {
-				var Obj = jQuery(this);
-				jQuery.ajax({
-					type: 'POST',
-					url: '<?php echo admin_url('admin-ajax.php'); ?>',
-					data: {
-						action: 'rb_agency_save_favorite',
-						talentID: jQuery(this).attr("id")
-					},
-					success: function (results) {
-
-						if (results == 'error') {
-							Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
-						} else if (results == -1) {
-							Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\">You're not signed in.</span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
-							setTimeout(function () {
-								if (Obj.attr("class") == "save_favorite") {
-									Obj.fadeOut().empty().html("").fadeIn();
-									Obj.attr('title', 'Save to Favorites');
-									Obj.find("span").text('Add to Favorites');
-								} else {
-									Obj.fadeOut().empty().html("Favorited").fadeIn();
-									//Obj.attr('title', 'Remove from Favorites');
-									Obj.find("span").text('Remove from Favorites');
-								
-								}
-							}, 2000);
-						} else {
-							<?php
-							if (get_query_var('type') == "favorite"){?>
-								jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
+				<!--RB Agency Favorite -->
+				<script type="text/javascript" >
+				var layout_favorite = "<?php echo $rb_agency_option_layoutprofile; ?>";
+				jQuery(document).ready(function () {
+					jQuery(".rb_profile_tool a.favorite").click(function(){
+						var Obj = jQuery(this);
+						jQuery.ajax({
+							type: 'POST',
+							url: '<?php echo admin_url('admin-ajax.php'); ?>',
+							data: {
+								action: 'rb_agency_save_favorite',
+								talentID: Obj.attr("attr-id")
+							},
+							success: function (results) {
+							<?php if (get_query_var('type') == "favorite"){?>
+										jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
+														var a = jQuery("#profile-results-info-countrecord .count-display");
+														var b = jQuery("#profile-results-info-countrecord .items-display");
+														var count = parseInt(a.text());
+														var item = parseInt(b.text());
+														var c = count - 1;
+														a.text(c);
+														var i = item - 1;
+														b.text(i);
+														if(c <=0 && i <= 0){
+															window.location.reload();
+														}
+										
 							<?php } else { ?>
-								if(layout_favorite == "00"){
-									if (Obj.hasClass("save_favorite") || (Obj.hasClass("favorited") && jQuery.trim(results)=="inserted") ) {
-										Obj.removeClass("save_favorite");
-										Obj.addClass("favorited");
-										Obj.attr('title', 'Remove from Favorites');
-										Obj.find("span").text('Remove from Favorites');
-									} else {
-										Obj.removeClass("favorited");
-										Obj.addClass("save_favorite");
-										Obj.attr('title', 'Add to Favorites');
-										Obj.find("span").text('Add to Favorites');
-									}
-								} else {
-									if (Obj.attr("class") == "save_favorite") {
-										Obj.empty().fadeOut().empty().html("").fadeIn();
-										Obj.attr("class", "favorited");
-										Obj.attr('title', 'Remove from Favorites');
-										Obj.text('REMOVE FROM FAVORITES')
-									} else {
-										Obj.empty().fadeOut().empty().html("").fadeIn();
-										Obj.attr('title', 'Save to Favorites');
-										jQuery(this).find("a[class=view_all_favorite]").remove();
-										Obj.attr("class", "save_favorite");
-										Obj.text('SAVE TO FAVORITES');
-									}
+								if(Obj.hasClass("inactive")){
+									Obj.attr("title","Remove from Favorites");
+									Obj.removeClass("inactive").addClass("active");
+									Obj.find("span").text("Remove from Favorites");
+								}else if(Obj.hasClass("active")){
+									Obj.attr("title","Add to Favorites");
+									Obj.removeClass("active").addClass("inactive");
+									Obj.find("span").text("Add to Favorites");
 								}
-						<?php } ?>
-						}
-					}
-				})
-			});
-		});
-		</script>
-		<!--END RB Agency Favorite -->
+							<?php } ?>
+							},
+							error: function(e){
+								console.log(e);
+							}
+						});
+					});
+					jQuery(".newfavorite a:first, .newfavorite a").click(function () {
+						var Obj = jQuery(this);
+						jQuery.ajax({
+							type: 'POST',
+							url: '<?php echo admin_url('admin-ajax.php'); ?>',
+							data: {
+								action: 'rb_agency_save_favorite',
+								talentID: jQuery(this).attr("id")
+							},
+							success: function (results) {
+
+								if (results == 'error') {
+									Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
+								} else if (results == -1) {
+									Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\">You're not signed in.</span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
+									setTimeout(function () {
+										if (Obj.attr("class") == "save_favorite") {
+											Obj.fadeOut().empty().html("").fadeIn();
+											Obj.attr('title', 'Save to Favorites');
+											Obj.find("span").text('Add to Favorites');
+										} else {
+											Obj.fadeOut().empty().html("Favorited").fadeIn();
+											//Obj.attr('title', 'Remove from Favorites');
+											Obj.find("span").text('Remove from Favorites');
+										
+										}
+									}, 2000);
+								} else {
+									<?php
+									if (get_query_var('type') == "favorite"){?>
+										jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
+									<?php } else { ?>
+										if(layout_favorite == "00"){
+											if (Obj.hasClass("save_favorite") || (Obj.hasClass("favorited") && jQuery.trim(results)=="inserted") ) {
+												Obj.removeClass("save_favorite");
+												Obj.addClass("favorited");
+												Obj.attr('title', 'Remove from Favorites');
+												Obj.find("span").text('Remove from Favorites');
+											} else {
+												Obj.removeClass("favorited");
+												Obj.addClass("save_favorite");
+												Obj.attr('title', 'Add to Favorites');
+												Obj.find("span").text('Add to Favorites');
+											}
+										} else {
+											if (Obj.attr("class") == "save_favorite") {
+												Obj.empty().fadeOut().empty().html("").fadeIn();
+												Obj.attr("class", "favorited");
+												Obj.attr('title', 'Remove from Favorites');
+												Obj.text('REMOVE FROM FAVORITES')
+											} else {
+												Obj.empty().fadeOut().empty().html("").fadeIn();
+												Obj.attr('title', 'Save to Favorites');
+												jQuery(this).find("a[class=view_all_favorite]").remove();
+												Obj.attr("class", "save_favorite");
+												Obj.text('SAVE TO FAVORITES');
+											}
+										}
+								<?php } ?>
+								}
+							}
+						})
+					});
+				});
+				</script>
+				<!--END RB Agency Favorite -->
 
 		<!-- [class=profile-list-layout<?php echo (int)$rb_agency_option_layoutprofile; ?>]-->
 		<?php
@@ -471,6 +483,17 @@
 							<?php 
 							if (get_query_var('type') == "casting"){?>
 											jQuery("#rbprofile-"+Obj.attr("attr-id")).hide("slow",function(){jQuery("#rbprofile-"+Obj.attr("attr-id")).remove();});
+														var a = jQuery("#profile-results-info-countrecord .count-display");
+														var b = jQuery("#profile-results-info-countrecord .items-display");
+														var count = parseInt(a.text());
+														var item = parseInt(b.text());
+														var c = count - 1;
+														a.text(c);
+														var i = item - 1;
+														b.text(i);
+														if(c <=0 && i <= 0){
+															window.location.reload();
+														}
 						<?php } else { ?>
 								if(Obj.hasClass("inactive")){
 									Obj.attr("title","Remove from Casting Cart");
