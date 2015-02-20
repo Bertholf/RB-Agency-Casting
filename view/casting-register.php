@@ -22,8 +22,10 @@
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );	
 
-	function base64_url_decode($input) {
-		return base64_decode(strtr($input, '-_', '+/'));
+	if(!function_exists("base64_url_decode")){
+		function base64_url_decode($input) {
+			return base64_decode(strtr($input, '-_', '+/'));
+		}
 	}
 
 	/* If user registered, input info. */
@@ -255,8 +257,11 @@
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
 	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below. </p>";
-	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
-	echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
+	if(!$shortcode_register){
+		echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
+	}else{
+		echo "    <form method=\"post\" action=\"".get_page_link()."\">\n";
+	}echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_user_name\">". __("Username (required)",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo esc_html( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #rofile-username -->\n";
