@@ -146,7 +146,7 @@ function rb_manage_client($CastingID) {
 					$have_error = true;
 				}
 
-				if ( !email_exists($_POST['casting_email'])) {
+				if ( !is_email($_POST['casting_email'])) {
 					$error .= __("You must enter a valid email address.<br />", RBAGENCY_casting_TEXTDOMAIN);
 					$have_error = true;
 				}
@@ -185,7 +185,15 @@ function rb_manage_client($CastingID) {
 					$error .= __("Country is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 					$have_error = true;
 				}
-			
+				if ( !empty($_POST["CastingPassword"]) && !empty($_POST['CastingPasswordConfirm']) ) {
+					if ($_POST["CastingPassword"] == $_POST["CastingPasswordConfirm"] ) {
+						//wp_update_user( array( 'ID' => $current_user->ID, 'user_pass' => esc_attr( $ProfilePassword ) ) );
+					} else {
+						$have_error = true;
+						$error .= __("The passwords you entered do not match.  Your password was not updated.", RBAGENCY_interact_TEXTDOMAIN);
+					}
+				}
+						
 
 				// Bug Free!
 				if($have_error == false){
@@ -213,7 +221,35 @@ function rb_manage_client($CastingID) {
 					$update .= "CastingDateUpdated = now() WHERE CastingID = " . $_POST["CastingID"] ;
 					
 					$result = $wpdb->query($update);        
+					$ProfileUserLinked = $_POST["CastingUserLinked"];
+					$first_name = $_POST['casting_first_name'];
+					$last_name  = $_POST['casting_last_name'];
+					$ProfileContactEmail = $_POST['casting_email'];
+					$ProfilePassword = $_POST["CastingPassword"];
 					
+						if ($ProfileUserLinked > 0) {
+							if ($rb_agency_option_profilenaming == 0) { 
+							$CastingContactDisplay = $first_name . " ". $last_name;
+						} elseif ($rb_agency_option_profilenaming == 1) { 
+							$CastingContactDisplay = $first_name . " ". substr($last_name, 0, 1);
+						} elseif ($rb_agency_option_profilenaming == 2) { 
+							$error .= "<b><i>". __(LabelSingular ." must have a display name identified",RBAGENCY_casting_TEXTDOMAIN) . ".</i></b><br>";
+							$have_error = true;
+						} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
+							$CastingContactDisplay = "ID-". $new_user;
+						} elseif ($rb_agency_option_profilenaming == 4) {
+										$CastingContactDisplay = $first_name;
+						}
+											/* Update WordPress user information. */
+											update_user_meta($ProfileUserLinked, 'first_name', esc_attr($_POST['casting_first_name']));
+											update_user_meta($ProfileUserLinked, 'last_name', esc_attr($_POST['casting_last_name']));
+											update_user_meta($ProfileUserLinked, 'nickname', esc_attr($_POST['casting_conta']));
+											update_user_meta($ProfileUserLinked, 'display_name', esc_attr($ProfileContactDisplay));
+										
+											wp_update_user( array( 'ID' => $ProfileUserLinked, 'user_pass' => esc_attr( $ProfilePassword ),  'user_email' => esc_attr($ProfileContactEmail) ) );
+						
+					}
+
 					$error = '<div id="message" class="updated"><p>'. __("Client updated successfully!", RBAGENCY_casting_TEXTDOMAIN) .'</p></div>';
 					
 					
@@ -239,6 +275,11 @@ function rb_manage_client($CastingID) {
 
 				if (email_exists($_POST['casting_email'])) {
 					$error .= __("Your email is already registered.<br />", RBAGENCY_casting_TEXTDOMAIN);
+					$have_error = true;
+				}
+
+				if (username_exists($_POST['casting_login_name'])) {
+					$error .= __("Username already registered. Try another one.<br />", RBAGENCY_casting_TEXTDOMAIN);
 					$have_error = true;
 				}
 				
@@ -280,7 +321,12 @@ function rb_manage_client($CastingID) {
 				$first_name = $_POST['casting_first_name'];
 				$last_name  = $_POST['casting_last_name'];
 				$user_email = $_POST['casting_email'];
-				$user_pass  = wp_generate_password();
+				if(!isset($_POST["CastingPassword"])){
+					$user_pass  = wp_generate_password();
+				}else{
+					$user_pass = $_POST["CastingPassword"];
+				}
+				$user_login = $_POST["casting_login_name"];
 				
 
 
@@ -289,7 +335,7 @@ function rb_manage_client($CastingID) {
 					'first_name' => esc_attr( $first_name ),
 					'last_name' => esc_attr( $last_name ),
 					'user_email' => esc_attr( $user_email ),
-					'user_login' => esc_attr( $user_email ),
+					'user_login' => esc_attr( $user_login ),
 					'role' => get_option( 'default_role' )
 				);
 				// Bug Free!
@@ -394,10 +440,10 @@ function rb_manage_client($CastingID) {
 				// ****************************************************************************************** //
 				// Already logged in 
 
-			if (!empty( $error ) && $have_error == true ) {
+			if (!empty( $error ) ) {
 				echo "<div id=\"message\" class=\"error\">". $error ."</div>\n";
 			}
-			if(!empty($notice_updated)  && $have_error == false){
+			if(!empty($notice_updated) ){
 					echo "<div id=\"message\" class=\"error\">". $notice_updated."</div>\n";
 			}
 			echo "  <header class=\"entry-header\">";
@@ -532,9 +578,21 @@ function rb_manage_client($CastingID) {
 					echo "		</div>\n";
 					echo "  </div>\n";
 				}
+				echo "	<h3>". __("Login Settings", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
+					
+				
+					echo "       <div id=\"casting-login-name\" class=\"rbfield rbtext rbsingle\">\n";
+					echo "       	<label for=\"casting_login_name\">". __("Username", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+				if( $CastingID > 0 ){
+					 $user_info = get_userdata($data_r->CastingUserLinked);
+					echo "       	<div><input disabled class=\"text-input\" name=\"casting_login_name\" type=\"text\" id=\"casting_login_name\" value='". $user_info->user_login."' /></div>\n";
+				}else {
+					echo "       	<div><input class=\"text-input\" name=\"casting_login_name\" type=\"text\" id=\"casting_login_name\" value='".$data_r->CastingContactNamelogin."' /></div>\n";
+				}
+					echo "       </div><!-- #casting-login-name -->\n";
+				
 				if( $CastingID > 0 ){
 				
-					echo "	<h3>". __("Login Settings", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";		
 					echo "	<div id=\"rbprofile-password\" class=\"rbfield rbtext rbsingle\">\n";
 					echo "		<label>". __("Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 					echo "		<div>";
@@ -549,6 +607,15 @@ function rb_manage_client($CastingID) {
 					echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";	
 					echo "		</div>\n";
 					echo "	</div>\n";
+				}else{
+					echo "	<div id=\"rbprofile-password\" class=\"rbfield rbtext rbsingle\">\n";
+					echo "		<label>". __("Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+					echo "		<div>";
+					echo "			<input type=\"text\" id=\"CastingPassword\" name=\"CastingPassword\" />\n";
+					echo " 			<input type=\"button\" onclick=\"javascript:document.getElementById('CastingPassword').value=Math.random().toString(36).substr(2,6);\" value=\"Generate Password\" name=\"GeneratePassword\">";
+					echo "	 	</div>\n";
+					echo "	</div>\n";
+					
 				}
 			echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 			if( $CastingID <= 0 ){
@@ -559,6 +626,8 @@ function rb_manage_client($CastingID) {
 			echo "       	<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
 			echo "       	<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
 			echo "       	<input name=\"CastingID\" type=\"hidden\" id=\"action\" value=\"".$_GET["CastingID"]."\" />\n";
+			echo "       	<input name=\"CastingUserLinked\" type=\"hidden\" id=\"CastingUserLinked\" value=\"".$data_r->CastingUserLinked."\" />\n";
+			
 			}
 							// if ( current_user_can("create_users") ) {  _e("Add User", RBAGENCY_casting_TEXTDOMAIN); } else {  _e("Register", RBAGENCY_casting_TEXTDOMAIN); } echo "\" />\n";
 							
