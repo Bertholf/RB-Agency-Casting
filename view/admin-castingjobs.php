@@ -906,7 +906,7 @@ $siteurl = get_option('siteurl');
 												}
 								
 								if($total_casting_profiles <= 0){
-									echo "No profiles found.";
+									echo "No jobs found.";
 								}
 							
 							 echo "<div class=\"clear\"></div>";
@@ -1177,7 +1177,7 @@ $siteurl = get_option('siteurl');
 				echo "</form>\n";
 
 				if($count <= 0){
-					echo "No profiles found.";
+					echo "No jobs found.";
 				}
 				
 			  	  		echo "<div style=\"clear:both;\"></div>";
