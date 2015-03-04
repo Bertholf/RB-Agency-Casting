@@ -68,7 +68,7 @@ if(isset($_POST['save_job'])){
 			$date_start = strtotime($_POST['Job_Date_Start']);
 			$date_end = strtotime($_POST['Job_Date_End']);
 			if($date_start > $date_end){
-				$error .= __("Start Date cannot be greate than the End Date.<br />", RBAGENCY_casting_TEXTDOMAIN);
+				$error .= __("Start Date cannot be greater than the End Date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
 			} 
 		}
@@ -165,6 +165,10 @@ function load_job_display($error = NULL){
 				jQuery(document).ready(function(){
 						
 					jQuery( ".datepicker" ).datepicker();
+					jQuery(".datepicker").each(function() {    
+					    jQuery(this).datepicker("setDate", jQuery(this).val());
+					    console.log(jQuery(this).val());
+					});
 					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					jQuery("#Job_Visibility").change(function(){
 						if(jQuery(this).val() == 2){
@@ -190,10 +194,43 @@ function load_job_display($error = NULL){
 									hourGrid: 4,
 									minuteGrid: 10,
 									timeFormat: \'g:ia\' 
-								});
+					});
+
+					
 					
 				});
+				function ValidateForm(){
+					    jQuery(\'span.error_msg\').html(\'\');
+					    var success = true;
+					    jQuery("input,textarea,select").each(function()
+					        {
+					        	jQuery(this).next().hide();
+					            if(jQuery(this).val()=="")
+					            {
+					                jQuery(this).next().html("Please fill out this field.");
+					                jQuery(this).next().show();
+					                success = false;
+					            }
+					    });
+					    return success;
+				}
 		  </script>';
+			echo '<style type="text/css">
+					span.error_msg{ display:none; }
+					span.error_msg{
+						position: relative;
+						z-index: 1;
+						color: #CF4040;
+						margin-left: 0px;
+						margin-top: 2px;
+						display: block;
+						border: 1px solid rgb(215, 215, 215);
+						width: 30%;
+						padding: 2px 30px 1px;
+						background: #FFFAFA;
+						margin-bottom: 30px;
+					}
+			 </style>';
 
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
@@ -213,7 +250,7 @@ function load_job_display($error = NULL){
 		//===============================
 		//	table form
 		//===============================
-		echo " <form method='post' action=''>
+		echo " <form method='post' action='' onsubmit=\"return ValidateForm();\">
 					<table>
 						
 						<tr>
@@ -222,15 +259,15 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Title:</td>
-							<td><input type='text' name='Job_Title' value='".(isset($_POST['Job_Title'])?$_POST['Job_Title']:"")."'></td>
+							<td><input type='text' name='Job_Title' value='".(isset($_POST['Job_Title'])?$_POST['Job_Title']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
 						</tr>
 						<tr>
 							<td>Description:</td>
-							<td><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea></td>
+							<td><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
 						</tr>	
 						<tr>
 							<td>Offer:</td>
-							<td><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'></td>
+							<td><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
 						</tr>							
 						<tr>
 							<td><h3>Job Duration</h3></td><td></td>
@@ -239,12 +276,14 @@ function load_job_display($error = NULL){
 							<td>Date Start:</td>
 							<td>
 								<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
 								<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_POST['Job_Date_End'])?$_POST['Job_Date_End']:"")."'>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
@@ -252,11 +291,11 @@ function load_job_display($error = NULL){
 						</tr>
 						<tr>
 							<td>Location:</td>
-							<td><input type='text' name='Job_Location' value='".(isset($_POST['Job_Location'])?$_POST['Job_Location']:"")."'></td>
+							<td><input type='text' name='Job_Location' value='".(isset($_POST['Job_Location'])?$_POST['Job_Location']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
 						</tr>
 						<tr>
 							<td>Region:</td>
-							<td><input type='text' name='Job_Region' value='".(isset($_POST['Job_Region'])?$_POST['Job_Region']:"")."'></td>
+							<td><input type='text' name='Job_Region' value='".(isset($_POST['Job_Region'])?$_POST['Job_Region']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
 						</tr>
 						<tr>
 							<td><h3>Job Audition</h3></td><td></td>
@@ -265,24 +304,28 @@ function load_job_display($error = NULL){
 							<td>Date Start:</td>
 							<td>
 								<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_POST['Job_Audition_Date_Start'])?$_POST['Job_Audition_Date_Start']:"")."'>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
 							<td>Date End:</td>
 							<td>
 								<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_POST['Job_Audition_Date_End'])?$_POST['Job_Audition_Date_End']:"")."'>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
 							<td>Time:</td>
 							<td>
 								<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_POST['Job_Audition_Time'])?$_POST['Job_Audition_Time']:"")."'>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
 						<td>Venue:</td>
 							<td>
 								<textarea name='Job_Audition_Venue'>".(isset($_POST['Job_Audition_Venue'])?$_POST['Job_Audition_Venue']:"")."</textarea>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
@@ -302,6 +345,7 @@ function load_job_display($error = NULL){
 									}
 
 		 				echo "	</select>
+		 				<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
@@ -313,6 +357,7 @@ function load_job_display($error = NULL){
 									<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">Open to All</option>
 									<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">Matching Criteria</option>
 								</select>
+								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 							</td>
 						</tr>
 						<tr>
