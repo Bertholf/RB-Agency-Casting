@@ -17,7 +17,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 				jQuery("body").on('click','#asearch', function(){
 					window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
 				});
-				var htm = '<input class="button-primary" id="asearch" type="button" value="Advance Search">';
+				var htm = '<input class="button-primary" id="asearch" type="button" value="Advanced Search">';
 				jQuery('.rbsubmit').append(htm);
 			});
     </script>
