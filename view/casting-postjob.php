@@ -225,7 +225,7 @@ function load_job_display($error = NULL){
 						margin-top: 2px;
 						display: block;
 						border: 1px solid rgb(215, 215, 215);
-						width: 30%;
+						width: 100%;
 						padding: 2px 30px 1px;
 						background: #FFFAFA;
 						margin-bottom: 30px;
