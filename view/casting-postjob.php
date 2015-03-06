@@ -235,8 +235,10 @@ function load_job_display($error = NULL){
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
 
-		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
-		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
+		echo "	<div id=\"primary\" class=\"site-main ".fullwidth_class()." column\">\n"; ?>
+
+					<div id="content" role="main" <?php echo post_class(); ?>>
+	<?php
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">New Job Posting</h1>';
 		echo '			</header>';
