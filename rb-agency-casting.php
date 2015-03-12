@@ -542,7 +542,7 @@ class RBAgencyCasting {
 			function form($instance) {
 				$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 				$title = esc_attr($instance['title']);
-				$trendShowCount = esc_attr($instance['trendShowCount']);
+				$trendShowCount = isset($instance['trendShowCount'])?esc_attr($instance['trendShowCount']):"";
 				?>
 					<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 					<p><label for="<?php echo $this->get_field_id('trendShowCount'); ?>"><?php _e('Show Count:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('trendShowCount'); ?>" name="<?php echo $this->get_field_name('trendShowCount'); ?>" type="text" value="<?php echo $trendShowCount; ?>" /></label></p>
