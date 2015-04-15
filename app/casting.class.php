@@ -5,7 +5,6 @@ class RBAgency_Casting {
 	 * Casting Cart
 	 * Process Actions
 	 */
-	 
 
 		public static function cart_process(){
 
@@ -13,7 +12,6 @@ class RBAgency_Casting {
 			 * Setup Requirements
 			 */
 
-	
 			// Protect and defend the cart string!
 				$cartString = "";
 				$action = $_GET["action"];
