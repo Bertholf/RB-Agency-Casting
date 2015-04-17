@@ -109,8 +109,7 @@
 			
 			//header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");			
 
-		}
-	
+		}	
 	}
 
 
@@ -124,7 +123,7 @@
 	
 	echo $rb_header = RBAgency_Common::rb_header();
 	
-	echo "<div id=\"primary\" class=\"".(!empty($column_class)?$column_class:"")." column rb-agency-interact rb-agency-interact-register\">\n";
+	echo "<div id=\"primary\" class=\"rbcol-12 rbcolumn rbagency-casting manage\">\n";
 	echo "  <div id=\"content\">\n";
 
    
