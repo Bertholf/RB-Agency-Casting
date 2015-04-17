@@ -179,20 +179,20 @@ echo "			<div class=\"cb\"></div>\n";
 		               }else{
 		                    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
 		               }  
-		               echo "<form method=\"get\" action=\"\" style=\"float:left;width: 100%;\">";
-	                   echo "<select name=\"Job_ID\" style=\"width: 100%;\">";
+		               echo "<form method=\"get\" action=\"\" id=\"search-job\" class=\"search-form\">";
+	                   echo "<div id=\"field\"><select name=\"Job_ID\" style=\"width: 100%;\">";
 	                   echo "<option value=\"\">- Select a job-</option>";
 	                   foreach ($Jobs as $key) {
 	                    echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
 	                   }
-	                   echo "</select>";
-	                   echo "<input type=\"submit\" name=\"search\"  value=\"Search\"/>";
+	                   echo "</select></div>";
+	                   echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"Search\"/>";
 	                     if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
 		                 	echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 		                  }else{
 		                  	echo "<input type=\"button\" name=\"clear\" value=\"Back to Profile Casting\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 		                  }
-	                   echo "</form>";
+	                   echo "</div></form>";
 
 
 	                   if(isset($_POST["addtojob"])){
@@ -210,24 +210,24 @@ echo "			<div class=\"cb\"></div>\n";
 	                   if(isset($_POST["removefromjob"])){
 	                   	    $wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
 	                   }
-	                   echo "<div style=\"float:right;\">";
-	                    echo "<input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all&nbsp;";
+	                   echo "<div class=\"result-action\">";
+	                    echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
 		              
 	                   if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
-	                   	   echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"  style=\"float:right;\">";
+	                   	   echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"><div class=\"action\">";
 	                   	   echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s)\"/>";
 		                   echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
 		                   echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 		                   echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
-					       echo "</form>";
+					       echo "</div></form>";
 		               }
 	                   
 	                   if(isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])){
-	                   	 echo "<form method=\"post\" action=\"\"  style=\"float:right;\">";
+	                   	 echo "<form method=\"post\" action=\"\"><div class=\"action\">";
 		                 echo "<input type=\"submit\" name=\"removefromjob\"  value=\"Remove selected profile(s)\"/>";
 		               	 echo "<input type=\"hidden\" name=\"job_id\" value=\"".$_GET["Job_ID"]."\"/>";
 		               	 echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
-		                 echo "</form>";
+		                 echo "</div></form>";
 		                 echo "<style type=\"text/css\">.rb_profile_tool{display:none;}</style>";
 		                 
 		                 if($rb_agency_option_allowsendemail == 1){
