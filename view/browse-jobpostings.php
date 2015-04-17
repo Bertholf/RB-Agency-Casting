@@ -14,10 +14,7 @@ echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
 
-		echo "	<style>
-					table td{border:1px solid #CCC;padding:12px;}
-					table th{border:1px solid #CCC;padding:12px;}
-				</style>";
+	echo "<div id=\"content\">";
 
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 				echo "<p><h3>Job Postings</h3></p><br>";
@@ -80,7 +77,7 @@ if (is_user_logged_in()) {
 		</script>';
 		
 		// setup filter display
-		echo "<form method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";		
+		echo "<form id=\"jobposting-filter\" method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
 		echo "<tr>";
@@ -259,13 +256,14 @@ if (is_user_logged_in()) {
 		// for models
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
-		}		
+		}
+	echo "</div> <!-- #content -->";		
 		
 } else {
 	include ("include-login.php");
 }
 
-//get_sidebar(); 
+//get_footer(); 
 echo $rb_footer = RBAgency_Common::rb_footer(); 
 
 ?>
