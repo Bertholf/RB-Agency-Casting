@@ -1,7 +1,4 @@
 <?php
-
-
-
 global $wpdb;
 global $current_user;
 
@@ -174,14 +171,12 @@ jQuery(document).ready(function(){
 
 <?php
 if (is_user_logged_in()) { 
+
+	echo "<div id=\"content\">";
 	
 	// casting agents and admin only
 	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 	
-		echo "	<style>
-					table td{border:1px solid #CCC;padding:12px;}
-					table th{border:1px solid #CCC;padding:12px;}
-				</style>";
 		if ( current_user_can( 'edit_posts' ) ) {
 			echo "<p><h3>All Applicants to All Job Postings from Casting Agents</h3></p><br>";
 		} else {
@@ -288,7 +283,7 @@ if (is_user_logged_in()) {
 										  LIMIT " . $limit1 . "," . $record_per_page ;
 		
 		// setup filter display
-		echo "<form method='GET' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
+		echo "<form id=\"job-applicants-filter\" method='GET' action='".get_bloginfo('wpurl')."/view-applicants/'>";		
 		echo "<table style='margin-bottom:20px'>\n";
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
@@ -376,7 +371,7 @@ if (is_user_logged_in()) {
 		echo "</table>";		
 		echo "</form>";
 		
-		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
+		echo "<table cellspacing=\"0\" id=\"job-applicants\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\">Select<br><input type='checkbox' id='sel_all'></th>\n";
@@ -498,7 +493,7 @@ if (is_user_logged_in()) {
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
 		
-		echo "<br><div style=\"width:100%; margin-bottom:20px; clear:both; float:left;\">
+		echo "<br><div id=\"result-action\">
 				<select id='action_dropdown' style='float:left'>
 					<option value=''>-- Select Action --</option>
 					<option value='2'>Add/Remove to Casting Cart</option>";
@@ -511,7 +506,9 @@ if (is_user_logged_in()) {
 				</select>
 				<input type='button' id='action_submit' style='margin-left:12px; float:left' class='button-primary' value='Submit'>
 				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
-			  </div>\n";		
+			  </div>\n";
+
+			  echo "<div style=\"clear:both\">";
 		
 		if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
@@ -526,7 +523,7 @@ if (is_user_logged_in()) {
 		echo "<p><h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3></p><br>";	
 	
 	}
-
+	echo "</div> <!-- #content -->";
 } else {
 	include ("include-login.php");
 }
