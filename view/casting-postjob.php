@@ -235,7 +235,7 @@ function load_job_display($error = NULL){
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
 
-		echo "	<div id=\"primary\" class=\"site-main ".fullwidth_class()." column\">\n"; ?>
+		echo "	<div id=\"primary\" class=\"site-main rbcol-12 rbcolumn\">\n"; ?>
 
 					<div id="content" role="main" <?php echo post_class(); ?>>
 	<?php
@@ -252,131 +252,117 @@ function load_job_display($error = NULL){
 		//===============================
 		//	table form
 		//===============================
-		echo " <form method='post' action='' onsubmit=\"return ValidateForm();\">
-					<table>
-						
-						<tr>
-							<td><h3>Job Description</h3></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Title:</td>
-							<td><input type='text' name='Job_Title' value='".(isset($_POST['Job_Title'])?$_POST['Job_Title']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
-						</tr>
-						<tr>
-							<td>Description:</td>
-							<td><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
-						</tr>	
-						<tr>
-							<td>Offer:</td>
-							<td><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
-						</tr>							
-						<tr>
-							<td><h3>Job Duration</h3></td><td></td>
-						</tr>
-						<tr>
-							<td>Date Start:</td>
-							<td>
-								<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td>Date End:</td>
-							<td>
-								<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_POST['Job_Date_End'])?$_POST['Job_Date_End']:"")."'>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td><h3>Job Location</h3></td><td></td>
-						</tr>
-						<tr>
-							<td>Location:</td>
-							<td><input type='text' name='Job_Location' value='".(isset($_POST['Job_Location'])?$_POST['Job_Location']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
-						</tr>
-						<tr>
-							<td>Region:</td>
-							<td><input type='text' name='Job_Region' value='".(isset($_POST['Job_Region'])?$_POST['Job_Region']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></td>
-						</tr>
-						<tr>
-							<td><h3>Job Audition</h3></td><td></td>
-						</tr>
-						<tr>
-							<td>Date Start:</td>
-							<td>
-								<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_POST['Job_Audition_Date_Start'])?$_POST['Job_Audition_Date_Start']:"")."'>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td>Date End:</td>
-							<td>
-								<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_POST['Job_Audition_Date_End'])?$_POST['Job_Audition_Date_End']:"")."'>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td>Time:</td>
-							<td>
-								<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_POST['Job_Audition_Time'])?$_POST['Job_Audition_Time']:"")."'>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-						<td>Venue:</td>
-							<td>
-								<textarea name='Job_Audition_Venue'>".(isset($_POST['Job_Audition_Venue'])?$_POST['Job_Audition_Venue']:"")."</textarea>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td><h3>Job Criteria</h3></td><td></td>
-						</tr>
-						<tr>
-							<td>Type:</td>
-							<td>
-								<select id='Job_Type' name='Job_Type'>
-									<option value=''>-- Select Type --</option>";
+		echo " <form method='post' action='' onsubmit=\"return ValidateForm();\" class=\"rbform\">
+					<div class='rbfield rbtext rbsingle'>
+						<h3>Job Description</h3>
+						<label>Title:</label>
+						<div><input type='text' name='Job_Title' value='".(isset($_POST['Job_Title'])?$_POST['Job_Title']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
+					</div>
+					<div class='rbfield rbtextarea rbsingle'>
+						<label>Description:</label>
+						<div><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label>Offer:</label>
+						<div><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<h3>Job Duration</h3>						
+						<label>Date Start:</label>
+						<div>
+							<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label>Date End:</label>
+						<div>
+							<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_POST['Job_Date_End'])?$_POST['Job_Date_End']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<h3>Job Location</h3>
+						<label>Location:</label>
+						<div><input type='text' name='Job_Location' value='".(isset($_POST['Job_Location'])?$_POST['Job_Location']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label>Region:</label>
+						<div><input type='text' name='Job_Region' value='".(isset($_POST['Job_Region'])?$_POST['Job_Region']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<h3>Job Audition</h3>
+						<label>Date Start:</label>
+						<div>
+							<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_POST['Job_Audition_Date_Start'])?$_POST['Job_Audition_Date_Start']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label>Date End:</label>
+						<div>
+							<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_POST['Job_Audition_Date_End'])?$_POST['Job_Audition_Date_End']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label>Time:</label>
+						<div>
+							<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_POST['Job_Audition_Time'])?$_POST['Job_Audition_Time']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtextarea rbsingle'>
+					<label>Venue:</label>
+						<div>
+							<textarea name='Job_Audition_Venue'>".(isset($_POST['Job_Audition_Venue'])?$_POST['Job_Audition_Venue']:"")."</textarea>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbselect rbsingle'>
+						<h3>Job Criteria</h3>
+						<label>Type:</label>
+						<div>
+							<select id='Job_Type' name='Job_Type'>
+								<option value=''>-- Select Type --</option>";
 
-									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
-									if(count($get_job_type)){
-										foreach($get_job_type as $jtype){
-											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_POST['Job_Type'])?$_POST['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";
-										}
+								$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
+								if(count($get_job_type)){
+									foreach($get_job_type as $jtype){
+										echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_POST['Job_Type'])?$_POST['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";
 									}
+								}
 
 		 				echo "	</select>
-		 				<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td>Visibility:</td>
-							<td>
-								<select id='Job_Visibility' name='Job_Visibility'>
-									<option value=''>-- Select Type --</option>
-									<option value='0' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","0",false).">Invite Only</option>
-									<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">Open to All</option>
-									<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">Matching Criteria</option>
-								</select>
-								<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td id='criteria'></td>
-						</tr>	
-						<tr>
-							<td></td>
-							<td><input type='submit' name='save_job' value='Submit Job'></td>
-						</tr>		
-						<tr>
-							<td></td>
-							<td>
-								<p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>
-							</td>
-						</tr>		
-					</table>
+		 					<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label>Visibility:</label>
+						<div>
+							<select id='Job_Visibility' name='Job_Visibility'>
+								<option value=''>-- Select Type --</option>
+								<option value='0' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","0",false).">Invite Only</option>
+								<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">Open to All</option>
+								<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">Matching Criteria</option>
+							</select>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					<div class='rbfield rbtext rbsingle'>
+						<label></label>
+						<div id='criteria'></div>
+					</div>	
+					<div class='rbfield rbtext rbsingle'>
+						<label></label>
+						<div><input type='submit' name='save_job' value='Submit Job'></div>
+					</div>		
+					<div>
+						<label></label>
+						<div>
+							<p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>
+						</div>
+					</div>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
