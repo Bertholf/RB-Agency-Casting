@@ -204,7 +204,7 @@ function load_job_display($error = NULL){
 						if(jQuery(this).val()=="") {
 							jQuery(this).next().html("Please fill out this field.");
 							jQuery(this).next().show();
-							//success = false;
+							// success = false; // TODO: Restore
 						}
 					});
 					return success;
