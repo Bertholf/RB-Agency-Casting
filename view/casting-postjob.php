@@ -16,11 +16,11 @@ echo $rb_header = RBAgency_Common::rb_header();
 //===============================
 
 if(isset($_POST['save_job'])){
-	
+
 		// Error checking
 		$error = "";
 		$have_error = false;
-		$date_confirm = 0;		
+		$date_confirm = 0;
 		
 		if ( empty($_POST['Job_Title'])) {
 			$error .= __("Job Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
@@ -70,9 +70,9 @@ if(isset($_POST['save_job'])){
 			if($date_start > $date_end){
 				$error .= __("Start Date cannot be greater than the End Date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
-			} 
+			}
 		}
-	
+
 		if ( empty($_POST['Job_Location'])) {
 			$error .= __("Job Location is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -91,13 +91,13 @@ if(isset($_POST['save_job'])){
 		}
 
 		if(!$have_error){
-			
+
 			$sql_Insert = "INSERT INTO " . table_agency_casting_job ;
-			
+
 			$into = array();
 			$calues = array();
 			$criteria = array();
-			
+
 			//get string values
 			foreach($_POST as $key => $val){
 				if($key != "save_job"){
@@ -112,18 +112,18 @@ if(isset($_POST['save_job'])){
 							} else {
 								$n = trim($val);
 							}
-							
+
 							if($n != ""){
-								$criteria[] = substr($key,15) . "/" . $n ;  			
+								$criteria[] = substr($key,15) . "/" . $n ;
 							}
 						}
 					} else {
 						//Normal String
 						$into[] = $key;
 						$values[] = "'". trim($val) . "'";
-					} 
+					}
 				}
-			}	
+			}
 			$job_talents_hash = RBAgency_Common::generate_random_string(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria, Job_Talents_Hash, Job_Date_Created) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' ,'".$job_talents_hash."',Now())";
 		
@@ -142,16 +142,16 @@ if(isset($_POST['save_job'])){
 			echo "			<input type=\"hidden\" name=\"favorite\" value=\"1\"/>";
 			echo "  	</div><!-- #content -->\n"; // #content
 			echo "	</div><!-- #primary -->\n"; // #primary
-		
+
 		} else {
-		
-			load_job_display($error);	
-		
+
+			load_job_display($error);
+
 		}
-	
+
 } else {
-		
-	load_job_display();	
+
+	load_job_display();
 
 }
 echo $rb_footer = RBAgency_Common::rb_footer(); 
@@ -163,11 +163,11 @@ function load_job_display($error = NULL){
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 		echo '<script type="text/javascript">
 				jQuery(document).ready(function(){
-						
+
 					jQuery( ".datepicker" ).datepicker();
-					jQuery(".datepicker").each(function() {    
-					    jQuery(this).datepicker("setDate", jQuery(this).val());
-					    console.log(jQuery(this).val());
+					jQuery(".datepicker").each(function() {
+						jQuery(this).datepicker("setDate", jQuery(this).val());
+						console.log(jQuery(this).val());
 					});
 					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					jQuery("#Job_Visibility").change(function(){
@@ -195,26 +195,21 @@ function load_job_display($error = NULL){
 									minuteGrid: 10,
 									timeFormat: \'g:ia\' 
 					});
-
-					
-					
 				});
 				function ValidateForm(){
-					    jQuery(\'span.error_msg\').html(\'\');
-					    var success = true;
-					    jQuery("input,textarea,select").each(function()
-					        {
-					        	jQuery(this).next().hide();
-					            if(jQuery(this).val()=="")
-					            {
-					                jQuery(this).next().html("Please fill out this field.");
-					                jQuery(this).next().show();
-					                success = false;
-					            }
-					    });
-					    return success;
+					jQuery(\'span.error_msg\').html(\'\');
+					var success = true;
+					jQuery("input,textarea,select").each(function() {
+						jQuery(this).next().hide();
+						if(jQuery(this).val()=="") {
+							jQuery(this).next().html("Please fill out this field.");
+							jQuery(this).next().show();
+							//success = false;
+						}
+					});
+					return success;
 				}
-		  </script>';
+			</script>';
 			echo '<style type="text/css">
 					span.error_msg{ display:none; }
 					span.error_msg{
@@ -230,15 +225,13 @@ function load_job_display($error = NULL){
 						background: #FFFAFA;
 						margin-bottom: 30px;
 					}
-			 </style>';
+			</style>';
 
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
 
-		echo "	<div id=\"primary\" class=\"site-main rbcol-12 rbcolumn\">\n"; ?>
-
-					<div id="content" role="main" <?php echo post_class(); ?>>
-	<?php
+		echo "	<div id=\"primary\" class=\"site-main rbcol-12 rbcolumn\">\n";
+		echo "<div id=\"content\" role=\"main\"";?><?php echo post_class(); ?><?php echo ">\n";
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">New Job Posting</h1>';
 		echo '			</header>';
@@ -267,7 +260,7 @@ function load_job_display($error = NULL){
 						<div><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<h3>Job Duration</h3>						
+						<h3>Job Duration</h3>
 						<label>Date Start:</label>
 						<div>
 							<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
@@ -325,16 +318,14 @@ function load_job_display($error = NULL){
 						<div>
 							<select id='Job_Type' name='Job_Type'>
 								<option value=''>-- Select Type --</option>";
-
 								$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
 								if(count($get_job_type)){
 									foreach($get_job_type as $jtype){
 										echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,isset($_POST['Job_Type'])?$_POST['Job_Type']:"",false).">".$jtype->Job_Type_Title."</option>";
 									}
 								}
-
-		 				echo "	</select>
-		 					<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						echo "	</select>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
@@ -352,11 +343,11 @@ function load_job_display($error = NULL){
 					<div class='rbfield rbtext rbsingle'>
 						<label></label>
 						<div id='criteria'></div>
-					</div>	
+					</div>
 					<div class='rbfield rbtext rbsingle'>
 						<label></label>
 						<div><input type='submit' name='save_job' value='Submit Job'></div>
-					</div>		
+					</div>
 					<div>
 						<label></label>
 						<div>
@@ -367,22 +358,22 @@ function load_job_display($error = NULL){
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
-		echo "  	</div><!-- #content -->\n"; // #content
+		echo "		</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
 
 	} else {
 
 		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
-		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
+		echo "		<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">You are not permitted to access this page.</h1>';
 		echo '			</header>';
 		if(!is_user_logged_in()){
 			require_once("include-login.php");
 		}
-		echo "  	</div><!-- #content -->\n"; // #content
+		echo "		</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
-	
+
 	}
 }
 
