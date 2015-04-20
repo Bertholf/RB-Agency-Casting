@@ -131,7 +131,7 @@
 	* @Returns links
 	/*/
 	function rb_agency_get_miscellaneousLinks($ProfileID = ""){
-		
+
 		global $wpdb;
 		rb_agency_checkExecution();
 
@@ -144,18 +144,17 @@
 				$dataFavorite = $queryFavorite; 
 				$countFavorite = $wpdb->num_rows;
 				if($countFavorite <= 0){
-						$disp .= "    <div class=\"favorite\"><a title=\"Save to Favorites\" rel=\"nofollow\" href=\"javascript:;\" class=\"save_favorite\" id=\"".$ProfileID."\"></a></div>\n";
+					$disp .= "    <div class=\"favorite\"><a title=\"Save to Favorites\" rel=\"nofollow\" href=\"javascript:;\" class=\"save_favorite\" id=\"".$ProfileID."\"></a></div>\n";
 				}else{
-						$disp .= "<div class=\"favorite\"><a rel=\"nofollow\" title=\"Remove from Favorites\" href=\"javascript:;\" class=\"favorited\" id=\"".$ProfileID."\"></a></div>\n";
+					$disp .= "<div class=\"favorite\"><a rel=\"nofollow\" title=\"Remove from Favorites\" href=\"javascript:;\" class=\"favorited\" id=\"".$ProfileID."\"></a></div>\n";
 				}
-
 			}
 		}
 
 		if (is_permitted('casting')) {
 			if(!empty($ProfileID)){
 				$queryCastingCart = $wpdb->get_row("SELECT cart.CastingCartTalentID as cartID FROM ".table_agency_castingcart."  cart WHERE ".rb_agency_get_current_userid()." = cart.CastingCartProfileID AND cart.CastingCartTalentID = '".$ProfileID."' ",ARRAY_A);
-				$dataCastingCart = $queryCastingCart; 
+				$dataCastingCart = $queryCastingCart;
 				$countCastingCart = $wpdb->num_rows;
 				if($countCastingCart <=0){
 						$disp .= "<div class=\"castingcart\"><a title=\"Add to Casting Cart\" href=\"javascript:;\" id=\"".$ProfileID."\"  class=\"save_castingcart\"></a></div></li>";

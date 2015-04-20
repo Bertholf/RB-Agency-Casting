@@ -154,7 +154,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 							<div id="emailbox" style="display:none;">
 								<form method="post" enctype="multipart/form-data" action="">
-									<input type="hidden" name="action" value="cartEmail" />	   
+									<input type="hidden" name="action" value="cartEmail" />
 									<div class="field"><label for="SearchMuxToName">Sender Name:</label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
 									<div class="field"><label for="SearchMuxToEmail">Sender Email:</label><br/><input type="email" id="SearchMuxToEmail" name="SearchMuxToEmail" value="" required/></div>
 									<div class="field"><label for="SearchMuxSubject">Subject:</label><br/><input type="text" id="SearchMuxSubject" name="SearchMuxSubject" value="Casting Cart" required></div>
@@ -195,19 +195,19 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					echo "</div></form>";
 
 					if(isset($_POST["addtojob"])){
-							$data = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID ='".$_POST["job_id"]."' ");
-							$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
-							wp_redirect(get_bloginfo("url")."/profile-casting/?Job_ID=".$_POST["job_id"]);
+						$data = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID ='".$_POST["job_id"]."' ");
+						$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						wp_redirect(get_bloginfo("url")."/profile-casting/?Job_ID=".$_POST["job_id"]);
 					}
 
 					if(isset($_POST["removefromcart"])){
 
-							$wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						$wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
 						echo "<div class=\"\">Succesfully removed.</div>";
 					}
 
 					if(isset($_POST["removefromjob"])){
-							$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
 					}
 					echo "<div class=\"result-action\">";
 						echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
@@ -242,7 +242,6 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					echo "<div style=\"clear:both;\"></div>";
 
 					if(isset($_POST["inviteprofiles"])){
-
 						$cartString = $_POST["shortlistprofiles"];
 						$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
 						$job_hash = $wpdb->get_row("SELECT Job_Talents_Hash FROM ".table_agency_casting_job." WHERE Job_ID = '".$_GET["Job_ID"]."' ");
@@ -308,7 +307,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						<div>
 						Message:<br/>
 							<p>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </p>
-								
+
 						<textarea name="message" style="width:100%;height:200px;">Add your message here...
 							[shortlisted-link-placeholder]
 						</textarea>
