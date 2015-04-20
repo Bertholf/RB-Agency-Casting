@@ -101,7 +101,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "sendEmailCastingCart"){
 
 	$isSent = wp_mail($SearchMuxToEmail, $SearchMuxSubject, $SearchMuxMessage, $headers);
 	if($isSent){
-		wp_redirect(network_site_url()."/profile-casting-cart/?emailSent");  exit;	
+		wp_redirect(network_site_url()."/profile-casting-cart/?emailSent");  exit;
 	}
 }
 
@@ -154,7 +154,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 							<div id="emailbox" style="display:none;">
 								<form method="post" enctype="multipart/form-data" action="">
-									<input type="hidden" name="action" value="cartEmail" />	      
+									<input type="hidden" name="action" value="cartEmail" />	   
 									<div class="field"><label for="SearchMuxToName">Sender Name:</label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
 									<div class="field"><label for="SearchMuxToEmail">Sender Email:</label><br/><input type="email" id="SearchMuxToEmail" name="SearchMuxToEmail" value="" required/></div>
 									<div class="field"><label for="SearchMuxSubject">Subject:</label><br/><input type="text" id="SearchMuxSubject" name="SearchMuxSubject" value="Casting Cart" required></div>
@@ -165,129 +165,127 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 									<div class="field submit">
 										<input type="hidden" name="action" value="sendEmailCastingCart" />
 										<input type="submit" name="submit" value="Send Email" class="button-primary" /> 
-									</div>      
+									</div>
 								</form>
 							</div>
-	<?php 
-	echo "				</div>\n";
-	echo "			</div>\n";
+					<?php 
+					echo "				</div>\n";
+					echo "			</div>\n";
 
-echo "			<div class=\"cb\"></div>\n";
-                   if(is_user_logged_in()){
-                   	   if(current_user_can("edit_posts")){
-                   	   	    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ");
-		               }else{
-		                    $Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
-		               }  
-		               echo "<form method=\"get\" action=\"\" id=\"search-job\" class=\"search-form\">";
-	                   echo "<div id=\"field\"><select name=\"Job_ID\" style=\"width: 100%;\">";
-	                   echo "<option value=\"\">- Select a job-</option>";
-	                   foreach ($Jobs as $key) {
-	                    echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
-	                   }
-	                   echo "</select></div>";
-	                   echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"Search\"/>";
-	                     if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
-		                 	echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
-		                  }else{
-		                  	echo "<input type=\"button\" name=\"clear\" value=\"Back to Profile Casting\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
-		                  }
-	                   echo "</div></form>";
+				echo "			<div class=\"cb\"></div>\n";
+				if(is_user_logged_in()){
+					if(current_user_can("edit_posts")){
+							$Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ");
+					}else{
+							$Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
+					}  
+					echo "<form method=\"get\" action=\"\" id=\"search-job\" class=\"search-form\">";
+					echo "<div id=\"field\"><select name=\"Job_ID\" style=\"width: 100%;\">";
+					echo "<option value=\"\">- Select a job-</option>";
+					foreach ($Jobs as $key) {
+						echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
+					}
+					echo "</select></div>";
+					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"Search\"/>";
+						if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
+							echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
+						}else{
+							echo "<input type=\"button\" name=\"clear\" value=\"Back to Profile Casting\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
+						}
+					echo "</div></form>";
 
+					if(isset($_POST["addtojob"])){
+							$data = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID ='".$_POST["job_id"]."' ");
+							$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+							wp_redirect(get_bloginfo("url")."/profile-casting/?Job_ID=".$_POST["job_id"]);
+					}
 
-	                   if(isset($_POST["addtojob"])){
-	                   	     $data = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID ='".$_POST["job_id"]."' ");
-	                   	     $wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
-	                  	      wp_redirect(get_bloginfo("url")."/profile-casting/?Job_ID=".$_POST["job_id"]);
-	                   }
+					if(isset($_POST["removefromcart"])){
 
-	                   if(isset($_POST["removefromcart"])){
+							$wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						echo "<div class=\"\">Succesfully removed.</div>";
+					}
 
-	                   	    $wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
-	                  	   echo "<div class=\"\">Succesfully removed.</div>";
-	                   }
+					if(isset($_POST["removefromjob"])){
+							$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+					}
+					echo "<div class=\"result-action\">";
+						echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
 
-	                   if(isset($_POST["removefromjob"])){
-	                   	    $wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
-	                   }
-	                   echo "<div class=\"result-action\">";
-	                    echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
-		              
-	                   if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
-	                   	   echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"><div class=\"action\">";
-	                   	   echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s)\"/>";
-		                   echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
-		                   echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
-		                   echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
-					       echo "</div></form>";
-		               }
-	                   
-	                   if(isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])){
-	                   	 echo "<form method=\"post\" action=\"\"><div class=\"action\">";
-		                 echo "<input type=\"submit\" name=\"removefromjob\"  value=\"Remove selected profile(s)\"/>";
-		               	 echo "<input type=\"hidden\" name=\"job_id\" value=\"".$_GET["Job_ID"]."\"/>";
-		               	 echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
-		                 echo "</div></form>";
-		                 echo "<style type=\"text/css\">.rb_profile_tool{display:none;}</style>";
-		                 
-		                 if($rb_agency_option_allowsendemail == 1){
+					if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
+						echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"><div class=\"action\">";
+						echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s)\"/>";
+						echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
+						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
+						echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
+						echo "</div></form>";
+					}
+
+					if(isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])){
+						echo "<form method=\"post\" action=\"\"><div class=\"action\">";
+						echo "<input type=\"submit\" name=\"removefromjob\"  value=\"Remove selected profile(s)\"/>";
+						echo "<input type=\"hidden\" name=\"job_id\" value=\"".$_GET["Job_ID"]."\"/>";
+						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
+						echo "</div></form>";
+						echo "<style type=\"text/css\">.rb_profile_tool{display:none;}</style>";
+
+						if($rb_agency_option_allowsendemail == 1){
 							echo "<input type=\"button\" name=\"inviteprofiles\"  id=\"inviteprofiles\" value=\"[+]Invite Profiles\"/>";
-			             }elseif($rb_agency_option_allowsendemail == 2){
+						}elseif($rb_agency_option_allowsendemail == 2){
 							echo "<input type=\"button\" name=\"checkavailability\"  id=\"checkavailability\" value=\"[+]Check Availability\"/>";
-			             }
-		                 
-		            	}
-		            	echo "</div>";
-		               
-					}	
+						}
+
+						}
+						echo "</div>";
+
+					}
 					echo "<div style=\"clear:both;\"></div>";
-					
+
 					if(isset($_POST["inviteprofiles"])){
 
-									$cartString = $_POST["shortlistprofiles"];
-						            $results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
-									$job_hash = $wpdb->get_row("SELECT Job_Talents_Hash FROM ".table_agency_casting_job." WHERE Job_ID = '".$_GET["Job_ID"]."' ");
-									foreach($results as $mobile){
+						$cartString = $_POST["shortlistprofiles"];
+						$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
+						$job_hash = $wpdb->get_row("SELECT Job_Talents_Hash FROM ".table_agency_casting_job." WHERE Job_ID = '".$_GET["Job_ID"]."' ");
+						foreach($results as $mobile){
 
-										$user_hash_record = $wpdb->get_row("SELECT * FROM ".table_agency_castingcart_profile_hash." WHERE CastingProfileHashProfileID = '".$mobile["ProfileID"]."' AND CastingProfileHashJobID = '".$job_hash->Job_Talents_Hash."'");
-										$has_hash = $wpdb->num_rows;
-										if($has_hash <= 0){
-											$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-											$sql = "INSERT INTO ".table_agency_castingcart_profile_hash." VALUES(
-											'',
-											'".$job_hash->Job_Talents_Hash."',
-											'".$mobile["ProfileID"]."',
-											'".$hash_profile_id."')";
-											$wpdb->query($sql);
+							$user_hash_record = $wpdb->get_row("SELECT * FROM ".table_agency_castingcart_profile_hash." WHERE CastingProfileHashProfileID = '".$mobile["ProfileID"]."' AND CastingProfileHashJobID = '".$job_hash->Job_Talents_Hash."'");
+							$has_hash = $wpdb->num_rows;
+							if($has_hash <= 0){
+								$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+								$sql = "INSERT INTO ".table_agency_castingcart_profile_hash." VALUES(
+								'',
+								'".$job_hash->Job_Talents_Hash."',
+								'".$mobile["ProfileID"]."',
+								'".$hash_profile_id."')";
+								$wpdb->query($sql);
 
-											RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$hash_profile_id,$_POST["message"]);
-											RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$hash_profile_id,$_POST["message"]);
-										}else{
-											RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
-											RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
-										}
-									}
-										echo "<p id=\"emailSent\">Invitation Sent Succesfully!</p>";
-					
+								RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$hash_profile_id,$_POST["message"]);
+								RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$hash_profile_id,$_POST["message"]);
+							}else{
+								RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
+								RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
+							}
+						}
+							echo "<p id=\"emailSent\">Invitation Sent Succesfully!</p>";
 					}
 					if($rb_agency_option_allowsendemail == 1){
 						?>
 						<div id="inviteprofilesForm" style="display:none;">
-						  <strong>Invite Profiles</strong>
-						  <form method="post" action="">
-						  <div>
-						  	Message:<br/>
-						  		<p>(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job) </p>
+						<strong>Invite Profiles</strong>
+						<form method="post" action="">
+						<div>
+							Message:<br/>
+								<p>(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job) </p>
 									
 								<textarea name="message" style="width:100%;height:200px;">Add your message here...
 								Click this link to view Job details: [casting-job-url]	
 								</textarea>
-						  	<br/>
-						  	<input type="submit" name="inviteprofiles" value="Send" />
-						  	<input type="hidden" name="shortlistprofiles" value=""/>
-		                 
-						  	</div>
-						  </form>
+							<br/>
+							<input type="submit" name="inviteprofiles" value="Send" />
+							<input type="hidden" name="shortlistprofiles" value=""/>
+						
+							</div>
+						</form>
 						</div>
 						<?php 
 					}elseif($rb_agency_option_allowsendemail == 2){
@@ -296,33 +294,33 @@ echo "			<div class=\"cb\"></div>\n";
 						$message = $_POST["message"];
 						$link = admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$_GET["Job_ID"]);
 						$data_job = $wpdb->get_row("SELECT  casting.*, job.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as casting ON casting.CastingUserLinked = job.Job_UserLinked WHERE job.Job_ID ='".$_GET["Job_ID"]."' ");
-	                    RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
+						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
 						echo "<p id=\"emailSent\">Email Sent Succesfully!</p>";
 					}
 					?>
 
 					<div id="checkavailabilityForm" style="display:none;">
-					  <strong>Check Availability</strong>
-					  <form method="post" action="">
-					  	<div>
-					  	Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
-					  	</div>
-					  	<div>
-					  	Message:<br/>
-					  		<p>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </p>
+					<strong>Check Availability</strong>
+					<form method="post" action="">
+						<div>
+						Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
+						</div>
+						<div>
+						Message:<br/>
+							<p>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </p>
 								
-					  	<textarea name="message" style="width:100%;height:200px;">Add your message here...
-							[shortlisted-link-placeholder]	
-					  	</textarea>
-					  	<br/>
-					  	<input type="submit" name="checkavailability" value="Send" />
-					  	</div>
-					  </form>
-					 </div>
+						<textarea name="message" style="width:100%;height:200px;">Add your message here...
+							[shortlisted-link-placeholder]
+						</textarea>
+						<br/>
+						<input type="submit" name="checkavailability" value="Send" />
+						</div>
+					</form>
+					</div>
 					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
- 
+
 					<?php
-					if (class_exists('RBAgency_Profile')) { 
+					if (class_exists('RBAgency_Profile')) {
 						echo "<div id=\"profile-casting-list\">";
 						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
 						$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($atts);
@@ -330,27 +328,25 @@ echo "			<div class=\"cb\"></div>\n";
 						if($rb_agency_option_allowsendemail == 1){
 							$castingcart =  true;
 							echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type, $castingcart);
-						}else{
+						} else {
 							echo $search_results = RBAgency_Profile::search_results($search_sql_query, $view_type);
 						}
 						echo "</div>";
-					}elseif(!is_user_logged_in()) {
+					} elseif(!is_user_logged_in()) {
 						echo "<div id=\"profile-casting-list\">";
 						echo "Please <a href=\"". get_bloginfo("url")."/casting-login/?lastviewed=".get_bloginfo("url")."/profile-casting/?Job_ID=".$wpdb->prepare("%d",$_GET["Job_ID"])."\" style=\"color:##3E85D1 !important;\">login</a> to view the profile(s).";
 						echo "</div>";
 					}
-					
 
 					if(isset($_GET["emailSent"])) {
 						echo "<p id=\"emailSent\">Email Sent Succesfully! Go Back to <a href=\"". get_bloginfo("url")."/search/\">Search</a>.</p>";
 					}
-				
 
 echo "			<div class=\"cb\"></div>\n";
 
 if(is_user_logged_in()){
-	echo "<p style=\"width:50%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a> | \n";		
-	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";		
+	echo "<p style=\"width:50%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a> | \n";
+	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";
 }
 
 echo "			<input type=\"hidden\" name=\"castingcart\" value=\"1\"/>";
@@ -358,47 +354,46 @@ echo "  	</div>\n";
 echo "  </div>\n";
 ?>
 <script type="text/javascript">
-  jQuery(document).ready(function(){
-	 				 var arr = [];
-                 	 var arr_casting = [];
-	                 	
-	                 jQuery("input[name=selectallprofiles]").change(function(){
-	                 		var ischecked = jQuery(this).is(':checked');
-	                 		jQuery("#profile-casting-list #profile-list  input[name^=profileid]").each(function(){
-	                 			if(ischecked){
-	                 			 jQuery(this).removeAttr("checked");
-	                 			 jQuery(this).prop("checked",true);
-	                 			 arr.push(jQuery(this).val());
-	                 			}else{
-	                 		     jQuery(this).prop("checked",true);
-	                 		     jQuery(this).removeAttr("checked");
-	                 			 arr = [];
-								}
-							});
-	                 		jQuery("input[name=shortlistprofiles]").val(arr.toString());
-	                 });
-	                 jQuery("select[name=Job_ID]").change(function(){
-	                 		jQuery("input[name=job_id][type=hidden]").val(jQuery(this).val());
-	                 });
-	                  jQuery("#profile-casting-list #profile-list input[name^=profileid]").click(function(){
-					             	Array.prototype.remove = function(value) {
-									  var idx = this.indexOf(value);
-									  if (idx != -1) {
-									      return this.splice(idx, 1); 
-									  }
-									  return false;
-									}
-		             				if(jQuery(this).is(':checked')){
-		                 				arr.push(jQuery(this).val());
-		                 			}else{
-		                 				arr.remove(jQuery(this).val());
-		                 			}
-		                 		
-		                 		jQuery("input[name=shortlistprofiles]").val(arr.toString());
-		             });
- });
+	jQuery(document).ready(function(){
+		var arr = [];
+		var arr_casting = [];
+			
+		jQuery("input[name=selectallprofiles]").change(function(){
+				var ischecked = jQuery(this).is(':checked');
+				jQuery("#profile-casting-list #profile-list  input[name^=profileid]").each(function(){
+					if(ischecked){
+					jQuery(this).removeAttr("checked");
+					jQuery(this).prop("checked",true);
+					arr.push(jQuery(this).val());
+					}else{
+					jQuery(this).prop("checked",true);
+					jQuery(this).removeAttr("checked");
+					arr = [];
+					}
+				});
+				jQuery("input[name=shortlistprofiles]").val(arr.toString());
+		});
+		jQuery("select[name=Job_ID]").change(function(){
+				jQuery("input[name=job_id][type=hidden]").val(jQuery(this).val());
+		});
+		jQuery("#profile-casting-list #profile-list input[name^=profileid]").click(function(){
+				Array.prototype.remove = function(value) {
+				var idx = this.indexOf(value);
+				if (idx != -1) {
+					return this.splice(idx, 1); 
+				}
+				return false;
+				}
+				if(jQuery(this).is(':checked')){
+					arr.push(jQuery(this).val());
+				}else{
+					arr.remove(jQuery(this).val());
+				}
+			jQuery("input[name=shortlistprofiles]").val(arr.toString());
+		});
+	});
 </script>
 
-<?php	  
+<?php
 echo $test = RBAgency_Common::rb_footer(); 
 ?>

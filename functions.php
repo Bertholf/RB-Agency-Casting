@@ -4,11 +4,10 @@
 
 /*	add_action('admin_head', 'rb_agency_casting_admin_head');
 		function rb_agency_casting_admin_head(){
-		  if( is_admin() ) {
+		if( is_admin() ) {
 			echo "<link rel=\"stylesheet\" href=\"". rb_agency_casting_BASEDIR ."style/admin.css\" type=\"text/css\" media=\"screen\" />\n";
-		  }
+		}
 		}*/
-	
 
 	// Remember to flush_rules() when adding rules
 	// Todo: Remove lines below. Causes permalink incompatibility with other plugins such as woocommerce
@@ -93,7 +92,7 @@
 			}
 			return $template;
 		}
-	
+
 	function get_state_json(){
 		global $wpdb;
 		$states=array();
@@ -101,28 +100,28 @@
 		$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID='".$country."'";
 		$result_query_get = $wpdb->get_results($query_get);
 		echo json_encode($result_query_get);
-		die();	
+		die();
 	}
 	add_action('wp_ajax_get_state_json', 'get_state_json');
 	add_action('wp_ajax_nopriv_get_state_json', 'get_state_json');
-	
-   /*
-	* rate applicant
-	*/
-	
+
+	/*
+	 * rate applicant
+	 */
+
 	function rate_applicant(){
-		
+
 		global $wpdb;
-		
+
 		$application_id = $_POST['application_id'];
 		$rating = $_POST['clients_rating'];
-		
+
 		$update = "UPDATE " . table_agency_casting_job_application .
-		          " SET Job_Client_Rating = " . $rating . " WHERE Job_Application_ID = " . $application_id;
-		
-		$wpdb->query($update);		  
-		
-		die();	
+				" SET Job_Client_Rating = " . $rating . " WHERE Job_Application_ID = " . $application_id;
+
+		$wpdb->query($update);
+
+		die();
 	}
 	add_action('wp_ajax_rate_applicant', 'rate_applicant');
 	add_action('wp_ajax_rate_applicant', 'rate_applicant');
@@ -132,8 +131,8 @@
 	* @Returns links
 	/*/
 	function rb_agency_get_miscellaneousLinks($ProfileID = ""){
-	    
-	    global $wpdb;
+		
+		global $wpdb;
 		rb_agency_checkExecution();
 
 		$disp = "";
@@ -180,20 +179,17 @@
 	/*/
 	function rb_agency_get_new_miscellaneousLinks($ProfileID = ""){
 
-		 global $user_ID, $wpdb;
-	    
+		global $user_ID, $wpdb;
+
 		$rb_agency_options_arr 				= get_option('rb_agency_options');
 		$rb_agency_option_profilelist_favorite		= isset($rb_agency_options_arr['rb_agency_option_profilelist_favorite']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_favorite'] : 0;
 		$rb_agency_option_profilelist_castingcart 	= isset($rb_agency_options_arr['rb_agency_option_profilelist_castingcart']) ? (int)$rb_agency_options_arr['rb_agency_option_profilelist_castingcart'] : 0;
 		rb_agency_checkExecution();
 		$castingcart_results = array();
-		  $favorites_results = array();
+		$favorites_results = array();
 
+		$disp = "";
 
-			
-		    $disp = "";		
-		
-   
 		if ($rb_agency_option_profilelist_favorite) {
 			//Execute query - Favorite Model
 			if(!empty($ProfileID)){
@@ -208,43 +204,40 @@
 			}
 		}
 
-	
-
 		$arr_castingcart = array();
 		foreach ($castingcart_results as $key) {
-					array_push($arr_castingcart, $key->CastingCartTalentID);
+			array_push($arr_castingcart, $key->CastingCartTalentID);
 		}
 
 		$arr_favorites = array();
 		foreach ($favorites_results  as $key) {
-					array_push($arr_favorites, $key->SavedFavoriteTalentID);
+			array_push($arr_favorites, $key->SavedFavoriteTalentID);
 		}
 
-		 $displayActions = "";  
-		 $displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
+		$displayActions = "";  
+		$displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
 
 		if(rb_get_casting_profileid() > 0 || current_user_can("manage_options")){
-		       		
-		    if ($rb_agency_option_profilelist_favorite) {
+
+			if ($rb_agency_option_profilelist_favorite) {
 				$displayActions .= "<div id=\"profile-favorite\" class=\"rbbtn-group\">";
-		        $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")."</span></a>";
-		       // $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
-		        $displayActions .= "</div>";
-		    }
-		    if ($rb_agency_option_profilelist_castingcart) {
+				$displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")."</span></a>";
+				// $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
+				$displayActions .= "</div>";
+			}
+			if ($rb_agency_option_profilelist_castingcart) {
 					$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
-		            $displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
-		          //  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
-		            $displayActions .= "</div>";
-		    }
+					$displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
+				//  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
+					$displayActions .= "</div>";
+			}
 		}
-	            $displayActions .= "</div>";
-	  
-	    	
+				$displayActions .= "</div>";
+
 			if(isset($is_model_or_talent) && $is_model_or_talent > 0){
 				$displayActions .= "<div class=\"rb-goback-link\"><a href=\"".get_bloginfo("url")."/casting-dashboard/\">Go Back to My Dashboard</a></div>";
 			}
-		
+
 		$disp = $displayActions;
 
 
@@ -254,7 +247,7 @@
 				$disp .= "<div class=\"newcastingcart\"><a title=\"Add to Casting Cart\" href=\"javascript:;\" id=\"".$ProfileID."\"  class=\"save_castingcart\">ADD TO CASTING CART</a></div></li>";
 			} else {
 				if(get_query_var('type')=="casting"){ //hides profile block when icon is click
-				 	$divHide="onclick=\"javascript:document.getElementById('div$ProfileID').style.display='none';\"";
+					$divHide="onclick=\"javascript:document.getElementById('div$ProfileID').style.display='none';\"";
 				}
 				$disp .= "<div class=\"gotocastingcard\"><a ".(isset($divHide)?$divHide:"")." href=\"". get_bloginfo("wpurl") ."/profile-casting/\"  title=\"Go to Casting Cart\">VIEW CASTING CART</a></div>";
 			}
@@ -276,8 +269,8 @@
 
 
 	/* 
-	 * Profile Favorite Front End
-	 */
+	* Profile Favorite Front End
+	*/
 	function rb_agency_save_favorite() {
 		global $wpdb;
 		if(is_user_logged_in()){
@@ -433,8 +426,8 @@
 	add_action('wp_ajax_rb_agency_save_favorite', 'rb_agency_save_favorite');
 
 	/* 
-	 * Profile Casting Front End
-	 */
+	* Profile Casting Front End
+	*/
 
 		function rb_agency_save_castingcart() {
 			global $wpdb;
@@ -574,7 +567,7 @@
 							})
 						});
 				});	
-			 </script>
+			</script>
 		<?php
 		}
 
@@ -616,20 +609,20 @@
 
 
 	/*/
-	 *  Fix form post url for multi language.
+	*  Fix form post url for multi language.
 	/*/
 /*
 	function rb_agency_casting_postURILanguage($request_URI){
-	     if(!in_array(substr($_SERVER['REQUEST_URI'],1,2), array("en","nl"))){
+		if(!in_array(substr($_SERVER['REQUEST_URI'],1,2), array("en","nl"))){
 			if (function_exists('trans_getLanguage')) {
-				 if(qtrans_getLanguage()=='nl') {
+				if(qtrans_getLanguage()=='nl') {
 					return "/".qtrans_getLanguage();
 				
 				} elseif(qtrans_getLanguage()=='en') {
 					return "/".qtrans_getLanguage();
 				}
-			 }
-	    }
+			}
+		}
 	}
 	*/
 
@@ -638,13 +631,13 @@
 
 	// Make Directory for new profile
 /*     function rb_agency_casting_checkdir($ProfileGallery){
-	      	
+			
 			if (!is_dir(RBAGENCY_UPLOADPATH . $ProfileGallery)) {
 				mkdir(RBAGENCY_UPLOADPATH . $ProfileGallery, 0755);
 				chmod(RBAGENCY_UPLOADPATH . $ProfileGallery, 0777);
 			}
 			return $ProfileGallery;
-     }*/
+	}*/
 
 
 
@@ -683,9 +676,9 @@
 
 
 		/**
-		 * Switch casting-login sidebars to widget
-		 *
-		 */
+		* Switch casting-login sidebars to widget
+		*
+		*/
 		function rb_castinglogin_widgets_init() {
 			register_sidebar( array(
 					'name' => 'RB Agency Casting: Login Sidebar',
@@ -699,9 +692,9 @@
 		add_action( 'widgets_init', 'rb_castinglogin_widgets_init' );
 
 
-        function rb_agency_casting_jobs(){
-        	include_once(dirname(__FILE__) .'/view/admin-castingjobs.php');
-        }
+		function rb_agency_casting_jobs(){
+			include_once(dirname(__FILE__) .'/view/admin-castingjobs.php');
+		}
 
 
 ?>
