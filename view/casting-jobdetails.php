@@ -16,6 +16,8 @@
 	wp_enqueue_script('jquery_latest');
 
 	echo $rb_header = RBAgency_Common::rb_header();
+
+	echo "<div id=\"content\">";
    
 	if (is_user_logged_in()) { 	
 	
@@ -41,7 +43,8 @@
 			 </script>";
 			
 		echo "<p><h2>Job Details</h2><p><br>";	
-		 global $wpdb;
+		
+		global $wpdb;
 	
 		//fetch data from database
 		$data_r = $wpdb->get_results("SELECT * FROM ". table_agency_casting_job . " WHERE Job_ID = " . $job_id);
@@ -127,28 +130,23 @@
 						echo "</tr>	";	
 						
 					 echo "<table>";
-			}
-			
+			}			
 			
 			// for models
 			if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) && !current_user_can( 'edit_posts' )){
 				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 			}				
 
+		} else {			
+			echo "<p>Job doesn't exist</p>";
 		}
-		else{
-				echo "<p>Job doesn't exist</p>";
-			}
-
 		
 	} else {
 		include ("include-login.php");
 	}
-	
-	
+
+	echo "</div><!-- #content -->";
+
 	//get_sidebar(); 
 	echo $rb_footer = RBAgency_Common::rb_footer(); 
-
-
-
 ?>

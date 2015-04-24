@@ -132,7 +132,7 @@
 			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
 				$CastingContactDisplay = "ID ". $ProfileID;
 			} elseif ($rb_agency_option_profilenaming == 4) {
-							$CastingContactDisplay = $first_name;
+				$CastingContactDisplay = $first_name;
 			}
 			
 			// Create Record
@@ -190,9 +190,7 @@
 			if(isset($login)){
 				header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
 			}
-		}
-
-	
+		}	
 	}
 
 
@@ -208,7 +206,6 @@
 	
 	echo "<div id=\"primary\" class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"content\">\n";
-
    
 		// ****************************************************************************************** //
 		// Already logged in 
@@ -220,7 +217,6 @@
 				//printf( __("You are logged in as <a href="%1$s" title="%2$s">%2$s</a>.  You don\'t need another account.',RBAGENCY_casting_TEXTDOMAIN), get_author_posts_url( $curauth->ID ), $user_identity );
 	echo "		 <a href=\"". wp_logout_url( get_permalink() ) ."\" title=\"". __("Log out of this account",RBAGENCY_casting_TEXTDOMAIN) ."\">". __("Log out",RBAGENCY_casting_TEXTDOMAIN) ." &raquo;</a>\n";
 	echo "    </p><!-- .alert -->\n";
-
 
 		} elseif ( isset($new_user) ) {
 
@@ -259,18 +255,19 @@
 	echo "	  <p class=\"rbform-description\">To Join Our Team please complete the application below. </p>";
 	if(!$shortcode_register){
 		echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
-	}else{
+	} else {
 		echo "    <form method=\"post\" action=\"".get_page_link()."\">\n";
-	}echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
+	}
+	echo "       <div id=\"casting-username\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "       	<label for=\"casting_user_name\">". __("Username (required)",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 	echo "       	<div><input class=\"text-input\" name=\"casting_user_name\" type=\"text\" id=\"casting_user_name\" value=\""; if ( $error ) echo esc_html( $_POST['casting_user_name'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #rofile-username -->\n";
 
 	if ($rb_agencyinteract_option_registerconfirm == 1) {
-	echo "       <div id=\"casting-password\" class=\"rbfield rbpassword rbsingle\">\n";
-	echo "       	<label for=\"casting_password\">". __("Password (required)",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo esc_html( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
-	echo "       </div><!-- #casting-password -->\n";
+		echo "       <div id=\"casting-password\" class=\"rbfield rbpassword rbsingle\">\n";
+		echo "       	<label for=\"casting_password\">". __("Password (required)",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+		echo "       	<div><input class=\"text-input\" name=\"casting_password\" type=\"password\" id=\"casting_password\" value=\""; if ( $error ) echo esc_html( $_POST['casting_password'], 1 ); echo "\" /></div>\n";
+		echo "       </div><!-- #casting-password -->\n";
 	}
 
 	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
@@ -330,14 +327,12 @@
 				$result_query_get = array();
 				
 				if(isset($_POST['CastingCountry']) && !empty($_POST['CastingCountry'])){
-						$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " . $_POST['CastingCountry'] ;
-						$result_query_get = $wpdb->get_results($query_get);
-				
+					$query_get ="SELECT * FROM ".table_agency_data_state." WHERE CountryID = " . $_POST['CastingCountry'] ;
+					$result_query_get = $wpdb->get_results($query_get);				
 				}
 				echo '<select name="CastingState" id="CastingState">';
 				echo '<option value="">'. __("Select state", rbagency_TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
-
 						echo '<option value='.$r->StateID.' '.selected($_POST['CastingState'],$r->StateID,false).' >'.$r->StateTitle.'</option>';
 					}
 				echo '</select>';

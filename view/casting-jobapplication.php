@@ -18,8 +18,8 @@
 
 	$get_checkapplied = $wpdb->get_results($check_applied,ARRAY_A);
 	$count = $wpdb->num_rows;
-	if($count <= 0){
-			   	
+
+	if($count <= 0){		   	
 
 		// message
 		$remarks = "";
@@ -39,9 +39,9 @@
 				
 				// get precentage
 				if(preg_match("/\|/", $_GET['Job_Criteria'])){
-					 $count = count(explode("|", $_GET['Job_Criteria']));
+					$count = count(explode("|", $_GET['Job_Criteria']));
 				} else {
-					 $count = 1;
+					$count = 1;
 				}
 				$res = ( $Job_Criteria_Passed / $count ) * 100;
 				$percentage = round($res); 
@@ -79,7 +79,7 @@
 							   (Job_ID, Job_UserLinked, Job_Criteria_Passed,Job_Criteria_Details,Job_Criteria_Percentage, Job_Pitch) VALUES
 							   (".$job_id.",". $current_user->ID .",".$Job_Criteria_Passed.",'".$Job_Criteria_Details."',".$percentage.",'".$job_pitch."')";
 					
-					$id = $wpdb->query($insert);	
+					$id = $wpdb->query($insert);
 					if($id > 0){
 						$Message  = "Hi ".$Job->CastingContactDisplay.",\n\n";
 						$Message .= "You have a new applicant for the job ".$Job->Job_Title.".\n\n";
@@ -92,14 +92,11 @@
 						echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   
 						echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 					}
-				
-
-				}else{
+				} else {
 					echo "You've already applied to this Job.";
 				}
 			
-				echo $rb_footer = RBAgency_Common::rb_footer(); 	
-				
+				echo $rb_footer = RBAgency_Common::rb_footer();
 				
 		} else {
 	
@@ -109,8 +106,10 @@
 			wp_enqueue_script('jquery_latest');
 		
 			echo $rb_header = RBAgency_Common::rb_header();
+
+			echo "<div id=\"content\">";
 		
-			if (is_user_logged_in()) { 	
+			if (is_user_logged_in()) {
 		
 				echo "<style>
 						.jobdesc{margin-left:20px; width:150px; padding:10px 0px 10px 30px;}
@@ -155,6 +154,7 @@
 				include ("include-login.php");
 		
 			}
+			echo "</div><!-- #content -->";
 		
 		} 
 		
@@ -162,14 +162,13 @@
 
 	} else {
 
-			echo $rb_header = RBAgency_Common::rb_header();
-			
-			echo "<p>You already applied for this job.</p>";   
-			echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   			
-			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
-	
-			echo $rb_footer = RBAgency_Common::rb_footer(); 	  
+		echo $rb_header = RBAgency_Common::rb_header();
+		
+		echo "<p>You already applied for this job.</p>";   
+		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>";   			
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+
+		echo $rb_footer = RBAgency_Common::rb_footer(); 	  
 
 	}
-
 ?>
