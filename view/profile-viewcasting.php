@@ -277,24 +277,40 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								<p>(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job) </p>
 									
 								<textarea name="message" style="width:100%;height:200px;">Add your message here...
-								Click this link to view Job details: [casting-job-url]	
+								Click this link to view Job details: [casting-job-url]
 								</textarea>
 							<br/>
 							<input type="submit" name="inviteprofiles" value="Send" />
 							<input type="hidden" name="shortlistprofiles" value=""/>
-						
+
 							</div>
 						</form>
 						</div>
 						<?php 
 					}elseif($rb_agency_option_allowsendemail == 2){
-					
+
 					if(isset($_POST["checkavailability"])){
+						// Prepre Message
 						$message = $_POST["message"];
+
+						// Define Link to Casting
 						$link = admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$_GET["Job_ID"]);
+						// Get the Job ID
 						$data_job = $wpdb->get_row("SELECT  casting.*, job.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as casting ON casting.CastingUserLinked = job.Job_UserLinked WHERE job.Job_ID ='".$_GET["Job_ID"]."' ");
+						// Send Email
 						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
-						echo "<p id=\"emailSent\">Email Sent Succesfully!</p>";
+
+						if ($_POST["email_bcc"]) {
+							$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
+							$headers[] = 'MIME-Version: 1.0';
+							$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+							$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+							$isSent = wp_mail($_POST["email_bcc"], $rb_agency_value_agencyname.": Check availability", $Message, $headers);
+							echo "<p id=\"emailSent\">BCC Email Sent to ". $_POST["email_bcc"] .".</p>";
+						}
+
+						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
+						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
 					}
 					?>
 
@@ -302,17 +318,17 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					<strong>Check Availability</strong>
 					<form method="post" action="">
 						<div>
-						Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
+							Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
 						</div>
 						<div>
-						Message:<br/>
-							<p>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </p>
-
-						<textarea name="message" style="width:100%;height:200px;">Add your message here...
-							[shortlisted-link-placeholder]
-						</textarea>
-						<br/>
-						<input type="submit" name="checkavailability" value="Send" />
+							BCC: <input type="text" name="email_bcc" />
+						</div>
+						<div>
+							Message:
+							<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
+							<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
+							<br/>
+							<input type="submit" name="checkavailability" value="Send" />
 						</div>
 					</form>
 					</div>

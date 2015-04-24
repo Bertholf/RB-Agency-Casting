@@ -2,15 +2,15 @@
 class RBAgency_Casting {
 
 	/*
-	 * Casting Cart
-	 * Process Actions
-	 */
+	* Casting Cart
+	* Process Actions
+	*/
 
 		public static function cart_process(){
 
 			/*
-			 * Setup Requirements
-			 */
+			* Setup Requirements
+			*/
 
 			// Protect and defend the cart string!
 				$cartString = "";
@@ -61,9 +61,9 @@ class RBAgency_Casting {
 
 
 	/*
-	 * Casting Cart - Add to Cart
-	 * @return str $cartString
-	 */
+	* Casting Cart - Add to Cart
+	* @return str $cartString
+	*/
 
 		public static function cart_process_add(){
 
@@ -94,9 +94,9 @@ class RBAgency_Casting {
 
 
 	/*
-	 * Casting Cart - Remove from Cart
-	 * @return str $cartString
-	 */
+	* Casting Cart - Remove from Cart
+	* @return str $cartString
+	*/
 
 		public static function cart_process_remove($id){
 
@@ -119,8 +119,8 @@ class RBAgency_Casting {
 
 
 	/*
-	 * Show Casting Cart
-	 */
+	* Show Casting Cart
+	*/
 
 		public static function cart_show(){
 			global $wpdb;
@@ -195,8 +195,8 @@ class RBAgency_Casting {
 
 
 	/*
-	 * Casting Cart - Send Email Process
-	 */
+	* Casting Cart - Send Email Process
+	*/
 
 		public static function cart_send_process(){
 			
@@ -270,8 +270,8 @@ class RBAgency_Casting {
 				$profileimage .= "<img style=\"max-width:130px; max-height:150px; \" src=\"".RBAGENCY_UPLOADDIR ."". $data2['ProfileGallery'] ."/". $data2['ProfileMediaURL'] ."\" /></a>";
 				$profileimage .= "</div>\n";
 				$profileimage .= "</div>\n";
-			  }
-			 $profileimage .="</div></p>";
+			 }
+			$profileimage .="</div></p>";
 			
 			// Mail it
 			$headers[]  = 'MIME-Version: 1.0';
@@ -292,28 +292,28 @@ class RBAgency_Casting {
 						$headers[] = 'Bcc: '.$bcc;
 				}
 			}
-			 $MassEmailMessage = str_replace("[link-place-holder]",site_url()."/client-view/".$SearchMuxHash."<br/><br/>".$profileimage ."<br/><br/>",$MassEmailMessage);
-			 $MassEmailMessage	= str_ireplace("[site-url]",get_bloginfo("url"),$MassEmailMessage);
-			 $MassEmailMessage	= str_ireplace("[site-title]",get_bloginfo("name"),$MassEmailMessage);
-			 $isSent = wp_mail($MassEmailRecipient, $MassEmailSubject, $MassEmailMessage, $headers);
-			 $url = admin_url('admin.php?page=rb_agency_searchsaved&m=1');
+			$MassEmailMessage = str_replace("[link-place-holder]",site_url()."/client-view/".$SearchMuxHash."<br/><br/>".$profileimage ."<br/><br/>",$MassEmailMessage);
+			$MassEmailMessage	= str_ireplace("[site-url]",get_bloginfo("url"),$MassEmailMessage);
+			$MassEmailMessage	= str_ireplace("[site-title]",get_bloginfo("name"),$MassEmailMessage);
+			$isSent = wp_mail($MassEmailRecipient, $MassEmailSubject, $MassEmailMessage, $headers);
+			$url = admin_url('admin.php?page=rb_agency_searchsaved&m=1');
 			if($isSent){?>
 			<script type="text/javascript"> 
 				window.location="<?php echo $url;?>";
 			</script>
 			<?php 
 			}
-			 return $isSent;
+			return $isSent;
 
 		}
 
 	/*
-	 * Form to Send Casting Cart
-	 */
+	* Form to Send Casting Cart
+	*/
 
 		public static function cart_send_form(){
 		
-		 global $wpdb;
+		global $wpdb;
 		/*if(isset($_POST["SendEmail"])){
 				// Process Form
 				$isSent = RBAgency_Casting::cart_send_process();
@@ -380,8 +380,8 @@ class RBAgency_Casting {
 
 
 		/*
-		 * check if user is a casting agent
-		 */
+		* check if user is a casting agent
+		*/
 		public static function rb_is_user_casting(){
 
 				global $wpdb;
@@ -407,8 +407,8 @@ class RBAgency_Casting {
 
 
 		/*
-		 * get job type name thru id
-		 */
+		* get job type name thru id
+		*/
 		public static function rb_get_job_type_name($id=NULL){
 			
 			global $wpdb;
@@ -427,8 +427,8 @@ class RBAgency_Casting {
 
 
 		/*
-		 * expan string criteria to readable format
-		 */
+		* expan string criteria to readable format
+		*/
 		public static function rb_get_job_criteria( $criteria = NULL , $return_array = false){
 			
 			global $wbdp;
@@ -481,8 +481,8 @@ class RBAgency_Casting {
 		}
 
 		/*
-		 * expan string criteria to readable format
-		 */
+		* expan string criteria to readable format
+		*/
 
 		public static function rb_get_custom_name($id=NULL){
 
@@ -502,9 +502,9 @@ class RBAgency_Casting {
 
 
 		/*
-		 * process criteria passed by model
-		 */
-		 public static function rb_get_job_criteria_passed($user_linked = NULL, $custom_criteria = NULL){
+		* process criteria passed by model
+		*/
+		public static function rb_get_job_criteria_passed($user_linked = NULL, $custom_criteria = NULL){
 
 			global $wpdb;
 			
@@ -541,10 +541,10 @@ class RBAgency_Casting {
 		}
 		
 		/*
-		 * check if user is model / talent
-		 * can also be used to return any column in table
-		 * just assign it in the parameter $field_name
-		 */
+		* check if user is model / talent
+		* can also be used to return any column in table
+		* just assign it in the parameter $field_name
+		*/
 		public static function rb_casting_ismodel($user_linked = NULL, $field_name = NULL, $name = false){
 
 			global $wpdb;
@@ -570,8 +570,8 @@ class RBAgency_Casting {
 		}
 
 		/*
-		 * check if user is casting agent
-		 */
+		* check if user is casting agent
+		*/
 		public static function rb_casting_is_castingagent($user_linked = NULL){
 
 			global $wpdb;
@@ -675,33 +675,34 @@ class RBAgency_Casting {
 
 			return $actual_criteria_passed;
 		}
-		
+
+
 		/*
-		 * get custom field values
-		 */
+		* get custom field values
+		*/
 		public static function load_custom_types($data = NULL){
-			
+
 				global $wpdb;
-				
+
 				$dat = explode("|",$data);
 				
 				$custom_fields = array();
 				if(count($dat) > 0){
 					foreach($dat as $d){
 						$x = explode("/",$d);
-						$custom_fields[$x[0]] = isset($x[1])?$x[1]:""; 						
-					}				
+						$custom_fields[$x[0]] = isset($x[1])?$x[1]:"";
+					}
 				}
-				
+
 				return $custom_fields;
-		
+
 		}
-		
+
 		/*
-		 * actual loading of criteria fields
-		 */
-		 public static function load_criteria_fields($data = NULL){
-			 
+		* actual loading of criteria fields
+		*/
+		public static function load_criteria_fields($data = NULL){
+			
 				global $wpdb;
 				$rb_agency_options_arr = get_option('rb_agency_options');
 					// What is the unit of measurement?
@@ -718,9 +719,9 @@ class RBAgency_Casting {
 							if (!validationRegex.test(text.value)) {
 								alert('Please enter only numbers.');
 							}
-						}	  
-					  </script>";
-			   
+						}	 
+					 </script>";
+			
 
 					$field_sql = "SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomView = 0 ORDER BY ProfileCustomOrder ASC";
 			
@@ -730,8 +731,8 @@ class RBAgency_Casting {
 									$custom_fields["age"] = @implode("-",$custom_fields["age"]);
 				}
 
-				 $list_value = isset($custom_fields["age"])?$custom_fields["age"]:"";
-				 @list($min_val,$max_val) =  @explode("-",$list_value);
+				$list_value = isset($custom_fields["age"])?$custom_fields["age"]:"";
+				@list($min_val,$max_val) =  @explode("-",$list_value);
 
 				echo "<div class=\"rbfield rbmulti rbmetric rbsingle profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
 				echo "<label for=\"ProfileCustomIDage\">Age</label>";
@@ -777,24 +778,23 @@ class RBAgency_Casting {
 					$ProfileCustomShowSearch = $data['ProfileCustomShowSearch'];
 					$ProfileCustomShowSearchSimple = $data['ProfileCustomShowSearchSimple']; 
 
-					
 						/* Field Type 
-						 * 1 = Single Line Text
-						 * 2 = Min / Max (Depreciated)
-						 * 3 = Dropdown
-						 * 4 = Textbox
-						 * 5 = Checkbox
-						 * 6 = Radiobutton
-						 * 7 = Metric
-						 *     1 = Inches
-						 *     2 = Pounds
-						 *     3 = Feet/Inches
-						 */
+						* 1 = Single Line Text
+						* 2 = Min / Max (Depreciated)
+						* 3 = Dropdown
+						* 4 = Textbox
+						* 5 = Checkbox
+						* 6 = Radiobutton
+						* 7 = Metric
+						*     1 = Inches
+						*     2 = Pounds
+						*     3 = Feet/Inches
+						*/
 
 
 						/*
-						 * Single Text Line
-						 */
+						* Single Text Line
+						*/
 
 						if($ProfileCustomType == 1) {
 								echo "<div class=\"rbfield rbtext rbsingle profilecustomid_". $ProfileCustomID ."\" attrid=\"". $ProfileCustomID ."\" id=\"profilecustomid_". $ProfileCustomID ."\">";
@@ -806,8 +806,8 @@ class RBAgency_Casting {
 								echo "</div>";
 
 						/*
-						 * Min Max
-						 */
+						* Min Max
+						*/
 						} elseif($ProfileCustomType == 2) {
 
 								echo "<div class=\"rbfield rbminmax rbtext rbsingle profilecustomid_". $ProfileCustomID ."\" attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
@@ -844,8 +844,8 @@ class RBAgency_Casting {
 							echo "</div>";
 
 						/*
-						 * Dropdown
-						 */
+						* Dropdown
+						*/
 						} elseif($ProfileCustomType == 3 || $ProfileCustomType == 9 ) {
 								echo "<div class=\"rbfield rbselect rbsingle profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 								echo "	<label for=\"ProfileCustomID". $ProfileCustomID ."\">". $ProfileCustomTitle ."</label>";
@@ -872,8 +872,8 @@ class RBAgency_Casting {
 
 
 						/*
-						 * Textbox
-						 */
+						* Textbox
+						*/
 						} elseif($ProfileCustomType == 4) {
 							/*
 							TODO: Should we search text inside of text area?
@@ -884,8 +884,8 @@ class RBAgency_Casting {
 							*/
 
 						/*
-						 * Checkbox
-						 */
+						* Checkbox
+						*/
 						} elseif($ProfileCustomType == 5) {
 								echo "<fieldset class=\"rbfield rbcheckbox rbmulti profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 								echo "<legend>". $ProfileCustomTitle ."</legend>";
@@ -918,8 +918,8 @@ class RBAgency_Casting {
 								echo "</fieldset>";
 
 						/*
-						 * Radio Button
-						 */
+						* Radio Button
+						*/
 						} elseif($ProfileCustomType == 6) {
 								echo "<fieldset class=\"rbfield rbradio rbmulti profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 								echo "<legend>". $ProfileCustomTitle ."</legend>";
@@ -948,19 +948,19 @@ class RBAgency_Casting {
 										}
 									}
 								}
-								echo "<input type=\"hidden\" value=\"\" name=\"ProfileCustomID". $ProfileCustomID ."[]\"/>";	       
+								echo "<input type=\"hidden\" value=\"\" name=\"ProfileCustomID". $ProfileCustomID ."[]\"/>";	    
 								echo "</div>";
 								echo "</fieldset>";
 
 						/*
-						 * Metric
-						 */
+						* Metric
+						*/
 						} elseif($ProfileCustomType == 7) {
 								echo "<fieldset class=\"rbfield rbmetric rbmulti profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 
 							/*
-							 * Measurement Label
-							 */
+							* Measurement Label
+							*/
 
 								$measurements_label = "";
 
@@ -988,8 +988,8 @@ class RBAgency_Casting {
 								echo "<legend>". $ProfileCustomTitle . $measurements_label ."</legend>";
 
 							/*
-							 * Handle Array
-							 */
+							* Handle Array
+							*/
 
 								// Is Array?
 								if(isset($custom_fields[$ProfileCustomID]) && is_array($custom_fields[$ProfileCustomID])){
@@ -1056,710 +1056,681 @@ class RBAgency_Casting {
 									echo "</div>";
 								}
 							echo "</fieldset>";
-
-					
 					}
 
 				}
-			 die();
-		 
-		 }
-		 
-		 /*
-		  * get model details
-		  */
-		  public static function rb_casting_get_model_details($id = NULL){
-			   
-			   global $wpdb;
-			   
-			   if($id == NULL) return "";
-			   
-			   $get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $id);	 
+			die();
 
-			   if(count($get_name) > 0){
-					return $get_name;  
-			   }	
-			   
-			   return "";
-		  
-		  }
+		}
 
-		 /*
-		  * display pagination
-		  */
-		  public static function rb_casting_paginate($link = NULL, $table = NULL, $where = NULL, $count_per_page = NULL, $selected_page = 0 ){
-			   
-			   global $wpdb;
-			   
-			   if(($link == NULL || $link == "") || 
-			      ($table == NULL || $table == "" ) ||
-				  ($count_per_page == NULL || $count_per_page == "")) return "";
-			   $results = $wpdb->get_row("SHOW TABLES LIKE '".$table."'");
-                 $count = $wpdb->num_rows;
-			   if($count == 1) { 
-				   
-				   if(!empty($where) && $where != "" && $where != NULL){
-				   		$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table . " " . $where, ARRAY_A);	 
-				   } else {
-				   		$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table, ARRAY_A);	 
-				   }
-				   
-				   $total = $get_row_count;
-				   
-				   $ceiling = ceil($total["total"] / $count_per_page);
-				   
-				   if($ceiling > 1){
-					    
+		/*
+		 * get model details
+		 */
+		public static function rb_casting_get_model_details($id = NULL){
+
+			global $wpdb;
+
+			if($id == NULL) return "";
+
+			$get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $id);	
+
+			if(count($get_name) > 0){
+					return $get_name;
+			}
+
+			return "";
+
+		}
+
+		/*
+		 * display pagination
+		 */
+		public static function rb_casting_paginate($link = NULL, $table = NULL, $where = NULL, $count_per_page = NULL, $selected_page = 0 ){
+
+			global $wpdb;
+
+			if(($link == NULL || $link == "") || 
+				($table == NULL || $table == "" ) ||
+				($count_per_page == NULL || $count_per_page == "")) return "";
+			$results = $wpdb->get_row("SHOW TABLES LIKE '".$table."'");
+				$count = $wpdb->num_rows;
+			if($count == 1) { 
+
+				if(!empty($where) && $where != "" && $where != NULL){
+						$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table . " " . $where, ARRAY_A);	
+				} else {
+						$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table, ARRAY_A);	
+				}
+
+				$total = $get_row_count;
+
+				$ceiling = ceil($total["total"] / $count_per_page);
+
+				if($ceiling > 1){
+
 						echo "<div style='padding:12px;'>";
-						
+
 						if(($ceiling - $selected_page) != ($ceiling - 1) && ($selected_page != 0)){
-					    	echo "<a href='".$link.($selected_page-1)."' style='margin:12px'>prev</a>";
+							echo "<a href='".$link.($selected_page-1)."' style='margin:12px'>prev</a>";
 						}
-						
-				   		echo "<select name='paginate_page' style='width:100px' onchange='window.location.href= this.options[this.selectedIndex].value'>";
-						  	  
-							  for($x = 1; $x <= $ceiling; $x++){
-							  		echo "<option value='".$link.$x."' ".selected($x,$selected_page,false).">".$x."</option>";
-							  }
-							  	
+
+						echo "<select name='paginate_page' style='width:100px' onchange='window.location.href= this.options[this.selectedIndex].value'>";
+
+							for($x = 1; $x <= $ceiling; $x++){
+									echo "<option value='".$link.$x."' ".selected($x,$selected_page,false).">".$x."</option>";
+							}
+
 						echo "</select>";
-			
+
 						if(($ceiling - $selected_page) != 0){
 							if($selected_page == 0 or $selected_page == ""){
 								$next_link = 2; 
-					    	} else {
+							} else {
 								$next_link = $selected_page + 1; 
-					    	}
+							}
 							echo "<a href='".$link.$next_link."' style='margin:12px'>next</a>";
 						}
-						
+
 						echo "</div>";
+
+				}
+
+			}
+
+			return "";
+		}
+
+		/*
+		 * get percentage passed
+		 */
+		public static function rb_casting_get_percentage_passed($Job_ID=NULL, $Job_Criteria_Passed=NULL){
 			
-				   }
-		  	   
-			   }
-		  
-			   return "";
-		  
-		  }
-		  
-		  /*
-		   * get percentage passed
-		   */
-		   public static function rb_casting_get_percentage_passed($Job_ID=NULL, $Job_Criteria_Passed=NULL){
-			   
-			   global $wpdb;
-			   
-			   if($Job_ID == NULL || $Job_ID == 0 || $Job_ID == "") return "";
-			   
-			   if($Job_Criteria_Passed == NULL || $Job_Criteria_Passed == "") return "";
-			   
-			   $get_criteria = $wpdb->get_row("SELECT Job_Criteria FROM " . table_agency_casting_job . " WHERE Job_ID = " . $Job_ID);
-			   
-			   if(count($get_criteria) > 0){
-			   		
-					 if(preg_match("/\|/", $get_criteria->Job_Criteria)){
-						 $count = count(explode("|", $get_criteria->Job_Criteria));
-					 } else {
-						 $count = 1;
-					 }
-
-					 $res = ( $Job_Criteria_Passed / $count ) * 100;
-					 $res = round($res); 
-					 return " or " . $res . "% Matched";	
-
-			   }	   
-
-			   return "";	
-		   
-		   }
-
-		  /*
-		   * update data for applicants when criteria was changed from clients end
-		   */
-		   public static function rb_update_applicant_data($criteria = NULL, $JobID = NULL){
-			   
-			   global $wpdb;
-			   
-			   if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
-			   
-			   if(self::rb_get_job_visibility($JobID) == 2){
-			   
-				   if($criteria == NULL || $criteria == "" || empty($criteria)) return "";
+			global $wpdb;
+			
+			if($Job_ID == NULL || $Job_ID == 0 || $Job_ID == "") return "";
+			
+			if($Job_Criteria_Passed == NULL || $Job_Criteria_Passed == "") return "";
+			
+			$get_criteria = $wpdb->get_row("SELECT Job_Criteria FROM " . table_agency_casting_job . " WHERE Job_ID = " . $Job_ID);
+			
+			if(count($get_criteria) > 0){
 					
-				   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
-				   
-				   $applicants_result = $wpdb->get_results($get_all_applicants);
-				   
-				   if(count($applicants_result)){
-	
-					   foreach($applicants_result as $applicants){
+					if(preg_match("/\|/", $get_criteria->Job_Criteria)){
+						$count = count(explode("|", $get_criteria->Job_Criteria));
+					} else {
+						$count = 1;
+					}
+
+					$res = ( $Job_Criteria_Passed / $count ) * 100;
+					$res = round($res); 
+					return " or " . $res . "% Matched";	
+
+			}
+
+			return "";
+
+		}
+
+		/*
+		 * update data for applicants when criteria was changed from clients end
+		 */
+		public static function rb_update_applicant_data($criteria = NULL, $JobID = NULL){
+
+			global $wpdb;
+
+			if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
+
+			if(self::rb_get_job_visibility($JobID) == 2){
+
+				if($criteria == NULL || $criteria == "" || empty($criteria)) return "";
+
+				$get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+
+				$applicants_result = $wpdb->get_results($get_all_applicants);
+
+				if(count($applicants_result)){
+
+					foreach($applicants_result as $applicants){
 							$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($applicants->Job_UserLinked, $criteria);
 							$Job_Criteria_Details = serialize($job_criterias);
 							
 							// get precentage
 							if(preg_match("/\|/", $criteria)){
-								 $count = count(explode("|", $criteria));
+								$count = count(explode("|", $criteria));
 							} else {
-								 $count = 1;
+								$count = 1;
 							}
-	
+
 							$res = ( count($job_criterias) / $count ) * 100;
 							
 							$percentage = round($res); 
 							
 							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
-										 " SET Job_Criteria_Details = '" . $Job_Criteria_Details . "',
-											  Job_Criteria_Passed = " . count($job_criterias) . ", 
-											  Job_Criteria_Percentage = " . $percentage .
-										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
-			 
-					   }
-	
-				   }
-			   
-			   } elseif(self::rb_get_job_visibility($JobID) == 1){
+										" SET Job_Criteria_Details = '" . $Job_Criteria_Details . "',
+											 Job_Criteria_Passed = " . count($job_criterias) . ", 
+											 Job_Criteria_Percentage = " . $percentage .
+										" WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 
-				   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
-				   
-				   $applicants_result = $wpdb->get_results($get_all_applicants);
-				   
-				   if(count($applicants_result)){
-	
-					   foreach($applicants_result as $applicants){
-							
+					}
+
+				}
+
+			} elseif(self::rb_get_job_visibility($JobID) == 1){
+
+				$get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+				$applicants_result = $wpdb->get_results($get_all_applicants);
+				if(count($applicants_result)){
+					foreach($applicants_result as $applicants){
 							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
-										 " SET Job_Criteria_Details = '',
-											  Job_Criteria_Passed = 10, 
-											  Job_Criteria_Percentage = 100 " . 
-										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
-			 
-					   }
-	
-				   }			   
-			   
-			   } elseif(self::rb_get_job_visibility($JobID) == 0){
+										" SET Job_Criteria_Details = '',
+											 Job_Criteria_Passed = 10, 
+											 Job_Criteria_Percentage = 100 " . 
+										" WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
+					}
+				}
 
-				   $get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
-				   
-				   $applicants_result = $wpdb->get_results($get_all_applicants);
-				   
-				   if(count($applicants_result)){
-	
-					   foreach($applicants_result as $applicants){
-							
-							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
-										 " SET Job_Criteria_Details = '',
-											  Job_Criteria_Passed = 0, 
-											  Job_Criteria_Percentage = 0 " . 
-										 " WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
-			 
-					   }
-	
-				   }			   
-			   
-			   }
-			   
-			   return true;
-			   
-		   }
-		   
-		   /*
-		    * Get job owner id from casting jobs
-		    */
-			public static function rb_casting_job_ownerid($JobID = NULL){
-				
-				global $wpdb;
-				
-				if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
-				
-				$get_owner = "SELECT Job_UserLinked FROM " . table_agency_casting_job . " WHERE Job_ID = " . $JobID;
-			   
-			   	$owner_result = $wpdb->get_row($get_owner);
-			   
-			   	if(count($owner_result)){
-					
-					return $owner_result->Job_UserLinked;
+			} elseif(self::rb_get_job_visibility($JobID) == 0){
 
-			   	}
-			   
-			   	return "";
+				$get_all_applicants = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $JobID;
+				$applicants_result = $wpdb->get_results($get_all_applicants);
+
+				if(count($applicants_result)){
+
+					foreach($applicants_result as $applicants){
+						$wpdb->query("UPDATE " . table_agency_casting_job_application . 
+									" SET Job_Criteria_Details = '',
+										 Job_Criteria_Passed = 0, 
+										 Job_Criteria_Percentage = 0 " . 
+									" WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
+					}
+
+				}
 			
 			}
 			
-			/*
-			 * get primary image for applicants
-			 */
-			 public static function rb_get_model_image($PID = NULL){
-			 	
-				 global $wpdb;
-				 
-				 if(empty($PID) or is_null($PID)) return false;
-				 
-				 $profile_id = "SELECT ProfileID, ProfileGallery FROM ". table_agency_profile .
-				 			   " WHERE ProfileUserLinked = " . $PID;
-				 
-				 $get_id = $wpdb->get_row($profile_id);
-				 
-				 if(count($get_id) > 0){			   	
-				 	
-					 $get_image = "SELECT ProfileMediaURL FROM ". table_agency_profile_media .
-									 " WHERE ProfileID = " .$get_id->ProfileID . " AND ProfileMediaPrimary = 1";
-						
-					 $get_res = $wpdb->get_row($get_image);
-						
-					 if(count($get_res) > 0){
-						 
-						 $image = get_bloginfo('wpurl'). "/wp-content/uploads/profile-media/". $get_id->ProfileGallery."/". $get_res->ProfileMediaURL;
-						 
-						 return $image;
-						 
-					 }			
-
-				 }
-
-				 return "";
-			 
-			 }
-			 
-			 /*
-			  * send notifications upon registration
-			  */
-			 public static function rb_casting_send_notification($user_id, $plaintext_pass = ''){
-
-					$user = new WP_User($user_id);  
-			  
-					$user_login = stripslashes($user->user_login);  
-					$user_email = stripslashes($user->user_email);  
-			  
-					$message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "\r\n\r\n";  
-					$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";  
-					$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";  
-			  
-					@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);  
-			  
-					if ( empty($plaintext_pass) )  
-						return;  
-					$message  = __('Hi there,') . "\r\n\r\n";  
-					$message .= sprintf(__("Thanks for joining %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n"; 
-					$message .= get_option('home') ."/casting-login/\r\n"; 
-					$message .= sprintf(__('Username: %s'), $user_login) . "\r\n"; 
-					$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n\r\n"; 
-					$message .= sprintf(__('If you have any problems, please contact us at %s.'), get_option('admin_email')) . "\r\n\r\n"; 
-					$message .= __('Regards,')."\r\n";
-					$message .= get_option('blogname') . __(' Team') ."\r\n"; 
-					$message .= get_option('home') ."\r\n"; 
-			 
-					$headers = 'From: '. get_option('blogname') .' <'. get_option('admin_email') .'>' . "\r\n";
-					wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details'), get_option('blogname')), $message, $headers);  
-	  
-			 }
-
+			return true;
 			
-			/*
-			 * get visibility
-			 */
-			 public static function rb_get_job_visibility($jobid = NULL){
-			 	
-				 global $wpdb;
-				 
-				 if(empty($jobid) or is_null($jobid)) return false;
-				 
-				 $visibility_id = "SELECT Job_Visibility FROM ". table_agency_casting_job .
-				 			   " WHERE Job_ID = " . $jobid;
-				 
-				 $get = $wpdb->get_row($visibility_id);
-				 
-				 if(count($get) > 0){			   	
-						 
-						 return $get->Job_Visibility;
-
-				 }
-
-				 return "";
-			 
-			 }		
-			 
-			/* 
-			 *  update casting cart
-			 */
-  			 public static function rb_update_castingcart($talent = NULL, $JobID = NULL) {
-
-					global $wpdb;
-
-					if(is_null($talent) && $talent != '') return "";
-					if(is_null($JobID) && $JobID != '') return "";
-		
-					if(is_user_logged_in()){ 
-						if(isset($talent) && $talent ){ 
-							
-							if(strpos("none", $JobID) > -1 ){
-								
-								$talent_arr = trim($talent,";");
-								$talent_arr = explode(";",$talent_arr);
-								foreach($talent_arr as $talent){
-									
-									$data = explode(":",$talent);
-									$talent = self::rb_casting_ismodel($data[1], "ProfileID");
-									$JobID = $data[0];
-									
-									$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
-									$count_castingcart = $wpdb->num_rows;
-									$datas_castingcart = $query_castingcart;
-				
-									if($count_castingcart<=0){ //if not exist insert favorite!
-										$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
-										$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
-									} else { // favorite model exist, now delete!
-										$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
-									}
-									
-								}								
-
-								$arr = array( "data" => "success");
-								echo json_encode($arr);
-							
-							} else {
-								
-								$talent = self::rb_casting_ismodel($talent, "ProfileID");
-								$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
-								$count_castingcart = $wpdb->num_rows;
-								$datas_castingcart = $query_castingcart;
-				
-			
-								if($count_castingcart<=0){ //if not exist insert favorite!
-									$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
-									$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
-									$arr = array( "data" => "inserted");
-									echo json_encode($arr);
-								} else { // favorite model exist, now delete!
-									$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
-									$arr = array("data" => "deleted");
-									echo json_encode($arr);							
-								}
-							
-							}
-
-						}
-					}
-
-					else {
-						echo "not_logged";
-					}
-
-					die();
-
-				}	  
-
-			/* 
-			 *  check in cart
-			 */
-  			 public static function rb_check_in_cart($talent = NULL, $JobID = NULL) {
-
-					global $wpdb;
-					
-					if(is_null($talent) && $talent != '') return false;
-		
-					if(is_user_logged_in()){ 
-
-						if(isset($talent) && $talent ){ 
-						
-							$talent = self::rb_casting_ismodel($talent, "ProfileID");
-							$query_castingcart =$wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID= %s  AND CastingCartProfileID = %s AND CastingJobID = %s ",$talent,rb_agency_get_current_userid(),$JobID ));
-							$count_castingcart =$wpdb->num_rows;
-							if($count_castingcart > 0){
-								return true;
-							}else{
-								return false;
-							}
-	
-						}
-
-					}
-					
-					return false;
-			
-				}	 
-
-		   /*
-		    * admin casting jobs list
-		    */
-		   public static function rb_display_casting_jobs(){
-
-		   					global $wpdb;
-		   	 
-							$sqldata = "";
-							$query = "";
-
-							if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
-								// Message of successful mail form mass email 
-								echo "<div id=\"message\" class=\"updated\"><p>Email Messages successfully sent!</p></div>";
-							}
-
-							if(isset($_POST["mass_delete"])){
-								 unset($_POST["mass_delete"]);
-								 $ids = implode(",",$_POST);
-								 $wpdb->query("DELETE FROM ".table_agency_casting_job." WHERE Job_ID IN(".$ids.") ");
-          	     
-								 	echo "<div id=\"message\" class=\"updated\"><p>Successfully deleted.</p></div>";
-							
-							}
-
-							$rb_agency_options_arr = get_option('rb_agency_options');
-								$rb_agency_option_locationtimezone = (int)$rb_agency_options_arr['rb_agency_option_locationtimezone'];
-
-							// Sort By
-							$sort = "";
-							if (isset($_GET['sort']) && !empty($_GET['sort'])){
-								$sort = $_GET['sort'];
-							} else {
-								$sort = "jobs.Job_ID ";
-							}
-
-							// Sort Order
-							$dir = "";
-							if (isset($_GET['dir']) && !empty($_GET['dir'])){
-								$dir = $_GET['dir'];
-								if ($dir == "desc" || !isset($dir) || empty($dir)){
-									$sortDirection = "asc";
-								} else {
-									$sortDirection = "asc";
-								}
-							} else {
-								$sortDirection = "desc";
-								$dir = "desc";
-							}
-
-							// Filter
-							$filter = " WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked ";
-							if (isset($_GET['Job_Title']) && !empty($_GET['Job_Title'])){
-								$selectedTitle = isset($_GET['Job_Title'])?$_GET['Job_Title']:"";
-								$query .= "&Job_Title". $selectedTitle ."";
-								$filter .= " AND jobs.Job_Title LIKE '%". $selectedTitle ."%'";
-							}
-
-							//Paginate
-							$sqldata  = "SELECT jobs.*,talents.* , agency.* FROM ". table_agency_casting_job ." jobs LEFT JOIN ". table_agency_castingcart_availability ." talents ON jobs.Job_ID = talents.CastingAvailabilityID LEFT JOIN ".table_agency_casting." as agency ON agency.CastingUserLinked = jobs.Job_UserLinked ". $filter  .""; // number of total rows in the database
-							$results=  $wpdb->get_results($sqldata);
-							
-							$items =$wpdb->num_rows; // number of total rows in the database
-							if($items > 0) {
-
-								$p = new RBAgency_Pagination;
-								$p->items($items);
-								$p->limit(50); // Limit entries per page
-								$p->target("admin.php?page=". (isset($_GET['page'])?$_GET['page']:"") .$query);
-								@$p->currentPage(isset($_GET[$p->paging])?$_GET[$p->paging]:0); // Gets and validates the current page
-								$p->calculate(); // Calculates what to show
-								$p->parameterName('paging');
-								$p->adjacents(1); //No. of page away from the current page
-
-								if(!isset($_GET['paging'])) {
-									$p->page = 1;
-								} else {
-									$p->page = $_GET['paging'];
-								}
-
-								//Query for limit paging
-
-								$limit = "LIMIT " . ($p->page - 1) * $p->limit  . ", " . $p->limit;
-
-							} else {
-								$limit = "";
-							}
-
-							?>
-							
-				 <?php if((empty($_GET["action2"]) && empty($_GET["Job_ID"])) || isset($_GET["action2"]) && $_GET["action2"] == "deleteCastingJob"){?>
-				 	      <a href="<?php echo admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&action2=addnew") ?>" class="button-primary">Add New Job</a>
-						
-							<table cellspacing="0" class="widefat fixed">
-								<thead>
-									<tr>
-										<td style="width: 360px;" nowrap="nowrap">
-											<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent">
-											 <input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
-											 Search by : 
-											 Title: <input type="text" name="Job_Title" value="<?php echo isset($Job_Title)?$Job_Title:""; ?>" style="width: 100px;" />
-												<input type="submit" value="Filter" class="button-primary" />
-												 <input type="hidden" name="action" value="informTalent"/>
-												  <input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
-											 
-											
-											</form>
-										</td>
-										<td style="width: 200px;" nowrap="nowrap">
-											<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">
-											 <input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
-											 <input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
-											 <input type="submit" value="Clear Filters" class="button-secondary" />
-											 <input type="hidden" name="action" value="informTalent"/>
-											</form>
-										</td>
-										<td>&nbsp;</td>
-									</tr>
-							</thead>
-							</table>
-
-							<form method="post" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">	
-							<table cellspacing="0" class="widefat fixed">
-							<thead>
-								<tr class="thead">
-									<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
-									<th class="column" scope="col" style="width:50px;"><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_ID&dir=<?php echo $sortDirection; ?>">ID</a></th>
-									<th class="column" scope="col" ><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Title&dir=<?php echo $sortDirection; ?>">Job Title</a></th>
-									<th class="column" scope="col" ><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_UserLinked&dir=<?php echo $sortDirection; ?>">Agency/Producer</a></th>
-									<th class="column" scope="col" style="width:80px;"><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Date_Start&dir=<?php echo $sortDirection; ?>">Profiles</a></th>
-									<th class="column" scope="col">Date Created</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr class="thead">
-									<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
-									<th class="column" scope="col">ID</th>
-									<th class="column" scope="col">Job Title</th>
-									<th class="column" scope="col">Agency/Producer</th>
-									<th class="column" scope="col">Profiles</th>
-									<th class="column" scope="col">Date Created</th>
-								</tr>
-							</tfoot>
-							<tbody>
-
-							<?php
-
-							$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting."  as agency ". $filter  ." ORDER BY $sort $dir $limit";
-						
-							$results2 = $wpdb->get_results($query2, ARRAY_A);
-							$count2 = $wpdb->num_rows;
-
-							foreach ($results2 as $data2) {
-								$Job_Title = stripslashes($data2['Job_Title']);
-								$Job_ID = stripslashes($data2['Job_ID']);
-								$Job_Talents = stripslashes($data2['Job_Talents']);
-								$Job_Talents = explode(",",str_replace("NULL","",$Job_Talents));
-								$Job_AgencyName = stripslashes($data2["CastingContactCompany"]);
-								
-							?>
-							<tr>
-								<th class="check-column" scope="row">
-									<input type="checkbox" value="<?php echo $Job_ID; ?>" class="administrator" id="<?php echo $Job_ID; ?>" name="<?php echo $Job_ID; ?>"/>
-								</th>
-								<td>
-									<?php echo $Job_ID; ?>
-								</td>
-								<td>
-									<?php echo $Job_Title; ?>
-									<div class="row-actions">
-											<span class="view"><a href="<?php echo get_bloginfo("url")."/job-detail/".$Job_ID; ?>" target="_blank">View</a> | </span>
-											<span class="view"><a href="<?php echo get_bloginfo("url")."/view-applicants/?filter_jobtitle=".$Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter"; ?>" target="_blank">Applicants</a> | </span>
-								
-											<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
-								
-											<span class="delete"><a class='submitdelete' title='Delete this Record' href='<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent&amp;action2=deleteCastingJob&amp;removeJob_ID=<?php echo $Job_ID; ?>' onclick="if ( confirm('You are about to delete this record\'\n \'Cancel\' to stop, \'OK\' to delete.') ) { return true;}return false;">Delete</a></span>
-									</div>
-								</td>
-								<td>
-								  <?php echo $Job_AgencyName; ?>
-								</td>
-								<td>
-								    <?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
-						 	      <?php  echo isset($casting_cart->total)?$casting_cart->total:0; ?>
-								</td>
-								<td>
-									<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
-								</td>
-							</tr>
-							<?php
-							}
-							
-								if ($count2 < 1) {
-									if (isset($filter)) { 
-							?>
-							<tr>
-								<th class="check-column" scope="row"></th>
-								<td class="name column-name" colspan="3">
-									<p>No profiles found with this criteria.</p>
-								</td>
-							</tr>
-							<?php
-									} else {
-							?>
-							<tr>
-								<th class="check-column" scope="row"></th>
-								<td class="name column-name" colspan="3">
-									<p>There aren't any Profiles loaded yet!</p>
-								</td>
-							</tr>
-							<?php
-									}
-							?>
-							<?php } ?>
-							</tbody>
-						</table>
-						<?php if($items > 0) { ?>
-						<div class="tablenav">
-							<div class='tablenav-pages'>
-								<?php 
-								
-									echo $p->show();  // Echo out the list of paging. 
-								?>
-							</div>
-						</div>
-						<?php } ?>
-					</div>
-					<input type="submit" class="btn button-secondary" onclick="javascript:return !confirm('Are you sure that you want to delete the selected?')?false:true;" name="mass_delete" value="Delete"/>
-						<?php 		  
-						}
 		}
 
-					
-		public static  function sendText($mobile, $link, $message = ""){
-			
-			    $rb_agency_options_arr = get_option('rb_agency_options');
-				$rb_agency_value_agency_easytxturl = isset($rb_agency_options_arr['rb_agency_option_agency_easytxturl'])?$rb_agency_options_arr['rb_agency_option_agency_easytxturl']:"";
-				$rb_agency_value_agency_easytxtkey = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtkey'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtkey']:"";
-				$rb_agency_value_agency_easytxtsecret = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtsecret'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtsecret']:"";
-				$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
-				$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 
-				$content = "";
-				if(!empty($message)){
-					$content = str_replace("[casting-job-url]", $link, $message);;
-				}else{
-					$content = $rb_agency_value_agencyname.' has put you forward for a Job. See the following link: '.$link;
+		/*
+		 * Get job owner id from casting jobs
+		 */
+		public static function rb_casting_job_ownerid($JobID = NULL){
+
+			global $wpdb;
+
+			if($JobID == NULL || $JobID == 0 || $JobID == "") return "";
+
+			$get_owner = "SELECT Job_UserLinked FROM " . table_agency_casting_job . " WHERE Job_ID = " . $JobID;
+
+			$owner_result = $wpdb->get_row($get_owner);
+
+			if(count($owner_result)){
+				return $owner_result->Job_UserLinked;
+			}
+			return "";
+		}
+
+		/*
+		 * get primary image for applicants
+		 */
+		public static function rb_get_model_image($PID = NULL){
+
+			global $wpdb;
+			
+			if(empty($PID) or is_null($PID)) return false;
+			
+			$profile_id = "SELECT ProfileID, ProfileGallery FROM ". table_agency_profile .
+						" WHERE ProfileUserLinked = " . $PID;
+
+			$get_id = $wpdb->get_row($profile_id);
+
+			if(count($get_id) > 0){
+
+				$get_image = "SELECT ProfileMediaURL FROM ". table_agency_profile_media .
+								" WHERE ProfileID = " .$get_id->ProfileID . " AND ProfileMediaPrimary = 1";
+
+				$get_res = $wpdb->get_row($get_image);
+
+				if(count($get_res) > 0){
+
+					$image = get_bloginfo('wpurl'). "/wp-content/uploads/profile-media/". $get_id->ProfileGallery."/". $get_res->ProfileMediaURL;
+
+					return $image;
+
 				}
 
-				$xml_data ='<request>
-								<content>'.$content.'</content>
-								<recipients>';
-								foreach($mobile as $number){
-									    $number = str_replace(' ', '', $number);
-									    $number = trim($number);
-										$number = preg_replace("/[^0-9,.]/", "", $number);
-										$xml_data .= '<recipient>'.$number.'</recipient>';
-								}
-				$xml_data .= '</recipients>
-							</request>';
+			}
 
-				$url = "http://".$rb_agency_value_agency_easytxtkey.":".$rb_agency_value_agency_easytxtsecret."@".$rb_agency_value_agency_easytxturl."/api2/xml/sms";
-				$ch = "";
-				if(function_exists("curl_init")){
-					$ch = curl_init($url);
-					curl_setopt($ch, CURLOPT_POST, 1);
-					curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
-					curl_setopt($ch, CURLOPT_POSTFIELDS, "$xml_data");
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					$output = curl_exec($ch);
-					//echo $output;
-					curl_close($ch);
+			return "";
+
+		}
+
+
+		/*
+		 * send notifications upon registration
+		 */
+		public static function rb_casting_send_notification($user_id, $plaintext_pass = ''){
+
+				$user = new WP_User($user_id);  
+
+				$user_login = stripslashes($user->user_login);  
+				$user_email = stripslashes($user->user_email);  
+
+				$message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "\r\n\r\n";  
+				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";  
+				$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";  
+
+				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);  
+
+				if ( empty($plaintext_pass) )  
+					return;  
+				$message  = __('Hi there,') . "\r\n\r\n";  
+				$message .= sprintf(__("Thanks for joining %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n"; 
+				$message .= get_option('home') ."/casting-login/\r\n"; 
+				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n"; 
+				$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n\r\n"; 
+				$message .= sprintf(__('If you have any problems, please contact us at %s.'), get_option('admin_email')) . "\r\n\r\n"; 
+				$message .= __('Regards,')."\r\n";
+				$message .= get_option('blogname') . __(' Team') ."\r\n"; 
+				$message .= get_option('home') ."\r\n"; 
+
+				$headers = 'From: '. get_option('blogname') .' <'. get_option('admin_email') .'>' . "\r\n";
+				wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details'), get_option('blogname')), $message, $headers);  
+		}
+
+
+		/*
+		 * get visibility
+		 */
+		public static function rb_get_job_visibility($jobid = NULL){
+			
+			global $wpdb;
+			
+			if(empty($jobid) or is_null($jobid)) return false;
+			
+			$visibility_id = "SELECT Job_Visibility FROM ". table_agency_casting_job .
+						" WHERE Job_ID = " . $jobid;
+			
+			$get = $wpdb->get_row($visibility_id);
+			
+			if(count($get) > 0){
+				return $get->Job_Visibility;
+			}
+
+			return "";
+		}
+
+
+	/* 
+	 *  update casting cart
+	 */
+	public static function rb_update_castingcart($talent = NULL, $JobID = NULL) {
+
+		global $wpdb;
+
+		if(is_null($talent) && $talent != '') return "";
+		if(is_null($JobID) && $JobID != '') return "";
+
+		if(is_user_logged_in()){ 
+			if(isset($talent) && $talent ){ 
+
+				if(strpos("none", $JobID) > -1 ){
+
+					$talent_arr = trim($talent,";");
+					$talent_arr = explode(";",$talent_arr);
+					foreach($talent_arr as $talent){
+
+						$data = explode(":",$talent);
+						$talent = self::rb_casting_ismodel($data[1], "ProfileID");
+						$JobID = $data[0];
+
+						$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
+						$count_castingcart = $wpdb->num_rows;
+						$datas_castingcart = $query_castingcart;
+
+						if($count_castingcart<=0){ //if not exist insert favorite!
+							$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
+							$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
+						} else { // favorite model exist, now delete!
+							$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
+						}
+					}
+
+					$arr = array( "data" => "success");
+					echo json_encode($arr);
+				} else {
+					
+					$talent = self::rb_casting_ismodel($talent, "ProfileID");
+					$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
+					$count_castingcart = $wpdb->num_rows;
+					$datas_castingcart = $query_castingcart;
+
+					if($count_castingcart<=0){ //if not exist insert favorite!
+						$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
+						$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
+						$arr = array( "data" => "inserted");
+						echo json_encode($arr);
+					} else { // favorite model exist, now delete!
+						$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
+						$arr = array("data" => "deleted");
+						echo json_encode($arr);
+					}
+				}
+
+			}
+		} else {
+			echo "not_logged";
+		}
+
+		die();
+
+	}
+
+
+		/* 
+		 *  check in cart
+		 */
+		public static function rb_check_in_cart($talent = NULL, $JobID = NULL) {
+
+			global $wpdb;
+
+			if(is_null($talent) && $talent != '') return false;
+
+			if(is_user_logged_in()){ 
+
+				if(isset($talent) && $talent ){
+					$talent = self::rb_casting_ismodel($talent, "ProfileID");
+					$query_castingcart =$wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID= %s  AND CastingCartProfileID = %s AND CastingJobID = %s ",$talent,rb_agency_get_current_userid(),$JobID ));
+					$count_castingcart =$wpdb->num_rows;
+
+					if($count_castingcart > 0){
+						return true;
+					}else{
+						return false;
+					}
+
+				}
+
+			}
+			return false;
+		}
+
+		/*
+		 * Admin casting jobs list
+		 */
+		public static function rb_display_casting_jobs(){
+
+			global $wpdb;
+
+			$sqldata = "";
+			$query = "";
+
+			if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
+				// Message of successful mail form mass email 
+				echo "<div id=\"message\" class=\"updated\"><p>Email Messages successfully sent!</p></div>";
+			}
+
+			if(isset($_POST["mass_delete"])){
+				unset($_POST["mass_delete"]);
+				$ids = implode(",",$_POST);
+				$wpdb->query("DELETE FROM ".table_agency_casting_job." WHERE Job_ID IN(".$ids.") ");
+
+					echo "<div id=\"message\" class=\"updated\"><p>Successfully deleted.</p></div>";
+			
+			}
+
+			$rb_agency_options_arr = get_option('rb_agency_options');
+				$rb_agency_option_locationtimezone = (int)$rb_agency_options_arr['rb_agency_option_locationtimezone'];
+
+			// Sort By
+			$sort = "";
+			if (isset($_GET['sort']) && !empty($_GET['sort'])){
+				$sort = $_GET['sort'];
+			} else {
+				$sort = "jobs.Job_ID ";
+			}
+
+			// Sort Order
+			$dir = "";
+			if (isset($_GET['dir']) && !empty($_GET['dir'])){
+				$dir = $_GET['dir'];
+				if ($dir == "desc" || !isset($dir) || empty($dir)){
+					$sortDirection = "asc";
+				} else {
+					$sortDirection = "asc";
+				}
+			} else {
+				$sortDirection = "desc";
+				$dir = "desc";
+			}
+
+			// Filter
+			$filter = " WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked ";
+			if (isset($_GET['Job_Title']) && !empty($_GET['Job_Title'])){
+				$selectedTitle = isset($_GET['Job_Title'])?$_GET['Job_Title']:"";
+				$query .= "&Job_Title". $selectedTitle ."";
+				$filter .= " AND jobs.Job_Title LIKE '%". $selectedTitle ."%'";
+			}
+
+			//Paginate
+			$sqldata  = "SELECT jobs.*,talents.* , agency.* FROM ". table_agency_casting_job ." jobs LEFT JOIN ". table_agency_castingcart_availability ." talents ON jobs.Job_ID = talents.CastingAvailabilityID LEFT JOIN ".table_agency_casting." as agency ON agency.CastingUserLinked = jobs.Job_UserLinked ". $filter  .""; // number of total rows in the database
+			$results=  $wpdb->get_results($sqldata);
+			
+			$items =$wpdb->num_rows; // number of total rows in the database
+			if($items > 0) {
+
+				$p = new RBAgency_Pagination;
+				$p->items($items);
+				$p->limit(50); // Limit entries per page
+				$p->target("admin.php?page=". (isset($_GET['page'])?$_GET['page']:"") .$query);
+				@$p->currentPage(isset($_GET[$p->paging])?$_GET[$p->paging]:0); // Gets and validates the current page
+				$p->calculate(); // Calculates what to show
+				$p->parameterName('paging');
+				$p->adjacents(1); //No. of page away from the current page
+
+				if(!isset($_GET['paging'])) {
+					$p->page = 1;
+				} else {
+					$p->page = $_GET['paging'];
+				}
+
+				//Query for limit paging
+
+				$limit = "LIMIT " . ($p->page - 1) * $p->limit  . ", " . $p->limit;
+
+			} else {
+				$limit = "";
+			}
+
+			?>
+
+			<?php if((empty($_GET["action2"]) && empty($_GET["Job_ID"])) || isset($_GET["action2"]) && $_GET["action2"] == "deleteCastingJob"){?>
+			<a href="<?php echo admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&action2=addnew") ?>" class="button-primary">Add New Job</a>
+
+				<table cellspacing="0" class="widefat fixed">
+					<thead>
+						<tr>
+							<td style="width: 360px;" nowrap="nowrap">
+								<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent">
+								<input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
+								Search by : 
+								Title: <input type="text" name="Job_Title" value="<?php echo isset($Job_Title)?$Job_Title:""; ?>" style="width: 100px;" />
+									<input type="submit" value="Filter" class="button-primary" />
+									<input type="hidden" name="action" value="informTalent"/>
+									<input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
+								</form>
+							</td>
+							<td style="width: 200px;" nowrap="nowrap">
+								<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">
+								<input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
+								<input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
+								<input type="submit" value="Clear Filters" class="button-secondary" />
+								<input type="hidden" name="action" value="informTalent"/>
+								</form>
+							</td>
+							<td>&nbsp;</td>
+						</tr>
+				</thead>
+				</table>
+
+				<form method="post" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">	
+				<table cellspacing="0" class="widefat fixed">
+				<thead>
+					<tr class="thead">
+						<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
+						<th class="column" scope="col" style="width:50px;"><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_ID&dir=<?php echo $sortDirection; ?>">ID</a></th>
+						<th class="column" scope="col" ><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Title&dir=<?php echo $sortDirection; ?>">Job Title</a></th>
+						<th class="column" scope="col" ><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_UserLinked&dir=<?php echo $sortDirection; ?>">Agency/Producer</a></th>
+						<th class="column" scope="col" style="width:80px;"><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Date_Start&dir=<?php echo $sortDirection; ?>">Profiles</a></th>
+						<th class="column" scope="col">Date Created</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr class="thead">
+						<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
+						<th class="column" scope="col">ID</th>
+						<th class="column" scope="col">Job Title</th>
+						<th class="column" scope="col">Agency/Producer</th>
+						<th class="column" scope="col">Profiles</th>
+						<th class="column" scope="col">Date Created</th>
+					</tr>
+				</tfoot>
+				<tbody>
+
+				<?php
+
+				$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting."  as agency ". $filter  ." ORDER BY $sort $dir $limit";
+				$results2 = $wpdb->get_results($query2, ARRAY_A);
+				$count2 = $wpdb->num_rows;
+
+				foreach ($results2 as $data2) {
+					$Job_Title = stripslashes($data2['Job_Title']);
+					$Job_ID = stripslashes($data2['Job_ID']);
+					$Job_Talents = stripslashes($data2['Job_Talents']);
+					$Job_Talents = explode(",",str_replace("NULL","",$Job_Talents));
+					$Job_AgencyName = stripslashes($data2["CastingContactCompany"]);
+					
+				?>
+				<tr>
+					<th class="check-column" scope="row">
+						<input type="checkbox" value="<?php echo $Job_ID; ?>" class="administrator" id="<?php echo $Job_ID; ?>" name="<?php echo $Job_ID; ?>"/>
+					</th>
+					<td>
+						<?php echo $Job_ID; ?>
+					</td>
+					<td>
+						<?php echo $Job_Title; ?>
+						<div class="row-actions">
+								<span class="view"><a href="<?php echo get_bloginfo("url")."/job-detail/".$Job_ID; ?>" target="_blank">View</a> | </span>
+								<span class="view"><a href="<?php echo get_bloginfo("url")."/view-applicants/?filter_jobtitle=".$Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter"; ?>" target="_blank">Applicants</a> | </span>
+								<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
+								<span class="delete"><a class='submitdelete' title='Delete this Record' href='<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent&amp;action2=deleteCastingJob&amp;removeJob_ID=<?php echo $Job_ID; ?>' onclick="if ( confirm('You are about to delete this record\'\n \'Cancel\' to stop, \'OK\' to delete.') ) { return true;}return false;">Delete</a></span>
+						</div>
+					</td>
+					<td>
+					 <?php echo $Job_AgencyName; ?>
+					</td>
+					<td>
+						<?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
+					 <?php  echo isset($casting_cart->total)?$casting_cart->total:0; ?>
+					</td>
+					<td>
+						<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
+					</td>
+				</tr>
+				<?php
 				}
 				
+					if ($count2 < 1) {
+						if (isset($filter)) { 
+				?>
+				<tr>
+					<th class="check-column" scope="row"></th>
+					<td class="name column-name" colspan="3">
+						<p>No profiles found with this criteria.</p>
+					</td>
+				</tr>
+				<?php
+						} else {
+				?>
+				<tr>
+					<th class="check-column" scope="row"></th>
+					<td class="name column-name" colspan="3">
+						<p>There aren't any Profiles loaded yet!</p>
+					</td>
+				</tr>
+				<?php
+						}
+				?>
+				<?php } ?>
+				</tbody>
+			</table>
+			<?php if($items > 0) { ?>
+			<div class="tablenav">
+				<div class='tablenav-pages'>
+					<?php 
+					
+						echo $p->show();  // Echo out the list of paging. 
+					?>
+				</div>
+			</div>
+			<?php } ?>
+		</div>
+		<input type="submit" class="btn button-secondary" onclick="javascript:return !confirm('Are you sure that you want to delete the selected?')?false:true;" name="mass_delete" value="Delete"/>
+			<?php
+			}
+		}
+
+		public static function sendText($mobile, $link, $message = ""){
+
+			$rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_value_agency_easytxturl = isset($rb_agency_options_arr['rb_agency_option_agency_easytxturl'])?$rb_agency_options_arr['rb_agency_option_agency_easytxturl']:"";
+			$rb_agency_value_agency_easytxtkey = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtkey'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtkey']:"";
+			$rb_agency_value_agency_easytxtsecret = isset($rb_agency_options_arr['rb_agency_option_agency_easytxtsecret'])?$rb_agency_options_arr['rb_agency_option_agency_easytxtsecret']:"";
+			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
+			$content = "";
+			if(!empty($message)){
+				$content = str_replace("[casting-job-url]", $link, $message);;
+			}else{
+				$content = $rb_agency_value_agencyname.' has put you forward for a Job. See the following link: '.$link;
+			}
+
+			$xml_data ='<request>
+							<content>'.$content.'</content>
+							<recipients>';
+							foreach($mobile as $number){
+									$number = str_replace(' ', '', $number);
+									$number = trim($number);
+									$number = preg_replace("/[^0-9,.]/", "", $number);
+									$xml_data .= '<recipient>'.$number.'</recipient>';
+							}
+			$xml_data .= '</recipients>
+						</request>';
+
+			$url = "http://".$rb_agency_value_agency_easytxtkey.":".$rb_agency_value_agency_easytxtsecret."@".$rb_agency_value_agency_easytxturl."/api2/xml/sms";
+			$ch = "";
+			if(function_exists("curl_init")){
+				$ch = curl_init($url);
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+				curl_setopt($ch, CURLOPT_POSTFIELDS, "$xml_data");
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				$output = curl_exec($ch);
+				//echo $output;
+				curl_close($ch);
+			}
 	}
-    /*
-     * Notiffy talents for the job availability
-     */
+
+
+	/*
+	 * Notiffy talents for the job availability
+	 */
 	public static function sendEmail($emails,$link, $message = ""){
-			 $rb_agency_options_arr = get_option('rb_agency_options');
+			$rb_agency_options_arr = get_option('rb_agency_options');
 			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
 			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 
@@ -1769,70 +1740,77 @@ class RBAgency_Casting {
 					$MassEmailMessage = str_replace("[casting-job-url]", $link, $message);;
 			}else{
 					$MassEmailMessage = $rb_agency_value_agencyname." has put you forward for a Job. See the following link: ".$link."\r\n";
-		    }
-		    $headers[] = 'MIME-Version: 1.0';
-			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		    $headers[] = 'From: '.$rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
-		   
-			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
-	}
-	 /*
-     * Notify admin about the confirmed job availability
-     */
-	public static function sendEmailCastingAvailability($Talents_Display_Name,$Availability,$Job_Name,$link){
-		    $rb_agency_options_arr = get_option('rb_agency_options');
-			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
-			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
-
-			// Mail it
-		   $MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
-								 . "\nClick here to review your casting cart: ".$link
-								 .  "\n\n-".get_bloginfo("name");
+			}
 			$headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		    $headers[] = 'From: '. $rb_agency_value_agencyname .' <'.$rb_agency_value_agencyemail .'>';
-		   
-			$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
-	}
-	 /*
-     * Notify admin about the availability of shortlisted profiles for a specifc job
-     */
-	public static function sendEmailAdminCheckAvailability($castingname, $castingemail, $message, $link){
-		 	$rb_agency_options_arr = get_option('rb_agency_options');
-			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
-			$rb_agency_value_agencyemail = trim($rb_agency_options_arr['rb_agency_option_agencyemail']);
+			$headers[] = 'From: '.$rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
 
-			// Mail it
-		    $Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
-		    $headers[] = 'MIME-Version: 1.0';
-			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		    $headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
-		    $isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Check availability", $Message, $headers);
-	
+			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
 	}
-	 /*
-     * Notify casting about the casting cart changes
-     */
-	public static function sendClientNotification($Client_Email_Address,$Message,$bcc_emails){
+
+
+	/*
+	 * Notify admin about the confirmed job availability
+	 */
+	public static function sendEmailCastingAvailability($Talents_Display_Name,$Availability,$Job_Name,$link){
 			$rb_agency_options_arr = get_option('rb_agency_options');
 			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
 			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 
 			// Mail it
-		   $headers[] = 'MIME-Version: 1.0';
-		   $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		   $headers[] = 'From: '. $rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
-		   $bcc_emails_arr = explode(",",$bcc_emails);
-		   foreach ($bcc_emails_arr as $key) {
-		   	 $headers[] = 'Bcc: '.$key;
-		   }
-		   $isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": Casting Cart", $Message, $headers);
-			
-			
+			$MassEmailMessage	= $TalentsDisplayName." has changed the job availability to \"".$Availability."\" for the job '".$Job_Name."'. "
+								. "\nClick here to review your casting cart: ".$link
+								.  "\n\n-".get_bloginfo("name");
+			$headers[] = 'MIME-Version: 1.0';
+			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+			$headers[] = 'From: '. $rb_agency_value_agencyname .' <'.$rb_agency_value_agencyemail .'>';
+
+			$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
 	}
-	 /*
-     * Notify casting about the new applicant for a job
-     */
+
+
+	/*
+	 * Notify admin about the availability of shortlisted profiles for a specifc job
+	 */
+	public static function sendEmailAdminCheckAvailability($castingname, $castingemail, $message, $link){
+		$rb_agency_options_arr = get_option('rb_agency_options');
+		$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+		$rb_agency_value_agencyemail = trim($rb_agency_options_arr['rb_agency_option_agencyemail']);
+
+		// Mail it
+		$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
+		$headers[] = 'MIME-Version: 1.0';
+		$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+		$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Check availability", $Message, $headers);
+
+	}
+
+
+	/*
+	 * Notify casting about the casting cart changes
+	 */
+	public static function sendClientNotification($Client_Email_Address,$Message,$bcc_emails){
+		$rb_agency_options_arr = get_option('rb_agency_options');
+		$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+		$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
+
+			// Mail it
+		$headers[] = 'MIME-Version: 1.0';
+		$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		$headers[] = 'From: '. $rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
+		$bcc_emails_arr = explode(",",$bcc_emails);
+		foreach ($bcc_emails_arr as $key) {
+			$headers[] = 'Bcc: '.$key;
+		}
+		$isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": Casting Cart", $Message, $headers);
+
+	}
+
+
+	/*
+	 * Notify casting about the new applicant for a job
+	 */
 
 	public static function sendClientNewJobNotification($Client_Email_Address,$Job_Name,$Message){
 			$rb_agency_options_arr = get_option('rb_agency_options');
@@ -1840,14 +1818,10 @@ class RBAgency_Casting {
 			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 
 			// Mail it
-		   $headers = 'From: '. $rb_agency_value_agencyname.' <'. $rb_agency_value_agencyemail .'>' . "\r\n";
-		   $isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": New Job Applicant for ".$Job_Name, $Message, $headers);
-			
-			
+		$headers = 'From: '. $rb_agency_value_agencyname.' <'. $rb_agency_value_agencyemail .'>' . "\r\n";
+		$isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": New Job Applicant for ".$Job_Name, $Message, $headers);
 	}
 
-
-		  		  
 
 // end class
 }
@@ -1857,19 +1831,16 @@ class RBAgency_Casting {
  */
 
 if(isset($_REQUEST["action"]) && $_REQUEST['action'] == 'cartAdd' ) {
-		// Process Cart
-		$cart = RBAgency_Casting::cart_process();
-
+	// Process Cart
+	$cart = RBAgency_Casting::cart_process();
 }
 if(isset($_POST["SendEmail"])){
-		// Process Form
-		$isSent = RBAgency_Casting::cart_send_process();
-		
-		
+	// Process Form
+	$isSent = RBAgency_Casting::cart_send_process();
 }
 if(isset($_REQUEST["action"]) && $_REQUEST['action'] == 'cartEmpty' ) {
-		// Empty Cart
-		unset($_SESSION['cartArray']);
+	// Empty Cart
+	unset($_SESSION['cartArray']);
 }
 
 /*add_filter('wp_mail_from','custom_wp_mail_from');
