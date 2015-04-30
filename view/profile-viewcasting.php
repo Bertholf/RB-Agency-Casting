@@ -138,6 +138,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 										jQuery("#sendProfilesForm").hide('slow');
 										if(jQuery(this).val() == "[+]Check Availability"){
 											jQuery(this).val("[-]Check Availability");
+											jQuery("#sendProfiles").val("[+]Send Profiles");
 										}else{
 											jQuery(this).val("[+]Check Availability");
 										}
@@ -147,6 +148,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 										jQuery("#checkavailabilityForm").hide('slow'); 
 										if(jQuery(this).val() == "[+]Send Profiles"){
 											jQuery(this).val("[-]Send Profiles");
+											jQuery("#checkavailability").val("[+]Check Availability");
 										}else{
 											jQuery(this).val("[+]Send Profiles");
 										}
@@ -326,37 +328,85 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
 					}
 
+					//Send Profile
 					if(isset($_POST["sendProfileBtn"])){
-						// Prepre varialbes
-						$fromName = $_POST["fromName"];
-						$fromEmail = $_POST["fromEmail"];
-						$sendToName = $_POST["sendToName"];
-						$sendToEmail = $_POST["sendToEmail"];
-						$sendToEmail = $_POST["sendToEmail"];
-						$emailBcc = $_POST["emailBcc"];
-						$subject = $_POST["subject"];
-						$message = $_POST["message"];
+						// Prepre varialbes						
 
-						// Define Link to Casting
-						$link = admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$_GET["Job_ID"]);
-						
-						// Send Email
-						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
+						//START
+						$SearchID				= time(U);
+						$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
+						$fromName 				= $_POST["fromName"];
+						$fromEmail 				= $_POST["fromEmail"];
+						$SearchMuxToName		= $_POST['sendToName'];
+						$SearchMuxToEmail		= $_POST["sendToEmail"];
+						$SearchMuxEmailToBcc	= $_POST['emailBcc'];
+						$SearchMuxSubject		= get_bloginfo('name')." : ".$_POST["subject"];
+						$SearchMuxMessage		= $_POST['message'];
 
-						$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
+						// Get Casting Cart
+						$query = "SELECT  profile.*, profile.ProfileGallery, profile.ProfileContactDisplay, profile.ProfileDateBirth, profile.ProfileLocationState, profile.ProfileID as pID , cart.CastingCartTalentID, cart.CastingCartTalentID, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1) AS ProfileMediaURL FROM ". table_agency_profile ." profile INNER JOIN  ".table_agency_castingcart."  cart WHERE  cart.CastingCartTalentID = profile.ProfileID   AND cart.CastingCartProfileID = '".rb_agency_get_current_userid()."' AND ProfileIsActive = 1 ORDER BY profile.ProfileContactNameFirst";
+						$result = $wpdb->get_results($query,ARRAY_A);
+						$pID = "";
+						$profileid_arr = array();
+
+						foreach($result as $fetch){
+							$profileid_arr[] = $fetch["pID"];
+						}
+
+						$casting = implode(",",$profileid_arr);
+						$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID) VALUES('".$casting."')");
+
+						$lastid = $wpdb->insert_id;
+
+						// Create Record
+						$insert = "INSERT INTO " . table_agency_searchsaved_mux ." 
+								(
+								SearchID,
+								SearchMuxHash,
+								SearchMuxToName,
+								SearchMuxToEmail,
+								SearchMuxSubject,
+								SearchMuxMessage,
+								SearchMuxCustomValue
+								)" .
+								"VALUES
+								(
+								'" . $wpdb->escape($lastid) . "',
+								'" . $wpdb->escape($SearchMuxHash) . "',
+								'" . $wpdb->escape($SearchMuxToName) . "',
+								'" . $wpdb->escape($SearchMuxToEmail) . "',
+								'" . $wpdb->escape($SearchMuxSubject) . "',
+								'" . $wpdb->escape($SearchMuxMessage) . "',
+								'" . $wpdb->escape($SearchMuxCustomValue) ."'
+								)";
+						$results = $wpdb->query($insert);
+
+						$SearchMuxMessage = str_replace("[link-place-holder]",network_site_url()."/client-view/".$SearchMuxHash,$SearchMuxMessage);
+
+
+						$Message   = $SearchMuxMessage;
 						$headers[] = 'MIME-Version: 1.0';
-						$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+						$headers[] = "Content-Type: text/html; charset=\"". get_option('blog_charset') . "\"\n";
 						$headers[] = 'From: "'. $fromName .'" <'. trim($fromEmail) .'>';
 						
-						$bccArray = explode(";",$emailBcc);
+						$bccArray = explode(";",$SearchMuxEmailToBcc);
 
 						foreach($bccArray as $bcc){
 							$headers[] = 'Bcc: '.$bcc;
 						}
 
-						$isSent = wp_mail($sendToEmail, $rb_agency_value_agencyname.": Check Profiles", $Message, $headers);
-						RBAgency_Casting::sendClientProfiles($sendToEmail, $subject, $message, $headers);
-						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
+						add_filter('wp_mail_from','yoursite_wp_mail_from');
+						add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
+												
+						$Message = str_replace("\n","<br>",$Message);
+						$isSent = wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+						if($isSent){
+							echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
+						}else{
+							echo "<p id=\"emailSent\">Error sending the email!</p>";
+						}
+						
+						
 					}
 
 					?>
@@ -394,7 +444,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						<strong>Send Profiles</strong>
 						<form method="post" action="">
 							<div>
-								 <input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname; ?>&nbsp;<?php echo $current_user->user_lastname; ?>" disabled="disabled"/>
+								 <input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname." ".$current_user->user_lastname; ?>" disabled="disabled"/>
 							</div>
 							<div>
 								<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $current_user->user_email; ?>" disabled="disabled"/>
@@ -413,8 +463,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							</div>
 							<div>
 								Message:
-								<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
-								<textarea id="message" name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
+								
+								<textarea id="message" name="message" style="width:100%;height:200px;">Click the following link (or copy and paste it into your browser): [link-place-holder]</textarea>
 								<br/>
 								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />
 								
@@ -499,4 +549,25 @@ echo "  </div>\n";
 
 <?php
 echo $test = RBAgency_Common::rb_footer(); 
+?>
+
+
+<?php
+
+function yoursite_wp_mail_from($content_type) {
+  global $current_user;
+  get_currentuserinfo();
+  return $current_user->user_email;
+}
+
+function yoursite_wp_mail_from_name($name) {
+  global $current_user;
+  get_currentuserinfo();
+  return $current_user->user_firstname." ".$current_user->user_lastname;
+}
+
+add_filter ("wp_mail_content_type", "my_awesome_mail_content_type");
+function my_awesome_mail_content_type() {
+	return "text/html";
+}
 ?>
