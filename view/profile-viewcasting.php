@@ -135,10 +135,20 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								});
 								jQuery("#checkavailability").click(function(){
 										jQuery("#checkavailabilityForm").toggle('slow'); 
+										jQuery("#sendProfilesForm").hide('slow');
 										if(jQuery(this).val() == "[+]Check Availability"){
 											jQuery(this).val("[-]Check Availability");
 										}else{
 											jQuery(this).val("[+]Check Availability");
+										}
+								});
+								jQuery("#sendProfiles").click(function(){
+										jQuery("#sendProfilesForm").toggle('slow'); 
+										jQuery("#checkavailabilityForm").hide('slow'); 
+										if(jQuery(this).val() == "[+]Send Profiles"){
+											jQuery(this).val("[-]Send Profiles");
+										}else{
+											jQuery(this).val("[+]Send Profiles");
 										}
 								});
 								jQuery("#inviteprofiles").click(function(){
@@ -149,6 +159,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 											jQuery(this).val("[+]Invite Profiles");
 										}
 								});
+
+
 							});
 							</script>
 
@@ -235,6 +247,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							echo "<input type=\"button\" name=\"checkavailability\"  id=\"checkavailability\" value=\"[+]Check Availability\"/>";
 						}
 
+						echo "<input type=\"button\" name=\"sendProfiles\" id=\"sendProfiles\" value=\"[+]Send Profiles\" />";
 						}
 						echo "</div>";
 
@@ -312,7 +325,42 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
 						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
 					}
+
+					if(isset($_POST["sendProfileBtn"])){
+						// Prepre varialbes
+						$fromName = $_POST["fromName"];
+						$fromEmail = $_POST["fromEmail"];
+						$sendToName = $_POST["sendToName"];
+						$sendToEmail = $_POST["sendToEmail"];
+						$sendToEmail = $_POST["sendToEmail"];
+						$emailBcc = $_POST["emailBcc"];
+						$subject = $_POST["subject"];
+						$message = $_POST["message"];
+
+						// Define Link to Casting
+						$link = admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$_GET["Job_ID"]);
+						
+						// Send Email
+						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
+
+						$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
+						$headers[] = 'MIME-Version: 1.0';
+						$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+						$headers[] = 'From: "'. $fromName .'" <'. trim($fromEmail) .'>';
+						
+						$bccArray = explode(";",$emailBcc);
+
+						foreach($bccArray as $bcc){
+							$headers[] = 'Bcc: '.$bcc;
+						}
+
+						$isSent = wp_mail($sendToEmail, $rb_agency_value_agencyname.": Check Profiles", $Message, $headers);
+						RBAgency_Casting::sendClientProfiles($sendToEmail, $subject, $message, $headers);
+						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
+					}
+
 					?>
+
 
 					<div id="checkavailabilityForm" style="display:none;">
 					<strong>Check Availability</strong>
@@ -332,8 +380,48 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						</div>
 					</form>
 					</div>
+
+					
+
 					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
 
+					<!-- Send Profiles Form -->
+					<?php
+					global $current_user;
+      				get_currentuserinfo();
+					?>
+					<div id="sendProfilesForm" style="display:none;">
+						<strong>Send Profiles</strong>
+						<form method="post" action="">
+							<div>
+								 <input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname; ?>&nbsp;<?php echo $current_user->user_lastname; ?>" disabled="disabled"/>
+							</div>
+							<div>
+								<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $current_user->user_email; ?>" disabled="disabled"/>
+							</div>
+							<div>
+								Send to Name: <input type="text" name="sendToName" id="sendToName" />
+							</div>
+							<div>
+								Send to Email: <input type="text" name="sendToEmail" id="sendToEmail" />
+							</div>
+							<div>
+								BCC: <input type="text" name="emailBcc" id="emailBcc"/>
+							</div>
+							<div>
+								Subject: <input type="text" name="subject" id="subject"/>
+							</div>
+							<div>
+								Message:
+								<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
+								<textarea id="message" name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
+								<br/>
+								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />
+								
+							</div>
+						</form>
+					</div>
+					<!-- end send profile form -->
 					<?php
 					if (class_exists('RBAgency_Profile')) {
 						echo "<div id=\"profile-casting-list\">";
