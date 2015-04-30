@@ -313,7 +313,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						// Get the Job ID
 						$data_job = $wpdb->get_row("SELECT  casting.*, job.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as casting ON casting.CastingUserLinked = job.Job_UserLinked WHERE job.Job_ID ='".$_GET["Job_ID"]."' ");
 						// Send Email
-						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
+						//RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
 
 						if ($_POST["email_bcc"]) {
 							$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
@@ -396,7 +396,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 
 						add_filter('wp_mail_from','yoursite_wp_mail_from');
-						add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
+						add_filter('wp_mail_from','yoursite_wp_mail_from_name');
 												
 						$Message = str_replace("\n","<br>",$Message);
 						$isSent = wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
