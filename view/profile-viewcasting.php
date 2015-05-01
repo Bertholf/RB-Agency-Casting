@@ -396,7 +396,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 
 						add_filter('wp_mail_from','yoursite_wp_mail_from');
-						add_filter('wp_mail_from','yoursite_wp_mail_from_name');
+						add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
 												
 						$Message = str_replace("\n","<br>",$Message);
 						$isSent = wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
@@ -554,20 +554,20 @@ echo $test = RBAgency_Common::rb_footer();
 
 <?php
 
-function yoursite_wp_mail_from($content_type) {
+function yoursite_wp_mail_from($original_email_address ) {
   global $current_user;
   get_currentuserinfo();
   return $current_user->user_email;
 }
 
-function yoursite_wp_mail_from_name($name) {
+function yoursite_wp_mail_from_name($original_email_from ) {
   global $current_user;
   get_currentuserinfo();
   return $current_user->user_firstname." ".$current_user->user_lastname;
 }
 
 add_filter ("wp_mail_content_type", "my_awesome_mail_content_type");
-function my_awesome_mail_content_type() {
+function my_awesome_mail_content_type($content_type) {
 	return "text/html";
 }
 ?>
