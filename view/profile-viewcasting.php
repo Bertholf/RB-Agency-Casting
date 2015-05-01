@@ -328,12 +328,42 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
 					}
 
+					
+					
+
+					?>
+
+
+					<div id="checkavailabilityForm" style="display:none;">
+					<strong>Check Availability</strong>
+					<form method="post" action="">
+						<div>
+							Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
+						</div>
+						<div>
+							BCC: <input type="text" name="email_bcc" />
+						</div>
+						<div>
+							Message:
+							<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
+							<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
+							<br/>
+							<input type="submit" name="checkavailability" value="Send" />
+						</div>
+					</form>
+					</div>
+
+					
+
+					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
+
+					<!-- Send Profiles Form -->
+					<?php
 					//Send Profile
 					if(isset($_POST["sendProfileBtn"])){
 						// Prepre varialbes						
 
 						//START
-						$SearchID				= time(U);
 						$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
 						$fromName 				= $_POST["fromName"];
 						$fromEmail 				= $_POST["fromEmail"];
@@ -346,7 +376,6 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						// Get Casting Cart
 						$query = "SELECT  profile.*, profile.ProfileGallery, profile.ProfileContactDisplay, profile.ProfileDateBirth, profile.ProfileLocationState, profile.ProfileID as pID , cart.CastingCartTalentID, cart.CastingCartTalentID, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1) AS ProfileMediaURL FROM ". table_agency_profile ." profile INNER JOIN  ".table_agency_castingcart."  cart WHERE  cart.CastingCartTalentID = profile.ProfileID   AND cart.CastingCartProfileID = '".rb_agency_get_current_userid()."' AND ProfileIsActive = 1 ORDER BY profile.ProfileContactNameFirst";
 						$result = $wpdb->get_results($query,ARRAY_A);
-						$pID = "";
 						$profileid_arr = array();
 
 						foreach($result as $fetch){
@@ -408,35 +437,6 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						
 						
 					}
-
-					?>
-
-
-					<div id="checkavailabilityForm" style="display:none;">
-					<strong>Check Availability</strong>
-					<form method="post" action="">
-						<div>
-							Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
-						</div>
-						<div>
-							BCC: <input type="text" name="email_bcc" />
-						</div>
-						<div>
-							Message:
-							<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
-							<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
-							<br/>
-							<input type="submit" name="checkavailability" value="Send" />
-						</div>
-					</form>
-					</div>
-
-					
-
-					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
-
-					<!-- Send Profiles Form -->
-					<?php
 					global $current_user;
       				get_currentuserinfo();
 					?>
