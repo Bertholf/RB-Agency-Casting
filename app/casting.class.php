@@ -1072,7 +1072,7 @@ class RBAgency_Casting {
 
 			if($id == NULL) return "";
 
-			$get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileUserLinked = " . $id);	
+			$get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileID = " . $id);	
 
 			if(count($get_name) > 0){
 					return $get_name;
@@ -1281,8 +1281,8 @@ class RBAgency_Casting {
 			
 			if(empty($PID) or is_null($PID)) return false;
 			
-			$profile_id = "SELECT ProfileID, ProfileGallery FROM ". table_agency_profile .
-						" WHERE ProfileUserLinked = " . $PID;
+			$profile_id = "SELECT * FROM ". table_agency_profile .
+						" WHERE ProfileID = " . $PID;
 
 			$get_id = $wpdb->get_row($profile_id);
 

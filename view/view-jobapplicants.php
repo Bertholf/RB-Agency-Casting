@@ -385,14 +385,15 @@ if (is_user_logged_in()) {
 		
 		// load all job postings
 		//for admin view
-		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_Application_ID  FROM " . table_agency_casting_job_application .
+		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_UserProfileID as JProfileID, applicants.Job_Application_ID  FROM " . table_agency_casting_job_application .
 											 $where
 											 . " GROUP By app_id ORDER By applicants.Job_Criteria_Passed DESC 
 											 LIMIT " . $limit1 . "," . $record_per_page );
 	
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
-				$details = RBAgency_Casting::rb_casting_get_model_details($load->app_id);
+				echo $load->JProfileID;
+				$details = RBAgency_Casting::rb_casting_get_model_details($load->JProfileID);
 				if($details->ProfileGallery != ""){
 					$display = '<a href="'.get_bloginfo('wpurl').'/profile/'.$details->ProfileGallery.'">'.$details->ProfileContactDisplay.'</a>';
 				} else {
@@ -404,7 +405,7 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
 				
 				// applicant image
-				$image = RBAgency_Casting::rb_get_model_image($load->app_id);
+				$image = RBAgency_Casting::rb_get_model_image($load->JProfileID);
 				if($image!= ""){			
 					echo "<div style='float:left; display:block; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
 					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
@@ -419,7 +420,7 @@ if (is_user_logged_in()) {
 					echo "</div>";
 				}
 				
-				echo "<br><span style ='margin-left:5px; float:left; clear:both'>" . $display. "</span></td>\n";
+				echo "<br><span style ='margin-left:5px; float:left; clear:both'>" . $display."</span></td>\n";
 				
 				if(RBAgency_Casting::rb_get_job_visibility($load->Job_ID) == 1){
 					echo "        <td class=\"column-JobLocation\" scope=\"col\">100% Matched <br> <hr style='margin:5px'> Open to All<br>";

@@ -49,10 +49,13 @@ $siteurl = get_option('siteurl');
 
 			foreach($_POST as $key => $val ){
 				if(strpos($key, "profiletalent") !== false){
+					
 					$wpdb->query($wpdb->prepare("DELETE FROM ".table_agency_castingcart_profile_hash." WHERE CastingProfileHashProfileID = %s",$val));
 					array_push($arr_selected_profile, $val);
+					$wpdb->query("DELETE FROM  " . table_agency_casting_job_application . " WHERE Job_ID = ".$_GET["Job_ID"]." AND Job_UserProfileID = ".$val);
 				}
 			}
+
 			$new_set_profiles = implode(",",array_diff($arr_profiles,$arr_selected_profile));
 			$wpdb->query($wpdb->prepare("UPDATE ".table_agency_casting_job." SET Job_Talents=%s WHERE Job_ID = %d", $new_set_profiles, $_GET["Job_ID"]));
 			echo ('<div id="message" class="updated"><p>'.count($arr_selected_profile).(count($arr_selected_profile) <=1?" profile":" profiles").' removed successfully!</p></div>');
@@ -1108,6 +1111,9 @@ $siteurl = get_option('siteurl');
 					echo "</a>";
 					echo "</div>\n";
 						if(isset($_GET["Job_ID"])){
+
+							echo "<input type=\"hidden\" name=\"delete_profile_id[]\" value=\"".$data["ProfileID"]."\">";
+
 							$query = "SELECT CastingAvailabilityStatus as status FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
 							$prepared = $wpdb->prepare($query,$data["ProfileID"],$_GET["Job_ID"]);
 							$availability = current($wpdb->get_results($prepared));
