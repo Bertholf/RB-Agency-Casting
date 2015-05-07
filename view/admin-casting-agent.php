@@ -349,8 +349,8 @@ function rb_manage_client($CastingID) {
 					//create folder
 					$CastingGallery 		= "casting-agent-" . $new_user;
 					if (!is_dir(RBAGENCY_UPLOADPATH . $CastingGallery)) {
-						mkdir(RBAGENCY_casting_UPLOADPATH . $CastingGallery, 0755);
-						chmod(RBAGENCY_casting_UPLOADPATH . $CastingGallery, 0777);
+						//mkdir(RBAGENCY_casting_UPLOADPATH . $CastingGallery, 0755);
+						//chmod(RBAGENCY_casting_UPLOADPATH . $CastingGallery, 0777);
 					}
 
 					if ($rb_agency_option_profilenaming == 0) { 
