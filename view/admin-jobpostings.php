@@ -262,7 +262,7 @@ function job_type_settings(){
 	if(count($load_jobtypes) > 0 ){
 		foreach($load_jobtypes as $jtypes){
 			echo "    <tr>\n";
-			echo "        <td class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"row\" style=\"text-align:center;\"><input type=\"checkbox\"/></td>\n";
+			echo "        <td class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"row\" style=\"text-align:center;\"><input type=\"checkbox\" name=\"job_".$jtypes->Job_Type_ID."\"/></td>\n";
 			echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$jtypes->Job_Type_ID."</td>\n";
 			echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$jtypes->Job_Type_Title;
 			echo "          <div class=\"row-actions\">\n";
@@ -285,6 +285,8 @@ function job_type_settings(){
 	echo " </tfoot>\n";
 	echo " <tbody>\n";
 	echo "</table>\n";
+	echo "<br>";
+	echo "<input class=\"button-primary\" type=\"submit\" name=\"delete\" value=\"DELETE\">";
 
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
@@ -292,10 +294,24 @@ function job_type_settings(){
 	if (isset($items) && $items > 0) {
 		echo $p->show();  // Echo out the list of paging. 
 	}
+
+
 	echo "  </div>\n";
 	echo "</div>\n";
 	echo "</form>\n";
 	
+
+	if(isset($_POST['delete'])){
+		foreach($_POST as $k=>$v){
+			if($k !== "delete"){
+				$jobTypeID = explode("_",$k);
+				echo $jobTypeID[1];
+				$delete = "DELETE FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = \"" . $jobTypeID[1] . "\"";
+				$result = $wpdb->query($delete);
+			}
+		}
+		wp_redirect(admin_url("admin.php?page=" . $_GET['page']));		
+	}
 }
 
 ?>
