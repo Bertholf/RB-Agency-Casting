@@ -72,7 +72,8 @@ $siteurl = get_option('siteurl');
 
 					array_push($arr_selected_profile, $val);
 					$profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID = '".$val."' ");
-					$wpdb->query("DELETE FROM ".table_agency_casting_job_application." WHERE Job_ID = '".$_GET["Job_ID"]."' AND Job_UserLinked = '".$profile_user_linked->ProfileUserLinked."'");
+					$wpdb->query("DELETE FROM ".table_agency_casting_job_application." WHERE Job_ID = '".$_GET["Job_ID"]."' AND Job_UserProfileID = '".$val."'");
+					
 				}
 			}
 
