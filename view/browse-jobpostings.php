@@ -130,17 +130,17 @@ if (is_user_logged_in()) {
 		echo "</table>";		
 		echo "</form>";
 		
-		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . (isset($_GET['page'])?$_GET["page"]:"")) . "\">\n";
+		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . (isset($_GET['page'])?$_GET["page"]:"")) . "\" id=\"job-postings\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">ID</th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Start Date</th>\n";
-		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Location</th>\n";
-		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Region</th>\n";
-		echo "        <th class=\"column-JobDateCreated\" id=\"JobDateCreated\" scope=\"col\">Date posted</th>\n";
-		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Actions</th>\n";
+		echo "        <th class=\"column-JobLocation\" id=\"JobLocation\" scope=\"col\">Location</th>\n";
+		echo "        <th class=\"column-JobRegion\" id=\"JobRegion\" scope=\"col\">Region</th>\n";
+		echo "        <th class=\"column-JobDatePosted\" id=\"JobDatePosted\" scope=\"col\">Date posted</th>\n";
+		echo "        <th class=\"column-JobActions\" id=\"JobActions\" scope=\"col\">Actions</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
 		
@@ -211,19 +211,19 @@ if (is_user_logged_in()) {
 					//if admin, can only edit his own job postings.
 					if(current_user_can( 'edit_posts' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
 						if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
-							echo "        <td class=\"column-JobType\" scope=\"col\">
+							echo "        <td class=\"column-JobActions\" scope=\"col\">
 											<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
 											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
 								 		  </td>\n";
 						} else {
-							echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
+							echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
 											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
 										  </td>\n";
 						}
 						
 					//if agent
 					} else {
-						echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>View Details</a></td>\n";
+						echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>View Details</a></td>\n";
 					}
 					
 				}
@@ -241,9 +241,9 @@ if (is_user_logged_in()) {
 			
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
-				echo "<p style=\"width:100%;\">You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
+				echo "<p>You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 			} else {
-				echo "<p style=\"width:100%;\">There are no available job postings.</p>\n";
+				echo "<p>There are no available job postings.</p>\n";
 			}
 			
 		}
