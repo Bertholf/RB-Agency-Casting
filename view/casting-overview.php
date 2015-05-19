@@ -13,13 +13,13 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	// add advanced search
 	?>
 	<script type='text/javascript'>
-			jQuery(document).ready(function(){
-				jQuery("body").on('click','#asearch', function(){
-					window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
-				});
-				var htm = '<input class="button-primary" id="asearch" type="button" value="Advanced Search">';
-				jQuery('.rbsubmit').append(htm);
+		jQuery(document).ready(function(){
+			jQuery("body").on('click','#asearch', function(){
+				window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
 			});
+			var htm = '<input class="button-primary" id="asearch" type="button" value="Advanced Search">';
+			jQuery('.rbsubmit').append(htm);
+		});
     </script>
 	<?php	
 	echo "<div id=\"rbdashboard\">\n";
@@ -143,20 +143,21 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	}
 	
 	echo "		</ul>\n";
-	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"rb_button\">Edit Information</a></h4>\n";
-	echo "		<h4><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"rb_button\">Post a New Job</a></h4>\n";
+	echo "		<ul class=\"links\">\n";
+	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\">Edit Information</a></li>\n";
+	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-postjob\">Post a New Job</a></li>\n";
 	
 	if (current_user_can( 'edit_posts' )){
-		echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View All Job Postings</a></h4>\n";
-		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View All Applicants</a></h4>\n";
+		echo "		<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View All Job Postings</a></li>\n";
+		echo "		<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View All Applicants</a></li>\n";
 	} else {
-		echo "		<h4><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"rb_button\">View Your Job Postings</a></h4>\n";
-		echo "		<h4><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"rb_button\">View Your Applicants</a></h4>\n";
-		echo "		<h4><a href=\"". get_bloginfo("url") ."/profile-casting\" class=\"rb_button\">View Your Casting Cart</a></h4>\n";
-	
+		echo "		<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View Your Job Postings</a></li>\n";
+		echo "		<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View Your Applicants</a></li>\n";
+		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\">View Your Casting Cart</a></li>\n";	
 	}
 	
-	echo "		<h4><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\" class=\"rb_button\">Log out</a></h4>\n";
+	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\">Log out</a></li>\n";
+	echo "  	</ul><!-- .links -->\n";
 	echo "  </div>\n";
 	
 	echo "  <div id=\"search\">\n";
