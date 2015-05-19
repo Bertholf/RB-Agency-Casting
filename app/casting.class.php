@@ -734,14 +734,14 @@ class RBAgency_Casting {
 				$list_value = isset($custom_fields["age"])?$custom_fields["age"]:"";
 				@list($min_val,$max_val) =  @explode("-",$list_value);
 
-				echo "<div class=\"rbfield rbmulti rbmetric rbsingle profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
+				echo "<div class=\"rbfield rbmulti rbmetric profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
 				echo "<label for=\"ProfileCustomIDage\">Age</label>";
 				echo "<div class=\"clear\"></div>";				
-				echo "<div><label for=\"ProfileCustomIDage_min\">Min</label>";
+				echo "<div><div><label for=\"ProfileCustomIDage_min\">Min</label>";
 				echo "<input value=\"".(isset($min_val)?$min_val:"")."\" class=\"stubby rbmin\" type=\"text\" name=\"ProfileCustomIDage[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
 				echo "<div><label for=\"ProfileCustomIDage_max\">Max</label>";
 				echo "<input value=\"".(isset($max_val)?$max_val:"")."\" class=\"stubby rbmax\" type=\"text\" name=\"ProfileCustomIDage[]\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
-				echo "</div>";
+				echo "</div></div>";
 
 				echo "<div class=\"rbfield rbselect rbsingle profilecustomid_gender\"  attrid=\"gender\"  id=\"profilecustomid_gender\">";
 				echo "	<label for=\"ProfileCustomIDgender\">Gender</label>";

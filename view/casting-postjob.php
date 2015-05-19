@@ -339,9 +339,8 @@ function load_job_display($error = NULL){
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
-					<div class='rbfield rbtext rbsingle'>
-						<label></label>
-						<div id='criteria'></div>
+					<div id='criteria'>
+						
 					</div>
 					<div class='rbfield rbsubmit'>
 						<label></label>
@@ -350,7 +349,7 @@ function load_job_display($error = NULL){
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
-		echo "			<p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "		</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary

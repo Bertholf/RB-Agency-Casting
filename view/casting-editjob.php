@@ -178,7 +178,7 @@ if(isset($_GET['save_job'])){
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
 			echo '				<p>You have successfully updated your new Job Posting! <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
-			echo '				<p style="width:100%;"><a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></p>';
+			echo '				<p><a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
@@ -225,7 +225,7 @@ function load_job_display($error = NULL, $data){
 		//===============================
 		//	table form
 		//===============================
-		echo " <form method='get' actipn='".$_SERVER['PHP_SELF']."'>
+		echo " <form method='get' actipn='".$_SERVER['PHP_SELF']."' class=\"rbform\">
 					<table>
 						<tr>
 							<td><h3>Job Description</h3></td>
@@ -331,19 +331,13 @@ function load_job_display($error = NULL, $data){
 							<td id='criteria'></td>
 						</tr>	
 						<tr>
-							<td></td>
-							<td><input type='submit' name='save_job' value='Submit Job'></td>
+							<td colspan=\"2\"><input type='submit' name='save_job' value='Submit Job'></td>
 						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<p style='width:100%;'><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>
-							</td>
-						</tr>		
 					</table>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
+		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "  	</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
