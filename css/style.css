@@ -2,6 +2,7 @@
  * Casting Stylesheet
  */
 
+#profile-casting-list { margin-bottom: 30px; }
 #search-job #field { margin-bottom: 10px; }
 #search-job #action input { margin-right: 10px; }
 .result-action { margin: 30px 0; overflow: hidden; }
@@ -12,6 +13,12 @@
 .result-action input:hover { background: transparent; }
 #checkavailabilityForm { overflow: hidden; margin-bottom: 15px; }
 #rbdashboard #profile-info .links { margin: 30px 0; }
+#job-applicants .photo.no-image { width: 80px; height: 80px; background: #333; color: #fff; line-height: 80px; font-size: small; text-align: center; }
+#job-applicants td.column-JobTitle span.id { font-size: small; }
+#job-applicants td.column-JobAction { line-height: normal; font-size: small; }
+#job-applicants td.column-JobAction a { margin-bottom: 5px; display: inline-block; border: none }
+#job-applicants td.column-JobAction p { margin-bottom: 5px; }
+#job-applicants td.column-JobAction input[type="button"] { margin-top: 5px;  }
 
 /*#rbdashboard #profile-info ul li a{display:inline-block;zoom:1;line-height:normal;white-space:nowrap;vertical-align:middle;text-align:center;cursor:pointer;-webkit-user-drag:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
 #rbdashboard #profile-info ul li a::-moz-focus-inner{padding:0;border:0}

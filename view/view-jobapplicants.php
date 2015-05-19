@@ -376,10 +376,10 @@ if (is_user_logged_in()) {
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\">Select<br><input type='checkbox' id='sel_all'></th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:100px;\">Job Title / ID</th>\n";
-		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Applicant</th>\n";
-		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Criteria Passed</th>\n";
-		echo "        <th class=\"column-JobLocation\" id=\"ProfilesProfileDate\" scope=\"col\">Application Letter</th>\n";		
-		echo "        <th class=\"column-JobRegion\" id=\"ProfileLocationCity\" scope=\"col\">Action</th>\n";
+		echo "        <th class=\"column-JobApplicant\" id=\"JobApplicant\" scope=\"col\">Applicant</th>\n";
+		echo "        <th class=\"column-JobCriteriaPassed\" id=\"CriteriaPassed\" scope=\"col\">Criteria Passed</th>\n";
+		echo "        <th class=\"column-JobApplicationLetter\" id=\"JobApplicationLetter\" scope=\"col\">Application Letter</th>\n";		
+		echo "        <th class=\"column-JobAction\" id=\"JobAction\" scope=\"col\">Action</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
 		
@@ -401,21 +401,21 @@ if (is_user_logged_in()) {
 				}
 				echo "    <tr>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID.":".$load->app_id."'></td>\n";
-				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."<br><div style='margin-top:12px; font-size:11px'>Job ID# : ".$load->Job_ID."</div></td>\n";
+				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."<br><span class=\"id\">Job ID# : ".$load->Job_ID."</span></td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
 				
 				// applicant image
 				$image = RBAgency_Casting::rb_get_model_image($load->JProfileID);
 				if($image!= ""){			
-					echo "<div style='float:left; display:block; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
+					echo "<div class=\"photo\">";
 					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
 					echo "<a href=\"".get_bloginfo('wpurl')."/profile/".$details->ProfileGallery."\">";
-					echo "<img src='".$image."' style='max-width:120px; max-height:120px; vertical-align:middle'>";
+					echo "<img src='".$image."'>";
 					echo "</a>";
 					echo "</span>";
 					echo "</div>";
 				} else {
-					echo "<div style='float:left; color:white; background:gray; width:120px; height:120px; text-align:center; line-height:120px; margin:5px; vertical-align:middle'>";
+					echo "<div class=\"no-image photo\">";
 					echo "No Image";
 					echo "</div>";
 				}
@@ -446,9 +446,9 @@ if (is_user_logged_in()) {
 				
 				echo "</td>\n";
 
-				echo "        <td class=\"column-JobType\" scope=\"col\">".$load->Job_Pitch ."</td>";
+				echo "        <td class=\"column-JobApplicationLetter\" scope=\"col\">".$load->Job_Pitch ."</td>";
 				
-				echo "        <td class=\"column-JobType\" scope=\"col\">";
+				echo "        <td class=\"column-JobAction\" scope=\"col\">";
 				if(current_user_can("edit_posts")){
 					echo "<a href='".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$load->Job_ID)."' style=\"font-size:12px;\">Edit Job Details</a><br>";
 				}else{
@@ -515,15 +515,12 @@ if (is_user_logged_in()) {
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
 		}		
 
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart.</a></p>\n";		
-		
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";		
+		echo "<br><p><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></p>\n";
 		
 	} else {
-
-		echo "<p><h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3></p><br>";	
-	
+		echo "<h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3><br>";	
 	}
+
 	echo "</div> <!-- #content -->";
 } else {
 	include ("include-login.php");
