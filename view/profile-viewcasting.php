@@ -194,7 +194,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							$Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
 					}  
 					echo "<form method=\"get\" action=\"\" id=\"search-job\" class=\"search-form\">";
-					echo "<div id=\"field\"><select name=\"Job_ID\" style=\"width: 100%;\">";
+					echo "<div id=\"field\"><select name=\"Job_ID\">";
 					echo "<option value=\"\">- Select a job-</option>";
 					foreach ($Jobs as $key) {
 						echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
@@ -334,20 +334,25 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					?>
 
 
-					<div id="checkavailabilityForm" style="display:none;">
+					<div id="checkavailabilityForm" class="rbform block" style="display:none;">
 					<strong>Check Availability</strong>
 					<form method="post" action="">
-						<div>
-							Send to: <input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" />
+						<div class="rbfield rbtext rbsingle">
+							<label>Send to:</label>
+							<div><input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" /></div>
 						</div>
-						<div>
-							BCC: <input type="text" name="email_bcc" />
+						<div class="rbfield rbtext rbsingle">
+							<label>BCC:</label>
+							<div><input type="text" name="email_bcc" /></div>
 						</div>
-						<div>
-							Message:
-							<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
-							<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
-							<br/>
+						<div class="rbfield rbtext rbsingle">
+							<label>Message:</label>
+							<div>
+								<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
+								<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
+							</div>
+						</div>
+						<div class="rbfield rbsubmit">
 							<input type="submit" name="checkavailability" value="Send" />
 						</div>
 					</form>
@@ -440,8 +445,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					global $current_user;
       				get_currentuserinfo();
 					?>
-					<div id="sendProfilesForm" style="display:none;">
-						<strong>Send Profiles</strong>
+					<div id="sendProfilesForm" class="rbform block" style="display:none;">
+						<h2>Send Profiles</h2>
 						<form method="post" action="">
 							<div>
 								 <input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname." ".$current_user->user_lastname; ?>" disabled="disabled"/>
@@ -449,25 +454,28 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							<div>
 								<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $current_user->user_email; ?>" disabled="disabled"/>
 							</div>
-							<div>
-								Send to Name: <input type="text" name="sendToName" id="sendToName" />
+							<div class="rbfield rbtext rbsingle">
+								<label>Send to Name:</label>
+								<div><input type="text" name="sendToName" id="sendToName" /></div>
 							</div>
-							<div>
-								Send to Email: <input type="text" name="sendToEmail" id="sendToEmail" />
+							<div class="rbfield rbtext rbsingle">
+								<label>Send to Email:</label>
+								<div><input type="text" name="sendToEmail" id="sendToEmail" /></div>
 							</div>
-							<div>
-								BCC: <input type="text" name="emailBcc" id="emailBcc"/>
+							<div class="rbfield rbtext rbsingle">
+								<label>BCC:</label>
+								<div><input type="text" name="emailBcc" id="emailBcc"/></div>
 							</div>
-							<div>
-								Subject: <input type="text" name="subject" id="subject"/>
+							<div class="rbfield rbtext rbsingle">
+								<label>Subject:</label>
+								<div><input type="text" name="subject" id="subject"/></div>
 							</div>
-							<div>
-								Message:
-								
-								<textarea id="message" name="message" style="width:100%;height:200px;">Click the following link (or copy and paste it into your browser): [link-place-holder]</textarea>
-								<br/>
-								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />
-								
+							<div class="rbfield rbtextarea rbsingle">
+								<label>Message:</label>
+								<div><textarea id="message" name="message" style="width:100%;height:200px;">Click the following link (or copy and paste it into your browser): [link-place-holder]</textarea></div>
+							</div>
+							<div class="rbfield rbsubmit">
+								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />								
 							</div>
 						</form>
 					</div>
@@ -498,7 +506,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 echo "			<div class=\"cb\"></div>\n";
 
 if(is_user_logged_in()){
-	echo "<p style=\"width:50%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a> | \n";
+	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a> | \n";
 	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";
 }
 
