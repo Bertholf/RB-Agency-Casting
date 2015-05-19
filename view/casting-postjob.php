@@ -63,7 +63,6 @@ if(isset($_POST['save_job'])){
 			}
 		}
 
-
 		if($date_confirm == 0){
 			$date_start = strtotime($_POST['Job_Date_Start']);
 			$date_end = strtotime($_POST['Job_Date_End']);
@@ -344,19 +343,14 @@ function load_job_display($error = NULL){
 						<label></label>
 						<div id='criteria'></div>
 					</div>
-					<div class='rbfield rbtext rbsingle'>
+					<div class='rbfield rbsubmit'>
 						<label></label>
-						<div><input type='submit' name='save_job' value='Submit Job'></div>
-					</div>
-					<div>
-						<label></label>
-						<div>
-							<p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>
-						</div>
+						<input type='submit' name='save_job' value='Submit Job'>
 					</div>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
+		echo "			<p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "		</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
