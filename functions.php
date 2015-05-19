@@ -2,13 +2,15 @@
 // *************************************************************************************************** //
 // Admin Head Section 
 
-/*	add_action('admin_head', 'rb_agency_casting_admin_head');
-		function rb_agency_casting_admin_head(){
-		if( is_admin() ) {
-			echo "<link rel=\"stylesheet\" href=\"". rb_agency_casting_BASEDIR ."style/admin.css\" type=\"text/css\" media=\"screen\" />\n";
+	add_action('wp_head', 'rb_agency_casting_head');
+		function rb_agency_casting_head(){
+			if( !is_admin() ) {
+				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_casting_PLUGIN_URL ."css/style.css\" type=\"text/css\" media=\"screen\" />\n";
+				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_PLUGIN_URL ."assets/css/forms.css\" type=\"text/css\" media=\"screen\" />\n";
+			}
 		}
-		}*/
 
+	/*
 	// Remember to flush_rules() when adding rules
 	// Todo: Remove lines below. Causes permalink incompatibility with other plugins such as woocommerce
 	
