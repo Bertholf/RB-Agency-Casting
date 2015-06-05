@@ -13,8 +13,8 @@ include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 	$rb_agency_options_arr = get_option('rb_agency_options');
 		$rb_agency_option_profilenaming = $rb_agency_options_arr['rb_agency_option_profilenaming'];
 
-	echo "<div id=\"container\" class=\"one-column\">\n";
-	echo "    <div id=\"content\" role=\"main\" class=\"transparent\">\n";
+	echo "<div class=\"one-column\">\n";
+	echo "    <div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
 
 		echo " <div id=\"profile-private\">\n";
 

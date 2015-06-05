@@ -119,8 +119,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 <?php
 
-	echo "	<div id=\"primary\" class=\"".fullwidth_class()."  clearfix\">\n";
-	echo "  	<div id=\"content\" role=\"main\" >\n";
+	echo "	<div class=\"".fullwidth_class()."  clearfix\">\n";
+	echo "  	<div id=\"rbcontent\" role=\"main\" >\n";
 	echo '			<header class="entry-header">';
 	echo '				<h1 class="entry-title">Casting Cart</h1>';
 	echo '			</header>';

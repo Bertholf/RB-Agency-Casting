@@ -204,8 +204,8 @@
 	
 	echo $rb_header = RBAgency_Common::rb_header();
 	
-	echo "<div id=\"primary\" class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
-	echo "  <div id=\"content\">\n";
+	echo "<div class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
+	echo "  <div id=\"rbcontent\">\n";
    
 		// ****************************************************************************************** //
 		// Already logged in 

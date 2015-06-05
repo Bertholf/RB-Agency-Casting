@@ -128,18 +128,18 @@ if(isset($_POST['save_job'])){
 		
 			$wpdb->query($sql_Insert);
 			
-			echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
-			echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
+			echo "	<div class=\"".fullwidth_class()." column\">\n";
+			echo "  	<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
 			echo '			<div class="entry-content">';	
 			echo "			<div class=\"cb\"></div>\n";
-			echo '			<header class="entry-header">';
-			echo '				<h4 class="entry-title">You have successfully added your new Job Posting!<br/> <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-postjob\'" class="button-primary" value="Add new Job Posting?"/>';
-			echo '				| <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-dashboard\'" class="button-primary" value="Go Back to Casting Dashboard"/></h4>';
-			echo '			</header>';
+			echo '			<p class="rbalert success">';
+			echo '				<strong>You have successfully added your new Job Posting!</strong><br/> <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-postjob\'" class="button-primary" value="Add new Job Posting?"/>';
+			echo '				| <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-dashboard\'" class="button-primary" value="Go Back to Casting Dashboard"/>';
+			echo '			</p>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
 			echo "			<input type=\"hidden\" name=\"favorite\" value=\"1\"/>";
-			echo "  	</div><!-- #content -->\n"; // #content
+			echo "  	</div><!-- #rbcontent -->\n"; // #rbcontent
 			echo "	</div><!-- #primary -->\n"; // #primary
 
 		} else {
@@ -356,16 +356,16 @@ function load_job_display($error = NULL){
 
 	} else {
 
-		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
-		echo "		<div id=\"content\" role=\"main\" class=\"transparent\">\n";
-		echo '			<header class="entry-header">';
-		echo '				<h1 class="entry-title">You are not permitted to access this page.</h1>';
-		echo '			</header>';
+		echo "	<div class=\"".fullwidth_class()." column\">\n";
+		echo "		<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
+		echo '			<p class="rbalert error">';
+		echo '				<strong>You are not permitted to access this page.</strong>';
+		echo '			</p>';
 		if(!is_user_logged_in()){
 			require_once("include-login.php");
 		}
-		echo "		</div><!-- #content -->\n"; // #content
-		echo "	</div><!-- #primary -->\n"; // #primary
+		echo "		</div><!-- #content -->\n"; // #rbcontent
+		echo "	</div><!-- .column -->\n"; // #.column
 
 	}
 }

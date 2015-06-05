@@ -123,8 +123,8 @@
 	
 	echo $rb_header = RBAgency_Common::rb_header();
 	
-	echo "<div id=\"primary\" class=\"rbcol-12 rbcolumn rbagency-casting manage\">\n";
-	echo "  <div id=\"content\">\n";
+	echo "<div class=\"rbcol-12 rbcolumn rbagency-casting manage\">\n";
+	echo "  <div id=\"rbcontent\">\n";
 
    
 		// ****************************************************************************************** //
