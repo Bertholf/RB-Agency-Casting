@@ -172,7 +172,7 @@ jQuery(document).ready(function(){
 <?php
 if (is_user_logged_in()) { 
 
-	echo "<div id=\"content\">";
+	echo "<div id=\"rbcontent\">";
 	
 	// casting agents and admin only
 	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
@@ -518,10 +518,10 @@ if (is_user_logged_in()) {
 		echo "<br><p><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></p>\n";
 		
 	} else {
-		echo "<h3>Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></h3><br>";	
+		echo "<p class=\"rbalert info\">Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></p><br>";	
 	}
 
-	echo "</div> <!-- #content -->";
+	echo "</div> <!-- #rbcontent -->";
 } else {
 	include ("include-login.php");
 }

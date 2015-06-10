@@ -14,7 +14,7 @@ echo $rb_header = RBAgency_Common::rb_header();
 
 if (is_user_logged_in()) { 
 
-	echo "<div id=\"content\">";
+	echo "<div id=\"rbcontent\">";
 
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 				echo "<p><h3>Job Postings</h3></p><br>";
@@ -78,7 +78,7 @@ if (is_user_logged_in()) {
 		
 		// setup filter display
 		echo "<form id=\"jobposting-filter\" method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";		
-		echo "<table style='margin-bottom:20px'>\n";
+		echo "<table>\n";
 		echo "<tbody>";
 		echo "<tr>";
 		echo "        <td>Start Date<br>
@@ -257,7 +257,7 @@ if (is_user_logged_in()) {
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 		}
-	echo "</div> <!-- #content -->";		
+	echo "</div> <!-- #rbcontent -->";		
 		
 } else {
 	include ("include-login.php");

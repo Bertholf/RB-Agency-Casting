@@ -14,6 +14,8 @@
 #checkavailabilityForm { overflow: hidden; margin-bottom: 15px; }
 #rbdashboard #profile-info .links { margin: 30px 0; }
 
+#job-postings th,
+#job-postings td { padding: 5px; }
 #job-postings td.column-JobActions { font-size: small; line-height: normal; }
 #job-postings td.column-JobActions a { display: inline-block; margin-bottom: 5px; border: none; }
 
@@ -23,6 +25,13 @@
 #job-applicants td.column-JobAction a { margin-bottom: 5px; display: inline-block; border: none }
 #job-applicants td.column-JobAction p { margin-bottom: 5px; }
 #job-applicants td.column-JobAction input[type="button"] { margin-top: 5px;  }
+
+#jobposting-filter { margin-bottom: 15px; }
+#jobposting-filter table { width: 100%; }
+#jobposting-filter td { padding: 0 5px; vertical-align: top; }
+#jobposting-filter td:last-child { vertical-align: middle; }
+#jobposting-filter td select { margin-bottom: 5px; }
+#jobposting-filter td select, input[type="text"] { width: 100%; }
 
 /*#rbdashboard #profile-info ul li a{display:inline-block;zoom:1;line-height:normal;white-space:nowrap;vertical-align:middle;text-align:center;cursor:pointer;-webkit-user-drag:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
 #rbdashboard #profile-info ul li a::-moz-focus-inner{padding:0;border:0}
