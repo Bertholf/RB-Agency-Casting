@@ -15,7 +15,11 @@
 #rbdashboard #profile-info .links { margin: 30px 0; }
 
 #job-postings th,
-#job-postings td { padding: 5px; }
+#job-postings td,
+#job-applicants th,
+#job-applicants td,
+#job-applicants-filter th,
+#job-applicants-filter td { padding: 5px; }
 #job-postings td.column-JobActions { font-size: small; line-height: normal; }
 #job-postings td.column-JobActions a { display: inline-block; margin-bottom: 5px; border: none; }
 
@@ -27,7 +31,8 @@
 #job-applicants td.column-JobAction input[type="button"] { margin-top: 5px;  }
 
 #jobposting-filter { margin-bottom: 15px; }
-#jobposting-filter table { width: 100%; }
+#jobposting-filter table, { width: 100%; }
+#job-applicants-filter table { width: 100%; }
 #jobposting-filter td { padding: 0 5px; vertical-align: top; }
 #jobposting-filter td:last-child { vertical-align: middle; }
 #jobposting-filter td select { margin-bottom: 5px; }

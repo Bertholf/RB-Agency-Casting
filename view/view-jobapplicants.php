@@ -515,7 +515,7 @@ if (is_user_logged_in()) {
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";		
 		}		
 
-		echo "<br><p><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></p>\n";
+		echo "<br><p><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></p>\n";
 		
 	} else {
 		echo "<p class=\"rbalert info\">Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></p><br>";	

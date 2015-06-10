@@ -133,8 +133,8 @@ if(isset($_POST['save_job'])){
 			echo '			<div class="entry-content">';	
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<p class="rbalert success">';
-			echo '				<strong>You have successfully added your new Job Posting!</strong><br/> <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-postjob\'" class="button-primary" value="Add new Job Posting?"/>';
-			echo '				| <input type="button" onclick="window.location.href=\''.get_bloginfo('wpurl').'/casting-dashboard\'" class="button-primary" value="Go Back to Casting Dashboard"/>';
+			echo '				<strong>You have successfully added your new Job Posting!</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">Add new Job Posting?</a>';
+			echo '				<a href=\''.get_bloginfo('wpurl').'/casting-dashboard\'">Go Back to Casting Dashboard</a>';
 			echo '			</p>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
@@ -229,8 +229,7 @@ function load_job_display($error = NULL){
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
 
-		echo "	<div id=\"primary\" class=\"site-main rbcol-12 rbcolumn\">\n";
-		echo "<div id=\"content\" role=\"main\"";?><?php echo post_class(); ?><?php echo ">\n";
+		echo "<div id=\"rbcontent\" role=\"main\"";?><?php echo post_class(); ?><?php echo ">\n";
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">New Job Posting</h1>';
 		echo '			</header>';
@@ -351,8 +350,7 @@ function load_job_display($error = NULL){
 		echo "			<div class=\"cb\"></div>\n";
 		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
-		echo "		</div><!-- #content -->\n"; // #content
-		echo "	</div><!-- #primary -->\n"; // #primary
+		echo "		</div><!-- #rbcontent -->\n"; // #content
 
 	} else {
 
@@ -364,7 +362,7 @@ function load_job_display($error = NULL){
 		if(!is_user_logged_in()){
 			require_once("include-login.php");
 		}
-		echo "		</div><!-- #content -->\n"; // #rbcontent
+		echo "		</div><!-- #rbcontent -->\n"; // #rbcontent
 		echo "	</div><!-- .column -->\n"; // #.column
 
 	}
