@@ -41,11 +41,11 @@ See license.txt for full details.
 	// Version
 	define("RBAGENCY_casting_VERSION", $RBAGENCY_casting_VERSION); // e.g. 1.0
 	// Paths
-	define("RBAGENCY_casting_BASENAME", plugin_basename(__FILE__) );  // rb-agency/rb-agency.php
+	define("RBAGENCY_casting_BASENAME", plugin_basename(__FILE__) );// rb-agency/rb-agency.php
 	$rb_agency_casting_WPURL = get_bloginfo("wpurl"); // http://domain.com/wordpress
 	$rb_agency_casting_WPUPLOADARRAY = wp_upload_dir(); // Array  $rb_agency_casting_WPUPLOADARRAY['baseurl'] $rb_agency_casting_WPUPLOADARRAY['basedir']
-	define("RBAGENCY_casting_BASEDIR", get_bloginfo("wpurl") ."/". PLUGINDIR ."/". dirname( plugin_basename(__FILE__) ) ."/" );  // http://domain.com/wordpress/wp-content/plugins/rb-agency-casting/
-	define("RBAGENCY_casting_UPLOADDIR", $rb_agency_casting_WPUPLOADARRAY['baseurl'] ."/profile-media/" );  // http://domain.com/wordpress/wp-content/uploads/profile-media/
+	define("RBAGENCY_casting_BASEDIR", get_bloginfo("wpurl") ."/". PLUGINDIR ."/". dirname( plugin_basename(__FILE__) ) ."/" );// http://domain.com/wordpress/wp-content/plugins/rb-agency-casting/
+	define("RBAGENCY_casting_UPLOADDIR", $rb_agency_casting_WPUPLOADARRAY['baseurl'] ."/profile-media/" );// http://domain.com/wordpress/wp-content/uploads/profile-media/
 	define("RBAGENCY_casting_UPLOADPATH", $rb_agency_casting_WPUPLOADARRAY['basedir'] ."/profile-media/" ); // /home/content/99/6048999/html/domain.com/wordpress/wp-content/uploads/profile-media/
 	define("RBAGENCY_casting_TEXTDOMAIN", basename(dirname( __FILE__ )) ); //   rb-agency
 	define("RBAGENCY_casting_BASEREL", plugin_dir_path( __FILE__ ) );
@@ -60,7 +60,7 @@ See license.txt for full details.
 	if (!defined('RBAGENCY_casting_PLUGIN_URL')) // http://localhost/wp-content/plugins/rb-agency-casting/
 		define('RBAGENCY_casting_PLUGIN_URL', WP_PLUGIN_URL . '/' . RBAGENCY_casting_PLUGIN_NAME . '/');
 
-	
+
 // *************************************************************************************************** //
 
 /*
@@ -81,9 +81,9 @@ See license.txt for full details.
 	if (!defined("table_agency_casting_job"))
 		define("table_agency_casting_job", "{$wpdb->prefix}agency_casting_job");
 	if (!defined("table_agency_casting_job_type"))
-		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");  
+		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");
 	if (!defined("table_agency_casting_job_application"))
-		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");                    
+		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");            
 		// Casting
 	if (!defined("table_agency_castingcart"))
 		define("table_agency_castingcart", "{$wpdb->prefix}agency_castingcart");
@@ -105,7 +105,7 @@ See license.txt for full details.
 	add_action('init',  array('RBAgencyCasting', 'init'));
 	// Check if version number changed and upgrade required
 	add_action('init',  array('RBAgencyCasting', 'check_update_needed'));
-	
+
 
 
 // *************************************************************************************************** //
@@ -142,7 +142,7 @@ class RBAgencyCasting {
 				load_plugin_textdomain( RBAGENCY_casting_TEXTDOMAIN, false, basename( dirname( __FILE__ ) ) . '/translation/' ); 
 
 				// Load Jquery if not registered
-				 	
+
 
 
 			/*
@@ -158,8 +158,8 @@ class RBAgencyCasting {
 
 				// Register Settings
 				add_action('admin_init', array('RBAgencyCasting', 'do_register_settings') );
-			}else{
-				
+			} else {
+
 				wp_enqueue_script('jquery-core');
 				wp_enqueue_script( 'jquery-ui-core' );
 				wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -167,7 +167,7 @@ class RBAgencyCasting {
 			}
 
 		}
-	
+
 
 	/*
 	 * Plugin Activation
@@ -331,7 +331,7 @@ class RBAgencyCasting {
 					PRIMARY KEY (CastingProfileHashID)
 					);";
 					dbDelta($sql);
-		
+
 
 		}
 
@@ -493,7 +493,7 @@ class RBAgencyCasting {
 
 				if(!is_user_logged_in()){
 
-					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+					if ( !empty( $title ) ) {echo $before_title . $title . $after_title; };
 							echo "<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
 							echo "  <div class=\"box\">\n";
 							echo "      <label for=\"user-name\">". __("Username", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
@@ -511,7 +511,7 @@ class RBAgencyCasting {
 							echo "</form>\n";
 					} else {
 						if(current_user_can('level_10')){
-							if ( !empty( $title ) ) { echo $before_title . "RB Agency Settings" . $after_title; };
+							if ( !empty( $title ) ) {echo $before_title . "RB Agency Settings" . $after_title; };
 							echo "<ul>";
 							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu")."\">Overview</a></li>";
 							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_profiles")."\">Manage Profiles</a></li>";
@@ -522,7 +522,7 @@ class RBAgencyCasting {
 							echo "  <li><a href=\"".admin_url("admin.php?page=rb_agency_menu_settings")."\">Settings</a></li>";
 							echo "  <li><a href=\"/wp-login.php?action=logout&_wpnonce=3bb3c87a3d\">Logout</a></li>";
 							echo "</ul>";
-						} else{
+						} else {
 							rb_agency_profilesearch(array("layout" =>"simple"));
 						}
 					}
@@ -549,7 +549,7 @@ class RBAgencyCasting {
 				<?php
 			}
 
-		} // class
+		}// class
 
 
 

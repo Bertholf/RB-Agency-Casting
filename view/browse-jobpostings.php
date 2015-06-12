@@ -12,7 +12,7 @@ wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js')
 
 echo $rb_header = RBAgency_Common::rb_header();
 
-if (is_user_logged_in()) { 
+if (is_user_logged_in()) {
 
 	echo "<div id=\"rbcontent\">";
 
@@ -24,7 +24,7 @@ if (is_user_logged_in()) {
 			} elseif ( RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) {
 				echo "<p><h3>Your Job Postings</h3></p><br>";
 			}
-		}		
+		}
 
 		//setup filtering sessions
 		if(isset($_POST['filter'])){
@@ -37,26 +37,26 @@ if (is_user_logged_in()) {
 			// perpage
 			if(isset($_POST['filter_perpage']) && $_POST['filter_perpage'] != ""){
 				$_SESSION['perpage_browse'] = $_POST['filter_perpage'];
-			}	
+			}
 			// range
 			if(isset($_POST['filter_range']) && $_POST['filter_range'] != ""){
 				$_SESSION['range'] = $_POST['filter_range'];
-			}					
+			}
 
 			if(isset($_POST['filter_startdate']) && $_POST['filter_startdate'] != ""){
 				$_SESSION['startdate'] = $_POST['filter_startdate'];
-				
+
 				//validate date
 				list($y,$m,$d)= explode('-',$_SESSION['startdate']);
 				if(checkdate($m,$d,$y)!==true){
 					$_SESSION['startdate'] = "";
-				}				
+				}
 			}
 
 			if(isset($_POST['filter_location']) && $_POST['filter_location'] != ""){
 				$_SESSION['location'] = $_POST['filter_location'];
 			}
-			
+
 
 		}
 
@@ -72,28 +72,28 @@ if (is_user_logged_in()) {
 					jQuery( ".datepicker" ).datepicker();
 					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					var date_start="'.$startdate.'";
-    				jQuery("#filter_startdate").val(date_start);
-	      })
+					jQuery("#filter_startdate").val(date_start);
+			})
 		</script>';
-		
+
 		// setup filter display
-		echo "<form id=\"jobposting-filter\" method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";		
+		echo "<form id=\"jobposting-filter\" method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";
 		echo "<table>\n";
 		echo "<tbody>";
 		echo "<tr>";
 		echo "        <td>Start Date<br>
-						 <select name='filter_range'>
-						 	<option value='0' ".selected(0, $range,false).">Before</option>
-						 	<option value='1' ".selected(1, $range,false).">Later than</option>
-						 	<option value='2' ".selected(2, $range,false).">Exact</option>";
-		echo "			 </select> <br>			
+						<select name='filter_range'>
+							<option value='0' ".selected(0, $range,false).">Before</option>
+							<option value='1' ".selected(1, $range,false).">Later than</option>
+							<option value='2' ".selected(2, $range,false).">Exact</option>";
+		echo "			</select> <br>
 						<input type='text' name='filter_startdate' id='filter_startdate' class='datepicker'>
-					  </td>\n";
+						</td>\n";
 
 		echo "        <td>Location<br>
-						 <select name='filter_location'>
-						 	<option value=''>-- Select Location --</option>";
-		
+						<select name='filter_location'>
+							<option value=''>-- Select Location --</option>";
+
 		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
 			$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job . " WHERE Job_UserLinked = " . $current_user->ID;
 		} else {
@@ -103,33 +103,33 @@ if (is_user_logged_in()) {
 		$count = $wpdb->num_rows;
 		if($count > 0){
 			foreach($result_loc as $loc){
-				echo "<option value='".$loc['Location']."' ".selected(strtolower($loc['Location']),strtolower($location),false).">" .$loc['Location'] . "</option>";			
+				echo "<option value='".$loc['Location']."' ".selected(strtolower($loc['Location']),strtolower($location),false).">" .$loc['Location'] . "</option>";
 			}
 		}
-							
-		echo "		     </select> 
+
+		echo "				</select> 
 					</td>\n";
 
 		echo "        <td>Records Per Page<br>
-						 <select name='filter_perpage'>
-						 	<option value=''>- # of Rec -</option>";
-							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";		
-							
+						<select name='filter_perpage'>
+							<option value=''>- # of Rec -</option>";
+							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";
+
 		$page = 0;
 		for($page = 5; $page <= 50; $page += 5){
 			echo "<option value='$page' ".selected($page, $perpage,false).">$page</option>";
 		}
-		
-		echo "			 </select>		
-					  </td>\n";
 
-					  
+		echo "			</select>
+						</td>\n";
+
+
 		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
 		echo "    </tr>\n";
 		echo "</tbody>";
-		echo "</table>";		
+		echo "</table>";
 		echo "</form>";
-		
+
 		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . (isset($_GET['page'])?$_GET["page"]:"")) . "\" id=\"job-postings\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
@@ -143,13 +143,13 @@ if (is_user_logged_in()) {
 		echo "        <th class=\"column-JobActions\" id=\"JobActions\" scope=\"col\">Actions</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
-		
+
 		//pagination setup
 		$start = get_query_var('target');
 		$record_per_page = $perpage;
 		$link = get_bloginfo('wpurl') . "/browse-jobs/";
 		$table_name = table_agency_casting_job;
-		
+
 		// setup range date for start date
 		$filter='';
 		if($startdate!=''){
@@ -160,18 +160,18 @@ if (is_user_logged_in()) {
 			} elseif($range == 2){
 				$filter = "Job_Date_Start = '". $startdate ."'"; 
 			}
-		} 
-		
+		}
+
 		// setup location filter
 		if($location != ''){
 			if($filter != ''){
 				$filter .= " AND ";
 			}
-			
+
 			$filter .= "LOWER(Job_Location) = '" . strtolower($location) . "'";
 
 		}
-		
+
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) || current_user_can( 'edit_posts' )){
 			if($filter!=''){
 				$where = "WHERE $filter"; 
@@ -189,10 +189,10 @@ if (is_user_logged_in()) {
 			$limit1 = 0;
 		}
 		// end pagination setup
-		
+
 		// load postings for models , talents and admin view
 		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " " . $where . " LIMIT " . $limit1 . "," . $record_per_page );
-		
+
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
 				echo "    <tr>\n";
@@ -202,50 +202,50 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Location."</td>\n";
 				echo "        <td class=\"column-JobRegion\" scope=\"col\">".$load->Job_Region."</td>\n";
 				echo "        <td class=\"column-JobDateCreated\" scope=\"col\">".date("M d, Y - h:iA",strtotime($load->Job_Date_Created))."</td>\n";
-				
+
 				// if model is viewing
 				if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 					echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				} else {
-					
+
 					//if admin, can only edit his own job postings.
 					if(current_user_can( 'edit_posts' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
 						if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
 							echo "        <td class=\"column-JobActions\" scope=\"col\">
 											<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
 											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
-								 		  </td>\n";
+											</td>\n";
 						} else {
 							echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
 											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
-										  </td>\n";
+											</td>\n";
 						}
-						
+
 					//if agent
 					} else {
 						echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>View Details</a></td>\n";
 					}
-					
+
 				}
 				echo "    </tr>\n";
 			}
-		
+
 			echo "</table>";
-			
+
 			// actual pagination
 			RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
-			
+
 		} else {
-			
+
 			echo "</table>";
-			
+
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 				echo "<p>You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 			} else {
 				echo "<p>There are no available job postings.</p>\n";
 			}
-			
+
 		}
 
 		// only admin and casting should have access to casting dashboard
@@ -257,8 +257,8 @@ if (is_user_logged_in()) {
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
 			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 		}
-	echo "</div> <!-- #rbcontent -->";		
-		
+	echo "</div> <!-- #rbcontent -->";
+
 } else {
 	include ("include-login.php");
 }

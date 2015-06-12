@@ -25,7 +25,7 @@
 		// Error checking
 		$error = "";
 		$have_error = false;
-		
+
 		if ( empty($_POST['casting_first_name'])) {
 			$error .= __("First Name is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -40,7 +40,7 @@
 			$error .= __("You must enter a valid email address.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		
+
 		if ( empty($_POST['casting_company'])) {
 			$error .= __("Company is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -54,7 +54,7 @@
 			$error .= __("website is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-	
+
 		if ( empty($_POST['casting_address'])) {
 			$error .= __("Address is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -75,7 +75,7 @@
 			$error .= __("Country is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-	
+
 		// Bug Free!
 		if($have_error == false){
 
@@ -100,16 +100,16 @@
 						CastingLocationZip = '".$_POST['casting_zip']."',
 						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
 			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
-			
-			$result = $wpdb->query($update);        
-			
+
+			$result = $wpdb->query($update);
+
 			$error = "Successfully Updated!";
 
 			$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
-			
-			//header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");			
 
-		}	
+			//header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+
+		}
 	}
 
 
@@ -120,9 +120,9 @@
 	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
 	wp_enqueue_script('jquery_latest');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
-	
+
 	echo $rb_header = RBAgency_Common::rb_header();
-	
+
 	echo "<div class=\"rbcol-12 rbcolumn rbagency-casting manage\">\n";
 	echo "  <div id=\"rbcontent\">\n";
 
@@ -141,43 +141,43 @@
 		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
-	echo "	<h3>". __("Account Information", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";	
+	echo "	<h3>". __("Account Information", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
 	echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-manage/\">\n";
 
 	echo "       <div id=\"casting-first-name\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"casting_first_name\">". __("First Name", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value='".(isset($data_r->CastingContactNameFirst)?$data_r->CastingContactNameFirst:"")."' /></div>\n";
+	echo "   		<label for=\"casting_first_name\">". __("First Name", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_first_name\" type=\"text\" id=\"casting_first_name\" value='".(isset($data_r->CastingContactNameFirst)?$data_r->CastingContactNameFirst:"")."' /></div>\n";
 	echo "       </div><!-- #casting-first-name -->\n";
 
 	echo "       <div id=\"casting-last-name\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"casting_last_name\">". __("Last Name", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value='".(isset($data_r->CastingContactNameLast)?$data_r->CastingContactNameLast:"")."' /></div>\n";
+	echo "   		<label for=\"casting_last_name\">". __("Last Name", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_last_name\" type=\"text\" id=\"casting_last_name\" value='".(isset($data_r->CastingContactNameLast)?$data_r->CastingContactNameLast:"")."' /></div>\n";
 	echo "       </div><!-- #casting_last_name -->\n";
 
 	echo "       <div id=\"casting-email\" class=\"rbfield rbemail rbsingle\">\n";
-	echo "       	<label for=\"email\">". __("E-mail (required)", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingContactEmail)?$data_r->CastingContactEmail:"")."' /></div>\n";
+	echo "   		<label for=\"email\">". __("E-mail (required)", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_email\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingContactEmail)?$data_r->CastingContactEmail:"")."' /></div>\n";
 	echo "       </div><!-- #casting-email -->\n";
 
 	echo "       <div id=\"casting-company\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"company\">". __("Company", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" value='".(isset($data_r->CastingContactCompany) ? $data_r->CastingContactCompany:"")."' /></div>\n";
+	echo "   		<label for=\"company\">". __("Company", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" value='".(isset($data_r->CastingContactCompany) ? $data_r->CastingContactCompany:"")."' /></div>\n";
 	echo "       </div><!-- #casting-company -->\n";
 
 	echo "       <div id=\"casting-website\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"website\">". __("Website", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingContactWebsite)?$data_r->CastingContactWebsite:"")."' /></div>\n";
+	echo "   		<label for=\"website\">". __("Website", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_website\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingContactWebsite)?$data_r->CastingContactWebsite:"")."' /></div>\n";
 	echo "       </div><!-- #casting-website -->\n";
 
 	echo "       <div id=\"casting-street-address\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"street-address\">". __("Street Address", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value='".(isset($data_r->CastingLocationStreet) ?$data_r->CastingLocationStreet:"")."' /></div>\n";
+	echo "   		<label for=\"street-address\">". __("Street Address", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_address\" type=\"text\" value='".(isset($data_r->CastingLocationStreet) ?$data_r->CastingLocationStreet:"")."' /></div>\n";
 	echo "       </div><!-- #casting-street-address -->\n";
 
 	echo "       <div id=\"casting-city\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"city\">". __("City", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingLocationCity)?$data_r->CastingLocationCity:"")."' /></div>\n";
-	echo "       </div><!-- #casting-city -->\n";	
+	echo "   		<label for=\"city\">". __("City", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_city\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingLocationCity)?$data_r->CastingLocationCity:"")."' /></div>\n";
+	echo "       </div><!-- #casting-city -->\n";
 
 	echo "<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
 	echo "       <div id=\"casting-country\" class=\"rbfield rbtext rbsingle\">\n";
@@ -214,8 +214,8 @@
 	echo "       </div></div><!-- #casting-state -->\n";
 
 	echo "       <div id=\"casting-zip\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "       	<label for=\"zip\">". __("Zip", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
-	echo "       	<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingLocationZip)?$data_r->CastingLocationZip:"")."' /></div>\n";
+	echo "   		<label for=\"zip\">". __("Zip", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value='".(isset($data_r->CastingLocationZip)?$data_r->CastingLocationZip:"")."' /></div>\n";
 	echo "       </div><!-- #casting-zip -->\n";
 
 		echo "	<h3>". __("Contact Phone", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
@@ -258,36 +258,36 @@
 			if(isset($current_user->user_login)){
 			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" disabled=\"disabled\" value=\"".$current_user->user_login."\" />\n";
 			} else {
-			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" value=\"\" />\n";	
+			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" value=\"\" />\n";
 			}
 			echo "			<small class=\"rbfield-note\">Cannot be changed</small>";
 			echo "		</div>\n";
 			echo "  </div>\n";
 		}
-		echo "	<h3>". __("Login Settings", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";		
+		echo "	<h3>". __("Login Settings", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
 		echo "	<div id=\"rbprofile-password\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPassword\" name=\"CastingPassword\" />\n";
-		echo "			<small class=\"rbfield-note\">Leave blank to keep same password</small>";	
-		echo "	 	</div>\n";
+		echo "			<small class=\"rbfield-note\">Leave blank to keep same password</small>";
+		echo "		</div>\n";
 		echo "	</div>\n";
 		echo "	<div id=\"rbprofile-retype-password\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Retype Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPasswordConfirm\" name=\"CastingPasswordConfirm\" />";
-		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";	
+		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
 
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
-	echo "       	<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
+	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
 
-					// if ( current_user_can("create_users") ) {  _e("Add User", RBAGENCY_casting_TEXTDOMAIN); } else {  _e("Register", RBAGENCY_casting_TEXTDOMAIN); } echo "\" />\n";
-					
+					// if ( current_user_can("create_users") ) { _e("Add User", RBAGENCY_casting_TEXTDOMAIN); } else { _e("Register", RBAGENCY_casting_TEXTDOMAIN); }echo "\" />\n";
+
 					wp_nonce_field("add-user");
 
-	echo "       	<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
+	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>
@@ -298,7 +298,7 @@
 
 }
 
-if(!$registration){ echo "<p class='alert'>The administrator currently disabled the registration.<p>"; }
+if(!$registration){echo "<p class='alert'>The administrator currently disabled the registration.<p>"; }
 
 echo "  </div><!-- #content -->\n";
 echo "</div><!-- #container -->\n";

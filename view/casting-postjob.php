@@ -12,7 +12,7 @@ wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js',
 echo $rb_header = RBAgency_Common::rb_header(); 
 
 //===============================
-// if sumitted process here	
+// if sumitted process here
 //===============================
 
 if(isset($_POST['save_job'])){
@@ -21,7 +21,7 @@ if(isset($_POST['save_job'])){
 		$error = "";
 		$have_error = false;
 		$date_confirm = 0;
-		
+
 		if ( empty($_POST['Job_Title'])) {
 			$error .= __("Job Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -101,7 +101,7 @@ if(isset($_POST['save_job'])){
 			foreach($_POST as $key => $val){
 				if($key != "save_job"){
 					if (strpos($key, "ProfileCustomID") > -1){
-						if($val != "" && !empty($val)){ 
+						if($val != "" && !empty($val)){
 							if(is_array($val)){
 								$n = "";
 								foreach($val as $x){
@@ -125,12 +125,12 @@ if(isset($_POST['save_job'])){
 			}
 			$job_talents_hash = RBAgency_Common::generate_random_string(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria, Job_Talents_Hash, Job_Date_Created) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' ,'".$job_talents_hash."',Now())";
-		
+
 			$wpdb->query($sql_Insert);
-			
+
 			echo "	<div class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
-			echo '			<div class="entry-content">';	
+			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<p class="rbalert success">';
 			echo '				<strong>You have successfully added your new Job Posting!</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">Add new Job Posting?</a>';
@@ -210,7 +210,7 @@ function load_job_display($error = NULL){
 				}
 			</script>';
 			echo '<style type="text/css">
-					span.error_msg{ display:none; }
+					span.error_msg{display:none; }
 					span.error_msg{
 						position: relative;
 						z-index: 1;
@@ -233,13 +233,13 @@ function load_job_display($error = NULL){
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">New Job Posting</h1>';
 		echo '			</header>';
-		
+
 		if(isset($error) && $error != ""){
 			echo '			<p>'.$error.'</p>';
 		}
-		
+
 		echo '			<div class="entry-content">';
-		
+
 		//===============================
 		//	table form
 		//===============================
@@ -339,7 +339,7 @@ function load_job_display($error = NULL){
 						</div>
 					</div>
 					<div id='criteria'>
-						
+
 					</div>
 					<div class='rbfield rbsubmit'>
 						<label></label>

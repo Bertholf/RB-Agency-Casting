@@ -5,16 +5,16 @@
 	echo '<div class="wrap" style="min-width: 1020px;">
  			<div id="rb-overview-icon" class="icon32"></div>
  			<h2>Manage Job Postings</h2>
-		  </div>'; 	
+			</div>'; 
 
 	//menu
-	if( isset( $_GET['page'] ) ) {  
+	if( isset( $_GET['page'] ) ) { 
 		$active_page = isset( $_GET['page'] ) ? $_GET['page'] : 'display_options';
-	}  
+	}
 	echo '<h2 class="nav-tab-wrapper">
 			<!-- <a href="?page=rb_agency_casting_jobpostings" class="nav-tab ' . (($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action']) ) ? "nav-tab-active" : "") . '" > Manage Jobs</a> -->  
 			<a href="?page=rb_agency_casting_jobpostings&action=manage_types" class="nav-tab nav-tab-active" > Manage Job Types</a>  
-		 </h2>';
+		</h2>';
 
 
 /*---------------------------------------------------------------------
@@ -23,13 +23,13 @@
  */
 
 /*if ($active_page == "rb_agency_casting_jobpostings" && !isset($_GET['action'])) {
-	
+
 	table_posting();
 
 } elseif(isset($_GET['action']) && $_GET['action'] == 'manage_types'){
-	*/
+	 */
 	job_type_settings();
-	
+
 //}
 
 
@@ -37,17 +37,17 @@
  * MANAGE JOBS
  *---------------------------------------------------------------------*/
 function table_posting(){
-	
+
 	global $wpdb;
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
 	if (isset($items) && $items > 0) {
-		echo $p->show();  // Echo out the list of paging. 
+		echo $p->show();// Echo out the list of paging. 
 	}
 	echo "  </div>\n";
 	echo "</div>\n";
-	
+
 	echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
 	echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 	echo " <thead>\n";
@@ -66,7 +66,7 @@ function table_posting(){
 	echo "        <th class=\"column-JobType\"  scope=\"col\">Date posted</th>\n";
 	echo "    </tr>\n";
 	echo " </thead>\n";
-	
+
 	// load data
 	$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job);
 	if(count($load_data) > 0){
@@ -86,7 +86,7 @@ function table_posting(){
 			echo "        <td class=\"column-JobDateCreated\" scope=\"col\">".$load->Job_Date_Created."</td>\n";
 			echo "    </tr>\n";
 		}
-		
+
 	}
 
 	echo " <tfoot>\n";
@@ -111,13 +111,13 @@ function table_posting(){
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
 	if (isset($items) && $items > 0) {
-		echo $p->show();  // Echo out the list of paging. 
+		echo $p->show();// Echo out the list of paging. 
 	}
 	echo "  </div>\n";
 	echo "</div>\n";
 
 	echo "</form>\n";
-	
+
 }
 
 
@@ -125,21 +125,21 @@ function table_posting(){
  * MANAGE JOB TYPES
  *---------------------------------------------------------------------*/
 function job_type_settings(){
-	
+
 	global $wpdb;
-	
+
 	// Show Pagination
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
 	if (isset($items) && $items > 0) {
-		echo $p->show();  // Echo out the list of paging. 
+		echo $p->show();// Echo out the list of paging. 
 	}
 	echo "  </div>\n";
 	echo "</div>\n";
-	
+
 	/*---------------------------------------------------------------------
 	 * Process: page actions ADD DISPLAY
-	 *---------------------------------------------------------------------*/	
+	 *---------------------------------------------------------------------*/
 	if(isset($_GET['proc']) && $_GET['proc'] == 'addnew_jobtype' ){
 
 		echo "<h2>Add New Job Type</h2>";
@@ -147,64 +147,64 @@ function job_type_settings(){
 		echo "<table>
 				<tr><td>Job Type Title:</td><td><input type='text' name='Job_Type_Title'></td></tr>
 				<tr><td>Job Type Description:</td><td><input type='text' name='Job_Type_Text'></td></tr>
-			  </table>"; 	
+				</table>"; 
 		echo "<input type='hidden' name='page' value='".$_GET['page']."'>";
 		echo "<input type='hidden' name='action' value='manage_types'>";
 		echo "<input type='hidden' name='rec_process' value='add'>";
 		echo "<input type='hidden' name='proc' value='save_new_jobtype'>";
 		echo "<p><input type='submit' class='button-primary' value='Save Job Type'></p>";
-		echo "<form>";		
+		echo "<form>";
 
 	}
 
 	/*---------------------------------------------------------------------
 	 * Process: page actions EDIT DISPLAY
-	 *---------------------------------------------------------------------*/	
+	 *---------------------------------------------------------------------*/
 	elseif(isset($_GET['proc']) && $_GET['proc'] == 'edit_jobtype' ){
-		
+
 		// get details
 		$type = $_GET['type_id'];
 		$get_details = "SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
 		$results = $wpdb->get_row($get_details);
-		
+
 		echo "<h2>Edit Job Type</h2>";
 		echo "<form method=\"GET\" action=\"" . admin_url("admin.php") . "\">\n";
 		echo "<table>
 				<tr><td>Job Type Title:</td><td><input type='text' name='Job_Type_Title' value='".$results->Job_Type_Title."'></td></tr>
 				<tr><td>Job Type Description:</td><td><input type='text' name='Job_Type_Text' value='".$results->Job_Type_Text."'></td></tr>
-			  </table>"; 	
+				</table>"; 
 		echo "<input type='hidden' name='page' value='".$_GET['page']."'>";
 		echo "<input type='hidden' name='action' value='manage_types'>";
 		echo "<input type='hidden' name='rec_process' value='edit'>";
 		echo "<input type='hidden' name='typeid' value='".$type."'>";
 		echo "<input type='hidden' name='proc' value='save_new_jobtype'>";
 		echo "<p><input type='submit' class='button-primary' value='Save Job Type'></p>";
-		echo "<form>";		
+		echo "<form>";
 
-	}	
+	}
 
 	/*---------------------------------------------------------------------
 	 * Process: page actions EDIT DISPLAY
-	 *---------------------------------------------------------------------*/	
+	 *---------------------------------------------------------------------*/
 	elseif(isset($_GET['proc']) && $_GET['proc'] == 'delete_jobtype' ){
-		
+
 		// get details
 		$type = $_GET['type_id'];
 		$delete_details = "DELETE FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $type;
 		$results = $wpdb->query($delete_details);
-		
+
 		$msg = __("Successfully Deleted Record.<br />", RBAGENCY_casting_TEXTDOMAIN);
-		echo $msg;		
+		echo $msg;
 
 		echo "<p><a class='button-primary' href='".admin_url("admin.php?page=" . $_GET['page'] . "&action=manage_types&proc=addnew_jobtype")."'>Add New Job Type</a></p>";
-		
-	}	
-		
+
+	}
+
 	/*---------------------------------------------------------------------
 	 * Process: page actions ADD DISPLAY
-	 *---------------------------------------------------------------------*/	
+	 *---------------------------------------------------------------------*/
 	elseif(isset($_GET['proc']) && $_GET['proc'] == 'save_new_jobtype' ){
-		
+
 		// get id
 		$type = isset($_GET['typeid'])?$_GET['typeid']:"";
 		//check errors
@@ -213,12 +213,12 @@ function job_type_settings(){
 		if(empty($_GET['Job_Type_Title'])){
 			$error .= __("Job Type Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
-		} 
+		}
 		if(empty($_GET['Job_Type_Text'])){
 			$error .= __("Job Type Description is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
-		} 
-		
+		}
+
 		if(!$have_error){
 			if($_GET['rec_process'] == 'add'){
 				$sql_insert = "INSERT INTO " . table_agency_casting_job_type . " ( Job_Type_Title, Job_Type_text ) VALUES ( '".$_GET['Job_Type_Title']."','".$_GET['Job_Type_Text']."' )";
@@ -238,14 +238,14 @@ function job_type_settings(){
 	} else {
 
 		echo "<p><a class='button-primary' href='".admin_url("admin.php?page=" . $_GET['page'] . "&action=manage_types&proc=addnew_jobtype")."'>Add New Job Type</a></p>";
-	
+
 	}
 
 
 
 	/*---------------------------------------------------------------------
 	 * Process: page actions ADD DISPLAY
-	 *---------------------------------------------------------------------*/		
+	 *---------------------------------------------------------------------*/
 	echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . $_GET['page']) . "\">\n";
 	echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 	echo " <thead>\n";
@@ -256,8 +256,8 @@ function job_type_settings(){
 	echo "        <th class=\"column-JobTypeText\" id=\"JobText\" scope=\"col\">Job Type Description</th>\n";
 	echo "    </tr>\n";
 	echo " </thead>\n";
-	
-	// load job type settings	
+
+	// load job type settings
 	$load_jobtypes = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
 	if(count($load_jobtypes) > 0 ){
 		foreach($load_jobtypes as $jtypes){
@@ -267,14 +267,14 @@ function job_type_settings(){
 			echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$jtypes->Job_Type_Title;
 			echo "          <div class=\"row-actions\">\n";
 			echo "            <span class=\"edit\"><a href=\"" . admin_url("admin.php?page=" . $_GET['page']) . "&action=manage_types&proc=edit_jobtype&type_id=" . $jtypes->Job_Type_ID . "\" title=\"" . __("Edit this Record", RBAGENCY_TEXTDOMAIN) . "\">" . __("Edit", RBAGENCY_TEXTDOMAIN) . "</a> | </span>\n";
-			echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"" . admin_url("admin.php?page=" . $_GET['page']) . "&action=manage_types&proc=delete_jobtype&type_id=" . $jtypes->Job_Type_ID . "\"  onclick=\"if ( confirm('" . __("You are about to delete the Job Type with ID ", RBAGENCY_TEXTDOMAIN) . " " . $jtypes->Job_Type_ID . " \'" . __("Cancel", RBAGENCY_TEXTDOMAIN) . "\' " . __("to stop", RBAGENCY_TEXTDOMAIN) . ", \'" . __("OK", RBAGENCY_TEXTDOMAIN) . "\' " . __("to delete", RBAGENCY_TEXTDOMAIN) . ".') ) { return true;}return false;\" title=\"" . __("Delete this Record", RBAGENCY_TEXTDOMAIN) . "\">" . __("Delete", RBAGENCY_TEXTDOMAIN) . "</a> </span>\n";
-			echo "          </div>\n";			
-			echo "		  </td>\n";
+			echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"" . admin_url("admin.php?page=" . $_GET['page']) . "&action=manage_types&proc=delete_jobtype&type_id=" . $jtypes->Job_Type_ID . "\"  onclick=\"if ( confirm('" . __("You are about to delete the Job Type with ID ", RBAGENCY_TEXTDOMAIN) . " " . $jtypes->Job_Type_ID . " \'" . __("Cancel", RBAGENCY_TEXTDOMAIN) . "\' " . __("to stop", RBAGENCY_TEXTDOMAIN) . ", \'" . __("OK", RBAGENCY_TEXTDOMAIN) . "\' " . __("to delete", RBAGENCY_TEXTDOMAIN) . ".') ) {return true;}return false;\" title=\"" . __("Delete this Record", RBAGENCY_TEXTDOMAIN) . "\">" . __("Delete", RBAGENCY_TEXTDOMAIN) . "</a> </span>\n";
+			echo "          </div>\n";
+			echo "			</td>\n";
 			echo "        <td class=\"column-JobText\" scope=\"col\">".$jtypes->Job_Type_Text."</td>\n";
-			echo "    </tr>\n";		
+			echo "    </tr>\n";
 		}
-	} 
-	
+	}
+
 	echo " <tfoot>\n";
 	echo "    <tr class=\"thead\">\n";
 	echo "        <th class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"col\"><input type=\"checkbox\"/></th>\n";
@@ -292,14 +292,14 @@ function job_type_settings(){
 	echo "<div class=\"tablenav\">\n";
 	echo "  <div class='tablenav-pages'>\n";
 	if (isset($items) && $items > 0) {
-		echo $p->show();  // Echo out the list of paging. 
+		echo $p->show();// Echo out the list of paging. 
 	}
 
 
 	echo "  </div>\n";
 	echo "</div>\n";
 	echo "</form>\n";
-	
+
 
 	if(isset($_POST['delete'])){
 		foreach($_POST as $k=>$v){
@@ -310,7 +310,7 @@ function job_type_settings(){
 				$result = $wpdb->query($delete);
 			}
 		}
-		wp_redirect(admin_url("admin.php?page=" . $_GET['page']));		
+		wp_redirect(admin_url("admin.php?page=" . $_GET['page']));
 	}
 }
 

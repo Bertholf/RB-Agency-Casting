@@ -794,8 +794,8 @@ requires jQuery 1.7+
 	}
 
 	/*
-	*  Keyboard navigation via arrow keys
-	*/
+	 *  Keyboard navigation via arrow keys
+	 */
 	function _keydownhandler(e)
 	{
 		var self = $(this);
@@ -885,8 +885,8 @@ requires jQuery 1.7+
 	}
 
 	/*
-	*	Time typeahead
-	*/
+	 *	Time typeahead
+	 */
 	function _keyuphandler(e)
 	{
 		var self = $(this);

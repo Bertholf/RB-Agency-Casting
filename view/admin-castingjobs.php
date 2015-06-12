@@ -49,7 +49,7 @@ $siteurl = get_option('siteurl');
 
 			foreach($_POST as $key => $val ){
 				if(strpos($key, "profiletalent") !== false){
-					
+
 					$wpdb->query($wpdb->prepare("DELETE FROM ".table_agency_castingcart_profile_hash." WHERE CastingProfileHashProfileID = %s",$val));
 					array_push($arr_selected_profile, $val);
 					$wpdb->query("DELETE FROM  " . table_agency_casting_job_application . " WHERE Job_ID = ".$_GET["Job_ID"]." AND Job_UserProfileID = ".$val);
@@ -73,7 +73,7 @@ $siteurl = get_option('siteurl');
 					array_push($arr_selected_profile, $val);
 					$profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID = '".$val."' ");
 					$wpdb->query("DELETE FROM ".table_agency_casting_job_application." WHERE Job_ID = '".$_GET["Job_ID"]."' AND Job_UserProfileID = '".$val."'");
-					
+
 				}
 			}
 
@@ -91,7 +91,7 @@ $siteurl = get_option('siteurl');
 				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$_GET["Job_ID"]."'",ARRAY_A);
 				$job_id  = $_GET["Job_ID"];
 				$agent_id = $_POST["Agent_ID"];
-			}elseif(isset($_POST["addtoexisting"])){
+			} elseif(isset($_POST["addtoexisting"])){
 				list($job_id,$agent_id) = explode("-",$_POST["Job_ID"]);
 				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$job_id."'",ARRAY_A);
 			}
@@ -112,8 +112,8 @@ $siteurl = get_option('siteurl');
 				$is_applied = $wpdb->num_rows;
 				if($is_applied <= 0){
 					$get_profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID ='".$key."' ");
-				
-					$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) VALUES('".$job_id."','".$get_profile_user_linked->ProfileUserLinked."') ");		
+
+					$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) VALUES('".$job_id."','".$get_profile_user_linked->ProfileUserLinked."') ");
 				}*/
 
 			}
@@ -139,12 +139,12 @@ $siteurl = get_option('siteurl');
 				} else {
 					array_push($_SESSION["cartArray"],$profiles);
 				}
-			}else{
+			} else {
 										$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID= %d ", $_GET["Job_ID"]));
 										$add_new_profiles = $data->Job_Talents.",".$_POST["addprofiles"];
 										$castingHash = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'");
 										$profiles = $_POST["addprofiles"];
-										
+
 										if(strpos($profiles,",") !== false){
 											$profiles = explode(",",$profiles);
 											foreach($profiles as $profileid){
@@ -168,9 +168,9 @@ $siteurl = get_option('siteurl');
 													RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
 													RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
 												}
-												
+
 											}
-										}else{
+										} else {
 												$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 												$profileid = str_replace(",","",(isset($_POST["addprofiles"])?$_POST["addprofiles"]:""));
 											$sql = "INSERT INTO ".table_agency_castingcart_profile_hash."
@@ -239,7 +239,7 @@ $siteurl = get_option('siteurl');
 							'".esc_attr($_POST["Job_Visibility"])."',
 							'".esc_attr($_POST["Job_Criteria"])."',
 							'".esc_attr($_POST["Job_Type"])."',
-							'".$hash."',	
+							'".$hash."',
 							'".esc_attr($_POST["Job_Audition_Date_Start"])."',
 							'".esc_attr($_POST["Job_Audition_Date_End"])."',
 							'".esc_attr($_POST["Job_Audition_Venue"])."',
@@ -270,7 +270,7 @@ $siteurl = get_option('siteurl');
 
 						RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$hash."/".$hash_profile_id);
 						RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$hash."/".$hash_profile_id);
-					
+
 					}
 
 					unset($_SESSION['cartArray']);
@@ -293,14 +293,14 @@ $siteurl = get_option('siteurl');
 										Job_Visibility = '".esc_attr($_POST["Job_Visibility"])."',
 										Job_Criteria = '".esc_attr($_POST["Job_Criteria"])."',
 										Job_Type = '".esc_attr($_POST["Job_Type"])."',
-										Job_Talents_Hash = '".esc_attr($_POST["Job_Talents_Hash"])."',	
+										Job_Talents_Hash = '".esc_attr($_POST["Job_Talents_Hash"])."',
 										Job_Audition_Date_Start = '".esc_attr($_POST["Job_Audition_Date_Start"])."',
 										Job_Audition_Date_End = '".esc_attr($_POST["Job_Audition_Date_End"])."',
 										Job_Audition_Venue = '".esc_attr($_POST["Job_Audition_Venue"])."',
 										Job_Audition_Time = '".esc_attr($_POST["Job_Audition_Time"])."'
 									WHERE Job_ID = ".esc_attr($_GET["Job_ID"])."
 							";
-							
+
 							$wpdb->query($sql);
 
 							if(isset($_POST["resend"])){
@@ -336,7 +336,7 @@ $siteurl = get_option('siteurl');
 				$Job_Visibility = "";
 				$Job_Criteria = "";
 				$Job_Type = "";
-				$Job_Talents_Hash = "";	
+				$Job_Talents_Hash = "";
 				$Job_Audition_Date_Start = "";
 				$Job_Audition_Date_End = "";
 				$Job_Audition_Venue = "";
@@ -363,7 +363,7 @@ $siteurl = get_option('siteurl');
 				$Job_Visibility = $data->Job_Visibility;
 				$Job_Criteria = $data->Job_Criteria;
 				$Job_Type = $data->Job_Type;
-				$Job_Talents_Hash = $data->Job_Talents_Hash;	
+				$Job_Talents_Hash = $data->Job_Talents_Hash;
 				$Job_Audition_Date_Start = $data->Job_Audition_Date_Start;
 				$Job_Audition_Date_End = $data->Job_Audition_Date_End;
 				$Job_Audition_Venue = $data->Job_Audition_Venue;
@@ -384,15 +384,15 @@ $siteurl = get_option('siteurl');
 									$cartArray = isset($_SESSION['cartArray'])?$_SESSION['cartArray']:array();
 									$cartString = implode(",", array_unique($cartArray));
 									$cartString = RBAgency_Common::clean_string($cartString);
-						
+
 		echo "<div class=\"boxblock-container\">";
 				echo "<div class=\"boxblock\" style=\"width:50%\" >";
-				
+
 							echo "<h3>Add to existing Job</h3>";
-						
+
 					echo "<div class=\"innerr\" style=\"padding: 10px;\">";
 					echo "<form class=\"castingtext\" method=\"post\" action=\"\">";
-					  echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
+						echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
 							echo "<div>";
 								echo "<select name=\"Job_ID\" style=\"width:80%;\">";
 								echo "<option value=\"\">- Select -</option>";
@@ -409,8 +409,8 @@ $siteurl = get_option('siteurl');
 					echo "</div>";
 				echo "</div>";
 		echo "</div>";
-				
-					
+
+
 	}*/
 
 	if(isset($_GET["action2"]) && $_GET["action2"] == "addnew" || isset($_GET["Job_ID"])){
@@ -420,13 +420,13 @@ $siteurl = get_option('siteurl');
 
 						if(isset($_GET["Job_ID"])){
 							echo "<h3>Edit Talent Jobs</h3>";
-						}else{
+						} else {
 							echo "<h3>Talent Jobs</h3>";
 						}
 				echo "<div class=\"innerr\" style=\"padding: 10px;\">";
-/*				 if(!isset($_GET["Job_ID"]) && (empty( $_SESSION['cartArray'] ) || !isset($_GET["action"]) )){
-					 echo "Casting cart is empty. Click <a href=\"?page=rb_agency_search\">here</a> to search and add profiles to casting jobs.";
-				 }else{*/
+/*				if(!isset($_GET["Job_ID"]) && (empty( $_SESSION['cartArray'] ) || !isset($_GET["action"]) )){
+					echo "Casting cart is empty. Click <a href=\"?page=rb_agency_search\">here</a> to search and add profiles to casting jobs.";
+				} else {*/
 				echo "<form class=\"castingtext\" method=\"post\" action=\"\">";
 				echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
 						echo "<label for=\"Job_AgencyName\">Agency/Producer</label>";
@@ -439,7 +439,7 @@ $siteurl = get_option('siteurl');
 								echo "<option value=\"".$key->CastingUserLinked."\">".$key->CastingContactDisplay." - ".$key->CastingContactCompany."</option>";
 							}
 							echo "<select>";
-						}else{
+						} else {
 							echo "<input type=\"text\" disabled=\"disabled\" id=\"Job_AgencyName\" name=\"Job_AgencyName\" value=\"".$Job_AgencyName."\">";
 						}
 						echo "</div>";
@@ -506,8 +506,8 @@ $siteurl = get_option('siteurl');
 					echo '<div id="add-criteria" style="display:none;">';
 					echo '<script type="text/javascript">';
 					if(!empty($Job_Criteria)){
-						echo 'jQuery(function(){ jQuery("#criteria").html("Loading Criteria List");
-								
+						echo 'jQuery(function(){jQuery("#criteria").html("Loading Criteria List");
+
 								jQuery.ajax({
 										type: "POST",
 										url: "'. admin_url('admin-ajax.php') .'",
@@ -522,8 +522,8 @@ $siteurl = get_option('siteurl');
 											console.log(err);
 										}
 								}); });';
-					}else{
-							echo 'jQuery(function(){ jQuery("#criteria").html("Loading Criteria List");
+					} else {
+							echo 'jQuery(function(){jQuery("#criteria").html("Loading Criteria List");
 									jQuery.ajax({
 											type: "POST",
 											url: "'. admin_url('admin-ajax.php') .'",
@@ -538,7 +538,7 @@ $siteurl = get_option('siteurl');
 											}
 									}); 
 								});';
-					}	
+					}
 					echo 'jQuery(function(){
 							jQuery("#getcriteria").click(function(){
 									var criteria = [];
@@ -549,13 +549,13 @@ $siteurl = get_option('siteurl');
 												if(val !=""){
 													criteria.push(id+"/"+val);
 												}
-											}else if(jQuery(this).hasClass("rbtext")){
+											} else if(jQuery(this).hasClass("rbtext")){
 												var val = jQuery(this).find("input[type=text]").val();
 												var id = jQuery(this).attr("attrid");
 												if(val != ""){
 													criteria.push(id+"/"+val);
 												}
-											}else if(jQuery(this).hasClass("rbmulti")){
+											} else if(jQuery(this).hasClass("rbmulti")){
 												var min = jQuery(this).find(".rbmin").val();
 												var max=  jQuery(this).find(".rbmax").val();
 												var id = jQuery(this).attr("attrid");
@@ -596,9 +596,9 @@ $siteurl = get_option('siteurl');
 						echo "<div class=\"rbfield\"><a href=\"javascript:;\" id=\"getcriteria\" class=\"button-primary button\">Update</a><span class=\"updatecriteria\"></span></div>";
 						echo "</div>";
 					echo "</div>";
-					
+
 					echo "</div>";
-					
+
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label for=\"Job_Audition_Date_Start\">Audition Date Start</label>\n";
 						echo "<div><input type=\"text\"  class=\"datepicker\" id=\"Job_Audition_Date_Start\" name=\"Job_Audition_Date_Start\" value=\"".$Job_Audition_Date_Start."\"></div>";
@@ -639,7 +639,7 @@ $siteurl = get_option('siteurl');
 						echo "<a target=\"_blank\" style=\"float:right;\" href=\"".get_bloginfo("url")."/view-applicants/?filter_jobtitle=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0)."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"  class=\"button-primary\">View Applicants</a>";
 						echo "<div style=\"clear:both\"></div>";
 
-					}else{
+					} else {
 						echo "<input type=\"hidden\" name=\"action2\" value=\"add\"/>";
 						echo "<input type=\"submit\" value=\"Submit\" name=\"castingJob\" class=\"button-primary\" />";
 						echo "<a href=\"".admin_url("admin.php?page=rb_agency_castingjobs")."\" class=\"button\">Cancel</a>";
@@ -648,7 +648,7 @@ $siteurl = get_option('siteurl');
 
 				echo "</form>";
 				echo "</div>";
-				//  } // if casting cart is not empty
+				//  }// if casting cart is not empty
 					echo '<script type="text/javascript">
 							jQuery(document).ready(function(){
 								jQuery( ".datepicker" ).datepicker();
@@ -672,9 +672,9 @@ $siteurl = get_option('siteurl');
 								//	timeFormat: "hh:mm tt"
 								//});
 							});
-					 </script>';
-				 echo "</div>";
-				 echo "</div>";
+					</script>';
+				echo "</div>";
+				echo "</div>";
 
 
 				$cartArray = null;
@@ -682,7 +682,7 @@ $siteurl = get_option('siteurl');
 				if (isset($_SESSION['cartArray']) && !isset($_GET["Job_ID"])) {
 
 					$cartArray = $_SESSION['cartArray'];
-				}elseif(isset($_GET["Job_ID"])){
+				} elseif(isset($_GET["Job_ID"])){
 					$cartArray = explode(",",$Job_Talents);
 				}
 				?>
@@ -698,7 +698,7 @@ $siteurl = get_option('siteurl');
 								jQuery(this).removeAttr("checked");
 								jQuery(this).prop("checked",true);
 								arr.push(jQuery(this).val());
-								}else{
+								} else {
 								jQuery(this).prop("checked",true);
 								jQuery(this).removeAttr("checked");
 								arr = [];
@@ -714,7 +714,7 @@ $siteurl = get_option('siteurl');
 								jQuery(this).removeAttr("checked");
 								jQuery(this).prop("checked",true);
 								arr.push(jQuery(this).val());
-								}else{
+								} else {
 								jQuery(this).prop("checked",true);
 								jQuery(this).removeAttr("checked");
 								arr = [];
@@ -730,7 +730,7 @@ $siteurl = get_option('siteurl');
 								jQuery(this).removeAttr("checked");
 								jQuery(this).prop("checked",true);
 								arr_casting.push(jQuery(this).val());
-								}else{
+								} else {
 								jQuery(this).prop("checked",true);
 								jQuery(this).removeAttr("checked");
 								arr_casting = [];
@@ -745,7 +745,7 @@ $siteurl = get_option('siteurl');
 											jQuery("form[name=formDeleteCastingProfile]").submit();
 									});
 								}
-							}else{
+							} else {
 								alert("You must select a profile to delete");
 							}
 
@@ -761,7 +761,7 @@ $siteurl = get_option('siteurl');
 						}
 						if(jQuery(this).is(':checked')){
 							arr.push(jQuery(this).val());
-						}else{
+						} else {
 							arr.remove(jQuery(this).val());
 						}
 						jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
@@ -795,7 +795,7 @@ $siteurl = get_option('siteurl');
 				<?php
 				if((!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])) ):
 
-					if( (isset($_GET["action2"]) && $_GET["action2"] != "addnew") || !isset($_GET["action2"])) { 
+					if( (isset($_GET["action2"]) && $_GET["action2"] != "addnew") || !isset($_GET["action2"])) {
 
 						$casting_cart = $wpdb->get_results($wpdb->prepare("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$_GET["Job_ID"]),ARRAY_A);
 							// Show Cart  
@@ -839,7 +839,7 @@ $siteurl = get_option('siteurl');
 						echo "</table>";
 						echo "</form>";
 						echo "</div>";
-							echo "<form method=\"post\" name=\"formDeleteCastingProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";								
+							echo "<form method=\"post\" name=\"formDeleteCastingProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";
 							echo "<input type=\"hidden\" name=\"action2\" value=\"deletecastingprofile\"/>";
 							echo "<div class=\"innerr\" style=\"padding: 10px;\">";
 								foreach ($results as $data) {
@@ -952,9 +952,9 @@ $siteurl = get_option('siteurl');
 							var selected_info = "";
 							var total_selected = 0;
 							var arr_listed = Array();
-							
+
 							jQuery("form[name=formDeleteProfile] div[id^=profile-]").each(function(i,d){
-									 arr_listed[i] = jQuery(this).attr("id").split("profile-")[1];
+									arr_listed[i] = jQuery(this).attr("id").split("profile-")[1];
 							});
 
 							function get_profiles(){
@@ -964,7 +964,7 @@ $siteurl = get_option('siteurl');
 										type: 'POST',
 										dataType: 'json',
 										url: '<?php echo admin_url('admin-ajax.php'); ?>',
-										data: { 
+										data: {
 											'action': 'rb_agency_search_profile'
 										},
 										success: function(d){
@@ -979,14 +979,14 @@ $siteurl = get_option('siteurl');
 
 														profileDisplay = "<table class=\"profile-search-list\" id=\"profile-"+p.ProfileID+"\">"
 																		+"<tr>"
-																		  +"<td style=\"width:40px;height:40pxbackground:#ccc;\">"+((p.ProfileMediaURL !="")?"<img src=\"<?php echo  get_bloginfo('url').'/wp-content/plugins/rb-agency/ext/timthumb.php?src='.RBAGENCY_UPLOADDIR;?>/"+p.ProfileGallery+"/"+p.ProfileMediaURL+"&w=40&h=40&zc=2\" style=\"width:40px;height:40px;\"/>":"")+"</td>"
-																		  +"<td>"
-																		  +"<strong>"+fullname+"</strong>"
-																		  +"<br/>"
-																		  +"<span style=\"font-size: 11px;\">"+getAge(p.ProfileDateBirth)+","+p.GenderTitle+"</span>"
-																		  +"<br/>"
-																		  +"<a href=\"<?php echo get_bloginfo("wpurl");?>/profile/"+p.ProfileGallery+"/\" target=\"_blank\">View Profile</a>"
-																		  +"</td>"
+																			+"<td style=\"width:40px;height:40pxbackground:#ccc;\">"+((p.ProfileMediaURL !="")?"<img src=\"<?php echo  get_bloginfo('url').'/wp-content/plugins/rb-agency/ext/timthumb.php?src='.RBAGENCY_UPLOADDIR;?>/"+p.ProfileGallery+"/"+p.ProfileMediaURL+"&w=40&h=40&zc=2\" style=\"width:40px;height:40px;\"/>":"")+"</td>"
+																			+"<td>"
+																			+"<strong>"+fullname+"</strong>"
+																			+"<br/>"
+																			+"<span style=\"font-size: 11px;\">"+getAge(p.ProfileDateBirth)+","+p.GenderTitle+"</span>"
+																			+"<br/>"
+																			+"<a href=\"<?php echo get_bloginfo("wpurl");?>/profile/"+p.ProfileGallery+"/\" target=\"_blank\">View Profile</a>"
+																			+"</td>"
 																		+"</tr>"
 																		+"</table>";
 														jQuery("#profile-search-result").append(profileDisplay);
@@ -1000,7 +1000,7 @@ $siteurl = get_option('siteurl');
 													total_selected = 0;
 													jQuery("table.profile-search-list.selected").each(function(){
 														total_selected++;
-														
+	
 													});
 													jQuery(".selected-info").remove();
 													if(total_selected >0){
@@ -1052,7 +1052,7 @@ $siteurl = get_option('siteurl');
 										jQuery("table[id^='profile-"+p.profileid+"']").show();
 									});
 									jQuery(".results-info").html("Search Result: "+result.length+" "+(result.length>1?"profiles":"profile")+" found. "+selected_info);
-								}else{
+								} else {
 									jQuery(".results-info").html("'"+keyword+"' not found. "+selected_info);
 								}
 							});
@@ -1085,19 +1085,19 @@ $siteurl = get_option('siteurl');
 					</script>
 				<?php 
 				if(isset($_GET["action2"]) && $_GET["action2"] == "addnew"){
-					echo "<form method=\"post\" name=\"formAddProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action2=addnew&action=informTalent")."\" >\n";								
-				}else{
-					echo "<form method=\"post\" name=\"formAddProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";								
+					echo "<form method=\"post\" name=\"formAddProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action2=addnew&action=informTalent")."\" >\n";
+				} else {
+					echo "<form method=\"post\" name=\"formAddProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";
 				}
 				echo "<input type=\"hidden\" value=\"\" name=\"addprofiles\"/>";
 				echo "</form>";
 
-				echo "<form method=\"post\" name=\"formAddProfileToCasting\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";								
+				echo "<form method=\"post\" name=\"formAddProfileToCasting\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";
 				echo "<input type=\"hidden\" value=\"\" name=\"addprofilestocasting\"/>";
 				echo "<input type=\"hidden\" value=\"".(isset($Job_Agency_ID)?$Job_Agency_ID:"") ."\" name=\"Agent_ID\" />";
 				echo "</form>";
 
-				echo "<form method=\"post\" name=\"formDeleteProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";								
+				echo "<form method=\"post\" name=\"formDeleteProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";
 				echo "<input type=\"hidden\" name=\"action2\" value=\"deleteprofile\"/>";
 				foreach ($results as $data) {
 					echo "<div style=\"width: 16.6%;float:left\" id=\"profile-".$data["ProfileID"]."\">";
@@ -1118,15 +1118,15 @@ $siteurl = get_option('siteurl');
 							$query = "SELECT CastingAvailabilityStatus as status FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
 							$prepared = $wpdb->prepare($query,$data["ProfileID"],$_GET["Job_ID"]);
 							$availability = current($wpdb->get_results($prepared));
-							
+
 							$count2 = $wpdb->num_rows;
 
 							if($count2 <= 0){
 								echo "<span style=\"text-align:center;color:#5505FF;font-weight:bold;width:80%;padding:10px;display:block;\">Unconfirmed</span>\n";
-							}else{
-							  if($availability->status == "available"){
+							} else {
+								if($availability->status == "available"){
 								echo "<span style=\"text-align:center;color:#2BC50C;font-weight:bold;width:80%;padding:10px;display:block;\">Available</span>\n";
-								}else{
+								} else {
 								echo "<span style=\"text-align:center;color:#EE0F2A;font-weight:bold;width:80%;padding:10px;display:block;\">Not Available</span>\n";
 								}
 							}
@@ -1138,15 +1138,15 @@ $siteurl = get_option('siteurl');
 				if($count <= 0){
 					echo "No jobs found.";
 				}
-				
+
 						echo "<div style=\"clear:both;\"></div>";
 					echo "</div>";
-				 echo "</div>";
+				echo "</div>";
 				echo "</div>";
 			endif;
 		echo "</div>";
 
-		} } // end add/edit job
+		}}// end add/edit job
 
 		// Load casting jobs list
 		RBAgency_Casting::rb_display_casting_jobs(); ?>

@@ -1,5 +1,5 @@
 <?php
-	
+
 	/* Check if users can register. */
 	$registration = get_option( 'rb_agencyinteract_options' );
 	$rb_agencyinteract_option_registerallow = isset($registration["rb_agencyinteract_option_registerallow"]) ? $registration["rb_agencyinteract_option_registerallow"]:0;
@@ -36,7 +36,7 @@
 	echo "        </div> <!-- rbsign-in -->\n";
 
 	if (( current_user_can("create_users") || $rb_agencyinteract_option_registerallow == 1)) {
-	
+
 			/*	echo "        <div id=\"rbsign-up\" class=\"inline-block\">\n";
 				echo "          <div id=\"talent-register\" class=\"register\">\n";
 				echo "            <h1>". __("Not a member", RBAGENCY_interact_TEXTDOMAIN). "?</h1>\n";
@@ -49,15 +49,15 @@
 				echo "          <div class=\"clear line\"></div>\n";*/
 				echo "        <div id=\"rbsign-up\" class=\"inline-block\">\n";
 				echo "          <div id=\"talent-register\" class=\"register\">\n";
-				 if ( dynamic_sidebar('rb-agency-casting-login-sidebar') ) :endif; 
+				if ( dynamic_sidebar('rb-agency-casting-login-sidebar') ) :endif; 
 				echo "          </div> <!-- talent-register -->\n";
 				echo "          <div class=\"clear line\"></div>\n";
 				echo "        </div> <!-- rbsign-up -->\n";
-		
-	
+
+
 				echo "        </div> <!-- rbsign-up -->\n";
 	}
-				
+
 	echo "      <div class=\"clear line\"></div>\n";
 	echo "      </div>\n";
 ?>

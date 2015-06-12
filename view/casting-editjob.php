@@ -25,8 +25,8 @@ if($count > 0){
 	$d = $get_results;
 	foreach($d as $key => $val){
 		$data[$key] = $val;
-	}	
-	
+	}
+
 }
 
 //store criteria from db
@@ -42,16 +42,16 @@ foreach($_GET as $key => $val) {
 echo $rb_header = RBAgency_Common::rb_header(); 
 
 //===============================
-// if sumitted process here	
+// if sumitted process here
 //===============================
 
 if(isset($_GET['save_job'])){
-	
+
 		// Error checking
 		$error = "";
 		$have_error = false;
 		$date_confirm = 0;
-		
+
 		if ( empty($_GET['Job_Title'])) {
 			$error .= __("Job Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -66,7 +66,7 @@ if(isset($_GET['save_job'])){
 			$error .= __("Job Offer is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		
+
 		if ( empty($_GET['Job_Date_Start'])) {
 			$error .= __("Start Date is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -92,16 +92,16 @@ if(isset($_GET['save_job'])){
 				$date_confirm++;
 			}
 		}
-		
+
 		if($date_confirm == 0){
 			$date_start = strtotime($_GET['Job_Date_Start']);
 			$date_end = strtotime($_GET['Job_Date_End']);
 			if($date_start > $date_end){
 				$error .= __("Start Date cannot be greate than the End Date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
-			} 
+			}
 		}
-	
+
 		if ( empty($_GET['Job_Location'])) {
 			$error .= __("Job Location is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
@@ -120,18 +120,18 @@ if(isset($_GET['save_job'])){
 		}
 
 		if(!$have_error){
-			
+
 			// update data to db
 			//
 			$into = array();
 			$calues = array();
 			$criteria = array();
-			
+
 			//get string values
 			foreach($_GET as $key => $val){
 				if($key != "save_job"){
 					if (strpos($key, "ProfileCustomID") > -1){
-						if($val != "" && !empty($val)){ 
+						if($val != "" && !empty($val)){
 							if(is_array($val)){
 								$n = "";
 								foreach($val as $x){
@@ -141,19 +141,19 @@ if(isset($_GET['save_job'])){
 							} else {
 								$n = trim($val);
 							}
-							
+
 							if($n != ""){
-								$criteria[] = substr($key,15) . "/" . $n ;  			
+								$criteria[] = substr($key,15) . "/" . $n ;
 							}
 						}
 					} else {
 						//Normal String
 						$into[] = $key;
 						$values[] = "'". trim($val) . "'";
-					} 
+					}
 				}
-			}	
-			
+			}
+
 			//construct update statement
 			$sql_update = "UPDATE " . table_agency_casting_job . " SET ";
 			$ctr = 0;
@@ -162,19 +162,19 @@ if(isset($_GET['save_job'])){
 				$sql_update_arr[] = $field . " = " . $values[$ctr] ; 
 				$ctr++;
 			}
-			
+
 			$sql_update .=  implode(",",$sql_update_arr) . ", Job_Criteria = '".implode("|",$criteria)."' WHERE Job_ID = " . $JobID;
-			
+
 			$wpdb->query($sql_update);
-			
+
 			//check data integrity for applicants for new criterias only
 			if(trim(implode("|",$criteria)) != $Job_criteria_old){
 				RBAgency_Casting::rb_update_applicant_data(implode("|",$criteria), $JobID);
 			}
-			
+
 			echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
-			echo '			<div class="entry-content">';	
+			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
 			echo '				<p>You have successfully updated your new Job Posting! <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
@@ -185,16 +185,16 @@ if(isset($_GET['save_job'])){
 			echo "			<input type=\"hidden\" name=\"favorite\" value=\"1\"/>";
 			echo "  	</div><!-- #content -->\n"; // #content
 			echo "	</div><!-- #primary -->\n"; // #primary
-		
+
 		} else {
-		
-			load_job_display($error, $data);	
-		
+
+			load_job_display($error, $data);
+
 		}
-	
+
 } else {
-		
-	load_job_display("",$data);	
+
+	load_job_display("",$data);
 
 }
 echo $rb_footer = RBAgency_Common::rb_footer(); 
@@ -203,9 +203,9 @@ function load_job_display($error = NULL, $data){
 
 	global $wpdb;
 	global $current_user;
-	
+
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
-	
+
 
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
@@ -215,13 +215,13 @@ function load_job_display($error = NULL, $data){
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">Edit Job Posting</h1>';
 		echo '			</header>';
-		
+
 		if(isset($error) && $error != ""){
 			echo '			<p>'.$error.'</p>';
 		}
-		
+
 		echo '			<div class="entry-content">';
-		
+
 		//===============================
 		//	table form
 		//===============================
@@ -238,11 +238,11 @@ function load_job_display($error = NULL, $data){
 						<tr>
 							<td>Description:</td>
 							<td><input type='text' name='Job_Text' value='".$data['Job_Text']."'></td>
-						</tr>	
+						</tr>
 						<tr>
 							<td>Offer:</td>
 							<td><input type='text' name='Job_Offering' value='".$data['Job_Offering']."'></td>
-						</tr>							
+						</tr>
 						<tr>
 							<td><h3>Job Duration</h3></td><td></td>
 						</tr>
@@ -312,7 +312,7 @@ function load_job_display($error = NULL, $data){
 										}
 									}
 
-		 				echo "	</select>
+						echo "	</select>
 							</td>
 						</tr>
 						<tr>
@@ -329,7 +329,7 @@ function load_job_display($error = NULL, $data){
 						<tr>
 							<td></td>
 							<td id='criteria'></td>
-						</tr>	
+						</tr>
 						<tr>
 							<td colspan=\"2\"><input type='submit' name='save_job' value='Submit Job'></td>
 						</tr>
@@ -349,11 +349,11 @@ function load_job_display($error = NULL, $data){
 				jQuery( ".datepicker" ).datepicker();
 				jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 					var date_start="'.$data['Job_Date_Start'].'";
-    				var date_end="'.$data['Job_Date_End'].'";
-    				var date_audition_start = "'.$data["Job_Audition_Date_Start"].'";
-    				var date_audition_end = "'.$data["Job_Audition_Date_End"].'";
+					var date_end="'.$data['Job_Date_End'].'";
+					var date_audition_start = "'.$data["Job_Audition_Date_Start"].'";
+					var date_audition_end = "'.$data["Job_Audition_Date_End"].'";
 
-    				jQuery("#Job_Date_Start").val(date_start);
+					jQuery("#Job_Date_Start").val(date_start);
 					jQuery("#Job_Date_End").val(date_end);
 					jQuery("#Job_Audition_Date_Start").val(date_audition_start);
 					jQuery("#Job_Audition_Date_End").val(date_audition_end);
@@ -387,7 +387,7 @@ function load_job_display($error = NULL, $data){
 									success: function (results) {
 										jQuery("#criteria").html(results);
 									}
-								 });';	
+								});';
 					}
 					echo '	jQuery(".timepicker").timepicker({
 									hourGrid: 4,
@@ -396,7 +396,7 @@ function load_job_display($error = NULL, $data){
 								});';
 
 	echo '});
-		  </script>';
+			</script>';
 
 	} else {
 
@@ -410,7 +410,7 @@ function load_job_display($error = NULL, $data){
 		}
 		echo "  	</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary
-	
+
 	}
 }
 

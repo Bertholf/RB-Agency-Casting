@@ -30,10 +30,10 @@ echo "				<div id=\"profile-favorites\">\n";
 			// Return favorites
 			$search_array = array();
 			$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($search_array);
-			
+
 			//query type favorite
 			$query_type = 4;
-			
+
 			// Process Form Submission
 			echo $search_results = RBAgency_Profile::search_results($search_sql_query, $query_type);
 
@@ -44,6 +44,6 @@ echo "			<input type=\"hidden\" name=\"favorite\" value=\"1\"/>";
 echo "  	</div><!-- #content -->\n"; // #content
 echo "	</div><!-- #primary -->\n"; // #primary
 
-//	get_sidebar();        
+//	get_sidebar();
 
 echo $rb_footer = RBAgency_Common::rb_footer(); ?>

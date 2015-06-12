@@ -101,7 +101,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "sendEmailCastingCart"){
 
 	$isSent = wp_mail($SearchMuxToEmail, $SearchMuxSubject, $SearchMuxMessage, $headers);
 	if($isSent){
-		wp_redirect(network_site_url()."/profile-casting-cart/?emailSent");  exit;
+		wp_redirect(network_site_url()."/profile-casting-cart/?emailSent");exit;
 	}
 }
 
@@ -114,7 +114,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 			var originalContents = document.body.innerHTML;
 			document.body.innerHTML = originalContents;
 			window.print();
-		} 
+		}
 </script>
 
 <?php
@@ -139,7 +139,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 										if(jQuery(this).val() == "[+]Check Availability"){
 											jQuery(this).val("[-]Check Availability");
 											jQuery("#sendProfiles").val("[+]Send Profiles");
-										}else{
+										} else {
 											jQuery(this).val("[+]Check Availability");
 										}
 								});
@@ -149,7 +149,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 										if(jQuery(this).val() == "[+]Send Profiles"){
 											jQuery(this).val("[-]Send Profiles");
 											jQuery("#checkavailability").val("[+]Check Availability");
-										}else{
+										} else {
 											jQuery(this).val("[+]Send Profiles");
 										}
 								});
@@ -157,7 +157,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 										jQuery("#inviteprofilesForm").toggle('slow'); 
 										if(jQuery(this).val() == "[+]Invite Profiles"){
 											jQuery(this).val("[-]Invite Profiles");
-										}else{
+										} else {
 											jQuery(this).val("[+]Invite Profiles");
 										}
 								});
@@ -190,9 +190,9 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 				if(is_user_logged_in()){
 					if(current_user_can("edit_posts")){
 							$Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ");
-					}else{
+					} else {
 							$Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_UserLinked = ".rb_agency_get_current_userid());
-					}  
+					}
 					echo "<form method=\"get\" action=\"\" id=\"search-job\" class=\"search-form\">";
 					echo "<div id=\"field\"><select name=\"Job_ID\">";
 					echo "<option value=\"\">- Select a job-</option>";
@@ -203,7 +203,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"Search\"/>";
 						if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
 							echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
-						}else{
+						} else {
 							echo "<input type=\"button\" name=\"clear\" value=\"Back to Profile Casting\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 						}
 					echo "</div></form>";
@@ -245,7 +245,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 						if($rb_agency_option_allowsendemail == 1){
 							echo "<input type=\"button\" name=\"inviteprofiles\"  id=\"inviteprofiles\" value=\"[+]Invite Profiles\"/>";
-						}elseif($rb_agency_option_allowsendemail == 2){
+						} elseif($rb_agency_option_allowsendemail == 2){
 							echo "<input type=\"button\" name=\"checkavailability\"  id=\"checkavailability\" value=\"[+]Check Availability\"/>";
 						}
 
@@ -275,7 +275,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 								RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$hash_profile_id,$_POST["message"]);
 								RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$hash_profile_id,$_POST["message"]);
-							}else{
+							} else {
 								RBAgency_Casting::sendText(array($mobile["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
 								RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
 							}
@@ -290,7 +290,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						<div>
 							Message:<br/>
 								<p>(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job) </p>
-									
+
 								<textarea name="message" style="width:100%;height:200px;">Add your message here...
 								Click this link to view Job details: [casting-job-url]
 								</textarea>
@@ -302,7 +302,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						</form>
 						</div>
 						<?php 
-					}elseif($rb_agency_option_allowsendemail == 2){
+					} elseif($rb_agency_option_allowsendemail == 2){
 
 					if(isset($_POST["checkavailability"])){
 						// Prepre Message
@@ -328,8 +328,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
 					}
 
-					
-					
+
+
 
 					?>
 
@@ -358,15 +358,15 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					</form>
 					</div>
 
-					
 
-					<?php } // endif $rb_agency_option_allowsendemail == 2 ?>
+
+					<?php }// endif $rb_agency_option_allowsendemail == 2 ?>
 
 					<!-- Send Profiles Form -->
 					<?php
 					//Send Profile
 					if(isset($_POST["sendProfileBtn"])){
-						// Prepre varialbes						
+						// Prepre varialbes
 
 						//START
 						$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
@@ -422,7 +422,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						$headers[] = 'MIME-Version: 1.0';
 						$headers[] = "Content-Type: text/html; charset=\"". get_option('blog_charset') . "\"\n";
 						$headers[] = 'From: "'. $fromName .'" <'. trim($fromEmail) .'>';
-						
+
 						$bccArray = explode(";",$SearchMuxEmailToBcc);
 
 						foreach($bccArray as $bcc){
@@ -431,25 +431,25 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 						add_filter('wp_mail_from','yoursite_wp_mail_from');
 						add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
-												
+
 						$Message = str_replace("\n","<br>",$Message);
 						$isSent = wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
 						if($isSent){
 							echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
-						}else{
+						} else {
 							echo "<p id=\"emailSent\">Error sending the email!</p>";
 						}
-						
-						
+
+
 					}
 					global $current_user;
-      				get_currentuserinfo();
+  					get_currentuserinfo();
 					?>
 					<div id="sendProfilesForm" class="rbform block" style="display:none;">
 						<h2>Send Profiles</h2>
 						<form method="post" action="">
 							<div>
-								 <input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname." ".$current_user->user_lastname; ?>" disabled="disabled"/>
+								<input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname." ".$current_user->user_lastname; ?>" disabled="disabled"/>
 							</div>
 							<div>
 								<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $current_user->user_email; ?>" disabled="disabled"/>
@@ -475,7 +475,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								<div><textarea id="message" name="message" style="width:100%;height:200px;">Click the following link (or copy and paste it into your browser): [link-place-holder]</textarea></div>
 							</div>
 							<div class="rbfield rbsubmit">
-								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />								
+								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />
 							</div>
 						</form>
 					</div>
@@ -518,7 +518,7 @@ echo "  </div>\n";
 	jQuery(document).ready(function(){
 		var arr = [];
 		var arr_casting = [];
-			
+
 		jQuery("input[name=selectallprofiles]").change(function(){
 				var ischecked = jQuery(this).is(':checked');
 				jQuery("#profile-casting-list #profile-list  input[name^=profileid]").each(function(){
@@ -526,7 +526,7 @@ echo "  </div>\n";
 					jQuery(this).removeAttr("checked");
 					jQuery(this).prop("checked",true);
 					arr.push(jQuery(this).val());
-					}else{
+					} else {
 					jQuery(this).prop("checked",true);
 					jQuery(this).removeAttr("checked");
 					arr = [];
@@ -547,7 +547,7 @@ echo "  </div>\n";
 				}
 				if(jQuery(this).is(':checked')){
 					arr.push(jQuery(this).val());
-				}else{
+				} else {
 					arr.remove(jQuery(this).val());
 				}
 			jQuery("input[name=shortlistprofiles]").val(arr.toString());

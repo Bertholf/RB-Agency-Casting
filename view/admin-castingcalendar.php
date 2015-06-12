@@ -1,5 +1,5 @@
 <?php 
-	
+
 	global $wpdb; 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'rbcastingcalendarmoment', plugins_url('js/moment.min.js', dirname(__FILE__)), array());
@@ -47,11 +47,11 @@ padding: 4px;
   $years = $wpdb->get_results("SELECT YEAR(Job_Date_Start) as ds, YEAR(Job_Date_End) as de, YEAR(Job_Audition_Date_Start) as ads,YEAR(Job_Audition_Date_End) as ade FROM ".table_agency_casting_job."");
   $arr_years = array();
   foreach ($years as $key) {
-     	array_push($arr_years, $key->ds);
-     	array_push($arr_years, $key->de);
-     	array_push($arr_years, $key->ads);
-     	array_push($arr_years, $key->ade);
-     }   
+ 		array_push($arr_years, $key->ds);
+ 		array_push($arr_years, $key->de);
+ 		array_push($arr_years, $key->ads);
+ 		array_push($arr_years, $key->ade);
+     }
     $arr_years = array_unique(array_filter($arr_years)); 
   ?>
 <form action="<?php echo admin_url("admin.php?page=rb_agency_castingcalendar"); ?>" method="get">
@@ -70,7 +70,7 @@ padding: 4px;
 	}?>
 	</select>
 	<select name="filter">
-	    <option value="jobs" <?php echo isset($_GET["filter"]) && $_GET["filter"] == "jobs"?"selected='selected'":""; ?>>Jobs</option>
+		<option value="jobs" <?php echo isset($_GET["filter"]) && $_GET["filter"] == "jobs"?"selected='selected'":""; ?>>Jobs</option>
 		<option value="auditions" <?php echo isset($_GET["filter"]) && $_GET["filter"] == "auditions"?"selected='selected'":""; ?>>Auditions</option>
 	</select>
 	<input type="submit"  value="Search" class="button">
@@ -81,13 +81,13 @@ padding: 4px;
 
 	jQuery(document).ready(function() {
          <?php 
-         	$defaultDate =  isset($_GET["year"]) && isset($_GET["month"])?$_GET["year"]."-".$_GET["month"]:date("Y-m");
+     		$defaultDate =  isset($_GET["year"]) && isset($_GET["month"])?$_GET["year"]."-".$_GET["month"]:date("Y-m");
 
-         	if(!isset($_GET["filter"]) || (isset($_GET["filter"]) && $_GET["filter"] == "jobs")){ // jobs
-	         	$casting_jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job."  ");
-	         }else{
+     		if(!isset($_GET["filter"]) || (isset($_GET["filter"]) && $_GET["filter"] == "jobs")){ // jobs
+			   	$casting_jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job."  ");
+			   } else {
  				$casting_jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job."  ");
-	        }
+			  }
          ?>
 		jQuery('#calendar').fullCalendar({
 			header: {
@@ -95,31 +95,31 @@ padding: 4px;
 			},
 			defaultDate: '<?php echo $defaultDate;?>',
 			editable: true,
-			 eventSources: [
+			eventSources: [
 			<?php foreach($casting_jobs as $job): ?>
-				
+
 			{
 				events: [
 				{
 					title: '<?php echo $job->Job_Title;?>',
 					<?php if(!isset($_GET["filter"]) || (isset($_GET["filter"]) && $_GET["filter"] == "jobs")): // jobs ?>
-	        			start: '<?php echo date("Y-m-d",strtotime($job->Job_Date_Start)); ?>',
+			  			start: '<?php echo date("Y-m-d",strtotime($job->Job_Date_Start)); ?>',
 						end: '<?php echo date("Y-m-d",strtotime($job->Job_Date_End)); ?>',
 					<?php else: ?>
-	        			start: '<?php echo date("Y-m-d",strtotime($job->Job_Audition_Date_Start)); ?>',
+			  			start: '<?php echo date("Y-m-d",strtotime($job->Job_Audition_Date_Start)); ?>',
 						end: '<?php echo date("Y-m-d",strtotime($job->Job_Audition_Date_End)); ?>',
 					<?php endif; ?>
 					url: '<?php echo admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$job->Job_ID); ?>',
-					
+
 				}],
 				//color: 'black !important',   
                 //textColor: 'yellow !important' 
-          	},
+      		},
 			<?php endforeach; ?>
 			]
-			
+
 		});
-		
+
 	});
 
 </script>

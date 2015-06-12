@@ -2,7 +2,7 @@
 
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
-	
+
 // *************************************************************************************************** //
 // Respond to Login Request
 if ( $_SERVER['REQUEST_METHOD'] == "POST" && !empty( $_POST['action'] ) && $_POST['action'] == 'log-in' ) {
@@ -10,12 +10,12 @@ if ( $_SERVER['REQUEST_METHOD'] == "POST" && !empty( $_POST['action'] ) && $_POS
 	global $error;
 	//$login = wp_login( $_POST['user-name'], $_POST['password'] ); TODO: remove deprecated
 	$login = wp_signon( array( 'user_login' => $_POST['user-name'], 'user_password' => $_POST['password'], 'remember' => isset($_POST['remember-me'])?$_POST['remember-me']:false ), false );
-	
+
     get_currentuserinfo();
     
 	if(isset($login->ID)) {
-    	wp_set_current_user($login->ID);  // populate
-	   	get_user_login_info();
+		wp_set_current_user($login->ID);// populate
+			get_user_login_info();
 	}
 }
 
@@ -27,9 +27,9 @@ function get_user_login_info(){
 	$user_info = get_userdata( $user_ID );
 
 	if($user_ID){
-		
+
 		// If user_registered date/time is less than 48hrs from now
-			
+
 		if(!empty($redirect)){
 			header("Location: ". get_bloginfo("wpurl"). "/profile/".$redirect);
 		} else {
@@ -44,7 +44,7 @@ function get_user_login_info(){
 					header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
 				}
 			}
-	  	}
+			}
 	} elseif(empty($_POST['user-name']) || empty($_POST['password']) ){
 		header("Location: ". get_bloginfo("wpurl"));
 
@@ -85,6 +85,6 @@ function get_user_login_info(){
 			// Get Footer
 			echo $rb_footer = RBAgency_Common::rb_footer();
 
-	} // Done
+	}// Done
 
 ?>

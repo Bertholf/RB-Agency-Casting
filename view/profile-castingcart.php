@@ -19,7 +19,7 @@ include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 		echo " <div id=\"profile-private\">\n";
 
 		// Get Profile
-		 $SearchMuxHash = get_query_var('target');
+		$SearchMuxHash = get_query_var('target');
 
 		if (isset($SearchMuxHash)) {
 
@@ -36,14 +36,14 @@ include(RBAGENCY_PLUGIN_DIR ."app/profile.class.php");
 			}
 
 			// Return Search
-		
+
 			$search_array = array("perpage" => 9999, "include" => $castingcart_id);
 			$search_sql_query = RBAgency_Profile::search_generate_sqlwhere($search_array);
-			
+
 			// Process Form Submission
 			echo $search_results = RBAgency_Profile::search_results($search_sql_query, 0);
-			
-		  // echo  $formatted = RBAgency_Profile::search_formatted($search_array);
+
+			// echo  $formatted = RBAgency_Profile::search_formatted($search_array);
 
 
 

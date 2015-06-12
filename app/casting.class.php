@@ -2,15 +2,15 @@
 class RBAgency_Casting {
 
 	/*
-	* Casting Cart
-	* Process Actions
-	*/
+	 * Casting Cart
+	 * Process Actions
+	 */
 
 		public static function cart_process(){
 
 			/*
-			* Setup Requirements
-			*/
+			 * Setup Requirements
+			 */
 
 			// Protect and defend the cart string!
 				$cartString = "";
@@ -32,7 +32,7 @@ class RBAgency_Casting {
 					}
 
 				} elseif ($action == "cartEmpty") {
-					
+
 					// Throw the baby out with the bathwater
 					unset($_SESSION['cartArray']);
 
@@ -61,9 +61,9 @@ class RBAgency_Casting {
 
 
 	/*
-	* Casting Cart - Add to Cart
-	* @return str $cartString
-	*/
+	 * Casting Cart - Add to Cart
+	 * @return str $cartString
+	 */
 
 		public static function cart_process_add(){
 
@@ -94,9 +94,9 @@ class RBAgency_Casting {
 
 
 	/*
-	* Casting Cart - Remove from Cart
-	* @return str $cartString
-	*/
+	 * Casting Cart - Remove from Cart
+	 * @return str $cartString
+	 */
 
 		public static function cart_process_remove($id){
 
@@ -119,8 +119,8 @@ class RBAgency_Casting {
 
 
 	/*
-	* Show Casting Cart
-	*/
+	 * Show Casting Cart
+	 */
 
 		public static function cart_show(){
 			global $wpdb;
@@ -148,9 +148,9 @@ class RBAgency_Casting {
 				} else {
 					$cartAction = "cartRemove";
 				}
-				
+
 				foreach ($results as $data) {
-					
+
 					$ProfileDateUpdated = $data['ProfileDateUpdated'];
 					echo "  <div style=\"position: relative; border: 1px solid #e1e1e1; line-height: 22px; float: left; padding: 10px; width: 210px; margin: 6px; \">";
 					echo "    <div style=\"text-align: center; \"><h3>". stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</h3></div>"; 
@@ -167,10 +167,10 @@ class RBAgency_Casting {
 					echo "    <div style=\"clear: both; \"></div>";
 					echo "  </div>";
 				}
-				
+
 				echo "  <div style=\"clear: both;\"></div>\n";
 				echo "</div>";
-				
+
 				if (($cartAction == "cartEmpty") || ($cartAction == "cartRemove")) {
 				echo "<a name=\"compose\">&nbsp;</a>"; 
 				echo "<div class=\"boxblock\">\n";
@@ -182,7 +182,7 @@ class RBAgency_Casting {
 				echo "      <a href=\"#\" onClick=\"window.open('". get_bloginfo("url") ."/profile-print/?action=castingCart&cD=0','mywindow','width=930,height=600,left=0,top=50,screenX=0,screenY=50,scrollbars=yes')\" title=\"Quick Print - Without Details\" class=\"button-primary\">". __("Quick Print", RBAGENCY_casting_TEXTDOMAIN) ." - ". __("Without Details", RBAGENCY_casting_TEXTDOMAIN) ."</a>\n";
 				echo "   </div>\n";
 				echo "</div>\n";
-				} // Is Cart Empty 
+				}// Is Cart Empty 
 
 			} else {
 
@@ -195,11 +195,11 @@ class RBAgency_Casting {
 
 
 	/*
-	* Casting Cart - Send Email Process
-	*/
+	 * Casting Cart - Send Email Process
+	 */
 
 		public static function cart_send_process(){
-			
+
 			$isSent = false;
 			$rb_agency_options_arr = get_option('rb_agency_options');
 			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
@@ -210,27 +210,27 @@ class RBAgency_Casting {
 			$MassEmailMessage = $_POST["MassEmailMessage"];
 			$MassEmailRecipient = $_POST["MassEmailRecipient"];
 			$MassEmailBccEmail = $_POST["MassEmailBccEmail"];
-			
+
 			$SearchID				= time(U);
 			$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
-		
+
 			$SearchMuxToName		=$_POST["MassEmailRecipient"];
 			$SearchMuxToEmail		=$_POST["MassEmailRecipient"];
-			
+
 			$SearchMuxEmailToBcc	=$_POST['MassEmailBccEmail'];
 			$SearchMuxSubject		= $_POST['MassEmailSubject'];
 			$SearchMuxMessage		=$_POST['MassEmailMessage'];
 			$SearchMuxCustomValue	='';
 			$cartArray = $_SESSION['cartArray'];
-			
+
 			$cartString = implode(",", array_unique($cartArray));
 			$cartString = rb_agency_cleanString($cartString);
-			
+
 			global $wpdb;
 		$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID,SearchTitle) VALUES('".$cartString."','".$SearchMuxSubject."')");
-					
+
 		$lastid = $wpdb->insert_id;
-		
+
 		// Create Record
 		$insert = "INSERT INTO " . table_agency_searchsaved_mux ." 
 				(
@@ -252,9 +252,9 @@ class RBAgency_Casting {
 				'" . $wpdb->escape($SearchMuxMessage) . "',
 				'" . $wpdb->escape($SearchMuxCustomValue) ."'
 				)";
-			$results = $wpdb->query($insert);  
+			$results = $wpdb->query($insert);
 
-			$profileimage = "";  
+			$profileimage = "";
 			$profileimage .='<p><div style="width:550px;min-height: 170px;">';
 			$query = "SELECT search.SearchTitle, search.SearchProfileID, search.SearchOptions, searchsent.SearchMuxHash FROM ". table_agency_searchsaved ." search LEFT JOIN ". table_agency_searchsaved_mux ." searchsent ON search.SearchID = searchsent.SearchID WHERE search.SearchID = \"". $lastid ."\"";
 			$qProfiles =  $wpdb->get_row($query,ARRAY_A);
@@ -263,16 +263,16 @@ class RBAgency_Casting {
 			$results = $wpdb->get_results($query,ARRAY_A);
 			$count = $wpdb->num_rows;
 			foreach($results as $data2) {
-				$profileimage .= " <div style=\"background:black; color:white;float: left; max-width: 100px; height: 150px; margin: 2px; overflow:hidden;  \">";
+				$profileimage .= " <div style=\"background:black; color:white;float: left; max-width: 100px; height: 150px; margin: 2px; overflow:hidden;\">";
 				$profileimage .= " <div style=\"margin:3px;max-width:250px; max-height:300px; overflow:hidden;\">";
 				$profileimage .= stripslashes($data2['ProfileContactNameFirst']) ." ". stripslashes($data2['ProfileContactNameLast']);
 				$profileimage .= "<br /><a href=\"". RBAGENCY_PROFILEDIR . $data2['ProfileGallery'] ."/\" target=\"_blank\">";
 				$profileimage .= "<img style=\"max-width:130px; max-height:150px; \" src=\"".RBAGENCY_UPLOADDIR ."". $data2['ProfileGallery'] ."/". $data2['ProfileMediaURL'] ."\" /></a>";
 				$profileimage .= "</div>\n";
 				$profileimage .= "</div>\n";
-			 }
+			}
 			$profileimage .="</div></p>";
-			
+
 			// Mail it
 			$headers[]  = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
@@ -284,7 +284,7 @@ class RBAgency_Casting {
 						$headers[] = 'Bcc: '.$bccEmail;
 				}
 			}*/
-			
+
 			//For Bcc emails
 			if(!empty($MassEmailBccEmail)){
 				$bccMail = explode(",",$MassEmailBccEmail);
@@ -297,7 +297,7 @@ class RBAgency_Casting {
 			$MassEmailMessage	= str_ireplace("[site-title]",get_bloginfo("name"),$MassEmailMessage);
 			$isSent = wp_mail($MassEmailRecipient, $MassEmailSubject, $MassEmailMessage, $headers);
 			$url = admin_url('admin.php?page=rb_agency_searchsaved&m=1');
-			if($isSent){?>
+			if($isSent){ ?>
 			<script type="text/javascript"> 
 				window.location="<?php echo $url;?>";
 			</script>
@@ -308,11 +308,11 @@ class RBAgency_Casting {
 		}
 
 	/*
-	* Form to Send Casting Cart
-	*/
+	 * Form to Send Casting Cart
+	 */
 
 		public static function cart_send_form(){
-		
+
 		global $wpdb;
 		/*if(isset($_POST["SendEmail"])){
 				// Process Form
@@ -331,7 +331,7 @@ class RBAgency_Casting {
 				$rb_agency_options_arr = get_option('rb_agency_options');
 				$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
 				$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
-				// Search Results	
+				// Search Results
 				$query = "SELECT profile.*  FROM ". table_agency_profile ." profile WHERE profile.ProfileID > 0 ".$cartQuery;
 				$results2 = $wpdb->get_results($query,ARRAY_A);
 				$count = $wpdb->num_rows;
@@ -346,7 +346,7 @@ class RBAgency_Casting {
 					}
 
 				}
-			
+
 				// Email
 				//echo "Email starts";
 				echo "<form method=\"post\">";
@@ -366,7 +366,7 @@ class RBAgency_Casting {
 [link-place-holder]<br /><br />This message was sent to you by:<br />[site-title]<br />[site-url]";
 				$editor_id = 'MassEmailMessage';
 				wp_editor( $content, $editor_id,array("wpautop"=>false,"tinymce"=>true) );
-				
+
 				echo "          <input type=\"submit\" value=\"". __("Send Email", RBAGENCY_casting_TEXTDOMAIN) . "\" name=\"SendEmail\"class=\"button-primary\" />\n";
 				echo "        </div>\n";
 				echo "     </div>\n";
@@ -380,8 +380,8 @@ class RBAgency_Casting {
 
 
 		/*
-		* check if user is a casting agent
-		*/
+		 * check if user is a casting agent
+		 */
 		public static function rb_is_user_casting(){
 
 				global $wpdb;
@@ -407,12 +407,12 @@ class RBAgency_Casting {
 
 
 		/*
-		* get job type name thru id
-		*/
+		 * get job type name thru id
+		 */
 		public static function rb_get_job_type_name($id=NULL){
-			
+
 			global $wpdb;
-			
+
 			if($id==NULL || $id=="" || empty($id)) return "";
 			$job_type = $wpdb->get_row("SELECT * FROM " . table_agency_casting_job_type . " WHERE Job_Type_ID = " . $id,ARRAY_A);
 			$type_name = "";
@@ -421,23 +421,23 @@ class RBAgency_Casting {
 				$t = $job_type;
 				$type_name = $t['Job_Type_Title'];
 			}
-			
+
 			return $type_name;
 		}
 
 
 		/*
-		* expan string criteria to readable format
-		*/
+		 * expan string criteria to readable format
+		 */
 		public static function rb_get_job_criteria( $criteria = NULL , $return_array = false){
-			
+
 			global $wbdp;
-			
+
 			if($criteria==NULL || $criteria=="" || empty($criteria)) return "No Criteria";
-			
+
 			$details = "";
 			$return_arr = array();
-			
+
 			// if list of criteria
 			if(preg_match("/\|/",$criteria)){
 				$expand_arr = explode("|",$criteria);
@@ -448,17 +448,17 @@ class RBAgency_Casting {
 						if($return_array){
 							$d = explode("/",$arr);
 							$return_arr[$d[0]] = $d[1];
-						}else{
+						} else {
 							$d = explode("/",$arr);
 							$values = str_replace("-",", ",$d[1]);
 							$details .= self::rb_get_custom_name($d[0]) . " = " . $values . "<br>";
-						} 
+						}
 					}
 
 				}
 				if($return_array){
 					return $return_arr;
-				}else{
+				} else {
 					return $details;
 				}
 
@@ -481,8 +481,8 @@ class RBAgency_Casting {
 		}
 
 		/*
-		* expan string criteria to readable format
-		*/
+		 * expan string criteria to readable format
+		 */
 
 		public static function rb_get_custom_name($id=NULL){
 
@@ -502,14 +502,14 @@ class RBAgency_Casting {
 
 
 		/*
-		* process criteria passed by model
-		*/
+		 * process criteria passed by model
+		 */
 		public static function rb_get_job_criteria_passed($user_linked = NULL, $custom_criteria = NULL){
 
 			global $wpdb;
-			
+
 			$passed_details = array();
-			
+
 			$get_profile_id = self::rb_casting_ismodel($user_linked);
 
 			if($user_linked == NULL || 
@@ -539,12 +539,12 @@ class RBAgency_Casting {
 			return self::rb_compare_criteria($criteria_must_passed, $actual_model_quality);
 
 		}
-		
+
 		/*
-		* check if user is model / talent
-		* can also be used to return any column in table
-		* just assign it in the parameter $field_name
-		*/
+		 * check if user is model / talent
+		 * can also be used to return any column in table
+		 * just assign it in the parameter $field_name
+		 */
 		public static function rb_casting_ismodel($user_linked = NULL, $field_name = NULL, $name = false){
 
 			global $wpdb;
@@ -559,10 +559,10 @@ class RBAgency_Casting {
 				if(isset($get_id->ProfileID)){
 					if(!$name){
 						return $get_id->ProfileID;
-					}else{
+					} else {
 						return $get_id->ProfileContactDisplay;
 					}
-				} 
+				}
 			}
 
 			return false;
@@ -570,8 +570,8 @@ class RBAgency_Casting {
 		}
 
 		/*
-		* check if user is casting agent
-		*/
+		 * check if user is casting agent
+		 */
 		public static function rb_casting_is_castingagent($user_linked = NULL){
 
 			global $wpdb;
@@ -615,7 +615,7 @@ class RBAgency_Casting {
 				if ($ProfileCustomType["ProfileCustomType"] == 1 ||
 					$ProfileCustomType["ProfileCustomType"] == 3 || 
 					$ProfileCustomType["ProfileCustomType"] == 6) { // text, dropdown, radiobutton
-					
+
 					// at least compare text values vice versa
 					if(strpos($val, $model_criteria[$key]) > -1){
 						$actual_criteria_passed[$key] = $model_criteria[$key];
@@ -640,7 +640,7 @@ class RBAgency_Casting {
 							if(in_array($model_criteria[$key], $criteria[$key])){
 								$actual_criteria_passed[$key] = $model_criteria[$key];
 							}
-						} 
+						}
 					} else {
 						if(strpos("-",$model_criteria[$key]) > -1){
 							$model_criteria[$key] = explode("-",$model_criteria[$key]);
@@ -651,7 +651,7 @@ class RBAgency_Casting {
 							if(in_array($criteria[$key], $model_criteria[$key])){
 								$actual_criteria_passed[$key] = $model_criteria[$key];
 							}
-						} 
+						}
 					}
 
 				} elseif ($ProfileCustomType["ProfileCustomType"] == 7) { //Measurements 
@@ -678,14 +678,14 @@ class RBAgency_Casting {
 
 
 		/*
-		* get custom field values
-		*/
+		 * get custom field values
+		 */
 		public static function load_custom_types($data = NULL){
 
 				global $wpdb;
 
 				$dat = explode("|",$data);
-				
+
 				$custom_fields = array();
 				if(count($dat) > 0){
 					foreach($dat as $d){
@@ -699,19 +699,19 @@ class RBAgency_Casting {
 		}
 
 		/*
-		* actual loading of criteria fields
-		*/
+		 * actual loading of criteria fields
+		 */
 		public static function load_criteria_fields($data = NULL){
-			
+
 				global $wpdb;
 				$rb_agency_options_arr = get_option('rb_agency_options');
 					// What is the unit of measurement?
 					$rb_agency_option_unittype = isset($rb_agency_options_arr['rb_agency_option_unittype'])?$rb_agency_options_arr['rb_agency_option_unittype']:1;
 
-				
+
 				$custom_fields = self::load_custom_types($data);
-				
-				
+
+
 
 				echo "<script type='text/javascript'>
 						function num_only(text) {
@@ -719,12 +719,12 @@ class RBAgency_Casting {
 							if (!validationRegex.test(text.value)) {
 								alert('Please enter only numbers.');
 							}
-						}	 
-					 </script>";
-			
+						}
+					</script>";
+
 
 					$field_sql = "SELECT * FROM ". table_agency_customfields ." WHERE ProfileCustomView = 0 ORDER BY ProfileCustomOrder ASC";
-			
+
 				$field_results = $wpdb->get_results($field_sql,ARRAY_A);
 
 				if(isset($custom_fields["age"]) && is_array($custom_fields["age"])){
@@ -736,7 +736,7 @@ class RBAgency_Casting {
 
 				echo "<div class=\"rbfield rbmulti rbmetric profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
 				echo "<label for=\"ProfileCustomIDage\">Age</label>";
-				echo "<div class=\"clear\"></div>";				
+				echo "<div class=\"clear\"></div>";
 				echo "<div><div><label for=\"ProfileCustomIDage_min\">Min</label>";
 				echo "<input value=\"".(isset($min_val)?$min_val:"")."\" class=\"stubby rbmin\" type=\"text\" name=\"ProfileCustomIDage[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
 				echo "<div><label for=\"ProfileCustomIDage_max\">Max</label>";
@@ -757,7 +757,7 @@ class RBAgency_Casting {
 														if($custom_fields["gender"]==stripslashes($value->GenderID)  || in_array(stripslashes($value->GenderID), $custom_fields["gender"])){
 															$isSelected = "selected=\"selected\"";
 															echo "		<option value=\"".stripslashes($value->GenderID)."\" ".$isSelected .">".stripslashes($value->GenderTitle)."</option>";
-														}else{
+														} else {
 															echo "		<option value=\"".stripslashes($value->GenderID)."\" >".stripslashes($value->GenderTitle)."</option>"; 
 														}
 													}
@@ -779,22 +779,22 @@ class RBAgency_Casting {
 					$ProfileCustomShowSearchSimple = $data['ProfileCustomShowSearchSimple']; 
 
 						/* Field Type 
-						* 1 = Single Line Text
-						* 2 = Min / Max (Depreciated)
-						* 3 = Dropdown
-						* 4 = Textbox
-						* 5 = Checkbox
-						* 6 = Radiobutton
-						* 7 = Metric
-						*     1 = Inches
-						*     2 = Pounds
-						*     3 = Feet/Inches
-						*/
+						 * 1 = Single Line Text
+						 * 2 = Min / Max (Depreciated)
+						 * 3 = Dropdown
+						 * 4 = Textbox
+						 * 5 = Checkbox
+						 * 6 = Radiobutton
+						 * 7 = Metric
+						 *     1 = Inches
+						 *     2 = Pounds
+						 *     3 = Feet/Inches
+						 */
 
 
 						/*
-						* Single Text Line
-						*/
+						 * Single Text Line
+						 */
 
 						if($ProfileCustomType == 1) {
 								echo "<div class=\"rbfield rbtext rbsingle profilecustomid_". $ProfileCustomID ."\" attrid=\"". $ProfileCustomID ."\" id=\"profilecustomid_". $ProfileCustomID ."\">";
@@ -806,8 +806,8 @@ class RBAgency_Casting {
 								echo "</div>";
 
 						/*
-						* Min Max
-						*/
+						 * Min Max
+						 */
 						} elseif($ProfileCustomType == 2) {
 
 								echo "<div class=\"rbfield rbminmax rbtext rbsingle profilecustomid_". $ProfileCustomID ."\" attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
@@ -844,8 +844,8 @@ class RBAgency_Casting {
 							echo "</div>";
 
 						/*
-						* Dropdown
-						*/
+						 * Dropdown
+						 */
 						} elseif($ProfileCustomType == 3 || $ProfileCustomType == 9 ) {
 								echo "<div class=\"rbfield rbselect rbsingle profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 								echo "	<label for=\"ProfileCustomID". $ProfileCustomID ."\">". $ProfileCustomTitle ."</label>";
@@ -861,7 +861,7 @@ class RBAgency_Casting {
 														if($custom_fields[$ProfileCustomID]==stripslashes($value)  || in_array(stripslashes($value), $custom_fields[$ProfileCustomID])){
 															$isSelected = "selected=\"selected\"";
 															echo "		<option value=\"".stripslashes($value)."\" ".$isSelected .">".stripslashes($value)."</option>";
-														}else{
+														} else {
 															echo "		<option value=\"".stripslashes($value)."\" >".stripslashes($value)."</option>"; 
 														}
 													}
@@ -872,8 +872,8 @@ class RBAgency_Casting {
 
 
 						/*
-						* Textbox
-						*/
+						 * Textbox
+						 */
 						} elseif($ProfileCustomType == 4) {
 							/*
 							TODO: Should we search text inside of text area?
@@ -881,11 +881,11 @@ class RBAgency_Casting {
 											echo "<label for=\"ProfileCustomID". $ProfileCustomID ."\">". $ProfileCustomTitle ."</label>";
 											echo "<textarea name=\"ProfileCustomID". $ProfileCustomID ."\">". $custom_fields[$ProfileCustomID] ."</textarea>";
 											echo "</div>";
-							*/
+							 */
 
 						/*
-						* Checkbox
-						*/
+						 * Checkbox
+						 */
 						} elseif($ProfileCustomType == 5) {
 								echo "<fieldset class=\"rbfield rbcheckbox rbmulti profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 								echo "<legend>". $ProfileCustomTitle ."</legend>";
@@ -893,7 +893,7 @@ class RBAgency_Casting {
 								$array_customOptions_values = explode("|", $ProfileCustomOptions);
 								foreach($array_customOptions_values as $val){
 
-									if(isset($custom_fields[$ProfileCustomID])){ 
+									if(isset($custom_fields[$ProfileCustomID])){
 
 										$dataArr = @explode(",",@implode(",",@explode("','",stripslashes($custom_fields[$ProfileCustomID]))));
 										if(in_array($val,$dataArr,true)){
@@ -918,8 +918,8 @@ class RBAgency_Casting {
 								echo "</fieldset>";
 
 						/*
-						* Radio Button
-						*/
+						 * Radio Button
+						 */
 						} elseif($ProfileCustomType == 6) {
 								echo "<fieldset class=\"rbfield rbradio rbmulti profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 								echo "<legend>". $ProfileCustomTitle ."</legend>";
@@ -928,14 +928,14 @@ class RBAgency_Casting {
 
 								foreach($array_customOptions_values as $val){
 
-									if(isset($custom_fields[$ProfileCustomID]) && $custom_fields[$ProfileCustomID] !=""){ 
+									if(isset($custom_fields[$ProfileCustomID]) && $custom_fields[$ProfileCustomID] !=""){
 
 										$dataArr = explode(",",implode(",",explode("','",$custom_fields[$ProfileCustomID])));
 
 										if(in_array($val,$dataArr) && $val !=""){
 											echo "<div><label><input type=\"radio\" checked=\"checked\" value=\"". $val."\"  name=\"ProfileCustomID". $ProfileCustomID ."[]\" />";
 											echo "<span> ". $val."</span></label></div>";
-										}else{
+										} else {
 											if($val !=""){
 												echo "<div><label><input type=\"radio\" value=\"". $val."\"  name=\"ProfileCustomID". $ProfileCustomID ."[]\" />";
 												echo "<span> ". $val."</span></label></div>";
@@ -948,19 +948,19 @@ class RBAgency_Casting {
 										}
 									}
 								}
-								echo "<input type=\"hidden\" value=\"\" name=\"ProfileCustomID". $ProfileCustomID ."[]\"/>";	    
+								echo "<input type=\"hidden\" value=\"\" name=\"ProfileCustomID". $ProfileCustomID ."[]\"/>";
 								echo "</div>";
 								echo "</fieldset>";
 
 						/*
-						* Metric
-						*/
+						 * Metric
+						 */
 						} elseif($ProfileCustomType == 7) {
 								echo "<fieldset class=\"rbfield rbmetric rbmulti profilecustomid_". $ProfileCustomID ."\"  attrid=\"". $ProfileCustomID ."\"  id=\"profilecustomid_". $ProfileCustomID ."\">";
 
 							/*
-							* Measurement Label
-							*/
+							 * Measurement Label
+							 */
 
 								$measurements_label = "";
 
@@ -988,8 +988,8 @@ class RBAgency_Casting {
 								echo "<legend>". $ProfileCustomTitle . $measurements_label ."</legend>";
 
 							/*
-							* Handle Array
-							*/
+							 * Handle Array
+							 */
 
 								// Is Array?
 								if(isset($custom_fields[$ProfileCustomID]) && is_array($custom_fields[$ProfileCustomID])){
@@ -1014,7 +1014,7 @@ class RBAgency_Casting {
 										$heightraw = 0;
 										$heightfeet = 0;
 										$heightinch = 0;
-										while($i<=96)  { 
+										while($i<=96)  {
 											$heightraw = $i;
 											$heightfeet = floor($heightraw/12);
 											$heightinch = $heightraw - floor($heightfeet*12);
@@ -1033,7 +1033,7 @@ class RBAgency_Casting {
 										$heightraw = 0;
 										$heightfeet = 0;
 										$heightinch = 0;
-										while($i<=96)  { 
+										while($i<=96)  {
 											$heightraw = $i;
 											$heightfeet = floor($heightraw/12);
 											$heightinch = $heightraw - floor($heightfeet*12);
@@ -1072,7 +1072,7 @@ class RBAgency_Casting {
 
 			if($id == NULL) return "";
 
-			$get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileID = " . $id);	
+			$get_name = $wpdb->get_row("SELECT * FROM " . table_agency_profile . " WHERE ProfileID = " . $id);
 
 			if(count($get_name) > 0){
 					return $get_name;
@@ -1094,12 +1094,12 @@ class RBAgency_Casting {
 				($count_per_page == NULL || $count_per_page == "")) return "";
 			$results = $wpdb->get_row("SHOW TABLES LIKE '".$table."'");
 				$count = $wpdb->num_rows;
-			if($count == 1) { 
+			if($count == 1) {
 
 				if(!empty($where) && $where != "" && $where != NULL){
-						$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table . " " . $where, ARRAY_A);	
+						$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table . " " . $where, ARRAY_A);
 				} else {
-						$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table, ARRAY_A);	
+						$get_row_count = $wpdb->get_row("SELECT COUNT(1) as total FROM " . $table, ARRAY_A);
 				}
 
 				$total = $get_row_count;
@@ -1144,17 +1144,17 @@ class RBAgency_Casting {
 		 * get percentage passed
 		 */
 		public static function rb_casting_get_percentage_passed($Job_ID=NULL, $Job_Criteria_Passed=NULL){
-			
+
 			global $wpdb;
-			
+
 			if($Job_ID == NULL || $Job_ID == 0 || $Job_ID == "") return "";
-			
+
 			if($Job_Criteria_Passed == NULL || $Job_Criteria_Passed == "") return "";
-			
+
 			$get_criteria = $wpdb->get_row("SELECT Job_Criteria FROM " . table_agency_casting_job . " WHERE Job_ID = " . $Job_ID);
-			
+
 			if(count($get_criteria) > 0){
-					
+
 					if(preg_match("/\|/", $get_criteria->Job_Criteria)){
 						$count = count(explode("|", $get_criteria->Job_Criteria));
 					} else {
@@ -1163,7 +1163,7 @@ class RBAgency_Casting {
 
 					$res = ( $Job_Criteria_Passed / $count ) * 100;
 					$res = round($res); 
-					return " or " . $res . "% Matched";	
+					return " or " . $res . "% Matched";
 
 			}
 
@@ -1193,7 +1193,7 @@ class RBAgency_Casting {
 					foreach($applicants_result as $applicants){
 							$job_criterias = RBAgency_Casting::rb_get_job_criteria_passed($applicants->Job_UserLinked, $criteria);
 							$Job_Criteria_Details = serialize($job_criterias);
-							
+
 							// get precentage
 							if(preg_match("/\|/", $criteria)){
 								$count = count(explode("|", $criteria));
@@ -1202,13 +1202,13 @@ class RBAgency_Casting {
 							}
 
 							$res = ( count($job_criterias) / $count ) * 100;
-							
+
 							$percentage = round($res); 
-							
+
 							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
 										" SET Job_Criteria_Details = '" . $Job_Criteria_Details . "',
-											 Job_Criteria_Passed = " . count($job_criterias) . ", 
-											 Job_Criteria_Percentage = " . $percentage .
+											Job_Criteria_Passed = " . count($job_criterias) . ", 
+											Job_Criteria_Percentage = " . $percentage .
 										" WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 
 					}
@@ -1223,8 +1223,8 @@ class RBAgency_Casting {
 					foreach($applicants_result as $applicants){
 							$wpdb->query("UPDATE " . table_agency_casting_job_application . 
 										" SET Job_Criteria_Details = '',
-											 Job_Criteria_Passed = 10, 
-											 Job_Criteria_Percentage = 100 " . 
+											Job_Criteria_Passed = 10, 
+											Job_Criteria_Percentage = 100 " . 
 										" WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 					}
 				}
@@ -1239,17 +1239,17 @@ class RBAgency_Casting {
 					foreach($applicants_result as $applicants){
 						$wpdb->query("UPDATE " . table_agency_casting_job_application . 
 									" SET Job_Criteria_Details = '',
-										 Job_Criteria_Passed = 0, 
-										 Job_Criteria_Percentage = 0 " . 
+										Job_Criteria_Passed = 0, 
+										Job_Criteria_Percentage = 0 " . 
 									" WHERE Job_Userlinked = " . $applicants->Job_UserLinked . " AND Job_ID = " . $JobID );
 					}
 
 				}
-			
+
 			}
-			
+
 			return true;
-			
+
 		}
 
 
@@ -1278,9 +1278,9 @@ class RBAgency_Casting {
 		public static function rb_get_model_image($PID = NULL){
 
 			global $wpdb;
-			
+
 			if(empty($PID) or is_null($PID)) return false;
-			
+
 			$profile_id = "SELECT * FROM ". table_agency_profile .
 						" WHERE ProfileID = " . $PID;
 
@@ -1313,20 +1313,20 @@ class RBAgency_Casting {
 		 */
 		public static function rb_casting_send_notification($user_id, $plaintext_pass = ''){
 
-				$user = new WP_User($user_id);  
+				$user = new WP_User($user_id);
 
-				$user_login = stripslashes($user->user_login);  
-				$user_email = stripslashes($user->user_email);  
+				$user_login = stripslashes($user->user_login);
+				$user_email = stripslashes($user->user_email);
 
-				$message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "\r\n\r\n";  
-				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";  
-				$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";  
+				$message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "\r\n\r\n";
+				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
+				$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
 
-				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);  
+				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
 
 				if ( empty($plaintext_pass) )  
-					return;  
-				$message  = __('Hi there,') . "\r\n\r\n";  
+					return;
+				$message  = __('Hi there,') . "\r\n\r\n";
 				$message .= sprintf(__("Thanks for joining %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n"; 
 				$message .= get_option('home') ."/casting-login/\r\n"; 
 				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n"; 
@@ -1337,7 +1337,7 @@ class RBAgency_Casting {
 				$message .= get_option('home') ."\r\n"; 
 
 				$headers = 'From: '. get_option('blogname') .' <'. get_option('admin_email') .'>' . "\r\n";
-				wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details'), get_option('blogname')), $message, $headers);  
+				wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details'), get_option('blogname')), $message, $headers);
 		}
 
 
@@ -1345,16 +1345,16 @@ class RBAgency_Casting {
 		 * get visibility
 		 */
 		public static function rb_get_job_visibility($jobid = NULL){
-			
+
 			global $wpdb;
-			
+
 			if(empty($jobid) or is_null($jobid)) return false;
-			
+
 			$visibility_id = "SELECT Job_Visibility FROM ". table_agency_casting_job .
 						" WHERE Job_ID = " . $jobid;
-			
+
 			$get = $wpdb->get_row($visibility_id);
-			
+
 			if(count($get) > 0){
 				return $get->Job_Visibility;
 			}
@@ -1373,8 +1373,8 @@ class RBAgency_Casting {
 		if(is_null($talent) && $talent != '') return "";
 		if(is_null($JobID) && $JobID != '') return "";
 
-		if(is_user_logged_in()){ 
-			if(isset($talent) && $talent ){ 
+		if(is_user_logged_in()){
+			if(isset($talent) && $talent ){
 
 				if(strpos("none", $JobID) > -1 ){
 
@@ -1401,7 +1401,7 @@ class RBAgency_Casting {
 					$arr = array( "data" => "success");
 					echo json_encode($arr);
 				} else {
-					
+
 					$talent = self::rb_casting_ismodel($talent, "ProfileID");
 					$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
 					$count_castingcart = $wpdb->num_rows;
@@ -1438,7 +1438,7 @@ class RBAgency_Casting {
 
 			if(is_null($talent) && $talent != '') return false;
 
-			if(is_user_logged_in()){ 
+			if(is_user_logged_in()){
 
 				if(isset($talent) && $talent ){
 					$talent = self::rb_casting_ismodel($talent, "ProfileID");
@@ -1447,7 +1447,7 @@ class RBAgency_Casting {
 
 					if($count_castingcart > 0){
 						return true;
-					}else{
+					} else {
 						return false;
 					}
 
@@ -1478,7 +1478,7 @@ class RBAgency_Casting {
 				$wpdb->query("DELETE FROM ".table_agency_casting_job." WHERE Job_ID IN(".$ids.") ");
 
 					echo "<div id=\"message\" class=\"updated\"><p>Successfully deleted.</p></div>";
-			
+
 			}
 
 			$rb_agency_options_arr = get_option('rb_agency_options');
@@ -1517,7 +1517,7 @@ class RBAgency_Casting {
 			//Paginate
 			$sqldata  = "SELECT jobs.*,talents.* , agency.* FROM ". table_agency_casting_job ." jobs LEFT JOIN ". table_agency_castingcart_availability ." talents ON jobs.Job_ID = talents.CastingAvailabilityID LEFT JOIN ".table_agency_casting." as agency ON agency.CastingUserLinked = jobs.Job_UserLinked ". $filter  .""; // number of total rows in the database
 			$results=  $wpdb->get_results($sqldata);
-			
+
 			$items =$wpdb->num_rows; // number of total rows in the database
 			if($items > 0) {
 
@@ -1546,7 +1546,7 @@ class RBAgency_Casting {
 
 			?>
 
-			<?php if((empty($_GET["action2"]) && empty($_GET["Job_ID"])) || isset($_GET["action2"]) && $_GET["action2"] == "deleteCastingJob"){?>
+			<?php if((empty($_GET["action2"]) && empty($_GET["Job_ID"])) || isset($_GET["action2"]) && $_GET["action2"] == "deleteCastingJob"){ ?>
 			<a href="<?php echo admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&action2=addnew") ?>" class="button-primary">Add New Job</a>
 
 				<table cellspacing="0" class="widefat fixed">
@@ -1575,7 +1575,7 @@ class RBAgency_Casting {
 				</thead>
 				</table>
 
-				<form method="post" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">	
+				<form method="post" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>">
 				<table cellspacing="0" class="widefat fixed">
 				<thead>
 					<tr class="thead">
@@ -1611,7 +1611,7 @@ class RBAgency_Casting {
 					$Job_Talents = stripslashes($data2['Job_Talents']);
 					$Job_Talents = explode(",",str_replace("NULL","",$Job_Talents));
 					$Job_AgencyName = stripslashes($data2["CastingContactCompany"]);
-					
+
 				?>
 				<tr>
 					<th class="check-column" scope="row">
@@ -1626,15 +1626,15 @@ class RBAgency_Casting {
 								<span class="view"><a href="<?php echo get_bloginfo("url")."/job-detail/".$Job_ID; ?>" target="_blank">View</a> | </span>
 								<span class="view"><a href="<?php echo get_bloginfo("url")."/view-applicants/?filter_jobtitle=".$Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter"; ?>" target="_blank">Applicants</a> | </span>
 								<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
-								<span class="delete"><a class='submitdelete' title='Delete this Record' href='<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent&amp;action2=deleteCastingJob&amp;removeJob_ID=<?php echo $Job_ID; ?>' onclick="if ( confirm('You are about to delete this record\'\n \'Cancel\' to stop, \'OK\' to delete.') ) { return true;}return false;">Delete</a></span>
+								<span class="delete"><a class='submitdelete' title='Delete this Record' href='<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent&amp;action2=deleteCastingJob&amp;removeJob_ID=<?php echo $Job_ID; ?>' onclick="if ( confirm('You are about to delete this record\'\n \'Cancel\' to stop, \'OK\' to delete.') ) {return true;}return false;">Delete</a></span>
 						</div>
 					</td>
 					<td>
-					 <?php echo $Job_AgencyName; ?>
+					<?php echo $Job_AgencyName; ?>
 					</td>
 					<td>
 						<?php  $casting_cart = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$Job_ID)); ?>
-					 <?php  echo isset($casting_cart->total)?$casting_cart->total:0; ?>
+					<?php  echo isset($casting_cart->total)?$casting_cart->total:0; ?>
 					</td>
 					<td>
 						<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
@@ -1642,9 +1642,9 @@ class RBAgency_Casting {
 				</tr>
 				<?php
 				}
-				
+
 					if ($count2 < 1) {
-						if (isset($filter)) { 
+						if (isset($filter)) {
 				?>
 				<tr>
 					<th class="check-column" scope="row"></th>
@@ -1664,19 +1664,19 @@ class RBAgency_Casting {
 				<?php
 						}
 				?>
-				<?php } ?>
+				<?php }?>
 				</tbody>
 			</table>
 			<?php if($items > 0) { ?>
 			<div class="tablenav">
 				<div class='tablenav-pages'>
 					<?php 
-					
-						echo $p->show();  // Echo out the list of paging. 
+
+						echo $p->show();// Echo out the list of paging. 
 					?>
 				</div>
 			</div>
-			<?php } ?>
+			<?php }?>
 		</div>
 		<input type="submit" class="btn button-secondary" onclick="javascript:return !confirm('Are you sure that you want to delete the selected?')?false:true;" name="mass_delete" value="Delete"/>
 			<?php
@@ -1695,7 +1695,7 @@ class RBAgency_Casting {
 			$content = "";
 			if(!empty($message)){
 				$content = str_replace("[casting-job-url]", $link, $message);;
-			}else{
+			} else {
 				$content = $rb_agency_value_agencyname.' has put you forward for a Job. See the following link: '.$link;
 			}
 
@@ -1738,7 +1738,7 @@ class RBAgency_Casting {
 			$MassEmailMessage = "";
 			if(!empty($message)){
 					$MassEmailMessage = str_replace("[casting-job-url]", $link, $message);;
-			}else{
+			} else {
 					$MassEmailMessage = $rb_agency_value_agencyname." has put you forward for a Job. See the following link: ".$link."\r\n";
 			}
 			$headers[] = 'MIME-Version: 1.0';
