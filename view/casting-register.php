@@ -344,6 +344,8 @@
 	echo "   		<div><input class=\"text-input\" name=\"casting_zip\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_zip'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-zip -->\n";
 
+					//Custom fields
+					rb_get_customfields_castingregister();
 	echo "		<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
 
 

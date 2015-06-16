@@ -338,11 +338,14 @@ function load_job_display($error = NULL){
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
-					<div id='criteria'>
+					
 
-					</div>
+					<div id='criteria'>".rb_get_customfields_castingpostjobs()."</div>
+					
+
 					<div class='rbfield rbsubmit'>
 						<label></label>
+
 						<input type='submit' name='save_job' value='Submit Job'>
 					</div>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
