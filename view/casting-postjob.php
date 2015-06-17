@@ -118,8 +118,10 @@ if(isset($_POST['save_job'])){
 						}
 					} else {
 						//Normal String
-						$into[] = $key;
-						$values[] = "'". trim($val) . "'";
+						if(strpos($key,"ProfileCustom2") === false){							
+							$into[] = $key;
+							$values[] = "'". trim($val) . "'";
+						}
 					}
 				}
 			}
@@ -127,6 +129,42 @@ if(isset($_POST['save_job'])){
 			$sql_Insert .=  " ( " . implode(",",$into) . ", Job_Criteria, Job_Talents_Hash, Job_Date_Created) VALUES ( " . implode(",",$values) . ",'".implode("|",$criteria)."' ,'".$job_talents_hash."',Now())";
 
 			$wpdb->query($sql_Insert);
+			$Job_ID = $wpdb->insert_id;
+
+					$insert_to_casting_custom = array();
+					
+					$profilecustom_ids = array();
+					$profilecustom_types = array();
+					foreach($_POST as $k=>$v){
+						$parsek = explode("_",$k);
+						if($parsek[0] == 'ProfileCustom2'){
+							$profilecustom_ids[] = $parsek[1];
+							$profilecustom_types[] = $parsek[2];
+						}
+					}
+					
+					foreach($profilecustom_ids as $k=>$v){
+						foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+							if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+								$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+							}else{
+								$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+							}
+							if(empty($data) || $data == '--Select--'){
+								$data = NULL;
+							}
+
+							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+						}
+												
+					}
+					$temp_arr = array();
+					foreach($insert_to_casting_custom as $k=>$v){
+						if(!in_array($v,$temp_arr)){
+							$wpdb->query($v);
+							$temp_arr[$k] = $v; 
+						}						
+					}
 
 			echo "	<div class=\"".fullwidth_class()." column\">\n";
 			echo "  	<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
@@ -265,6 +303,7 @@ function load_job_display($error = NULL){
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
+
 					<div class='rbfield rbtext rbsingle'>
 						<label>Date End:</label>
 						<div>
@@ -337,10 +376,10 @@ function load_job_display($error = NULL){
 							</select>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
-					</div>
+					</div>";
 					
-
-					<div id='criteria'>".rb_get_customfields_castingpostjobs()."</div>
+					rb_get_customfields_castingpostjobs();
+					echo "<div id='criteria'></div>
 					
 
 					<div class='rbfield rbsubmit'>

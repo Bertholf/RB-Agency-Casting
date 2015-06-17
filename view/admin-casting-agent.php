@@ -227,6 +227,74 @@ function rb_manage_client($CastingID) {
 					$ProfileContactEmail = $_POST['casting_email'];
 					$ProfilePassword = $_POST["CastingPassword"];
 
+					
+					/**UPDATE CUSTOM FIELDS**/
+					foreach($_POST as $k=>$v){
+						$parseCustom = explode("_",$k);
+						if($parseCustom[0] == 'ProfileCustom2'){
+							$profilecustom_ids[] = $parseCustom[1];
+							$profilecustom_types[] = $parseCustom[2];
+							$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE Customfield_ID = ". $parseCustom[1];
+							$wpdb->get_results($query_get,ARRAY_A);
+							if($wpdb->num_rows > 0){
+								//Update
+								foreach($profilecustom_ids as $k=>$v){
+									foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+										if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+											$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+										}else{
+											$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+										}
+										if(empty($data) || $data == '--Select--'){
+											$data = NULL;
+										}
+										
+										$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_register_customfields
+																		SET Customfield_value = '".esc_attr($data)."' WHERE CastingID = ".esc_attr($_GET["CastingID"])." AND Customfield_ID = ".esc_attr($v)."
+																		";
+									}
+															
+								}
+
+								$temp_arr = array();
+								foreach($update_to_casting_custom as $k=>$v){
+									if(!in_array($v,$temp_arr)){
+										$wpdb->query($v);
+										$temp_arr[$k] = $v; 
+									}						
+								}
+							}else{
+								//Add
+								foreach($profilecustom_ids as $k=>$v){
+									foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+										if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+											$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+										}else{
+											$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+										}
+										if(empty($data) || $data == '--Select--'){
+											$data = NULL;
+										}
+
+										$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_register_customfields(CastingID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($_GET["CastingID"])."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+									}
+															
+								}
+								$temp_arr = array();
+								foreach($insert_to_casting_custom as $k=>$v){
+									if(!in_array($v,$temp_arr)){
+										$wpdb->query($v);
+										$temp_arr[$k] = $v; 
+									}						
+								}
+							}
+						}
+					}
+							
+							
+
+							/**END UPDATE CUSTOM FIELDS**/
+
 						if ($ProfileUserLinked > 0) {
 							if ($rb_agency_option_profilenaming == 0) {
 							$CastingContactDisplay = $first_name . " ". $last_name;
@@ -413,6 +481,43 @@ function rb_manage_client($CastingID) {
 								now())";
 
 					$result = $wpdb->query($insert);
+
+					$Job_ID = $wpdb->insert_id;
+					
+					$insert_to_casting_custom = array();
+					
+					$profilecustom_ids = array();
+					$profilecustom_types = array();
+					foreach($_POST as $k=>$v){
+						$parsek = explode("_",$k);
+						if($parsek[0] == 'ProfileCustom2'){
+							$profilecustom_ids[] = $parsek[1];
+							$profilecustom_types[] = $parsek[2];
+						}
+					}
+					
+					foreach($profilecustom_ids as $k=>$v){
+						foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+							if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+								$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+							}else{
+								$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+							}
+							if(empty($data) || $data == '--Select--'){
+								$data = NULL;
+							}
+
+							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+						}
+												
+					}
+					$temp_arr = array();
+					foreach($insert_to_casting_custom as $k=>$v){
+						if(!in_array($v,$temp_arr)){
+							$wpdb->query($v);
+							$temp_arr[$k] = $v; 
+						}						
+					}
 					// Notify admin and user
 					RBAgency_Casting::rb_casting_send_notification($new_user, $user_pass);
 
@@ -617,6 +722,8 @@ function rb_manage_client($CastingID) {
 					echo "	</div>\n";
 
 				}
+				echo "<h3>Additional Details</h3>";
+				rb_get_customfields_castingregister();
 			echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 			if( $CastingID <= 0 ){
 			echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button-primary\" value='Submit'/>";

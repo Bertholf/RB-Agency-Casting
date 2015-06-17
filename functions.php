@@ -695,15 +695,8 @@
 			include_once(dirname(__FILE__) .'/view/admin-castingjobs.php');
 		}
 
-		function rb_get_customfields_castingjobs(){
-		   global $wpdb;
-
-		   
-		   $query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingJob = 1";
-		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
-
-		   foreach( $result_query_get as $result){
-		   	   $ProfileCustomID = $result['ProfileCustomID'];
+		function rb_get_customfields_castingjobs_func($result){
+			   $ProfileCustomID = $result['ProfileCustomID'];
 		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
 			   $ProfileCustomType  = $result['ProfileCustomType'];
 			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
@@ -711,17 +704,30 @@
 			   if($ProfileCustomType == 1 || $ProfileCustomType == 7){
 			   	    echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><input type=\"text\" name=\"ProfileCustom_".$ProfileCustomID."\" ></div>";
+						if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+							$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+						}else{
+							$custom_value = "";
+						}
+											
+						$value = !empty($custom_value)?$custom_value:"";					
+						echo "<div><input type=\"text\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$value."\"></div>";
 					echo "</div>\n";
 			   }elseif($ProfileCustomType == 3){
 			   	    echo "<div class=\"rbfield rbtext\" >";
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<select name=\"ProfileCustom_".$ProfileCustomID."\" >";
+			   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
 			   	    	echo "<option>--Select--</option>";
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<option value=\"".$parse[$idx]."\" >".$parse[$idx]."</option>";
+			   	    		if(!empty($parse[$idx])){
+			   	    			if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+									$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+								}else{
+									$custom_value = "";
+								}
+			   	    		    $selected = $parse[$idx] == $custom_value ? "selected='selected'" : "";		   	    			
+			   	    			echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</select>";
@@ -729,7 +735,7 @@
 			   }elseif($ProfileCustomType == 4){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom_".$ProfileCustomID."\" ></textarea></div>";
+						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."[]\" ></textarea></div>";
 					echo "</div>\n";
 
 			   }elseif($ProfileCustomType == 5){
@@ -738,8 +744,14 @@
 			   	    	echo "<div>";
 			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<input type=\"checkbox\" name=\"ProfileCustom_".$ProfileCustomID."\" value=\"".$parse[$idx]."\" >".$parse[$idx]."\n";
+			   	    		if(!empty($parse[$idx])){
+			   	    			if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+									$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+								}else{
+									$custom_value = "";
+								}			   	    		
+			   	    			$checked = strpos($custom_value,$parse[$idx]) !== false ? "checked" : "";	
+			   	    			echo "<input type=\"checkbox\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</div>";
@@ -750,8 +762,14 @@
 			   	    	echo "<div>";
 			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<input type=\"radio\" name=\"ProfileCustom_".$ProfileCustomID."\" value=\"".$parse[$idx]."\" >".$parse[$idx]."\n";
+			   	    		if(!empty($parse[$idx])){
+			   	    			if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+									$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+								}else{
+									$custom_value = "";
+								}
+			   	    			$checked = $parse[$idx] == $custom_value ? "checked" : "";			   	    			
+			   	    			echo "<input type=\"radio\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</div>";
@@ -759,11 +777,20 @@
 			   }elseif($ProfileCustomType == 9){
 			   	    echo "<div class=\"rbfield rbtext\" >";
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<select name=\"ProfileCustom_".$ProfileCustomID."[]\" multiple >";
+			   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" multiple >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
+			   	    	$temp_arr = array();
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<option value=\"".$parse[$idx]."\" >".$parse[$idx]."</option>";
+			   	    				   	    		
+			   	    		if(!empty($parse[$idx])){
+			   	    			if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+									$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+								}else{
+									$custom_value = "";
+								}
+			   	    			$selected = strpos($custom_value,$parse[$idx]) !== false ? "selected='selected'" : "";
+			   	    		    echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";		   	    		    	   	    			
+			   	    			
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</select>";
@@ -771,7 +798,13 @@
 			   }elseif($ProfileCustomType == 10){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><input type=\"text\" id=\"custom_castingjob\" name=\"ProfileCustom_".$ProfileCustomID."\" ></div>";
+						if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+							$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+						}else{
+							$custom_value = "";
+						}
+						$value = !empty($custom_value)?$custom_value:"";
+						echo "<div><input type=\"text\" id=\"custom_castingjob\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$value."\"></div>";
 					echo "</div>\n";
 
 			   	    echo '<script type="text/javascript">
@@ -784,118 +817,170 @@
 							});
 							</script>';
 			   }
+		}
+		
+		function rb_get_customfields_castingjobs(){
+		   
+		   global $wpdb;		    
 
+		   if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+		   	    $query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Job_ID = ".$_GET['Job_ID'];
+		   }else{
+		   		$query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields";
 		   }
+		   
+		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
+		   $temp_arr = array();
+		   foreach( $result_query_get as $result){
+		   	$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingJob = 1 OR ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
+		    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
+		    foreach($result_query_get2 as $res)
+		    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
+		    		 $current_user = wp_get_current_user();
+					 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
+					 if($result['ProfileCustomView'] == 0){
+					 	rb_get_customfields_castingjobs_func($res);
+					 }else{
+					 	if($userLevel > 0){
+						 	rb_get_customfields_castingjobs_func($res);
+						}else{
+							return false;
+						}
+					 }			 
+		    		
+		    		$temp_arr[] = $res['ProfileCustomID'];
+		    	}	
+
+		   }	   
 
 		   
 
-		   
+	    }
 
+	    function rb_get_customfields_castingpostjobs_func($result){
+	    					$ProfileCustomID = $result['ProfileCustomID'];
+					       $ProfileCustomTitle = $result['ProfileCustomTitle'];
+						   $ProfileCustomType  = $result['ProfileCustomType'];
+						   $ProfileCustomOptions = $result['ProfileCustomOptions'];
+						   
+						   if($ProfileCustomType == 1 || $ProfileCustomType == 7){
+						   	    echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
+									echo "<label>".$ProfileCustomTitle."</label>\n";
+									echo "<div><input type=\"text\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" ></div>";
+									
+								echo "</div>\n";
+						   }elseif($ProfileCustomType == 3){
+						   	    echo "<div class=\"rbfield rbselect rbsingle\" >";
+						   	    	echo "<label>".$ProfileCustomTitle."</label>";
+						   	    	echo "<div>";
+						   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
+						   	    	$parse3 = explode("|",$ProfileCustomOptions);
+						   	    	echo "<option>--Select--</option>";
+						   	    	for($idx=0;$idx<count($parse3);$idx++){
+						   	    		if(!empty($parse3[$idx])){			   	    			
+						   	    			echo "<option value=\"".$parse3[$idx]."\" >".$parse3[$idx]."</option>";
+						   	    		}			   	    		
+						   	    	}
+						   	    	echo "</select>";
+						   	    	echo "</div>";
+						   	    echo "</div>\n";
+						   }elseif($ProfileCustomType == 4){
+						   		echo "<div class=\"rbfield rbtextarea rbsingle \" id=\"\">\n";
+									echo "<label>".$ProfileCustomTitle."</label>\n";
+									echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" ></textarea></div>";
+								echo "</div>\n";
+
+						   }elseif($ProfileCustomType == 5){
+						   		echo "<div class=\"rbfield rbtext rbsingle\" >";
+						   	    	echo "<label>".$ProfileCustomTitle."</label>";
+						   	    	echo "<div>";
+						   	    	$parse5 = explode("|",$ProfileCustomOptions);			   	    	
+						   	    	for($idx=0;$idx<count($parse5);$idx++){
+						   	    		if(!empty($parse5[$idx])){			   	    			
+						   	    			echo "<input type=\"checkbox\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse5[$idx]."\" >".$parse5[$idx]."\n";
+						   	    		}			   	    		
+						   	    	}
+						   	    	echo "</div>";
+						   	    echo "</div>\n";
+						   }elseif($ProfileCustomType == 6){
+						   		echo "<div class=\"rbfield rbtext rbsingle\" >";
+						   	    	echo "<label>".$ProfileCustomTitle."</label>";
+						   	    	echo "<div>";
+						   	    	$parse6 = explode("|",$ProfileCustomOptions);			   	    	
+						   	    	for($idx=0;$idx<count($parse6);$idx++){
+						   	    		if(!empty($parse6[$idx])){			   	    			
+						   	    			echo "<input type=\"radio\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse6[$idx]."\" >".$parse6[$idx]."\n";
+						   	    		}			   	    		
+						   	    	}
+						   	    	echo "</div>";
+						   	    echo "</div>\n";
+						   }elseif($ProfileCustomType == 9){
+						   	    echo "<div class=\"rbfield rbselect rbsingle\" >";
+						   	    	echo "<label>".$ProfileCustomTitle."</label>";
+						   	    	echo "<div><select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" multiple >";
+						   	    	$parse9 = explode("|",$ProfileCustomOptions);
+						   	    	for($idx=0;$idx<count($parse9);$idx++){
+						   	    		if(!empty($parse9[$idx])){			   	    			
+						   	    			echo "<option value=\"".$parse9[$idx]."\" >".$parse9[$idx]."</option>";
+						   	    		}			   	    		
+						   	    	}
+						   	    	echo "</select></div>";
+						   	    echo "</div>\n";
+						   }elseif($ProfileCustomType == 10){
+						   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
+									echo "<label>".$ProfileCustomTitle."</label>\n";
+									echo "<div><input type=\"text\" id=\"custom_castingjob\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" ></div>";
+								echo "</div>\n";
+
+						   	    echo '<script type="text/javascript">
+										jQuery(function(){
+
+											jQuery( "input[id=custom_castingjob]").datepicker({
+												dateFormat: "yy-mm-dd"
+											});
+
+										});
+										</script>';
+						   }
 	    }
 
 	    function rb_get_customfields_castingpostjobs(){
 		   global $wpdb;
-
 		   
-		   $query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingJob = 1";
-		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
+		   $query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingJob = 1 ORDER BY ProfileCustomOrder ASC";
+		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);	  
+		   
 
+		   $view = null;
+		   echo "<br>";
+		   echo "<h3>Additional Details</h3>";
 		   foreach( $result_query_get as $result){
-		   	   $ProfileCustomID = $result['ProfileCustomID'];
-		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
-			   $ProfileCustomType  = $result['ProfileCustomType'];
-			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
-			   
-			   if($ProfileCustomType == 1 || $ProfileCustomType == 7){
-			   	    echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
-						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><input type=\"text\" name=\"ProfileCustom_".$ProfileCustomID."\" ></div>";
-					echo "</div>\n";
-			   }elseif($ProfileCustomType == 3){
-			   	    echo "<div class=\"rbfield rbselect rbsingle\" >";
-			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<div><select name=\"ProfileCustom_".$ProfileCustomID."\" >";
-			   	    	$parse = explode("|",$ProfileCustomOptions);
-			   	    	echo "<option>--Select--</option>";
-			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<option value=\"".$parse[$idx]."\" >".$parse[$idx]."</option>";
-			   	    		}			   	    		
-			   	    	}
-			   	    	echo "</select></div>";
-			   	    echo "</div>\n";
-			   }elseif($ProfileCustomType == 4){
-			   		echo "<div class=\"rbfield rbtextarea rbsingle \" id=\"\">\n";
-						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom_".$ProfileCustomID."\" ></textarea></div>";
-					echo "</div>\n";
 
-			   }elseif($ProfileCustomType == 5){
-			   		echo "<div class=\"rbfield rbtext rbsingle\" >";
-			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<div>";
-			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
-			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<input type=\"checkbox\" name=\"ProfileCustom_".$ProfileCustomID."[]\" value=\"".$parse[$idx]."\" >".$parse[$idx]."\n";
-			   	    		}			   	    		
-			   	    	}
-			   	    	echo "</div>";
-			   	    echo "</div>\n";
-			   }elseif($ProfileCustomType == 6){
-			   		echo "<div class=\"rbfield rbtext rbsingle\" >";
-			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<div>";
-			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
-			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<input type=\"radio\" name=\"ProfileCustom_".$ProfileCustomID."\" value=\"".$parse[$idx]."\" >".$parse[$idx]."\n";
-			   	    		}			   	    		
-			   	    	}
-			   	    	echo "</div>";
-			   	    echo "</div>\n";
-			   }elseif($ProfileCustomType == 9){
-			   	    echo "<div class=\"rbfield rbselect rbsingle\" >";
-			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<div><select name=\"ProfileCustom_".$ProfileCustomID."[]\" multiple >";
-			   	    	$parse = explode("|",$ProfileCustomOptions);
-			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<option value=\"".$parse[$idx]."\" >".$parse[$idx]."</option>";
-			   	    		}			   	    		
-			   	    	}
-			   	    	echo "</select></div>";
-			   	    echo "</div>\n";
-			   }elseif($ProfileCustomType == 10){
-			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
-						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><input type=\"text\" id=\"custom_castingjob\" name=\"ProfileCustom_".$ProfileCustomID."\" ></div>";
-					echo "</div>\n";
+		   	   $view = $result['ProfileCustomView'];
+		   		if($view == 0 ){
+		   			rb_get_customfields_castingpostjobs_func($result);
+		   		}else{
 
-			   	    echo '<script type="text/javascript">
-							jQuery(function(){
+		   			 $current_user = wp_get_current_user();
+					 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
+					 if($userLevel > 0){
+					 	   rb_get_customfields_castingpostjobs_func($result);
+					 }else{
+							 	
+					 }
 
-								jQuery( "input[id=custom_castingjob]").datepicker({
-									dateFormat: "yy-mm-dd"
-								});
+		   		}
 
-							});
-							</script>';
-			   }
+		   	   
 
 		   }		   
 
 	    }
 
-	    function rb_get_customfields_castingregister(){
-		   global $wpdb;
+	    function rb_get_customfields_castingregister_func($result){
 
-		   
-		   $query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1";
-		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
-
-		   foreach( $result_query_get as $result){
-		   	   $ProfileCustomID = $result['ProfileCustomID'];
+	    	
+	    	   $ProfileCustomID = $result['ProfileCustomID'];
 		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
 			   $ProfileCustomType  = $result['ProfileCustomType'];
 			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
@@ -903,67 +988,82 @@
 			   if($ProfileCustomType == 1 || $ProfileCustomType == 7){
 			   	    echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><input type=\"text\" name=\"ProfileCustom_".$ProfileCustomID."\" ></div>";
+						$custom_value = rb_agency_get_casting_register_custom_value($_GET['CastingID'],$ProfileCustomID);
+						$value = !empty($custom_value)?$custom_value:"";					
+						echo "<div><input type=\"text\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$value."\"></div>";
 					echo "</div>\n";
 			   }elseif($ProfileCustomType == 3){
-			   	    echo "<div class=\"rbfield rbselect rbsingle\" >";
+			   	    echo "<div class=\"rbfield rbtext\" >";
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<div><select name=\"ProfileCustom_".$ProfileCustomID."\" >";
+			   	    	echo "<div><select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
 			   	    	echo "<option>--Select--</option>";
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<option value=\"".$parse[$idx]."\" >".$parse[$idx]."</option>";
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_register_custom_value($_GET['CastingID'],$ProfileCustomID);
+			   	    		    $selected = $parse[$idx] == $custom_value ? "selected='selected'" : "";		   	    			
+			   	    			echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</select></div>";
-			   	    echo "</div>\n";
+			   	    echo "</div>";
 			   }elseif($ProfileCustomType == 4){
-			   		echo "<div class=\"rbfield rbtextarea rbsingle \" id=\"\">\n";
+			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom_".$ProfileCustomID."\" ></textarea></div>";
+						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."[]\" ></textarea></div>";
 					echo "</div>\n";
 
 			   }elseif($ProfileCustomType == 5){
-			   		echo "<div class=\"rbfield rbtext rbsingle\" >";
+			   		echo "<div class=\"rbfield rbtext\" >";
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
 			   	    	echo "<div>";
 			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<input type=\"checkbox\" name=\"ProfileCustom_".$ProfileCustomID."[]\" value=\"".$parse[$idx]."\" >".$parse[$idx]."\n";
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_register_custom_value($_GET['CastingID'],$ProfileCustomID);			   	    		
+			   	    			$checked = strpos($custom_value,$parse[$idx]) !== false ? "checked" : "";	
+			   	    			echo "<input type=\"checkbox\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</div>";
-			   	    echo "</div>\n";
+			   	    echo "</div>";
 			   }elseif($ProfileCustomType == 6){
-			   		echo "<div class=\"rbfield rbtext rbsingle\" >";
+			   		echo "<div class=\"rbfield rbtext\" >";
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
 			   	    	echo "<div>";
 			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<input type=\"radio\" name=\"ProfileCustom_".$ProfileCustomID."\" value=\"".$parse[$idx]."\" >".$parse[$idx]."\n";
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_register_custom_value($_GET['CastingID'],$ProfileCustomID);
+			   	    			$checked = $parse[$idx] == $custom_value ? "checked" : "";			   	    			
+			   	    			echo "<input type=\"radio\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</div>";
-			   	    echo "</div>\n";
+			   	    echo "</div>";
 			   }elseif($ProfileCustomType == 9){
-			   	    echo "<div class=\"rbfield rbselect rbsingle\" >";
+			   	    echo "<div class=\"rbfield rbtext\" >";
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
-			   	    	echo "<div><select name=\"ProfileCustom_".$ProfileCustomID."[]\" multiple >";
+			   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" multiple >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
+			   	    	$temp_arr = array();
 			   	    	for($idx=0;$idx<count($parse);$idx++){
-			   	    		if(!empty($parse[$idx])){			   	    			
-			   	    			echo "<option value=\"".$parse[$idx]."\" >".$parse[$idx]."</option>";
+			   	    				   	    		
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_register_custom_value($_GET['CastingID'],$ProfileCustomID);
+			   	    			$selected = strpos($custom_value,$parse[$idx]) !== false ? "selected='selected'" : "";
+			   	    		    echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";		   	    		    	   	    			
+			   	    			
 			   	    		}			   	    		
 			   	    	}
-			   	    	echo "</select></div>";
-			   	    echo "</div>\n";
+			   	    	echo "</select>";
+			   	    echo "</div>";
 			   }elseif($ProfileCustomType == 10){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><input type=\"text\" id=\"custom_castingjob\" name=\"ProfileCustom_".$ProfileCustomID."\" ></div>";
+						$custom_value = rb_agency_get_casting_register_custom_value($_GET['CastingID'],$ProfileCustomID);
+						$value = !empty($custom_value)?$custom_value:"";
+						echo "<div><input type=\"text\" id=\"custom_castingjob\" name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$value."\"></div>";
 					echo "</div>\n";
 
 			   	    echo '<script type="text/javascript">
@@ -976,9 +1076,57 @@
 							});
 							</script>';
 			   }
+	    }
 
-		   }		   
+	    function rb_get_customfields_castingregister(){
+		   global $wpdb;		    
 
+		   $query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE CastingID = ".$_GET['CastingID'];
+		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
+		   $temp_arr = array();
+		   foreach( $result_query_get as $result){
+		   	$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 OR ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
+		    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
+		    foreach($result_query_get2 as $res)
+		    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
+		    		 $current_user = wp_get_current_user();
+					 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
+					 if($result['ProfileCustomView'] == 0){
+					 	rb_get_customfields_castingregister_func($res);
+					 }else{
+					 	if($userLevel > 0){
+						 	rb_get_customfields_castingregister_func($res);
+						}else{
+							return false;
+						}
+					 }			 
+		    		
+		    		$temp_arr[] = $res['ProfileCustomID'];
+		    	}	
+
+		   }   
+	    }
+
+	    function rb_agency_get_casting_register_custom_value($CastingID,$ProfileCustomID){
+	    	global $wpdb;
+	    	$query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE CastingID = ".$CastingID." AND Customfield_ID = ".$ProfileCustomID;
+		    $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
+		    $custom_value = null;
+		    foreach($result_query_get as $result){
+		    	$custom_value = $result['Customfield_value'];
+		    }
+		    return !empty($custom_value) ? $custom_value : "";
+	    }
+
+	     function rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID){
+	    	global $wpdb;
+	    	$query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Job_ID = ".$JobID." AND Customfield_ID = ".$ProfileCustomID;
+		    $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
+		    $custom_value = null;
+		    foreach($result_query_get as $result){
+		    	$custom_value = $result['Customfield_value'];
+		    }
+		    return !empty($custom_value) ? $custom_value : "";
 	    }
 
 

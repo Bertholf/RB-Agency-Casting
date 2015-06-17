@@ -202,7 +202,7 @@ $siteurl = get_option('siteurl');
 		// Insert Profiles to Casting Job
 		if(isset($_POST["action2"]) && $_POST["action2"] =="add"){
 				if (!isset($_GET["Job_ID"])) {
-
+					//echo $_POST["Job_Title"];
 					$cartArray = isset($_SESSION['cartArray'])?$_SESSION['cartArray']:array();
 					$cartString = implode(",", array_unique($cartArray));
 					$cartString = RBAgency_Common::clean_string($cartString);
@@ -250,6 +250,43 @@ $siteurl = get_option('siteurl');
 					";
 
 					$wpdb->query($sql);
+					$Job_ID = $wpdb->insert_id;
+					
+					$insert_to_casting_custom = array();
+					
+					$profilecustom_ids = array();
+					$profilecustom_types = array();
+					foreach($_POST as $k=>$v){
+						$parsek = explode("_",$k);
+						if($parsek[0] == 'ProfileCustom2'){
+							$profilecustom_ids[] = $parsek[1];
+							$profilecustom_types[] = $parsek[2];
+						}
+					}
+					
+					foreach($profilecustom_ids as $k=>$v){
+						foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+							if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+								$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+							}else{
+								$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+							}
+							if(empty($data) || $data == '--Select--'){
+								$data = NULL;
+							}
+
+							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+						}
+												
+					}
+					$temp_arr = array();
+					foreach($insert_to_casting_custom as $k=>$v){
+						if(!in_array($v,$temp_arr)){
+							$wpdb->query($v);
+							$temp_arr[$k] = $v; 
+						}						
+					}
+
 					$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
 					foreach($results as $mobile){
 						$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -302,6 +339,72 @@ $siteurl = get_option('siteurl');
 							";
 
 							$wpdb->query($sql);
+
+							/**UPDATE CUSTOM FIELDS**/
+							foreach($_POST as $k=>$v){
+								$parseCustom = explode("_",$k);
+								if($parseCustom[0] == 'ProfileCustom2'){
+									$profilecustom_ids[] = $parseCustom[1];
+									$profilecustom_types[] = $parseCustom[2];
+									$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Customfield_ID = ". $parseCustom[1];
+									$wpdb->get_results($query_get,ARRAY_A);
+									if($wpdb->num_rows > 0){
+										//Update
+										foreach($profilecustom_ids as $k=>$v){
+											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+													$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+												}else{
+													$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+												}
+												if(empty($data) || $data == '--Select--'){
+													$data = NULL;
+												}
+												
+												$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_job_customfields
+																				SET Customfield_value = '".esc_attr($data)."' WHERE Job_ID = ".esc_attr($_GET["Job_ID"])." AND Customfield_ID = ".esc_attr($v)."
+																				";
+											}
+																	
+										}
+
+										$temp_arr = array();
+										foreach($update_to_casting_custom as $k=>$v){
+											if(!in_array($v,$temp_arr)){
+												$wpdb->query($v);
+												$temp_arr[$k] = $v; 
+											}						
+										}
+									}else{
+										//Add
+										foreach($profilecustom_ids as $k=>$v){
+											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+													$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+												}else{
+													$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+												}
+												if(empty($data) || $data == '--Select--'){
+													$data = NULL;
+												}
+
+												$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($_GET["Job_ID"])."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+											}
+																	
+										}
+										$temp_arr = array();
+										foreach($insert_to_casting_custom as $k=>$v){
+											if(!in_array($v,$temp_arr)){
+												$wpdb->query($v);
+												$temp_arr[$k] = $v; 
+											}						
+										}
+									}
+								}
+							}
+							
+
+							/**END UPDATE CUSTOM FIELDS**/
 
 							if(isset($_POST["resend"])){
 								$results = $wpdb->get_results("SELECT ProfileID,ProfileContactPhoneCell,ProfileContactEmail FROM ".table_agency_profile." WHERE ProfileID IN(". implode(",",array_filter(explode(",",$_POST["Job_Talents_Resend_To"]))).")",ARRAY_A);
@@ -370,6 +473,9 @@ $siteurl = get_option('siteurl');
 				$Job_Audition_Time = $data->Job_Audition_Time;
 				$CastingContactEmail = $data->CastingContactEmail;
 				$CastingContactDisplay = $data->CastingContactDisplay;
+
+				$sql_customfield = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Job_ID = %d";
+				$data_customfield = $wpdb->get_results($wpdb->prepare($sql_customfield,$_GET['Job_ID']));
 			}
 
 	// Notify Client
@@ -624,12 +730,13 @@ $siteurl = get_option('siteurl');
 					echo "</div>\n";
 
 					if(isset($_GET["Job_ID"])){
-					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
+						rb_get_customfields_castingjobs();
+						echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label for=\"comments\">&nbsp;</label>\n";
 						echo "<div>\n";
 						echo "<input type=\"checkbox\" name=\"resend\" value=\"1\"/> &nbsp;Resend notifcation to selected shortlisted talents \n\n";
 						echo "</div>\n";
-					echo "</div><br/><br/>";
+						echo "</div><br/><br/>";
 						echo "<input type=\"submit\" value=\"Save\" name=\"castingJob\" class=\"button-primary\" />";
 						echo "<input type=\"hidden\" name=\"action2\" value=\"edit\"/>";
 						echo "<input type=\"hidden\" name=\"Job_Talents\" value=\"".$Job_Talents."\"/>";
