@@ -1080,31 +1080,54 @@
 
 	    function rb_get_customfields_castingregister(){
 		   global $wpdb;		    
-
+		   $temp_arr = array();
 		   $query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE CastingID = ".$_GET['CastingID'];
 		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
-		   $temp_arr = array();
-		   foreach( $result_query_get as $result){
-		   	$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 OR ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
-		    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
-		    foreach($result_query_get2 as $res)
-		    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
-		    		 $current_user = wp_get_current_user();
-					 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
-					 if($result['ProfileCustomView'] == 0){
-					 	rb_get_customfields_castingregister_func($res);
-					 }else{
-					 	if($userLevel > 0){
+		   if($wpdb->num_rows > 0){
+		   		foreach( $result_query_get as $result){
+			   	$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 OR ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
+			    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
+			    foreach($result_query_get2 as $res)
+			    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
+			    		 $current_user = wp_get_current_user();
+						 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
+						 if($result['ProfileCustomView'] == 0){
 						 	rb_get_customfields_castingregister_func($res);
-						}else{
-							return false;
-						}
-					 }			 
-		    		
-		    		$temp_arr[] = $res['ProfileCustomID'];
-		    	}	
+						 }else{
+						 	if($userLevel > 0){
+							 	rb_get_customfields_castingregister_func($res);
+							}else{
+								return false;
+							}
+						 }			 
+			    		
+			    		$temp_arr[] = $res['ProfileCustomID'];
+			    	}	
 
-		   }   
+			   } 
+		   }else{
+		   		$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 ORDER BY ProfileCustomOrder ASC";
+			    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
+			    foreach($result_query_get2 as $res)
+			    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
+			    		 $current_user = wp_get_current_user();
+						 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
+						 if($result['ProfileCustomView'] == 0){
+						 	rb_get_customfields_castingregister_func($res);
+						 }else{
+						 	if($userLevel > 0){
+							 	rb_get_customfields_castingregister_func($res);
+							}else{
+								return false;
+							}
+						 }			 
+			    		
+			    		$temp_arr[] = $res['ProfileCustomID'];
+			    	}	
+
+			   
+		   }
+		      
 	    }
 
 	    function rb_agency_get_casting_register_custom_value($CastingID,$ProfileCustomID){

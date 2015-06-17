@@ -282,10 +282,34 @@ global $wpdb;
 	}
 	if (substr(get_option('RBAGENCY_casting_VERSION'), 0, 7) == "0.1.7") {
 
-			rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Date_End","VARCHAR(100)");
+		rb_agency_casting_addColumn( table_agency_casting_job,"Job_Audition_Date_End","VARCHAR(100)");
 
 		$wpdb->query("ALTER TABLE ".table_agency_casting_job." CHANGE Job_Audition_Date Job_Audition_Date_Start VARCHAR(100)");
 
+
+		// Add Table
+		if ($wpdb->get_var("show tables like '".table_agency_casting_register_customfields."'") !=table_agency_casting_register_customfields) {
+			$results = $wpdb->query("CREATE TABLE IF NOT EXISTS ".table_agency_casting_register_customfields ." (
+			ID INT(20) NOT NULL AUTO_INCREMENT,
+			CastingID INT(20) NOT NULL,
+			Customfield_ID INT(20) NOT NULL,
+			Customfield_value VARCHAR(255),
+			Customfield_type INT(20),
+			PRIMARY KEY (ID)
+			);");
+		}
+
+		// Add Table
+		if ($wpdb->get_var("show tables like '".table_agency_casting_job_customfields."'") !=table_agency_casting_job_customfields) {
+			$results = $wpdb->query("CREATE TABLE IF NOT EXISTS ".table_agency_casting_job_customfields ." (
+			ID INT(20) NOT NULL AUTO_INCREMENT,
+			Job_ID INT(20) NOT NULL,
+			Customfield_ID INT(20) NOT NULL,
+			Customfield_value VARCHAR(255),
+			Customfield_type INT(20),
+			PRIMARY KEY (ID)
+			);");
+		}
 
 		// Updating version number
 		update_option('RBAGENCY_casting_VERSION', "0.1.8"); 

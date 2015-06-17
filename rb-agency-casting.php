@@ -93,6 +93,10 @@ See license.txt for full details.
 		define("table_agency_castingcart_availability", "{$wpdb->prefix}agency_castingcart_availability");
 	if (!defined("table_agency_castingcart_profile_hash"))
 		define("table_agency_castingcart_profile_hash", "{$wpdb->prefix}agency_castingcart_profile_hash");
+	if (!defined("table_agency_casting_register_customfields"))
+		define("table_agency_casting_register_customfields", "{$wpdb->prefix}agency_casting_register_customfields");
+	if (!defined("table_agency_casting_job_customfields"))
+		define("table_agency_casting_job_customfields", "{$wpdb->prefix}agency_casting_job_customfields");
 
 
 // *************************************************************************************************** //
