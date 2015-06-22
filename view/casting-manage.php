@@ -107,6 +107,84 @@
 
 			$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
 
+			/**UPDATE CUSTOM FIELDS**/
+		   global $wpdb;
+		   $current_user = wp_get_current_user();
+		   $castingIDFromTable = "";
+		   if(isset($_GET['CastingID'])){
+		   	  $WHERE = "CastingID = ".$_GET['CastingID'];
+		   }else{
+		   	   $query_get_profile = "SELECT * FROM ".$wpdb->prefix."agency_casting WHERE CastingContactEmail = '".$current_user->user_email."' ";
+		   	   $result_query_get_profile = $wpdb->get_results($query_get_profile,ARRAY_A); 
+		   	   foreach($result_query_get_profile as $casting_profile)
+		   	   	$castingIDFromTable = $casting_profile["CastingID"];
+		   }
+	
+		   $castID = isset($_GET['CastingID']) ? $_GET['CastingID'] : $castingIDFromTable; 
+
+					foreach($_POST as $k=>$v){
+						$parseCustom = explode("_",$k);
+						if($parseCustom[0] == 'ProfileCustom2'){
+							$profilecustom_ids[] = $parseCustom[1];
+							$profilecustom_types[] = $parseCustom[2];
+							$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE Customfield_ID = ". $parseCustom[1];
+							$wpdb->get_results($query_get,ARRAY_A);
+							echo $wpdb->num_rows;
+							if($wpdb->num_rows > 0){
+								//Update
+								foreach($profilecustom_ids as $k=>$v){
+									foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+										if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+											$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+										}else{
+											$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+										}
+										if(empty($data) || $data == '--Select--'){
+											$data = NULL;
+										}
+										
+										$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_register_customfields
+																		SET Customfield_value = '".esc_attr($data)."' WHERE CastingID = ".esc_attr($castID)." AND Customfield_ID = ".esc_attr($v)."
+																		";
+									}
+															
+								}
+
+								$temp_arr = array();
+								foreach($update_to_casting_custom as $k=>$v){
+									if(!in_array($v,$temp_arr)){
+										$wpdb->query($v);
+										$temp_arr[$k] = $v; 
+									}						
+								}
+							}else{
+								//Add
+								foreach($profilecustom_ids as $k=>$v){
+									foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+										if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+											$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
+										}else{
+											$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+										}
+										if(empty($data) || $data == '--Select--'){
+											$data = NULL;
+										}
+
+										$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_register_customfields(CastingID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($castID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+									}
+															
+								}
+								$temp_arr = array();
+								foreach($insert_to_casting_custom as $k=>$v){
+									if(!in_array($v,$temp_arr)){
+										$wpdb->query($v);
+										$temp_arr[$k] = $v; 
+									}						
+								}
+							}
+						}
+					}
+
 			//header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
 
 		}
@@ -279,7 +357,8 @@
 		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
-
+		echo "<h3>Additional Details</h3>";
+			rb_get_customfields_castingregister();
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
 

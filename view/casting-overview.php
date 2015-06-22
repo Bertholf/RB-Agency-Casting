@@ -158,6 +158,13 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 
 	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\">Log out</a></li>\n";
 	echo "  	</ul><!-- .links -->\n";
+
+	//Custom Fields
+	echo "<ul>";
+
+	echo "</ul>";
+
+	//END Custom fields
 	echo "  </div>\n";
 
 	echo "  <div id=\"search\">\n";

@@ -236,6 +236,7 @@ function rb_manage_client($CastingID) {
 							$profilecustom_types[] = $parseCustom[2];
 							$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE Customfield_ID = ". $parseCustom[1];
 							$wpdb->get_results($query_get,ARRAY_A);
+							echo $wpdb->num_rows;
 							if($wpdb->num_rows > 0){
 								//Update
 								foreach($profilecustom_ids as $k=>$v){
