@@ -1063,31 +1063,25 @@
 		   
 		   $query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingJob = 1 ORDER BY ProfileCustomOrder ASC";
 		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);	  
-		   
-
-		   $view = null;
+		   $current_user = wp_get_current_user();
+		   $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
+		  
 		   echo "<br>";
 		   echo "<h3>Additional Details</h3>";
+		   $temp_arr = array();
 		   foreach( $result_query_get as $result){
+		   			if($result["ProfileCustomView"] == 0 || $result["ProfileCustomView"] == 1){
+		   				rb_get_customfields_castingpostjobs_func($result);
+		   			}else{
+		   				if($userLevel == 0){
 
-		   	   $view = $result['ProfileCustomView'];
-		   		if($view == 0 ){
-		   			rb_get_customfields_castingpostjobs_func($result);
-		   		}else{
+		   				}else{
+		   					rb_get_customfields_castingpostjobs_func($result);
+		   				}
+		   			}	   		
+		    		  	   
 
-		   			 $current_user = wp_get_current_user();
-					 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
-					 if($userLevel > 0){
-					 	   rb_get_customfields_castingpostjobs_func($result);
-					 }else{
-							 	
-					 }
-
-		   		}
-
-		   	   
-
-		   }		   
+		   }	   
 
 	    }
 
