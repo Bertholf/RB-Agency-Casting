@@ -747,7 +747,7 @@ $siteurl = get_option('siteurl');
 						echo "<div style=\"clear:both\"></div>";
 
 					} else {
-						rb_get_customfields_castingjobs();
+						rb_get_customfields_admin_castingjobs();
 						echo "<input type=\"hidden\" name=\"action2\" value=\"add\"/>";
 						echo "<input type=\"submit\" value=\"Submit\" name=\"castingJob\" class=\"button-primary\" />";
 						echo "<a href=\"".admin_url("admin.php?page=rb_agency_castingjobs")."\" class=\"button\">Cancel</a>";
