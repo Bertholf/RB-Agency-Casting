@@ -142,6 +142,10 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 		echo "		<li>Flickr: <strong>" . $data_r->CastingContactLinkTwitter . "</strong></li>\n";
 	}
 
+	//Custom Fields
+	rb_agency_get_casting_dashboard_customfields();
+	//END Custom fields
+
 	echo "		</ul>\n";
 	echo "		<ul class=\"links\">\n";
 	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\">Edit Information</a></li>\n";
@@ -156,15 +160,11 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\">View Your Casting Cart</a></li>\n";
 	}
 
+
 	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\">Log out</a></li>\n";
 	echo "  	</ul><!-- .links -->\n";
 
-	//Custom Fields
-	echo "<ul>";
 
-	echo "</ul>";
-
-	//END Custom fields
 	echo "  </div>\n";
 
 	echo "  <div id=\"search\">\n";

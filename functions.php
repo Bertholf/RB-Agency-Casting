@@ -989,7 +989,7 @@
 			   	   foreach($result_query_get_profile as $casting_profile)
 			   	   	$castingIDFromTable = $casting_profile["CastingID"];
 			   }
-		
+				
 			   $castID = isset($_GET['CastingID']) ? $_GET['CastingID'] : $castingIDFromTable; 
 	    	
 	    	   $ProfileCustomID = $result['ProfileCustomID'];
@@ -1111,7 +1111,7 @@
 		   if($wpdb->num_rows > 0){
 		   		foreach( $result_query_get as $result){
 		   			if(!isset($_GET['CastingID'])){
-		   				$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 AND ProfileCustomView != 2 AND ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
+		   				$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 AND ProfileCustomView != 2 OR ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
 		   			}else{
 		   				$query_get ="SELECT * FROM ".table_agency_customfields." WHERE ProfileCustomShowCastingRegister = 1 OR ProfileCustomID = ".$result['Customfield_ID'] ." ORDER BY ProfileCustomOrder ASC";
 		   			}
@@ -1190,6 +1190,19 @@
 	    function rb_agency_get_casting_dashboard_customfields(){
 	    	global $wpdb;
 		    $current_user = wp_get_current_user();
+
+		    $query_get_profile = "SELECT * FROM ".$wpdb->prefix."agency_casting WHERE CastingContactEmail = '".$current_user->user_email."' ";
+		   	$result_query_get_profile = $wpdb->get_results($query_get_profile,ARRAY_A); 
+		   	$casting_ID = null;
+		   	foreach($result_query_get_profile as $casting_profile){
+		   		$casting_ID = $casting_profile["CastingID"];
+		   	}		   	   	
+
+		    $query = "SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields reg INNER JOIN ".$wpdb->prefix."agency_customfields cust ON cust.ProfileCustomID = reg.Customfield_ID WHERE reg.CastingID = ".$casting_ID." AND cust.ProfileCustomView != 2 ORDER BY cust.ProfileCustomOrder ASC";
+	    	$profiles = $wpdb->get_results($query,ARRAY_A);
+	    	foreach($profiles as $profile){
+	    		echo "<li>".$profile['ProfileCustomTitle']." : <strong>". $profile['Customfield_value'] ."</strong></li>";	    		
+	    	}
 	    }
 
 
