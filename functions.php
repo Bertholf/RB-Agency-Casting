@@ -867,8 +867,21 @@
 	    	//print_r($result_query_get);
 	    	$current_user = wp_get_current_user();
 			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
+			$temp_arr = array();
 	    	foreach($result_query_get as $res){
-	    		rb_get_customfields_admin_castingjobs_func($res);
+	    		if(!in_array($res['ProfileCustomID'],$temp_arr)){
+		    		if($res['ProfileCustomView'] == 0){
+						 rb_get_customfields_admin_castingjobs_func($res);
+					}else{
+					 	if($userLevel > 0){
+						 	rb_get_customfields_admin_castingjobs_func($res);
+						}else{
+							return false;
+						}
+	    		    }
+	    		    $temp_arr[] = $res['ProfileCustomID'];
+    			}
+	    		//rb_get_customfields_admin_castingjobs_func($res);
 	    	}
 	    }
 
