@@ -1119,6 +1119,7 @@
 			    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
 			    foreach($result_query_get2 as $res)
 			    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
+
 			    		 $current_user = wp_get_current_user();
 						 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
 						 if($result['ProfileCustomView'] == 0){
@@ -1200,8 +1201,12 @@
 
 		    $query = "SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields reg INNER JOIN ".$wpdb->prefix."agency_customfields cust ON cust.ProfileCustomID = reg.Customfield_ID WHERE reg.CastingID = ".$casting_ID." AND cust.ProfileCustomView != 2 ORDER BY cust.ProfileCustomOrder ASC";
 	    	$profiles = $wpdb->get_results($query,ARRAY_A);
-	    	foreach($profiles as $profile){
-	    		echo "<li>".$profile['ProfileCustomTitle']." : <strong>". $profile['Customfield_value'] ."</strong></li>";	    		
+	    	$temp_arr = array();
+	    	foreach($profiles as $profile){	    		
+	    		if(!in_array($profile['ProfileCustomID'],$temp_arr)){
+	    			echo "<li>".$profile['ProfileCustomTitle']." : <strong>". $profile['Customfield_value'] ."</strong></li>";
+	    			$temp_arr[] = $profile['ProfileCustomID'];
+	    		}    			    		
 	    	}
 	    }
 
