@@ -1081,7 +1081,9 @@
 		   			}	   		
 		    		  	   
 
-		   }	   
+		   }	
+
+
 
 	    }
 
@@ -1252,7 +1254,7 @@
 		   		}
 		   		
 			    $result_query_get2 = $wpdb->get_results($query_get,ARRAY_A);
-			    foreach($result_query_get2 as $res)
+			    foreach($result_query_get2 as $res){
 			    	if(!in_array($res['ProfileCustomID'],$temp_arr)){
 			    		 $current_user = wp_get_current_user();
 						 $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true); 
@@ -1267,11 +1269,229 @@
 						 }			 
 			    		
 			    		$temp_arr[] = $res['ProfileCustomID'];
-			    	}	
+			    	}
+			    }
+			    		
 
 			   
 		   }
 		      
+	    }
+
+	    function rb_agency_update_castingjob_func($result,$JobID){
+	    	$ProfileCustomID = $result['ProfileCustomID'];
+		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
+			   $ProfileCustomType  = $result['ProfileCustomType'];
+			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
+			   
+			    if($ProfileCustomType == 1 || $ProfileCustomType == 7){
+			   	    echo "<tr>";
+						echo "<td>".$ProfileCustomTitle."</td>";
+						$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);											
+						$value = !empty($custom_value)?$custom_value:"";					
+						echo "<td><input type=\"text\" name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$value."\"></td>";
+					echo "</tr>\n";
+			   }elseif($ProfileCustomType == 3){
+			   	    echo "<tr>";
+			   	    	echo "<td>".$ProfileCustomTitle."</td>";
+			   	    	echo "<td><select name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
+			   	    	$parse = explode("|",$ProfileCustomOptions);
+			   	    	echo "<option>--Select--</option>";
+			   	    	for($idx=0;$idx<count($parse);$idx++){
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
+			   	    		    $selected = $parse[$idx] == $custom_value ? "selected='selected'" : "";		   	    			
+			   	    			echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";
+			   	    		}			   	    		
+			   	    	}
+			   	    	echo "</select></td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 4){
+			   		echo "<tr>";
+						echo "<td>".$ProfileCustomTitle."</td>\n";
+						echo "<td><textarea name=\"UpdateJob_".$ProfileCustomID."[]\" ></textarea></td>";
+					echo "</tr>";
+
+			   }elseif($ProfileCustomType == 5){
+			   		echo "<tr>";
+			   	    	echo "<td>".$ProfileCustomTitle."</td>";
+			   	    	echo "<td>";
+			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
+			   	    	for($idx=0;$idx<count($parse);$idx++){
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);			   	    		
+			   	    			$checked = strpos($custom_value,$parse[$idx]) !== false ? "checked" : "";	
+			   	    			echo "<input type=\"checkbox\" name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
+			   	    		}			   	    		
+			   	    	}
+			   	    	echo "</td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 6){
+			   		echo "<tr>";
+			   	    	echo "<td>".$ProfileCustomTitle."</td>";
+			   	    	echo "<td>";
+			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
+			   	    	for($idx=0;$idx<count($parse);$idx++){
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
+			   	    			$checked = $parse[$idx] == $custom_value ? "checked" : "";			   	    			
+			   	    			echo "<input type=\"radio\" name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
+			   	    		}			   	    		
+			   	    	}
+			   	    	echo "</td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 9){
+			   	    echo "<tr>";
+			   	    	echo "<td>".$ProfileCustomTitle."</td>";
+			   	    	echo "<td><select name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" multiple >";
+			   	    	$parse = explode("|",$ProfileCustomOptions);
+			   	    	$temp_arr = array();
+			   	    	for($idx=0;$idx<count($parse);$idx++){
+			   	    				   	    		
+			   	    		if(!empty($parse[$idx])){
+			   	    			$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
+			   	    			$selected = strpos($custom_value,$parse[$idx]) !== false ? "selected='selected'" : "";
+			   	    		    echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";		   	    		    	   	    			
+			   	    			
+			   	    		}			   	    		
+			   	    	}
+			   	    	echo "</select></td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 10){
+			   		echo "<tr>";
+						echo "<td>".$ProfileCustomTitle."</td>\n";
+						$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
+						$value = !empty($custom_value)?$custom_value:"";
+						echo "<td><input type=\"text\" id=\"custom_castingjob\" name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$value."\"></td>";
+					echo "</tr>\n";
+
+			   	    echo '<script type="text/javascript">
+							jQuery(function(){
+
+								jQuery( "input[id=custom_castingjob]").datepicker({
+									dateFormat: "yy-mm-dd"
+								});
+
+							});
+							</script>';
+			   }
+	    }
+
+	    function rb_agency_update_castingjob(){
+	    	global $wpdb;
+
+	    	//Get Job ID
+	    	$JobID = get_query_var('target');
+
+	    	$sql = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields job INNER JOIN ".$wpdb->prefix."agency_customfields cust ON cust.ProfileCustomID = job.Customfield_ID WHERE job.Job_ID = ".$JobID;
+	    	$custom_fields = $wpdb->get_results($sql,ARRAY_A);
+	    	$current_user = wp_get_current_user();
+			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
+
+	    	echo "<tr>
+					<td><h3>Other Details</h3></td><td></td>
+				</tr>";
+	    	foreach($custom_fields as $custom_field){
+	    		if($custom_field["ProfileCustomView"] == 0 || $custom_field["ProfileCustomView"] == 1){
+		   				rb_agency_update_castingjob_func($custom_field,$JobID);
+		   		}else{
+		   			if($userLevel == 0){
+
+	   				}else{
+	   					rb_agency_update_castingjob_func($custom_field,$JobID);
+	   				}
+	   			}
+	    		
+	    	}
+
+	    }
+
+	    function rb_agency_detail_castingjob_func($result,$JobID){
+	    	$ProfileCustomID = $result['ProfileCustomID'];
+		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
+			   $ProfileCustomType  = $result['ProfileCustomType'];
+			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
+			   
+			    if($ProfileCustomType == 1 || $ProfileCustomType == 7){
+			   	    echo "<tr>";
+						echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
+						$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);											
+						$value = !empty($custom_value)?$custom_value:"";					
+						echo "<td>".$value."</td>";
+					echo "</tr>\n";
+			   }elseif($ProfileCustomType == 3){
+			   	    echo "<tr>";
+			   	    	echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
+			   	    	echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 4){
+			   		echo "<tr>";
+						echo "<td><strong>".$ProfileCustomTitle."</strong></td>\n";
+						echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
+					echo "</tr>";
+
+			   }elseif($ProfileCustomType == 5){
+			   		echo "<tr>";
+			   	    	echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
+			   	    	echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 6){
+			   		echo "<tr>";
+			   	    	echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
+			   	    	echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 9){
+			   	    echo "<tr>";
+			   	    	echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
+			   	    	echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
+			   	    echo "</tr>";
+			   }elseif($ProfileCustomType == 10){
+			   		echo "<tr>";
+						echo "<td><strong>".$ProfileCustomTitle."</strong></td>\n";
+						$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
+						$value = !empty($custom_value)?$custom_value:"";
+						echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
+					echo "</tr>\n";
+
+			   	    echo '<script type="text/javascript">
+							jQuery(function(){
+
+								jQuery( "input[id=custom_castingjob]").datepicker({
+									dateFormat: "yy-mm-dd"
+								});
+
+							});
+							</script>';
+			   }
+	    }
+
+	    function rb_agency_detail_castingjob(){
+	    	global $wpdb;
+
+	    	//Get Job ID
+	    	$JobID = get_query_var('value');
+
+	    	$sql = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields job INNER JOIN ".$wpdb->prefix."agency_customfields cust ON cust.ProfileCustomID = job.Customfield_ID WHERE job.Job_ID = ".$JobID;
+	    	$custom_fields = $wpdb->get_results($sql,ARRAY_A);
+	    	$current_user = wp_get_current_user();
+			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
+			
+	    	echo "<tr>
+					<td><h3>Other Details</h3></td><td></td>
+				</tr>";
+	    	foreach($custom_fields as $custom_field){
+	    		if($custom_field["ProfileCustomView"] == 0 || $custom_field["ProfileCustomView"] == 1){
+		   				rb_agency_detail_castingjob_func($custom_field,$JobID);
+		   		}else{
+		   			if($userLevel == 0){
+
+	   				}else{
+	   					rb_agency_detail_castingjob_func($custom_field,$JobID);
+	   				}
+	   			}
+	    		
+	    	}
+
 	    }
 
 	    function rb_agency_get_casting_register_custom_value($CastingID,$ProfileCustomID){

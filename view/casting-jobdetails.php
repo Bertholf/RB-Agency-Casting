@@ -106,6 +106,9 @@
 								<td class='jobdesc'>".$r->Job_Audition_Venue."</td>
 							</tr>	";
 						}
+						//Custom fields
+						rb_agency_detail_castingjob();
+						//End custom fields
 						echo "
 						<tr>
 							<td></td>";

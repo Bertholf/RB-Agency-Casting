@@ -130,6 +130,7 @@ if(isset($_GET['save_job'])){
 			//get string values
 			foreach($_GET as $key => $val){
 				if($key != "save_job"){
+					
 					if (strpos($key, "ProfileCustomID") > -1){
 						if($val != "" && !empty($val)){
 							if(is_array($val)){
@@ -147,9 +148,13 @@ if(isset($_GET['save_job'])){
 							}
 						}
 					} else {
-						//Normal String
-						$into[] = $key;
-						$values[] = "'". trim($val) . "'";
+						$parseKey = explode("_",$key);
+						if($parseKey[0] != 'UpdateJob'){
+							//Normal String
+							$into[] = $key;
+							$values[] = "'". trim($val) . "'";
+						}
+						
 					}
 				}
 			}
@@ -166,6 +171,78 @@ if(isset($_GET['save_job'])){
 			$sql_update .=  implode(",",$sql_update_arr) . ", Job_Criteria = '".implode("|",$criteria)."' WHERE Job_ID = " . $JobID;
 
 			$wpdb->query($sql_update);
+
+			/**UPDATE CUSTOM FIELDS**/
+
+							foreach($_GET as $k=>$v){
+
+								$parseCustom = explode("_",$k);
+								
+								if($parseCustom[0] == 'UpdateJob'){
+
+									$profilecustom_ids[] = $parseCustom[1];
+									$profilecustom_types[] = $parseCustom[2];
+									$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Customfield_ID = ". $parseCustom[1];
+									$wpdb->get_results($query_get,ARRAY_A);
+									if($wpdb->num_rows > 0){
+										//Update
+										foreach($profilecustom_ids as $k=>$v){
+											foreach($_GET["UpdateJob_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+													$data = implode("|",$_GET["UpdateJob_".$v."_".$profilecustom_types[$k]]);
+												}else{
+													$data = $_GET["UpdateJob_".$v."_".$profilecustom_types[$k]][$key];
+												}
+												if(empty($data) || $data == '--Select--'){
+													$data = NULL;
+												}
+												
+												$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_job_customfields
+																				SET Customfield_value = '".esc_attr($data)."' WHERE Job_ID = ".esc_attr($JobID)." AND Customfield_ID = ".esc_attr($v)."
+																				";
+											}
+																	
+										}
+
+										$temp_arr = array();
+										foreach($update_to_casting_custom as $k=>$v){
+											if(!in_array($v,$temp_arr)){
+
+												$wpdb->query($v);
+												$temp_arr[$k] = $v; 
+											}						
+										}
+									}else{
+										//Add
+										foreach($profilecustom_ids as $k=>$v){
+											echo $v;
+											foreach($_GET["UpdateJob_".$v."_".$profilecustom_types[$k]] as $key=>$value){
+												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
+													$data = implode("|",$_GET["UpdateJob_".$v."_".$profilecustom_types[$k]]);
+												}else{
+													$data = $_GET["UpdateJob_".$v."_".$profilecustom_types[$k]][$key];
+												}
+												if(empty($data) || $data == '--Select--'){
+													$data = NULL;
+												}
+
+												$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($JobID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
+											}
+																	
+										}
+										$temp_arr = array();
+										foreach($insert_to_casting_custom as $k=>$v){
+											if(!in_array($v,$temp_arr)){
+												$wpdb->query($v);
+												$temp_arr[$k] = $v; 
+											}						
+										}
+									}
+								}
+							}
+							
+
+							/**END UPDATE CUSTOM FIELDS**/
 
 			//check data integrity for applicants for new criterias only
 			if(trim(implode("|",$criteria)) != $Job_criteria_old){
@@ -325,8 +402,10 @@ function load_job_display($error = NULL, $data){
 									<option value='2' ".selected($data['Job_Visibility'],"2",false).">Matching Criteria</option>
 								</select>
 							</td>
-						</tr>
-						<tr>
+						</tr>";
+
+						rb_agency_update_castingjob();
+		echo "<tr>
 							<td></td>
 							<td id='criteria'></td>
 						</tr>
