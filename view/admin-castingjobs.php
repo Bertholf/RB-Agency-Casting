@@ -346,9 +346,10 @@ $siteurl = get_option('siteurl');
 								if($parseCustom[0] == 'ProfileCustom2'){
 									$profilecustom_ids[] = $parseCustom[1];
 									$profilecustom_types[] = $parseCustom[2];
-									$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Customfield_ID = ". $parseCustom[1];
+									$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Customfield_ID = ". $parseCustom[1]." AND Job_ID = ".$_GET['Job_ID'];
 									$wpdb->get_results($query_get,ARRAY_A);
 									if($wpdb->num_rows > 0){
+										//echo "update";
 										//Update
 										foreach($profilecustom_ids as $k=>$v){
 											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
@@ -371,12 +372,14 @@ $siteurl = get_option('siteurl');
 										$temp_arr = array();
 										foreach($update_to_casting_custom as $k=>$v){
 											if(!in_array($v,$temp_arr)){
+												//echo $v."<br>";
 												$wpdb->query($v);
 												$temp_arr[$k] = $v; 
 											}						
 										}
 									}else{
 										//Add
+										//echo "add";
 										foreach($profilecustom_ids as $k=>$v){
 											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
 												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
@@ -730,7 +733,15 @@ $siteurl = get_option('siteurl');
 					echo "</div>\n";
 
 					if(isset($_GET["Job_ID"])){
-						rb_get_customfields_castingjobs();
+						global $wpdb;
+						$query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Job_ID = ".$_GET['Job_ID'];
+						$wpdb->get_results($query_get,ARRAY_A);
+						if($wpdb->num_rows == 0){
+							rb_get_customfields_admin_castingjobs();
+						}else{
+							rb_get_customfields_castingjobs();
+						}
+						
 						echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label for=\"comments\">&nbsp;</label>\n";
 						echo "<div>\n";
