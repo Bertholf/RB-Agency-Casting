@@ -166,8 +166,7 @@ if(isset($_POST['save_job'])){
 						}						
 					}
 
-			echo "	<div class=\"".fullwidth_class()." column\">\n";
-			echo "  	<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
+			echo "  	<div id=\"rbcontent\">\n";
 			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<p class="rbalert success">';
@@ -178,7 +177,6 @@ if(isset($_POST['save_job'])){
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
 			echo "			<input type=\"hidden\" name=\"favorite\" value=\"1\"/>";
 			echo "  	</div><!-- #rbcontent -->\n"; // #rbcontent
-			echo "	</div><!-- #primary -->\n"; // #primary
 
 		} else {
 
@@ -267,7 +265,7 @@ function load_job_display($error = NULL){
 	if (is_user_logged_in()) {
 	//if(RBAgency_Casting::rb_is_user_casting()){
 
-		echo "<div id=\"rbcontent\" role=\"main\"";?><?php echo post_class(); ?><?php echo ">\n";
+		echo "<div id=\"rbcontent\" ";?><?php echo post_class(); ?><?php echo ">\n";
 		echo '			<header class="entry-header">';
 		echo '				<h1 class="entry-title">New Job Posting</h1>';
 		echo '			</header>';
@@ -396,7 +394,6 @@ function load_job_display($error = NULL){
 
 	} else {
 
-		echo "	<div class=\"".fullwidth_class()." column\">\n";
 		echo "		<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
 		echo '			<p class="rbalert error">';
 		echo '				<strong>You are not permitted to access this page.</strong>';
@@ -405,7 +402,6 @@ function load_job_display($error = NULL){
 			require_once("include-login.php");
 		}
 		echo "		</div><!-- #rbcontent -->\n"; // #rbcontent
-		echo "	</div><!-- .column -->\n"; // #.column
 
 	}
 }
