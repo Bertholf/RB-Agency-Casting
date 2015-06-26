@@ -676,6 +676,7 @@ $siteurl = get_option('siteurl');
 					echo "</div>";
 
 					echo "</div>";
+					echo "</div>";
 
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label for=\"Job_Audition_Date_Start\">Audition Date Start</label>\n";
@@ -694,6 +695,7 @@ $siteurl = get_option('siteurl');
 						?><option value="<?= $i % 12 ? $i % 12 : 12 ?>:30 <?= $i >= 12 ? 'pm' : 'am' ?>"><?= $i % 12 ? $i % 12 : 12 ?>:30 <?= $i >= 12 ? 'pm' : 'am' ?></option><?php
 						}
 						echo "  </select>\n";
+						echo "</div>\n";
 						//<input type=\"text\"  class=\"timepicker\" id=\"Job_Audition_Time\" name=\"Job_Audition_Time\" value=\"".$Job_Audition_Time."\"></div>";
 					echo "</div>\n";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
@@ -712,10 +714,10 @@ $siteurl = get_option('siteurl');
 						}
 						
 						echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
-						echo "<label for=\"comments\">&nbsp;</label>\n";
-						echo "<div>\n";
-						echo "<input type=\"checkbox\" name=\"resend\" value=\"1\"/> &nbsp;Resend notifcation to selected shortlisted talents \n\n";
-						echo "</div>\n";
+						echo "	<label for=\"comments\">&nbsp;</label>\n";
+						echo "	<div>\n";
+						echo "		<input type=\"checkbox\" name=\"resend\" value=\"1\"/> &nbsp;Resend notifcation to selected shortlisted talents \n\n";
+						echo "	</div>\n";
 						echo "</div><br/><br/>";
 						echo "<input type=\"submit\" value=\"Save\" name=\"castingJob\" class=\"button-primary\" />";
 						echo "<input type=\"hidden\" name=\"action2\" value=\"edit\"/>";
@@ -734,10 +736,8 @@ $siteurl = get_option('siteurl');
 
 					}
 
-
-
-				echo "</form>";
-				echo "</div>";
+				echo "</form><!-- .castingtext -->";
+				echo "</div><!-- .innerr -->";
 				//  }// if casting cart is not empty
 					echo '<script type="text/javascript">
 							jQuery(document).ready(function(){
@@ -763,8 +763,8 @@ $siteurl = get_option('siteurl');
 								//});
 							});
 					</script>';
-				echo "</div>";
-				echo "</div>";
+				echo "</div><!-- .boxblock -->";
+				echo "</div><!-- .boxblock-container -->";
 
 
 				$cartArray = null;
@@ -898,8 +898,8 @@ $siteurl = get_option('siteurl');
 							$total_casting_profiles = $wpdb->num_rows;
 						echo "<div id=\"castingcartbox\" class=\"boxblock-container\" >";
 						echo "<div class=\"boxblock\">";
-						echo "<h3>Client's Casting Cart - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
-						echo "<span style=\"font-size:12px;float:right;margin-top: -5px;\">";
+						echo "<h3 style=\"overflow:hidden\">Client's Casting Cart - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
+						echo "<span style=\"font-size:12px;float:right;\">";
 						echo "<a  href=\"#TB_inline?width=600&height=350&inlineId=notifyclient\" class=\"thickbox button-primary\" title=\"Notify Client\">Notify Client</a>";
 						echo "| <input type=\"submit\" name=\"deleteprofilescasting\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
 						echo "<input type=\"checkbox\" id=\"selectallcasting\"/>Select all</span>";
@@ -929,13 +929,16 @@ $siteurl = get_option('siteurl');
 						echo "</table>";
 						echo "</form>";
 						echo "</div>";
-							echo "<form method=\"post\" name=\"formDeleteCastingProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";
+							echo "<form method=\"post\" name=\"formDeleteCastingProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" class=\"rbaction-list\">\n";
 							echo "<input type=\"hidden\" name=\"action2\" value=\"deletecastingprofile\"/>";
 							echo "<div class=\"innerr\" style=\"padding: 10px;\">";
 								foreach ($results as $data) {
-									echo "<div style=\"width: 16.6%;float:left\" id=\"profile-".$data["ProfileID"]."\">";
-									echo "<div style=\"height: 200px; margin-right: 5px; overflow: hidden; \"><span style=\"text-align:center;background:#ccc;color:#000;font-weight:bold;width:100%;padding:10px;display:block;\">".(isset($_GET["Job_ID"])?"<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>":""). stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</span><a href=\"". RBAGENCY_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\"><img style=\"width: 100%; \" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".RBAGENCY_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=118&w=118&zc=2\" /></a>";
+									echo "<div class=\"list-item\" id=\"profile-".$data["ProfileID"]."\">";
+									echo "<div class=\"photo\">";									
+									echo "	<a href=\"". RBAGENCY_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\"><img \" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".RBAGENCY_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=170&w=170&zc=2\" /></a>";
 									echo "</div>\n";
+									echo "<br>\n";
+									echo "<strong class=\"name\">".(isset($_GET["Job_ID"])?"<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>":""). stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong>";
 									if(isset($_GET["Job_ID"])){
 										$query = "SELECT CastingAvailabilityStatus as status FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
 										$prepared = $wpdb->prepare($query,$data["ProfileID"],$_GET["Job_ID"]);
@@ -944,12 +947,12 @@ $siteurl = get_option('siteurl');
 										$count2 = $wpdb->num_rows;
 
 										if($count2 <= 0){
-											echo "<span style=\"text-align:center;color:#5505FF;font-weight:bold;width:80%;padding:10px;display:block;\">Unconfirmed</span>\n";
+											echo "<span class=\"status unconfirmed\">Unconfirmed</span>\n";
 										} else {
 											if($availability->status == "available"){
-												echo "<span style=\"text-align:center;color:#2BC50C;font-weight:bold;width:80%;padding:10px;display:block;\">Available</span>\n";
+												echo "<span class=\"status available\">Available</span>\n";
 											} else {
-												echo "<span style=\"text-align:center;color:#EE0F2A;font-weight:bold;width:80%;padding:10px;display:block;\">Not Available</span>\n";
+												echo "<span class=\"status notavailable\">Not Available</span>\n";
 											}
 										}
 									}
@@ -982,9 +985,9 @@ $siteurl = get_option('siteurl');
 						$results = $wpdb->get_results($query, ARRAY_A);
 						$count = $wpdb->num_rows;
 						$total_casting_profiles = $count;
-						echo "<h3>Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
+						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
-							echo "<span style=\"font-size:12px;float:right;margin-top: -5px;\">";
+							echo "<span style=\"font-size:12px;float:right;\">";
 							echo "<a  href=\"#TB_inline?width=600&height=550&inlineId=add-profiles\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
 							if(isset($_GET["Job_ID"])){
 								echo "<input type=\"submit\" name=\"deleteprofiles\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
@@ -1187,20 +1190,21 @@ $siteurl = get_option('siteurl');
 				echo "<input type=\"hidden\" value=\"".(isset($Job_Agency_ID)?$Job_Agency_ID:"") ."\" name=\"Agent_ID\" />";
 				echo "</form>";
 
-				echo "<form method=\"post\" name=\"formDeleteProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" >\n";
+				echo "<form method=\"post\" name=\"formDeleteProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" class=\"rbaction-list\" >\n";
 				echo "<input type=\"hidden\" name=\"action2\" value=\"deleteprofile\"/>";
 				foreach ($results as $data) {
-					echo "<div style=\"width: 16.6%;float:left\" id=\"profile-".$data["ProfileID"]."\">";
-					echo "<div style=\"height: 200px; margin-right: 5px; overflow: hidden; \">";
-					echo "<span style=\"text-align:center;background:#ccc;color:#000;font-weight:bold;width:100%;padding:10px;display:block;\">";
+					echo "<div class=\"list-item\" id=\"profile-".$data["ProfileID"]."\">";
+					echo "<div class=\"photo\">";					
+					echo "<a href=\"". RBAGENCY_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\">";
+					echo "<img src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".RBAGENCY_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=170&w=170&zc=2\" />";
+					echo "</a>";
+					echo "</div>\n";
+					echo "<br>";
+					echo "<strong class=\"name\">";
 					if(isset($_GET["Job_ID"])){
 						echo "<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>";
 					}
-					echo  stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</span>";
-					echo "<a href=\"". RBAGENCY_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\">";
-					echo "<img style=\"width: 100%; \" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".RBAGENCY_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=170&w=170&zc=2\" />";
-					echo "</a>";
-					echo "</div>\n";
+					echo  stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong>";					
 						if(isset($_GET["Job_ID"])){
 
 							echo "<input type=\"hidden\" name=\"delete_profile_id[]\" value=\"".$data["ProfileID"]."\">";
@@ -1212,18 +1216,26 @@ $siteurl = get_option('siteurl');
 							$count2 = $wpdb->num_rows;
 
 							if($count2 <= 0){
-								echo "<span style=\"text-align:center;color:#5505FF;font-weight:bold;width:80%;padding:10px;display:block;\">Unconfirmed</span>\n";
+								echo "<span class=\"status unconfirmed\">Unconfirmed</span>\n";
 							} else {
 								if($availability->status == "available"){
-								echo "<span style=\"text-align:center;color:#2BC50C;font-weight:bold;width:80%;padding:10px;display:block;\">Available</span>\n";
+									echo "<span class=\"status available\">Available</span>\n";
 								} else {
-								echo "<span style=\"text-align:center;color:#EE0F2A;font-weight:bold;width:80%;padding:10px;display:block;\">Not Available</span>\n";
+									echo "<span class=\"status notavailable\">Not Available</span>\n";
 								}
 							}
 						}
 					echo "</div>\n";
 				}
 				echo "</form>\n";
+				echo "	<style type=\"text/css\">
+							.rbaction-list .list-item { float: left; width: 170px; margin-right:10px; margin-top: 10px; text-align: center; }
+							.rbaction-list .list-item .name { display: inline-block; }
+							.rbaction-list .list-item .status { display: inline-block; padding: 5px; font-weight: bold; font-size: small; }
+							.rbaction-list .list-item .status.unconfirmed { color: #5505ff; }
+							.rbaction-list .list-item .status.available { color: #2bc50c; }
+							.rbaction-list .list-item .status.notavailable { color: #ee0f2a; }
+						</style>";
 
 				if($count <= 0){
 					echo "No jobs found.";
