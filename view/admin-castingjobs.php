@@ -252,40 +252,7 @@ $siteurl = get_option('siteurl');
 					$wpdb->query($sql);
 					$Job_ID = $wpdb->insert_id;
 					
-					$insert_to_casting_custom = array();
 					
-					$profilecustom_ids = array();
-					$profilecustom_types = array();
-					foreach($_POST as $k=>$v){
-						$parsek = explode("_",$k);
-						if($parsek[0] == 'ProfileCustom2'){
-							$profilecustom_ids[] = $parsek[1];
-							$profilecustom_types[] = $parsek[2];
-						}
-					}
-					
-					foreach($profilecustom_ids as $k=>$v){
-						foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
-							if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
-								$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
-							}else{
-								$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
-							}
-							if(empty($data) || $data == '--Select--'){
-								$data = NULL;
-							}
-
-							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
-						}
-												
-					}
-					$temp_arr = array();
-					foreach($insert_to_casting_custom as $k=>$v){
-						if(!in_array($v,$temp_arr)){
-							$wpdb->query($v);
-							$temp_arr[$k] = $v; 
-						}						
-					}
 
 					$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
 					foreach($results as $mobile){
@@ -395,16 +362,18 @@ $siteurl = get_option('siteurl');
 											}
 																	
 										}
-										$temp_arr = array();
+										
+									}
+								}
+							}
+
+							$temp_arr = array();
 										foreach($insert_to_casting_custom as $k=>$v){
 											if(!in_array($v,$temp_arr)){
 												$wpdb->query($v);
 												$temp_arr[$k] = $v; 
 											}						
 										}
-									}
-								}
-							}
 							
 
 							/**END UPDATE CUSTOM FIELDS**/

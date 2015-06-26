@@ -174,16 +174,18 @@
 									}
 															
 								}
-								$temp_arr = array();
+								
+							}
+						}
+					}
+
+					$temp_arr = array();
 								foreach($insert_to_casting_custom as $k=>$v){
 									if(!in_array($v,$temp_arr)){
 										$wpdb->query($v);
 										$temp_arr[$k] = $v; 
 									}						
 								}
-							}
-						}
-					}
 
 			//header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
 
