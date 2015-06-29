@@ -724,7 +724,7 @@ function rb_manage_client($CastingID) {
 
 				}
 				echo "<h3>Additional Details</h3>";
-				rb_get_customfields_castingregister();
+				rb_get_admin_customfields_castingregister();
 			echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 			if( $CastingID <= 0 ){
 			echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button-primary\" value='Submit'/>";
