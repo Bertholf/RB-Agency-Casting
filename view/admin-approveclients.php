@@ -716,36 +716,38 @@ function rb_display_list() {
                 }
         }
          
-        $rowColor = "";
-        $DataTypeTitle = stripslashes($new_title);
-		if(!empty($CastingIsActive) && $CastingIsActive == 3){
-			$rowColor = "style=\"background:#F1B4B4;\"";
-		}
-		echo "    <tr ". (isset($rowColor)?$rowColor:"") ." data-isactive=\"".$CastingIsActive."\">\n";
-		echo "        <th class=\"check-column\" scope=\"row\">\n";
-		echo "          <input type=\"checkbox\" value=\"". $CastingID ."\" class=\"administrator\" id=\"". $CastingID ."\" name=\"castingID[". $CastingID ."]\"/>\n";
-		echo "        </th>\n";
-		echo "        <td class=\"ProfileID column-ProfileID\">". $CastingID ."</td>\n";
-		echo "        <td class=\"CastingContactNameFirst column-CastingContactNameFirst\">\n";
-		echo "          ". $CastingContactNameFirst ."\n";
-		echo "          <div class=\"row-actions\">\n";
-		if( $CastingIsActive == 3){
-		echo "            <span class=\"allow\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&amp;action=approveRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Approve this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Approve", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
-		}
-		echo "            <span class=\"edit\"><a href=\"". admin_url("admin.php?page=rb_agency_casting_approveclients&amp;action=editRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Edit this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Edit", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
-		echo "            <span class=\"view\"><a href=\"/profile-casting/".  $CastingGallery ."/\" title=\"". __("View", RBAGENCY_casting_TEXTDOMAIN) . "\" target=\"_blank\">". __("View", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
-		echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"". admin_url("admin.php?page=". $_GET['page']) ."&amp;action=deleteRecord&amp;CastingID=". $CastingID ."\"  onclick=\"if ( confirm('". __("You are about to delete the profile for ", RBAGENCY_casting_TEXTDOMAIN) ." ". $CastingContactNameFirst ." ". $CastingContactNameLast ."\'". __("Cancel", RBAGENCY_casting_TEXTDOMAIN) . "\' ". __("to stop", RBAGENCY_casting_TEXTDOMAIN) . ", \'". __("OK", RBAGENCY_casting_TEXTDOMAIN) . "\' ". __("to delete", RBAGENCY_casting_TEXTDOMAIN) . ".') ) {return true;}return false;\" title=\"". __("Delete this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Delete", RBAGENCY_casting_TEXTDOMAIN) . "</a> </span>\n";
-		echo "          </div>\n";
-		echo "        </td>\n";
-		echo "        <td class=\"CastingContactNameLast column-CastingContactNameLast\">". $CastingContactNameLast ."</td>\n";
-		echo "        <td class=\"CastingContactEmail column-CastingContactEmail\">". $CastingContactEmail ."</td>\n";
-		//echo "        <td class=\"ProfilesProfileDate column-ProfilesProfileDate\">". rb_agency_get_age($ProfileDateBirth) ."</td>\n";
-		echo "        <td class=\"CastingLocationCity column-CastingLocationCity\">". $CastingLocationCity ."</td>\n";
-		echo "        <td class=\"CastingLocationCity column-CastingLocationState\">". rb_agency_getStateTitle($CastingLocationState) ."</td>\n";
-		echo "        <td class=\"ProfileDateViewLast column-ProfileDateViewLast\">\n";
-		echo "           ". rb_agency_makeago(rb_agency_convertdatetime($CastingDateCreated), $rb_agency_option_locationtimezone);
-		echo "        </td>\n";
-		echo "    </tr>\n";
+	        if($CastingIsActive != 1){
+	        	$rowColor = "";
+		        $DataTypeTitle = stripslashes($new_title);
+				if(!empty($CastingIsActive) && $CastingIsActive == 3){
+					$rowColor = "style=\"background:#F1B4B4;\"";
+				}
+				echo "    <tr ". (isset($rowColor)?$rowColor:"") ." data-isactive=\"".$CastingIsActive."\">\n";
+				echo "        <th class=\"check-column\" scope=\"row\">\n";
+				echo "          <input type=\"checkbox\" value=\"". $CastingID ."\" class=\"administrator\" id=\"". $CastingID ."\" name=\"castingID[". $CastingID ."]\"/>\n";
+				echo "        </th>\n";
+				echo "        <td class=\"ProfileID column-ProfileID\">". $CastingID ."</td>\n";
+				echo "        <td class=\"CastingContactNameFirst column-CastingContactNameFirst\">\n";
+				echo "          ". $CastingContactNameFirst ."\n";
+				echo "          <div class=\"row-actions\">\n";
+				if( $CastingIsActive == 3){
+				echo "            <span class=\"allow\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&amp;action=approveRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Approve this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Approve", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
+				}
+				echo "            <span class=\"edit\"><a href=\"". admin_url("admin.php?page=rb_agency_casting_approveclients&amp;action=editRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Edit this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Edit", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
+				echo "            <span class=\"view\"><a href=\"/profile-casting/".  $CastingGallery ."/\" title=\"". __("View", RBAGENCY_casting_TEXTDOMAIN) . "\" target=\"_blank\">". __("View", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
+				echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"". admin_url("admin.php?page=". $_GET['page']) ."&amp;action=deleteRecord&amp;CastingID=". $CastingID ."\"  onclick=\"if ( confirm('". __("You are about to delete the profile for ", RBAGENCY_casting_TEXTDOMAIN) ." ". $CastingContactNameFirst ." ". $CastingContactNameLast ."\'". __("Cancel", RBAGENCY_casting_TEXTDOMAIN) . "\' ". __("to stop", RBAGENCY_casting_TEXTDOMAIN) . ", \'". __("OK", RBAGENCY_casting_TEXTDOMAIN) . "\' ". __("to delete", RBAGENCY_casting_TEXTDOMAIN) . ".') ) {return true;}return false;\" title=\"". __("Delete this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Delete", RBAGENCY_casting_TEXTDOMAIN) . "</a> </span>\n";
+				echo "          </div>\n";
+				echo "        </td>\n";
+				echo "        <td class=\"CastingContactNameLast column-CastingContactNameLast\">". $CastingContactNameLast ."</td>\n";
+				echo "        <td class=\"CastingContactEmail column-CastingContactEmail\">". $CastingContactEmail ."</td>\n";
+				//echo "        <td class=\"ProfilesProfileDate column-ProfilesProfileDate\">". rb_agency_get_age($ProfileDateBirth) ."</td>\n";
+				echo "        <td class=\"CastingLocationCity column-CastingLocationCity\">". $CastingLocationCity ."</td>\n";
+				echo "        <td class=\"CastingLocationCity column-CastingLocationState\">". rb_agency_getStateTitle($CastingLocationState) ."</td>\n";
+				echo "        <td class=\"ProfileDateViewLast column-ProfileDateViewLast\">\n";
+				echo "           ". rb_agency_makeago(rb_agency_convertdatetime($CastingDateCreated), $rb_agency_option_locationtimezone);
+				echo "        </td>\n";
+				echo "    </tr>\n";
+	        }
 
 
 
