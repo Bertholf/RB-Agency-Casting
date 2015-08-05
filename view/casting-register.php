@@ -79,28 +79,28 @@
 			$have_error = true;
 		}
 		if ( empty($_POST['casting_website'])) {
-			$error .= __("website is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("website is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['casting_address'])) {
-			$error .= __("Address is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Address is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['casting_city'])) {
-			$error .= __("City is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("City is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['CastingState'])) {
-			$error .= __("State is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("State is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['casting_zip'])) {
-			$error .= __("Zip is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Zip is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['CastingCountry'])) {
-			$error .= __("Country is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Country is required.<br />",RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 
 		if (isset($_POST['casting_agree'])  && $_POST['casting_agree'] <> "yes") {
@@ -286,7 +286,7 @@
 	echo "       </div><!-- #casting-email -->\n";
 
 	echo "       <div id=\"casting-company\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "   		<label for=\"company\">". __("Company",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<label for=\"company\">". __("Company (required)",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 	echo "   		<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_company'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-company -->\n";
 
