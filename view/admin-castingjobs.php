@@ -224,6 +224,7 @@ $siteurl = get_option('siteurl');
 							Job_Audition_Date_End,
 							Job_Audition_Venue,
 							Job_Audition_Time,
+							Job_Audition_Time_End,
 							Job_UserLinked,
 							Job_Date_Created
 						)
@@ -244,6 +245,7 @@ $siteurl = get_option('siteurl');
 							'".esc_attr($_POST["Job_Audition_Date_End"])."',
 							'".esc_attr($_POST["Job_Audition_Venue"])."',
 							'".esc_attr($_POST["Job_Audition_Time"])."',
+							'".esc_attr($_POST["Job_Audition_Time_End"])."',
 							'".esc_attr($_POST["Job_AgencyName"])."',
 							NOW()
 						)
@@ -335,7 +337,8 @@ $siteurl = get_option('siteurl');
 										Job_Audition_Date_Start = '".esc_attr($_POST["Job_Audition_Date_Start"])."',
 										Job_Audition_Date_End = '".esc_attr($_POST["Job_Audition_Date_End"])."',
 										Job_Audition_Venue = '".esc_attr($_POST["Job_Audition_Venue"])."',
-										Job_Audition_Time = '".esc_attr($_POST["Job_Audition_Time"])."'
+										Job_Audition_Time = '".esc_attr($_POST["Job_Audition_Time"])."',
+										Job_Audition_Time_End = '".esc_attr($_POST["Job_Audition_Time_End"])."'
 									WHERE Job_ID = ".esc_attr($_GET["Job_ID"])."
 							";
 
@@ -449,6 +452,7 @@ $siteurl = get_option('siteurl');
 				$Job_Audition_Date_End = "";
 				$Job_Audition_Venue = "";
 				$Job_Audition_Time = "";
+				$Job_Audition_Time_End = "";
 				$CastingContactEmail = "";
 
 		if(isset($_GET["Job_ID"])){
@@ -476,6 +480,7 @@ $siteurl = get_option('siteurl');
 				$Job_Audition_Date_End = $data->Job_Audition_Date_End;
 				$Job_Audition_Venue = $data->Job_Audition_Venue;
 				$Job_Audition_Time = $data->Job_Audition_Time;
+				$Job_Audition_Time_End = $data->Job_Audition_Time_End;
 				$CastingContactEmail = $data->CastingContactEmail;
 				$CastingContactDisplay = $data->CastingContactDisplay;
 
@@ -720,17 +725,52 @@ $siteurl = get_option('siteurl');
 						echo "<div><input type=\"text\"  class=\"datepicker\" id=\"Job_Audition_Date_End\" name=\"Job_Audition_Date_End\" value=\"".$Job_Audition_Date_End."\"></div>";
 					echo "</div>\n";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
-						echo "<label for=\"Job_Audition_Time\">Audition Time</label>\n";
+						echo "<label for=\"Job_Audition_Time\">Audition Time Start</label>\n";
 						echo "<div>\n";
+						//echo $Job_Audition_Time;
 						echo "  <select id=\"Job_Audition_Time\" name=\"Job_Audition_Time\">\n";
 						for($i = 0; $i < 24; $i++) {
-						?><option value="<?= $i % 12 ? $i % 12 : 12 ?>:00 <?= $i >= 12 ? 'pm' : 'am' ?>"><?= $i % 12 ? $i % 12 : 12 ?>:00 <?= $i >= 12 ? 'pm' : 'am' ?></option><?php
-						?><option value="<?= $i % 12 ? $i % 12 : 12 ?>:30 <?= $i >= 12 ? 'pm' : 'am' ?>"><?= $i % 12 ? $i % 12 : 12 ?>:30 <?= $i >= 12 ? 'pm' : 'am' ?></option><?php
+
+							$ampm = $i >= 12 ? ' pm' : ' am';
+							$starttime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
+							$starttime30 = $i % 12 ? $i % 12 .':30' : 12 .':30';
+							$sselected00 = $Job_Audition_Time == $starttime00 . $ampm ? "selected" : "";
+							$sselected30 = $Job_Audition_Time == $starttime30 . $ampm ? "selected" : "";
+						?>
+							<option value="<?= $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?= $starttime00 . $ampm ?></option><?php
+						
+						?>
+
+						<option value="<?= $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?= $starttime30 . $ampm ?></option><?php
 						}
 						echo "  </select>\n";
 						echo "</div>\n";
 						//<input type=\"text\"  class=\"timepicker\" id=\"Job_Audition_Time\" name=\"Job_Audition_Time\" value=\"".$Job_Audition_Time."\"></div>";
 					echo "</div>\n";
+
+					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
+						echo "<label for=\"Job_Audition_Time_End\">Audition Time End</label>\n";
+						echo "<div>\n";
+						///echo $Job_Audition_Time_End;
+						echo "  <select id=\"Job_Audition_Time_End\" name=\"Job_Audition_Time_End\">\n";
+						for($i = 0; $i < 24; $i++) {
+							$ampm = $i >= 12 ? ' pm' : ' am';
+							$endtime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
+							$endtime30 = $i % 12 ? $i % 12 .':30' : 12 .':30';
+							$eselected00 = $Job_Audition_Time_End == $endtime00 . $ampm ? "selected" : "";
+							$eselected30 = $Job_Audition_Time_End == $endtime30 . $ampm ? "selected" : "";
+						?>
+							<option value="<?= $endtime00 . $ampm ?>"  <?php echo $eselected00; ?>><?= $endtime00 . $ampm ?></option><?php
+						
+						?>
+
+						<option value="<?= $endtime30 . $ampm ?>" <?php echo $eselected30; ?>><?= $endtime30 . $ampm ?></option><?php
+						}
+						echo "  </select>\n";
+						echo "</div>\n";
+						//<input type=\"text\"  class=\"timepicker\" id=\"Job_Audition_Time\" name=\"Job_Audition_Time\" value=\"".$Job_Audition_Time."\"></div>";
+					echo "</div>\n";
+					
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label for=\"Job_Audition_Venue\">Audition Venue</label>\n";
 						echo "<div><input type=\"text\" id=\"Job_Audition_Venue\" name=\"Job_Audition_Venue\" value=\"".$Job_Audition_Venue."\"></div>";
