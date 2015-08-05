@@ -385,27 +385,30 @@ if (is_user_logged_in()) {
 
 		// load all job postings
 		//for admin view
-		$load_data = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id, applicants.Job_UserProfileID as JProfileID, applicants.Job_Application_ID  FROM " . table_agency_casting_job_application .
+		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_application .
 											$where
-											. " GROUP By app_id ORDER By applicants.Job_Criteria_Passed DESC 
+											. " GROUP By applicants.Job_UserLinked ORDER By applicants.Job_Criteria_Passed DESC 
 											LIMIT " . $limit1 . "," . $record_per_page );
+
+		
 
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
-				echo $load->JProfileID;
-				$details = RBAgency_Casting::rb_casting_get_model_details($load->JProfileID);
+				
+				$details = RBAgency_Casting::rb_casting_get_model_details($load->Job_UserProfileID);
 				if($details->ProfileGallery != ""){
 					$display = '<a href="'.get_bloginfo('wpurl').'/profile/'.$details->ProfileGallery.'">'.$details->ProfileContactDisplay.'</a>';
 				} else {
 					$display = $details->ProfileContactNameFirst;
 				}
 				echo "    <tr>\n";
-				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID.":".$load->app_id."'></td>\n";
+				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID.":".$load->Job_UserLinked."'></td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."<br><span class=\"id\">Job ID# : ".$load->Job_ID."</span></td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
-
+				
 				// applicant image
-				$image = RBAgency_Casting::rb_get_model_image($load->JProfileID);
+				
+				$image = RBAgency_Casting::rb_get_model_image($load->Job_UserProfileID);
 				if($image!= ""){
 					echo "<div class=\"photo\">";
 					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
