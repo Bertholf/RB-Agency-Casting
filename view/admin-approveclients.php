@@ -127,13 +127,13 @@ function rb_manage_client($CastingID) {
 	if(isset($_POST["action"]) && $_POST["action"] == 'updatecasting'){
 
 		if ( empty($_POST['casting_first_name'])) {
-			$error .= __("First Name is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("First Name is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 
 		if ( empty($_POST['casting_last_name'])) {
-			$error .= __("Last Name is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Last Name is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 
 		if ( !email_exists($_POST['casting_email'])) {
@@ -145,35 +145,35 @@ function rb_manage_client($CastingID) {
 			$error .= __("Company is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_POST['casting_company'])) {
-			$error .= __("Company is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+		if ( empty($_POST['CastingPassword'])) {
+			$error .= __("Password is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
 		if ( empty($_POST['casting_website'])) {
-			$error .= __("website is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("website is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 
 		if ( empty($_POST['casting_address'])) {
-			$error .= __("Address is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Address is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['casting_city'])) {
-			$error .= __("City is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("City is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['CastingState'])) {
-			$error .= __("State is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("State is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['casting_zip'])) {
-			$error .= __("Zip is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Zip is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 		if ( empty($_POST['CastingCountry'])) {
-			$error .= __("Country is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Country is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}
 
 
@@ -259,7 +259,7 @@ function rb_manage_client($CastingID) {
 	echo "       </div><!-- #casting-email -->\n";
 
 	echo "       <div id=\"casting-company\" class=\"rbfield rbtext rbsingle\">\n";
-	echo "   		<label for=\"company\">". __("Company", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<label for=\"company\">". __("Company (required)", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 	echo "   		<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" value='".$data_r->CastingContactCompany."' /></div>\n";
 	echo "       </div><!-- #casting-company -->\n";
 
