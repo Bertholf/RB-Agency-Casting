@@ -47,8 +47,8 @@
 		}
 
 		if ( empty($_POST['CastingPassword'])) {
-			$error .= __("Password is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
-			$have_error = true;
+			//$error .= __("Password is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
+			//$have_error = true;
 		}		
 
 		if ( empty($_POST['casting_company'])) {
