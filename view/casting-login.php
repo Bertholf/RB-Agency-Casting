@@ -26,10 +26,21 @@ function get_user_login_info(){
 	get_currentuserinfo();
 	$user_info = get_userdata( $user_ID );
 
+	
+	$rb_agencyinteract_options_arr = get_option('rb_agencyinteract_options');
+	$url = $rb_agencyinteract_options_arr['rb_agencyinteract_option_redirect_afterlogin_agent'];
+	if( !empty($url)){
+		$customUrl = '/casting-dashboard/';
+	}else{
+		$customUrl = $rb_agencyinteract_options_arr['rb_agencyinteract_option_redirect_afterlogin_agent_url'];
+	}
+	
+	
+	
 	if($user_ID){
 
 		// If user_registered date/time is less than 48hrs from now
-
+	
 		if(!empty($redirect)){
 			header("Location: ". get_bloginfo("wpurl"). "/profile/".$redirect);
 		} else {
@@ -41,7 +52,7 @@ function get_user_login_info(){
 				if(RBAgency_Casting::rb_casting_ismodel($user_ID)){
 					header("Location: ". get_bloginfo("wpurl"). "/profile-member/");
 				} else {
-					header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+					header("Location: ". get_bloginfo("wpurl"). $customUrl);
 				}
 			}
 			}
@@ -53,7 +64,7 @@ function get_user_login_info(){
 		if(RBAgency_Casting::rb_casting_ismodel($user_ID)){
 			header("Location: ". get_bloginfo("wpurl"). "/profile-member/");
 		} else {
-			header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+			header("Location: ". get_bloginfo("wpurl").  $customUrl);
 		}
 	}
 }
