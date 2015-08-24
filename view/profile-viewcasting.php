@@ -433,6 +433,30 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
 
 						$Message = str_replace("\n","<br>",$Message);
+						
+						$profileHTML = '<br/><br/>';
+						
+						$sql = "SELECT profile.*, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media
+									WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\"
+										AND media.ProfileMediaPrimary = 1 LIMIT 1 ) AS ProfileMediaURL  FROM ".table_agency_profile ." AS profile 
+									WHERE ProfileID IN ( {$casting} ) GROUP BY(profile.ProfileID) ";
+						
+						$resultProf = $wpdb->get_results($sql,ARRAY_A);
+						foreach($resultProf as $dataList){
+							$ProfileContactDisplay =$dataList['ProfileContactDisplay'];
+							
+							$profileHTML .='<div style="display: inline-block;width:190px;height:280px;padding:10px 2px;font-family: Arial, Tahoma, Verdana;text-align:center;">';
+							 $profileHTML .="<a style=\"text-decoration:none;\" href=\"". RBAGENCY_PROFILEDIR ."". $dataList["ProfileGallery"] ."/\" title=\"". stripslashes($ProfileContactDisplay) ."\">
+									<img style=\"width:180px;height:230px\" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src="
+								. RBAGENCY_casting_UPLOADDIR . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
+								<br/>";
+							$profileHTML .= "<b>$ProfileContactDisplay</b>";
+							$profileHTML .='</div>';
+						}	
+						
+						
+						$Message .= $profileHTML;
+						
 						$isSent = wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
 						if($isSent){
 							echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
