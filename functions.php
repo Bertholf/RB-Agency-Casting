@@ -444,10 +444,18 @@
 					} else { // favorite model exist, now delete!
 						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID<= 0 OR CastingJobID IS NULL) ");
 						//$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'");
+						
+						
+						/* $query_castingcartx = $wpdb->get_results($wpdb->prepare("DELETE FROM ". table_agency_castingcart));
+						print_r($query_castingcartx);
+						echo "cart format."; */
 						echo "deleted";
 					}
 					
 				}
+				
+				$query_castingcartx = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart));
+				print_r($query_castingcartx);
 			}
 			else {
 				echo "not_logged";

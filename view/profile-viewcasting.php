@@ -209,26 +209,85 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					echo "</div></form>";
 
 					if(isset($_POST["addtojob"])){
+					//get the job ID on its table
 						$data = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID ='".$_POST["job_id"]."' ");
-						$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						//check if theres exist cart with jobID --means already added
+						//$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID<= 0 OR CastingJobID IS NULL) ") ,ARRAY_A);
+						
+						
+						//delete all cart that HAVE job ID with all equal info / CastingCartProfileID - CastingCartTalentID  so need to update.
+						//$wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].") AND CastingJobID> 0 ");
+						
+						$count_castingcart_deleted = $wpdb->rows_affected;
+						//echo " affected dele = $count_castingcart_deleted";
+						
+						//do not touch the originbal record of cart.
+						//$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						
+						//get all the Profiles ID as requested
+						//loop how many profiles to be added
+						$explode_Profiles = explode(',', $_POST["shortlistprofiles"]);
+						//print_r($explode_Profiles);
+						if($explode_Profiles and !empty($_POST["job_id"])){
+							foreach($explode_Profiles as $profID){
+								
+								//check if already exist in db -- FYI: by all info (CastingJobID,CastingCartProfileID,CastingCartTalentID)
+								
+								//.
+								$querySelectPorfJobMatch = $wpdb->get_results("SELECT CastingCartProfileID FROM ". table_agency_castingcart
+									. " WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID=$profID AND CastingJobID=$_POST[job_id]"
+									,ARRAY_A);
+									
+								$countMatch = count($querySelectPorfJobMatch);
+								
+								//add if not found
+								if(!$countMatch){
+									//echo $profID.' - New Add <br/>';
+									$wpdb->query("INSERT INTO ".table_agency_castingcart .
+										"(CastingJobID , CastingCartProfileID,CastingCartTalentID )".
+										" VALUES('".$_POST["job_id"]."', '".$data->Job_UserLinked."', '". $profID ."')");
+								}else{
+									//echo $profID.' - UPDATE Add <br/>';
+								}
+								//we dont need to udpate the same job ID bec its the same.. haha
+								
+								//$update_success = $wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='".$_POST["job_id"]."', CastingCartProfileID='".$data->Job_UserLinked."' WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+							
+								//
+							}
+						}else{
+							echo "<div class=\"\">No Job Selected</div>";
+						}
+						/* 						
+						print_r($_POST);
+						exit; */
 						wp_redirect(get_bloginfo("url")."/profile-casting/?Job_ID=".$_POST["job_id"]);
 					}
 
 					if(isset($_POST["removefromcart"])){
-
-						$wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
-						echo "<div class=\"\">Succesfully removed.</div>";
+						//be sure to delete only the cart info that didnt have job ID or BLANK
+						$wpdb->query("DELETE FROM ".table_agency_castingcart." WHERE 
+							CastingCartProfileID='".rb_agency_get_current_userid()."' AND 
+							CastingCartTalentID IN(".$_POST["shortlistprofiles"].") AND
+							(CastingJobID<= 0 OR CastingJobID IS NULL) ");
+							
+						echo "<div class=\"\">Succesfully removed from cart.</div>";
 					}
 
 					if(isset($_POST["removefromjob"])){
-						$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						//$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
+						
+						$wpdb->query("DELETE FROM ". table_agency_castingcart ." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].") AND CastingJobID=$_POST[job_id]");
+						
+						
+						echo "<div class=\"\">Succesfully removed from Job.</div>";
 					}
 					echo "<div class=\"result-action\">";
 						echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
 
 					if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
 						echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"><div class=\"action\">";
-						echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s)\"/>";
+						echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s) from Cart\"/>";
 						echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
 						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 						echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
@@ -237,7 +296,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 					if(isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])){
 						echo "<form method=\"post\" action=\"\"><div class=\"action\">";
-						echo "<input type=\"submit\" name=\"removefromjob\"  value=\"Remove selected profile(s)\"/>";
+						echo "<input type=\"submit\" name=\"removefromjob\"  value=\"Remove selected profile(s) from Job\"/>";
 						echo "<input type=\"hidden\" name=\"job_id\" value=\"".$_GET["Job_ID"]."\"/>";
 						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 						echo "</div></form>";
@@ -505,6 +564,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					</div>
 					<!-- end send profile form -->
 					<?php
+					
 					if (class_exists('RBAgency_Profile')) {
 						echo "<div id=\"profile-casting-list\">";
 						$atts = array("type" => isset($DataTypeID)?$DataTypeID:"", "profilecasting" => true);
