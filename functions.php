@@ -570,6 +570,40 @@
 						});
 				});
 			</script>
+			
+			
+			
+
+<style>
+
+.active.castingcart img,.inactive.castingcart:hover img,.inactive.castingcart img:hover{
+    filter: none;
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+  
+  -webkit-filter: none;
+   -moz-filter: none;
+   -ms-filter: none;
+   width: 22px !important;height:auto;
+}
+.inactive.castingcart img{
+   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 3.5+ */
+   filter: gray; /* IE6-9 */
+  
+  -webkit-filter: grayscale(100%);
+  -webkit-transition: .5s ease-in-out;
+  -moz-filter: grayscale(100%); 
+  -moz-transition: .5s ease-in-out;
+  -o-filter: grayscale(100%); 
+  -o-transition: .5s ease-in-out;
+  
+  width: 22px !important;height:auto;
+}
+</style>
+			
+			
+			
 		<?php
 		}
 
