@@ -217,18 +217,46 @@
 
 		$displayActions = "";
 		$displayActions = "<div id=\"profile-single-view\" class=\"rb_profile_tool\">";
+		
+		//admin icon settings 
+		if(!empty($rb_agency_options_arr['rb_agency_option_carticonurl'])){
+			$cartIcon = "<img src=\"{$rb_agency_options_arr['rb_agency_option_carticonurl']}\" style=\"border:0;\">";
+		}else{
+			$cartIcon = "<i class=\"fa fa-heart\"></i>";
+		} 
+		
+		if(!empty($rb_agency_options_arr['rb_agency_option_faviconurl'])){
+			$favIcon = "<img src=\"{$rb_agency_options_arr['rb_agency_option_faviconurl']}\" style=\"border:0;\">";
+		}else{
+			$favIcon = "<i class=\"fa fa-heart\"></i>";
+		}
+		
+		
 
 		if(rb_get_casting_profileid() > 0 || current_user_can("manage_options")){
 
 			if ($rb_agency_option_profilelist_favorite) {
 				$displayActions .= "<div id=\"profile-favorite\" class=\"rbbtn-group\">";
-				$displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")."\" attr-id=\"".$ProfileID."\" class=\"".(in_array($ProfileID, $arr_favorites)?"active":"inactive")." favorite\"><strong>&#9829;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")."</span></a>";
+				$displayActions .= "<a href=\"javascript:;\" title=\""
+					.(in_array($ProfileID, $arr_favorites)?"Remove from Favorites":"Add to Favorites")
+					."\" attr-id=\"".$ProfileID."\" class=\""
+					.(in_array($ProfileID, $arr_favorites)?"active":"inactive")
+					." favorite\">$favIcon&nbsp;<span>"
+					.(in_array($ProfileID, $arr_favorites)?"Remove from Favorite":"Add to Favorite")
+					."</span></a>";
 				// $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-favorite/\">View Favorites</a>";
 				$displayActions .= "</div>";
 			}
 			if ($rb_agency_option_profilelist_castingcart) {
 					$displayActions .= "<div id=\"profile-casting\" class=\"rbbtn-group\">";
-					$displayActions .= "<a href=\"javascript:;\" title=\"".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."\"  attr-id=\"".$ProfileID."\"  class=\"".(in_array($ProfileID, $arr_castingcart)?"active":"inactive")." castingcart\"><strong>&#9733;</strong>&nbsp;<span>".(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")."</span></a>";
+					$displayActions .= "<a href=\"javascript:;\" title=\""
+						.(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")
+						."\"  attr-id=\"".$ProfileID."\"  class=\""
+						.(in_array($ProfileID, $arr_castingcart)?"active":"inactive")
+						." castingcart\">$cartIcon&nbsp;<span>"
+						.(in_array($ProfileID, $arr_castingcart)?"Remove from Casting Cart":"Add to Casting Cart")
+						."</span></a>";
+						
 				//  $displayActions .= "<a href=\"".get_bloginfo("url")."/profile-casting/\">View Casting Cart</a>";
 					$displayActions .= "</div>";
 			}
@@ -452,10 +480,10 @@
 						echo "deleted";
 					}
 					
-				}
+				}/* 
 				
 				$query_castingcartx = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart));
-				print_r($query_castingcartx);
+				print_r($query_castingcartx); */
 			}
 			else {
 				echo "not_logged";
@@ -584,7 +612,9 @@
 
 <style>
 
-.active.castingcart img,.inactive.castingcart:hover img,.inactive.castingcart img:hover{
+.active.castingcart img,.inactive.castingcart:hover img,.inactive.castingcart img:hover,
+.active.favorite img,.inactive.favorite:hover img,.inactive.favorite img:hover
+{
     filter: none;
   -webkit-filter: grayscale(0%);
   -moz-filter: grayscale(0%);
@@ -593,9 +623,9 @@
   -webkit-filter: none;
    -moz-filter: none;
    -ms-filter: none;
-   width: 22px !important;height:auto;
+   /* width: 22px !important;height:auto; */
 }
-.inactive.castingcart img{
+.inactive.castingcart img, .inactive.favorite img{
    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 3.5+ */
    filter: gray; /* IE6-9 */
   
@@ -606,7 +636,7 @@
   -o-filter: grayscale(100%); 
   -o-transition: .5s ease-in-out;
   
-  width: 22px !important;height:auto;
+ /*  width: 22px !important;height:auto; */
 }
 </style>
 			
