@@ -433,17 +433,20 @@
 
 			if(is_user_logged_in()){
 				if(isset($_POST["talentID"])){
-					$query_castingcart = $wpdb->get_row("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND CastingJobID <= 0" ,ARRAY_A);
+					//$query_castingcart = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID='' OR CastingJobID <= 0)") ,ARRAY_A);
+					$query_castingcart = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID<= 0 OR CastingJobID IS NULL) ") ,ARRAY_A);
+					//$query_castingcart = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") ,ARRAY_A);
 					$count_castingcart = $wpdb->num_rows;
 					$datas_castingcart = $query_castingcart;
-
 					if($count_castingcart<=0){ //if not exist insert favorite!
 						$wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
 						echo "inserted";
 					} else { // favorite model exist, now delete!
-						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND CastingJobID <= 0");
+						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID<= 0 OR CastingJobID IS NULL) ");
+						//$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'");
 						echo "deleted";
 					}
+					
 				}
 			}
 			else {
