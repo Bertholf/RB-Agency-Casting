@@ -34,7 +34,8 @@ echo $rb_header = RBAgency_Common::rb_header();
 					echo " <div class=\"manage-overview manage-content\">\n";
 					echo sprintf(__("<h3>Thanks for joining %s!</h3>"), get_option('blogname'));
 					echo "<br/>";
-					echo "Your account is pending for approval. You will receive and email once your registration is approved.";
+					echo "Your account is currently set as Inactive or Archived. 
+						You will receive an email once your registration is approved or activated by the admin.";
 					echo " </div>\n";
 
 			echo " </div>\n"; // .welcome

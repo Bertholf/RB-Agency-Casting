@@ -201,22 +201,34 @@
 
 				// Log them in if no confirmation required.
 				if ($rb_agencyinteract_option_registerconfirm == 1) {
-
 					global $error;
-
-					$login = wp_login( $user_login, $user_pass );
+					//$login = wp_login( $user_login, $user_pass );
 					$login = wp_signon( array( 'user_login' => $user_login, 'user_password' => $user_pass, 'remember' => 1 ), false );
-
 				}
 
 				// Notify admin and user
 				RBAgency_Casting::rb_casting_send_notification($new_user, $user_pass);
 		}
 
+		
 		// Log them in if no confirmation required.
 		if ($rb_agencyinteract_option_registerconfirm == 1) {
+		
+			/* echo 'xxxxxxxx'.$_default_registered;
+			echo 'xxxxxxxx'.$_registerapproval ;
+			exit; */
 			if(isset($login)){
-				header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+				//check the account status... 
+				if($_default_registered == 3){
+					//pending for approval..
+					header("Location: ". get_bloginfo("wpurl"). "/casting-pending/");
+				}elseif($_registerapproval == 1){
+					//inactive or archived
+					header("Location: ". get_bloginfo("wpurl"). "/casting-inactive-archive/");
+				}else{
+					//active
+					header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+				}
 			}
 		}
 	}

@@ -46,6 +46,8 @@
 			$newrules['client-view/(.*)$'] = 'index.php?type=profilecastingcart&target=$matches[1]&rbgroup=casting';
 			$newrules['email-applicant/(.*)/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&value=$matches[2]&rbgroup=casting';
 			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&rbgroup=casting';
+			$newrules['casting-pending'] = 'index.php?type=casting-pending&rbgroup=casting';
+			$newrules['casting-inactive-archive'] = 'index.php?type=casting-inactive-archive&rbgroup=casting';
 			return $newrules + $rules;
 		}
 
@@ -76,6 +78,10 @@
 						return dirname(__FILE__) . '/view/casting-editjob.php';
 					} elseif (get_query_var( 'type' ) == "emailapplicant") {
 						return dirname(__FILE__) . '/view/casting-emailapplicant.php';
+					} elseif (get_query_var( 'type' ) == "casting-pending") {
+						return dirname(__FILE__) . '/view/casting-pending.php';
+					} elseif (get_query_var( 'type' ) == "casting-inactive-archive") {
+						return dirname(__FILE__) . '/view/casting-inactive-archive.php';
 					}
 				} else {
 					if (get_query_var( 'type' ) == "browsejobpostings") {
