@@ -112,8 +112,36 @@
 		if($have_error == false){
 
 			$new_user = wp_insert_user( $userdata );
+			
+			$rb_agencyinteract_options_arr = get_option('rb_agencyinteract_options');
+			
+			
+			/* 
+			
+			manually approve(0) (pending for approval(3) or, active(1))
+			automatically approve(1) (inactive(0) or archived(2))
+			if( manually approve(0) == active good
+			
+			*/
+			$_registerapproval = (int)$rb_agencyinteract_options_arr['rb_agencyinteract_casting_option_registerapproval'];//manually , automatic
+			$_default_registered = (int)$rb_agencyinteract_options_arr['rb_agencyinteract_casting_option_default_registered_users']; // options
 
-			$CastingIsActive		= 3;
+			//manually approve(0)
+			if($_registerapproval == 0){
+				if($_default_registered == 1){
+					$CastingIsActive = 1;
+				}else{
+					$CastingIsActive = 3;
+				}
+			}else{
+				//automatic but do not allow the active as default..
+				if($_default_registered != 1){
+					$CastingIsActive = $_default_registered;
+				}else{
+					$CastingIsActive = 0; //inactive
+				}
+			}
+			
 
 			//create folder
 			$CastingGallery 		= "casting-agent-" . $new_user;
