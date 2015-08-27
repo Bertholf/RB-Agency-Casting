@@ -9,6 +9,10 @@
 	$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming']) ? (int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
 	$rb_agencyinteract_option_registerconfirm = isset($rb_agency_casting_options_arr['rb_agencyinteract_option_registerconfirm']) ? (int)$rb_agency_casting_options_arr['rb_agencyinteract_option_registerconfirm']:0;
 
+	
+	$rb_agency_option_inactive_profile_on_update = (int)$rb_agency_options_arr['rb_agency_option_inactive_profile_on_update'];
+	
+	
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );
 
@@ -84,7 +88,28 @@
 
 		// Bug Free!
 		if($have_error == false){
-
+			
+			$CastingStatus = 0;
+			if($rb_agency_option_inactive_profile_on_update == 1){
+				//nevermind if your admin
+				if(is_user_logged_in() && current_user_can( 'edit_posts' )){
+					$CastingStatus = 1;//stay active admin account
+				}else{
+					$CastingStatus = 3; //inactive
+				}
+			} 
+			
+			
+			/* 
+			echo $rb_agency_option_inactive_profile_on_update.' -- '.$CastingStatus;
+			$update = "SELECT * FROM " . table_agency_casting . "";
+			$result = $wpdb->get_results($update, ARRAY_A);
+			echo 'test';
+			//CastingIsActive
+			
+			print_r($result);
+			exit;
+			 */
 			// Update Record
 			$update = "UPDATE " . table_agency_casting . " SET ";
 
@@ -104,7 +129,8 @@
 						CastingLocationCity = '".$_POST['casting_city']."',
 						CastingLocationState = '".$_POST['CastingState']."',
 						CastingLocationZip = '".$_POST['casting_zip']."',
-						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
+						CastingLocationCountry = '".$_POST['CastingCountry']."', 
+						CastingIsActive = '".$CastingStatus."', ";
 			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
 
 			$result = $wpdb->query($update);

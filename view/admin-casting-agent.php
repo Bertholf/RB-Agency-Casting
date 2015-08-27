@@ -31,25 +31,31 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 				$delete = "DELETE FROM " . table_agency_casting . " WHERE CastingID = ". $CastingID;
 				$results = $wpdb->query($delete);
 
+				//remove the account @ wp-users table.
+				wp_delete_user( (int)$dataDelete['CastingUserLinked']);
+				flush();
+				
 				if (isset($CastingGallery)) {
 					// Remove Folder
 					$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 					$mydir = opendir($dir);
-					while(false !== ($file = readdir($mydir))) {
-						if($file != "." && $file != "..") {
-							unlink($dir.$file) or DIE("couldn't delete $dir$file<br />");
+					if($mydir){
+						while(false !== ($file = readdir($mydir))) {
+							if($file != "." && $file != ".." && !empty($file)){
+								unlink($dir.$file) or DIE("couldn't delete file '$file'<br />");
+							}
 						}
+						closedir($mydir);
 					}
 					// remove dir
 					if(is_dir($dir)) {
-						rmdir($dir) or DIE("couldn't delete $dir$file<br />");
+						@rmdir($dir) or DIE("couldn't delete $dir$file<br />");
 					}
-					closedir($mydir);
-
+					
 				} else {
 					echo __("No valid record found.", RBAGENCY_casting_TEXTDOMAIN);
 				}
-
+				
 			echo ('<div id="message" class="updated"><p>'. __("Client deleted successfully!", RBAGENCY_casting_TEXTDOMAIN) .'</p></div>');
 			}// is there record?
 
@@ -70,21 +76,27 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 				$deleteCastingJobs = "DELETE FROM ".table_agency_casting_job." WHERE Job_UserLinked = ". $dataDelete['CastingUserLinked'];
 				$wpdb->query($deleteCastingJobs);
 
+				//remove the account @ wp-users table.
+				wp_delete_user( (int)$dataDelete['CastingUserLinked']);
+				flush();
+				
 				if (isset($CastingGallery)) {
 					// Remove Folder
 					$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 					$mydir = opendir($dir);
-					while(false !== ($file = readdir($mydir))) {
-						if($file != "." && $file != "..") {
-							unlink($dir.$file) or DIE("couldn't delete $dir$file<br />");
+					if($mydir){
+						while(false !== ($file = readdir($mydir))) {
+							if($file != "." && $file != ".." && !empty($file)){
+								unlink($dir.$file) or DIE("couldn't delete file '$file'<br />");
+							}
 						}
+						closedir($mydir);
 					}
 					// remove dir
 					if(is_dir($dir)) {
-						rmdir($dir) or DIE("couldn't delete $dir$file<br />");
+						@rmdir($dir) or DIE("couldn't delete $dir$file<br />");
 					}
-					closedir($mydir);
-
+					
 				} else {
 					echo __("No valid record found.", RBAGENCY_casting_TEXTDOMAIN);
 				}
@@ -847,52 +859,46 @@ function rb_display_list() {
 				if(isset($_POST['castingID'])){
 					foreach($_POST['castingID'] as $key){
 
-									$CastingID = $key;
-									// Verify Record
-									$queryDelete = "SELECT * FROM ". table_agency_casting ." WHERE CastingID =  ". $CastingID;
-									$resultsDelete = $wpdb->get_results($queryDelete,ARRAY_A);
-									foreach($resultsDelete as $dataDelete) {
-										$CastingGallery = $dataDelete['CastingGallery'];
+						$CastingID = $key;
+						// Verify Record
+						$queryDelete = "SELECT * FROM ". table_agency_casting ." WHERE CastingID =  ". $CastingID;
+						$resultsDelete = $wpdb->get_results($queryDelete,ARRAY_A);
+						foreach($resultsDelete as $dataDelete) {
+							$CastingGallery = $dataDelete['CastingGallery'];
 
-										// Remove Profile
-										$delete = "DELETE FROM " . table_agency_casting . " WHERE CastingID = ". $CastingID;
-										$results = $wpdb->query($delete);
-
-										if (isset($CastingGallery)) {
-											// Remove Folder
-											$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
-											$mydir = opendir($dir);
-											while(false !== ($file = readdir($mydir))) {
-												if($file != "." && $file != "..") {
-													$isUnlinked = @unlink($dir.$file);
-													if($isUnlinked){
-	
-													} else {
-														echo "Couldn't delete $dir$file<br />";
-													}
-												}
-											}
-											// remove dir
-											if(is_dir($dir)) {
-												$isRemoved = @rmdir($dir);
-												if($isRemoved){
-	
-												} else {
-														echo "Couldn't delete $dir$file<br />";
-												}
-											}
-											closedir($mydir);
-
-										} else {
-											echo __("No valid record found.", RBAGENCY_casting_TEXTDOMAIN);
+							// Remove Profile
+							$delete = "DELETE FROM " . table_agency_casting . " WHERE CastingID = ". $CastingID;
+							$results = $wpdb->query($delete);
+							
+							
+							//remove the account @ wp-users table.
+							wp_delete_user( (int)$dataDelete['CastingUserLinked']);
+							flush();
+							
+							if (isset($CastingGallery)) {
+								// Remove Folder
+								$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
+								$mydir = opendir($dir);
+								if($mydir){
+									while(false !== ($file = readdir($mydir))) {
+										if($file != "." && $file != ".." && !empty($file)){
+											unlink($dir.$file) or DIE("couldn't delete file '$file'<br />");
 										}
+									}
+									closedir($mydir);
+								}
+								// remove dir
+								if(is_dir($dir)) {
+									@rmdir($dir) or DIE("couldn't delete $dir$file<br />");
+								}
+								
+							} else {
+								echo __("No valid record found.", RBAGENCY_casting_TEXTDOMAIN);
+							}
 
-									echo ('<div id="message" class="updated"><p>'. __("Client deleted successfully!", RBAGENCY_casting_TEXTDOMAIN) .'</p></div>');
-									}// is there record?
-
-
+							echo ('<div id="message" class="updated"><p>'. __("Client deleted successfully!", RBAGENCY_casting_TEXTDOMAIN) .'</p></div>');
+						}// is there record?
 					}
-
 				}
 
 			}
