@@ -20,7 +20,7 @@ if (isset($ProfileType) && !empty($ProfileType)){
 echo $rb_header = RBAgency_Common::rb_header(); 
 
 echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
-echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
+echo "  	<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
 echo '			<header class="entry-header">';
 echo '				<h1 class="entry-title">Favorites</h1>';
 echo '			</header>';
