@@ -145,11 +145,10 @@
 
 			//create folder
 			$CastingGallery 		= "casting-agent-" . $new_user;
-			if (!is_dir(RBAGENCY_UPLOADPATH . $CastingGallery)) {
-				mkdir(rb_agency_casting_UPLOADPATH . $CastingGallery, 0755);
-				chmod(rb_agency_casting_UPLOADPATH . $CastingGallery, 0777);
+			if (!is_dir(RBAGENCY_casting_UPLOADPATH . $CastingGallery)) {
+				mkdir(RBAGENCY_casting_UPLOADPATH . $CastingGallery, 0755);
+				chmod(RBAGENCY_casting_UPLOADPATH . $CastingGallery, 0777);
 			}
-
 			if ($rb_agency_option_profilenaming == 0) {
 				$CastingContactDisplay = $first_name . " ". $last_name;
 			} elseif ($rb_agency_option_profilenaming == 1) {
