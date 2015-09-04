@@ -1,5 +1,6 @@
 <?php
 
+
 $siteurl = get_option('siteurl');
 	// Casting Class
 	include (dirname(__FILE__) ."/../app/casting.class.php");
@@ -250,6 +251,20 @@ $siteurl = get_option('siteurl');
 							NOW()
 						)
 					";
+					
+		
+	//xyr code
+	//altering the main table for Job_Audition_Time_End fields... - due someone added this field .. and i dont who is it. 
+	$queryAlterCheck = "SELECT Job_Audition_Time_End FROM " . table_agency_casting_job ." LIMIT 1";
+	$resultsDataAlter = $wpdb->get_results($queryAlterCheck,ARRAY_A);
+	$count_alter = $wpdb->num_rows;
+	if($count_alter == 0){
+		$queryAlter = "ALTER TABLE " . table_agency_casting_job ." ADD Job_Audition_Time_End VARCHAR(10) NOT NULL";
+		//$queryAlter = "ALTER TABLE " . table_agency_casting_job ." CHANGE Job_Audition_Time_End VARCHAR(10) NOT NULL";
+		$resultsDataAlter = $wpdb->get_results($queryAlter,ARRAY_A);
+	}
+	
+	
 
 					$wpdb->query($sql);
 					$Job_ID = $wpdb->insert_id;
