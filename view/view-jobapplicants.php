@@ -178,7 +178,7 @@ if (is_user_logged_in()) {
 	
 	
 	$is_active = rb_check_casting_status();
-	if($is_active == false){
+	if($is_active == false and !current_user_can( 'edit_posts' )){
 		echo '		
 			<div id="rbcontent" role="main">
 			
@@ -275,7 +275,11 @@ if (is_user_logged_in()) {
 				$filter = " WHERE " . $_SESSION['filter']; 
 			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
-					" jobs ON jobs.Job_ID = applicants.Job_ID" . $filter;
+					" jobs ON jobs.Job_ID = applicants.Job_ID
+					LEFT JOIN  " . table_agency_profile . " profile  ON profile.ProfileUserLinked = applicants.Job_UserLinked
+					" . $filter ;
+					//"  "
+					
 			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
 								" jobs ON jobs.Job_ID = applicants.Job_ID";
 		} else {
@@ -284,12 +288,25 @@ if (is_user_logged_in()) {
 			}
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					" jobs ON jobs.Job_ID = applicants.Job_ID 
+					LEFT JOIN  " . table_agency_profile . " profile  ON profile.ProfileUserLinked = applicants.Job_UserLinked
 						WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;
 			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
 								" jobs ON jobs.Job_ID = applicants.Job_ID 
 									WHERE jobs.Job_UserLinked = " . $current_user->ID;
 
 		}
+		
+		//clean applicants- delete the applicant that doesnt exist in profiles.
+		//if(empty($_SESSION['clean_applicants'])){
+			$x_delete = $wpdb->get_results("DELETE FROM " . table_agency_casting_job_application . " WHERE Job_UserLinked NOT IN 
+                (SELECT ProfileUserLinked FROM " . table_agency_profile ." WHERE ProfileUserLinked is NOT NULL)");
+		
+			$_SESSION['clean_applicants'] = 'clean';
+		//}
+		
+		
+		
+		
 
 		$selected_page = get_query_var('target');
 
@@ -325,7 +342,7 @@ if (is_user_logged_in()) {
 			}
 		} else {
 			//load jobs by current user
-			$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id  FROM " . table_agency_casting_job_application .
+			$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id,profile.ProfileID FROM " . table_agency_casting_job_application .
 												$where_wo_filter
 												. " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
 
@@ -408,12 +425,12 @@ if (is_user_logged_in()) {
 
 		// load all job postings
 		//for admin view
-		$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_application .
+		$load_data = $wpdb->get_results("SELECT *,applicants.Job_UserLinked as app_UserLinked,profile.ProfileID as Job_UserProfileID FROM " . table_agency_casting_job_application .
 											$where
 											. " GROUP By applicants.Job_UserLinked ORDER By applicants.Job_Criteria_Passed DESC 
 											LIMIT " . $limit1 . "," . $record_per_page );
+//print_r($load_data);
 
-		
 
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
@@ -433,20 +450,22 @@ if (is_user_logged_in()) {
 				
 				$image = RBAgency_Casting::rb_get_model_image($load->Job_UserProfileID);
 				if($image!= ""){
-					echo "<div class=\"photo\">";
-					echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; soverflow: hidden;'>";
+					echo "<div class=\"photo\" style ='clear:both;margin:0;padding:0'>";
+					//echo "<span style = 'height: 120px; line-height:120px; width: 120px; display: table-cell; vertical-align: middle; text-align: center; overflow: hidden;'>";
 					echo "<a href=\"".get_bloginfo('wpurl')."/profile/".$details->ProfileGallery."\">";
+						$image = get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".$image ."&h=100&w=100&zc=2\" />";
+
 					echo "<img src='".$image."'>";
 					echo "</a>";
-					echo "</span>";
+					//echo "</span>";
 					echo "</div>";
 				} else {
-					echo "<div class=\"no-image photo\">";
+					echo "<div class=\"no-image photo\" style ='clear:both'>";
 					echo "No Image";
 					echo "</div>";
 				}
 
-				echo "<br><span style ='margin-left:5px; float:left; clear:both'>" . $display."</span></td>\n";
+				echo $display."<br/><br/></td>\n";
 
 				if(RBAgency_Casting::rb_get_job_visibility($load->Job_ID) == 1){
 					echo "        <td class=\"column-JobLocation\" scope=\"col\">100% Matched <br> <hr style='margin:5px'> Open to All<br>";
