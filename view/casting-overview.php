@@ -150,10 +150,12 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "		<ul class=\"links\">\n";
 	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\">Edit Information</a></li>\n";
 	
-	if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_postnewjob'])){
-		echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\">Post a New Job</a></li>\n";
+	$is_active = rb_check_casting_status();
+	if($is_active == true){
+		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_postnewjob'])){
+			echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\">Post a New Job</a></li>\n";
+		}
 	}
-	
 	if (current_user_can( 'edit_posts' )){
 		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
 			echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View All Job Postings</a></li>\n";
@@ -163,13 +165,15 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 			echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View All Applicants</a></li>\n";
 		}
 	} else {
-		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
-			echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View Your Job Postings</a></li>\n";
-		}
-		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
-			echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View Your Applicants</a></li>\n";
-		}
 		
+		if($is_active == true){
+			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
+				echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View Your Job Postings</a></li>\n";
+			}
+			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
+				echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View Your Applicants</a></li>\n";
+			}
+		}
 		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\">View Your Casting Cart</a></li>\n";
 	}
 

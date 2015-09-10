@@ -15,6 +15,8 @@ echo $rb_header = RBAgency_Common::rb_header();
 // if sumitted process here
 //===============================
 
+
+
 if(isset($_POST['save_job'])){
 
 		// Error checking
@@ -263,6 +265,27 @@ function load_job_display($error = NULL){
 			</style>';
 
 	if (is_user_logged_in()) {
+	
+	
+		$is_active = rb_check_casting_status();
+		if($is_active == false){
+			echo '		
+				<div id="rbcontent" role="main">
+				
+					<header class="entry-header">
+					<h1 class="entry-title">You are not permitted to access this page.</h1>
+					</header>
+					<div class="entry-content">
+					<p class="rbalert error">
+						<strong></strong>
+					</p>
+				</div>';
+			echo $rb_footer = RBAgency_Common::rb_footer(); 
+			exit;
+		}
+	
+	
+	
 	//if(RBAgency_Casting::rb_is_user_casting()){
 
 		echo "<div id=\"rbcontent\" ";?><?php echo post_class(); ?><?php echo ">\n";

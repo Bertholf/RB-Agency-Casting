@@ -771,7 +771,20 @@
 		}
 		add_action( 'widgets_init', 'rb_castinglogin_widgets_init' );
 
-
+		function rb_check_casting_status($userID){
+			global $current_user, $wpdb;
+			get_currentuserinfo();
+		
+			$query = "SELECT CastingIsActive FROM ". table_agency_casting ." WHERE CastingUserLinked =  ". $current_user->ID;
+			$CastingIsActive = $wpdb->get_var($query);
+			if($CastingIsActive != 1){
+				return false;
+			}
+			return true;
+		}
+		
+		
+		
 		function rb_agency_casting_jobs(){
 			include_once(dirname(__FILE__) .'/view/admin-castingjobs.php');
 		}

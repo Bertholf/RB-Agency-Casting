@@ -15,7 +15,11 @@ wp_enqueue_script('jquery_latest');
 	$rb_agency_option_agencyemail = $rb_agency_options["rb_agency_option_agencyemail"];
 
 
-echo $rb_header = RBAgency_Common::rb_header();?>
+echo $rb_header = RBAgency_Common::rb_header();
+
+?>
+
+
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
@@ -171,6 +175,25 @@ jQuery(document).ready(function(){
 
 <?php
 if (is_user_logged_in()) {
+	
+	
+	$is_active = rb_check_casting_status();
+	if($is_active == false){
+		echo '		
+			<div id="rbcontent" role="main">
+			
+				<header class="entry-header">
+				<h1 class="entry-title">You are not permitted to access this page.</h1>
+				</header>
+				<div class="entry-content">
+				<p class="rbalert error">
+					<strong></strong>
+				</p>
+			</div>';
+		echo $rb_footer = RBAgency_Common::rb_footer(); 
+		exit;
+	}
+
 
 	echo "<div id=\"rbcontent\">";
 
