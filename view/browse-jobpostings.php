@@ -69,19 +69,33 @@ if (is_user_logged_in()) {
 		echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 		echo '<script type="text/javascript">
 				jQuery(document).ready(function(){
-					jQuery( ".datepicker" ).datepicker();
-					jQuery( ".datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+					jQuery( ".datepicker" ).datepicker({
+						dateFormat: "yy-mm-dd"
+					});
+					
+					
 					var date_start="'.$startdate.'";
 					jQuery("#filter_startdate").val(date_start);
 			})
-		</script>';
+		</script>
+		<style>
+			#filter_startdate{
+				background-image: url('.RBAGENCY_PLUGIN_URL.'assets/img/calendar_icon.png);
+				background-repeat:no-repeat;
+				background-position: right center;
+				background-position: right;
+				background-position-y: 4px;
+			}
+		</style>
+		
+		';
 
 		// setup filter display
 		echo "<form id=\"jobposting-filter\" method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";
 		echo "<table>\n";
 		echo "<tbody>";
 		echo "<tr>";
-		echo "        <td>Start Date<br>
+		echo "        <td width='130'>Start Date<br>
 						<select name='filter_range'>
 							<option value='0' ".selected(0, $range,false).">Before</option>
 							<option value='1' ".selected(1, $range,false).">Later than</option>
