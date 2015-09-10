@@ -268,7 +268,7 @@ function load_job_display($error = NULL){
 	
 	
 		$is_active = rb_check_casting_status();
-		if($is_active == false){
+		if($is_active == false and !current_user_can("edit_posts")){
 			echo '		
 				<div id="rbcontent" role="main">
 				

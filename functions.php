@@ -782,6 +782,17 @@
 			}
 			return true;
 		}
+		function rb_check_profile_status($userID){
+			global $current_user, $wpdb;
+			get_currentuserinfo();
+		
+			$query = "SELECT ProfileIsActive FROM ". table_agency_profile ." WHERE ProfileUserLinked =  ". $current_user->ID;
+			$CastingIsActive = $wpdb->get_var($query);
+			if($CastingIsActive != 1){
+				return false;
+			}
+			return true;
+		}
 		
 		
 		

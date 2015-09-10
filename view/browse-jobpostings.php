@@ -11,8 +11,26 @@ wp_enqueue_script('jquery_latest');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
 
 echo $rb_header = RBAgency_Common::rb_header();
-
 if (is_user_logged_in()) {
+
+
+	$is_active = rb_check_profile_status();
+
+	if($is_active == false and !current_user_can("edit_posts")){
+		echo '		
+			<div id="rbcontent" role="main">
+			
+				<header class="entry-header">
+				<h1 class="entry-title">You are not permitted to access this page.</h1>
+				</header>
+				<div class="entry-content">
+				<p class="rbalert error">
+					<strong></strong>
+				</p>
+			</div>';
+		echo $rb_footer = RBAgency_Common::rb_footer(); 
+		exit;
+	}
 
 	echo "<div id=\"rbcontent\">";
 
