@@ -1324,7 +1324,7 @@
 		   $castID = isset($_GET['CastingID']) ? $_GET['CastingID'] : $castingIDFromTable; 
 		   	    
 		   $temp_arr = array();
-		   $query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE CastingID = ".$castID;
+		   $query_get ="SELECT * FROM ".$wpdb->prefix."agency_casting_register_customfields WHERE CastingID = '".$castID."'";
 		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
 		   if($wpdb->num_rows > 0){
 		   		foreach( $result_query_get as $result){
