@@ -573,18 +573,18 @@ class RBAgency_Casting {
 		/*
 		 * check if user is casting agent
 		 */
-		public static function rb_casting_is_castingagent($user_linked = NULL){
+		public static function rb_casting_is_castingagent($user_linked = NULL, $field_name = 'CastingID'){
 
 			global $wpdb;
 
-			if($user_linked == NULL || $user_linked == "" || empty($user_linked)) {
+			if(empty($user_linked)) {
 				return false;
 			}
 
-			$get_id = $wpdb->get_row( "SELECT CastingID FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $user_linked ) ;
+			$get_id = $wpdb->get_row( "SELECT ".$field_name." FROM " . table_agency_casting . " WHERE CastingUserLinked = " . $user_linked ) ;
 
 			if(count($get_id) > 0){
-				return $get_id->CastingID;
+				return $get_id->$field_name;
 			}
 
 			return false;

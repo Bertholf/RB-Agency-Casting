@@ -197,8 +197,14 @@ if (is_user_logged_in()) {
 
 	echo "<div id=\"rbcontent\">";
 
+	
+	
 	// casting agents and admin only
 	if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
+	
+		$_filter = array();
+		
+	
 
 		if ( current_user_can( 'edit_posts' ) ) {
 			echo "<p><h3>All Applicants to All Job Postings from Casting Agents</h3></p><br>";
@@ -215,46 +221,65 @@ if (is_user_logged_in()) {
 			$_SESSION['percentage'] = "";
 			$_SESSION['perpage'] = "";
 			$_SESSION['rating'] = "";
-
+			
+			$_jobtitle = $_GET['filter_jobtitle'];
+			$_applicant = $_GET['filter_applicant'];
+			$_percentage = $_GET['filter_jobpercentage'];
+			$_rating = $_GET['filter_rating'];
+			$_perpage = $_GET['filter_perpage'];
+			
+			
 			// job title
 			if(isset($_GET['filter_jobtitle']) && $_GET['filter_jobtitle'] != ""){
-				$_SESSION['job_title'] = $_GET['filter_jobtitle'];
-				$_SESSION['filter'] = "jobs.Job_ID = " . $_SESSION['job_title'];
+				$_SESSION['job_title'] = $_jobtitle;
+				$_SESSION['filter'] = "jobs.Job_ID = " . $_jobtitle;
+				$_filter['jobtitle'] = "jobs.Job_ID = '" . $_jobtitle ."'";
 			}
 
 			// applicant
 			if(isset($_GET['filter_applicant']) && $_GET['filter_applicant'] != ""){
-				$_SESSION['applicant'] = $_GET['filter_applicant'];
+				$_SESSION['applicant'] = $_applicant;
 				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
-				$_SESSION['filter'] .= $AND . "applicants.Job_UserLinked = " . $_SESSION['applicant'];
+				$_SESSION['filter'] .= $AND . "applicants.Job_UserLinked = " . $_applicant;
+				$_filter['applicant'] = "applicants.Job_UserLinked = '" . $_applicant ."'";
 			}
 
 			// percentage
 			if(isset($_GET['filter_jobpercentage']) && $_GET['filter_jobpercentage'] != ""){
-				$_SESSION['percentage'] = $_GET['filter_jobpercentage'];
-				$percent_arr = explode("-",$_GET['filter_jobpercentage']);
+				$_SESSION['percentage'] = $_percentage;
+				$percent_arr = explode("-",$_percentage);
 				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
 				$_SESSION['filter'] .= $AND . "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
+				$_filter['percentage'] = "Job_Criteria_Percentage >= " . $percent_arr[0] . " AND Job_Criteria_Percentage <= " . $percent_arr[1];
 			}
 
 			// perpage
 			if(isset($_GET['filter_rating']) && $_GET['filter_rating'] != ""){
-				$_SESSION['rating'] = $_GET['filter_rating'];
+				$_SESSION['rating'] = $_rating;
 				$AND = ($_SESSION['filter'] != "") ? " AND " : ""; 
-				if($_SESSION['rating'] == 'not_rated'){
+				if($_rating == 'not_rated'){
 					$_SESSION['filter'] .= $AND . "(Job_Client_Rating = '' OR Job_Client_Rating IS NULL)";
+					$_filter['rating'] = "(Job_Client_Rating = '' OR Job_Client_Rating IS NULL)";
 				} else {
-					$_SESSION['filter'] .= $AND . "Job_Client_Rating = " . $_SESSION['rating'];
+					$_SESSION['filter'] .= $AND . "Job_Client_Rating = " . $_rating;
+					$_filter['rating'] = "Job_Client_Rating = " . $_rating;
 				}
 			}
 
 			// perpage
 			if(isset($_GET['filter_perpage']) && $_GET['filter_perpage'] != ""){
-				$_SESSION['job_perpage'] = $_GET['filter_perpage'];
+				$_SESSION['job_perpage'] = $_perpage;
+				//$_filter['job_perpage'] = $_perpage; no need to add to filter
 			}
 
 		}
-
+		
+		
+		if(count($_filter) >= 1){
+			$_filter_SQL = ' '. implode(' AND ', $_filter) .' ';
+		}else{
+			$_filter_SQL ='  ';
+		}
 		// set for display
 		$applicant = (isset($_SESSION['applicant']) && $_SESSION['applicant'] != "") ? $_SESSION['applicant'] : "";
 		$percentage = (isset($_SESSION['percentage']) && $_SESSION['percentage'] != "") ? $_SESSION['percentage'] : "";
@@ -262,6 +287,13 @@ if (is_user_logged_in()) {
 		$rating = (isset($_SESSION['rating']) && $_SESSION['rating'] != "") ? $_SESSION['rating'] : "";
 		$perpage = (isset($_SESSION['job_perpage']) && $_SESSION['job_perpage'] != "") ? $_SESSION['job_perpage'] : 2;
 
+		$applicant = $_applicant;
+		$percentage = $_percentage;
+		$jobtitle = $_jobtitle;
+		$rating = $_rating;
+		$perpage = is_numeric($_perpage) ? $_perpage : 10;
+
+		
 		//pagination setup
 		$filter = "";
 		$start = get_query_var('target');
@@ -271,21 +303,27 @@ if (is_user_logged_in()) {
 
 		//for admin view
 		if ( current_user_can( 'edit_posts' ) ) {
-			if(isset($_SESSION['filter']) && $_SESSION['filter'] != ""){
+			if(count($_filter) >= 1){
 				$filter = " WHERE " . $_SESSION['filter']; 
+				$filter = " WHERE " . $_filter_SQL ;
 			}
+			
+			
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					" jobs ON jobs.Job_ID = applicants.Job_ID
 					LEFT JOIN  " . table_agency_profile . " profile  ON profile.ProfileUserLinked = applicants.Job_UserLinked
 					" . $filter ;
-					//"  "
+					
 					
 			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
 								" jobs ON jobs.Job_ID = applicants.Job_ID";
 		} else {
-			if(isset($_SESSION['filter']) && $_SESSION['filter'] != ""){
+			//if(isset($_GET['filter']) && $_GET['filter'] != ""){
+			if(count($_filter) >= 1){
 				$filter = " AND " . $_SESSION['filter']; 
+				$filter =  ' AND '.$_filter_SQL;
 			}
+			
 			$where = " applicants LEFT JOIN " . table_agency_casting_job . 
 					" jobs ON jobs.Job_ID = applicants.Job_ID 
 					LEFT JOIN  " . table_agency_profile . " profile  ON profile.ProfileUserLinked = applicants.Job_UserLinked
@@ -301,15 +339,9 @@ if (is_user_logged_in()) {
 		}
 		
 		//clean applicants- delete the applicant that doesnt exist in profiles.
-		//if(empty($_SESSION['clean_applicants'])){
-			$x_delete = $wpdb->get_results("DELETE FROM " . table_agency_casting_job_application . " WHERE Job_UserLinked NOT IN 
-                (SELECT ProfileUserLinked FROM " . table_agency_profile ." WHERE ProfileUserLinked is NOT NULL)");
-		
-			$_SESSION['clean_applicants'] = 'clean';
-		//}
-		
-		
-		
+		$x_delete = $wpdb->get_results("DELETE FROM " . table_agency_casting_job_application . " WHERE Job_UserLinked NOT IN 
+            (SELECT ProfileUserLinked FROM " . table_agency_profile ." WHERE ProfileUserLinked is NOT NULL)");
+	
 		
 
 		$selected_page = get_query_var('target');
@@ -347,37 +379,91 @@ if (is_user_logged_in()) {
 		} else {
 			//load jobs by current user
 			
-			$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id FROM " . table_agency_casting_job_application .
+			$load_job_filter = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_application .
 							  " applicants LEFT JOIN ". table_agency_casting_job ." jobs ON applicants.Job_ID=jobs.Job_ID
-							  WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+							  WHERE jobs.Job_UserLinked = " . $current_user->ID . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+							 // WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
 			 
-			// store applicants
-
 			if(count($load_job_filter) > 0){
 				foreach($load_job_filter as $j){
-					if(!array_key_exists($j->app_id,$job_applicant)){
-						$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay",true); 
-					}
 					echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
 				}
 			}
 		}
-		
-		print_r($load_job_filter);
-		echo '-----------------------------------';
-		
-		print_r($job_applicant);
+	
 		echo "			</select>
 						</td>\n";
 		echo "        <td>Applicant<br>
 						<select name='filter_applicant'>
 							<option value=''>-- Select Applicant --</option>";
-		foreach($job_applicant as $key => $val){
-			echo "<option value='".$key."' ".selected($key, $applicant,false).">".$val."</option>";
- 
-		}
+							
+				
+			if(current_user_can("edit_posts")){	
+				/* $job_applicant = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id FROM " . table_agency_casting_job_application .
+							  " applicants LEFT JOIN ". table_agency_casting_job ." jobs ON applicants.Job_ID=jobs.Job_ID
+							  WHERE jobs.Job_UserLinked = " . $current_user->ID . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+							 $filter
+							 
+				$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay",true);   
+				foreach($job_applicant as $key => $val){
+					echo "<option value='".$key."' ".selected($key, $applicant,false).">".$val."</option>";
+		 
+				} */
+				
+				$job_applicant = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id FROM " . table_agency_casting_job_application .
+					" applicants LEFT JOIN ". table_agency_casting_job ." jobs ON applicants.Job_ID=jobs.Job_ID
+					" . $filter . " GROUP By applicants.Job_UserLinked ORDER By applicants.Job_Criteria_Passed DESC");
+			
+				if(count($job_applicant) > 0){
+					
+					
+					foreach($job_applicant as $key => $val){
+						$_applicantName = RBAgency_Casting::rb_casting_ismodel($val->app_id, "ProfileContactDisplay",true);
+						if(empty($_applicantName)){
+							$_applicantName = RBAgency_Casting::rb_casting_is_castingagent($val->app_id, "CastingContactDisplay");
+							$_applicantName = RBAgency_Casting::rb_casting_is_castingagent($val->app_id, "ProfileContactDisplay");
+							//no CastingContactDisplay set.. get the first name
+							if($_applicantName){
+								$_applicantName = RBAgency_Casting::rb_casting_is_castingagent($val->app_id, "CastingContactNameFirst");
+							}
+							
+						}
+						echo "<option value='".$val->app_id."' ".selected($val->app_id, $applicant,false).">".$_applicantName."</option>";
+			 
+					}
+				}
+				
+			}else{
+				$job_applicant = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id FROM " . table_agency_casting_job_application .
+					" applicants LEFT JOIN ". table_agency_casting_job ." jobs ON applicants.Job_ID=jobs.Job_ID
+					WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter . " GROUP By applicants.Job_UserLinked ORDER By applicants.Job_Criteria_Passed DESC");
+			
+				if(count($job_applicant) > 0){
+					
+					
+					foreach($job_applicant as $key => $val){
+						$_applicantName = RBAgency_Casting::rb_casting_ismodel($val->app_id, "ProfileContactDisplay",true);
+						if(empty($_applicantName)){
+							$_applicantName = RBAgency_Casting::rb_casting_is_castingagent($val->app_id, "CastingContactDisplay");
+							$_applicantName = RBAgency_Casting::rb_casting_is_castingagent($val->app_id, "ProfileContactDisplay");
+							//no CastingContactDisplay set.. get the first name
+							if($_applicantName){
+								$_applicantName = RBAgency_Casting::rb_casting_is_castingagent($val->app_id, "CastingContactNameFirst");
+							}
+							
+						}
+						echo "<option value='".$val->app_id."' ".selected($val->app_id, $applicant,false).">".$_applicantName."</option>";
+			 
+					}
+				}
+			}
 
 		echo "			</select>
+		
+		
+					
+
+		
 						</td>\n";
 		echo "        <td>Criteria Matched<br>
 						<select name='filter_jobpercentage'>
@@ -434,9 +520,10 @@ if (is_user_logged_in()) {
 
 		// load all job postings
 		//for admin view
+		
 		$load_data = $wpdb->get_results("SELECT *,applicants.Job_UserLinked as app_UserLinked,profile.ProfileID as Job_UserProfileID FROM " . table_agency_casting_job_application .
 											$where
-											. " GROUP By applicants.Job_UserLinked ORDER By applicants.Job_Criteria_Passed DESC 
+											. " ORDER By applicants.Job_Criteria_Passed DESC 
 											LIMIT " . $limit1 . "," . $record_per_page );
 //print_r($load_data);
 
