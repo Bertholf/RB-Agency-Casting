@@ -290,9 +290,13 @@ if (is_user_logged_in()) {
 					" jobs ON jobs.Job_ID = applicants.Job_ID 
 					LEFT JOIN  " . table_agency_profile . " profile  ON profile.ProfileUserLinked = applicants.Job_UserLinked
 						WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;
+			
 			$where_wo_filter = " applicants LEFT JOIN " . table_agency_casting_job . 
 								" jobs ON jobs.Job_ID = applicants.Job_ID 
 									WHERE jobs.Job_UserLinked = " . $current_user->ID;
+									
+			$where_wo_filter = " jobs WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter;				
+			
 
 		}
 		
@@ -342,22 +346,27 @@ if (is_user_logged_in()) {
 			}
 		} else {
 			//load jobs by current user
-			$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id,profile.ProfileID FROM " . table_agency_casting_job_application .
-												$where_wo_filter
-												. " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
-
+			
+			$load_job_filter = $wpdb->get_results("SELECT *, applicants.Job_UserLinked as app_id FROM " . table_agency_casting_job_application .
+							  " applicants LEFT JOIN ". table_agency_casting_job ." jobs ON applicants.Job_ID=jobs.Job_ID
+							  WHERE jobs.Job_UserLinked = " . $current_user->ID . $filter . " GROUP By applicants.Job_ID ORDER By applicants.Job_Criteria_Passed DESC");
+			 
 			// store applicants
-
 
 			if(count($load_job_filter) > 0){
 				foreach($load_job_filter as $j){
 					if(!array_key_exists($j->app_id,$job_applicant)){
-						$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay"); 
+						$job_applicant[$j->app_id] = RBAgency_Casting::rb_casting_ismodel($j->app_id, "ProfileContactDisplay",true); 
 					}
 					echo "<option value='".$j->Job_ID."' ".selected($jobtitle,$j->Job_ID,false).">".$j->Job_Title."</option>";
 				}
 			}
 		}
+		
+		print_r($load_job_filter);
+		echo '-----------------------------------';
+		
+		print_r($job_applicant);
 		echo "			</select>
 						</td>\n";
 		echo "        <td>Applicant<br>

@@ -13,9 +13,12 @@ wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js')
 echo $rb_header = RBAgency_Common::rb_header();
 if (is_user_logged_in()) {
 
-
-	$is_active = rb_check_profile_status();
-
+	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+		$is_active = rb_check_profile_status();
+	}else{
+		$is_active = rb_check_casting_status();
+	}
+	
 	if($is_active == false and !current_user_can("edit_posts")){
 		echo '		
 			<div id="rbcontent" role="main">
