@@ -336,6 +336,20 @@ function load_job_display($error = NULL, $data){
 							</td>
 						</tr>
 						<tr>
+							<td>Time Start:</td>
+							<td>
+								<input type='text' name='Job_Time_Start' id='Job_Time_Start' class='timepicker' value='".$data['Job_Time_Start']."'>
+							</td>
+						</tr>
+						<tr>
+							<td>Time End:</td>
+							<td>
+								<input type='text' name='Job_Time_End' id='Job_Time_End' class='timepicker' value='".$data['Job_Time_End']."'>
+							</td>
+						</tr>
+						
+						
+						<tr>
 							<td><h3>Job Location</h3></td><td></td>
 						</tr>
 						<tr>
@@ -362,9 +376,15 @@ function load_job_display($error = NULL, $data){
 							</td>
 						</tr>
 						<tr>
-							<td>Time:</td>
+							<td>Time Start:</td>
 							<td>
 								<input type='text' name='Job_Audition_Time' id='Job_Audition_Time' class='timepicker' value='".$data['Job_Audition_Time']."'>
+							</td>
+						</tr>
+						<tr>
+							<td>Time End:</td>
+							<td>
+								<input type='text' name='Job_Audition_Time_End' id='Job_Audition_Time_End' class='timepicker' value='".$data['Job_Audition_Time_End']."'>
 							</td>
 						</tr>
 						<tr>

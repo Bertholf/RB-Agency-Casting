@@ -28,6 +28,33 @@ $siteurl = get_option('siteurl');
 
 	echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 
+	
+	//xyr code
+	//altering the main table for Job_Audition_Time_End fields... - due someone added this field .. and i dont who is it. 
+	$queryAlterCheck = "SELECT Job_Audition_Time_End FROM " . table_agency_casting_job ." LIMIT 1";
+	$resultsDataAlter = $wpdb->get_results($queryAlterCheck,ARRAY_A);
+	$count_alter = $wpdb->num_rows;
+	if($count_alter == 0 or !($resultsDataAlter)){
+		$queryAlter = "ALTER TABLE " . table_agency_casting_job ." ADD Job_Audition_Time_End VARCHAR(10) NOT NULL";
+		//$queryAlter = "ALTER TABLE " . table_agency_casting_job ." CHANGE Job_Audition_Time_End VARCHAR(10) NOT NULL";
+		$resultsDataAlter = $wpdb->get_results($queryAlter,ARRAY_A);
+	}
+	
+	//altering the main table for Job_Time_End fields... - due someone added this field .. and i dont who is it. 
+	$queryAlterCheck = "SELECT Job_Time_End FROM " . table_agency_casting_job ." LIMIT 1";
+	$resultsDataAlter = $wpdb->get_results($queryAlterCheck,ARRAY_A);
+	$count_alter = $wpdb->num_rows;
+	if($count_alter == 0 or !($resultsDataAlter)){
+		$queryAlter = "ALTER TABLE " . table_agency_casting_job ." ADD Job_Time_End VARCHAR(10) NOT NULL";
+		$resultsDataAlter = $wpdb->get_results($queryAlter,ARRAY_A);
+		$queryAlter = "ALTER TABLE " . table_agency_casting_job ." ADD Job_Time_Start VARCHAR(10) NOT NULL";
+		//$queryAlter = "ALTER TABLE " . table_agency_casting_job ." CHANGE Job_Audition_Time_End VARCHAR(10) NOT NULL";
+		$resultsDataAlter = $wpdb->get_results($queryAlter,ARRAY_A);
+	}
+	
+	
+	
+	
 	/*
 	 * Display Inform Talent
 	 */
@@ -213,6 +240,8 @@ $siteurl = get_option('siteurl');
 							Job_Text,
 							Job_Date_Start,
 							Job_Date_End,
+							Job_Time_Start,
+							Job_Time_End,
 							Job_Location,
 							Job_Region,
 							Job_Offering,
@@ -234,6 +263,8 @@ $siteurl = get_option('siteurl');
 							'".esc_attr($_POST["Job_Text"])."',
 							'".esc_attr($_POST["Job_Date_Start"])."',
 							'".esc_attr($_POST["Job_Date_End"])."',
+							'".esc_attr($_POST["Job_Time_Start"])."',
+							'".esc_attr($_POST["Job_Time_End"])."',
 							'".esc_attr($_POST["Job_Location"])."',
 							'".esc_attr($_POST["Job_Region"])."',
 							'".esc_attr($_POST["Job_Offering"])."',
@@ -253,17 +284,6 @@ $siteurl = get_option('siteurl');
 					";
 					
 		
-	//xyr code
-	//altering the main table for Job_Audition_Time_End fields... - due someone added this field .. and i dont who is it. 
-	$queryAlterCheck = "SELECT Job_Audition_Time_End FROM " . table_agency_casting_job ." LIMIT 1";
-	$resultsDataAlter = $wpdb->get_results($queryAlterCheck,ARRAY_A);
-	$count_alter = $wpdb->num_rows;
-	if($count_alter == 0 or !($resultsDataAlter)){
-		$queryAlter = "ALTER TABLE " . table_agency_casting_job ." ADD Job_Audition_Time_End VARCHAR(10) NOT NULL";
-		//$queryAlter = "ALTER TABLE " . table_agency_casting_job ." CHANGE Job_Audition_Time_End VARCHAR(10) NOT NULL";
-		$resultsDataAlter = $wpdb->get_results($queryAlter,ARRAY_A);
-	}
-	
 
 					$wpdb->query($sql);
 					$Job_ID = $wpdb->insert_id;
@@ -333,13 +353,15 @@ $siteurl = get_option('siteurl');
 					echo "No profiles selected in Casting cart.";
 				}
 		} elseif(isset($_POST["action2"]) && $_POST["action2"] =="edit"){
-
+			//print_r($_POST);
 							$sql = "UPDATE ".table_agency_casting_job." 
 								SET
 										Job_Title = '".esc_attr($_POST["Job_Title"])."', 
 										Job_Text = '".esc_attr($_POST["Job_Text"])."',
 										Job_Date_Start = '".esc_attr($_POST["Job_Date_Start"])."',
 										Job_Date_End = '".esc_attr($_POST["Job_Date_End"])."',
+										Job_Time_Start = '".esc_attr($_POST["Job_Time_Start"])."',
+										Job_Time_End = '".esc_attr($_POST["Job_Time_End"])."',
 										Job_Location = '".esc_attr($_POST["Job_Location"])."',
 										Job_Region = '".esc_attr($_POST["Job_Region"])."',
 										Job_Offering = '".esc_attr($_POST["Job_Offering"])."',
@@ -454,6 +476,8 @@ $siteurl = get_option('siteurl');
 				$Job_Text = "";
 				$Job_Date_Start = "";
 				$Job_Date_End = "";
+				$Job_Time_Start = "";
+				$Job_Time_End = "";
 				$Job_Location = "";
 				$Job_Region = "";
 				$Job_Offering = "";
@@ -473,8 +497,8 @@ $siteurl = get_option('siteurl');
 
 				$sql =  "SELECT job.*, agency.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as agency ON job.Job_UserLinked = agency.CastingUserLinked WHERE Job_ID= %d ";
 				$data = $wpdb->get_results($wpdb->prepare($sql, $_GET["Job_ID"]));
+				//print_r($data);
 				$data = current($data);
-
 				$Job_ID = $data->Job_ID; 
 				$Job_AgencyName = $data->CastingContactCompany;
 				$Job_Agency_ID = $data->Job_UserLinked;
@@ -482,6 +506,8 @@ $siteurl = get_option('siteurl');
 				$Job_Text = $data->Job_Text;
 				$Job_Date_Start = $data->Job_Date_Start;
 				$Job_Date_End = $data->Job_Date_End;
+				$Job_Time_Start = $data->Job_Time_Start;
+				$Job_Time_End = $data->Job_Time_End;
 				$Job_Location = $data->Job_Location;
 				$Job_Region = $data->Job_Region;
 				$Job_Offering = $data->Job_Offering;
@@ -594,6 +620,49 @@ $siteurl = get_option('siteurl');
 						echo "<label for=\"Job_Date_End\">Job Date End</label>";
 						echo "<div><input type=\"text\" class=\"datepicker\" id=\"Job_Date_End\" name=\"Job_Date_End\" value=\"".$Job_Date_End."\"></div>";
 					echo "</div>";
+					
+					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
+						echo "<label for=\"Job_Time_Start\">Job Time Start</label>";
+						echo "<div>
+							<select id=\"Job_Time_Start\" name=\"Job_Time_Start\">\n";
+						for($i = 0; $i < 24; $i++) {
+
+							$ampm = $i >= 12 ? 'pm' : 'am';
+							$starttime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
+							$starttime30 = $i % 12 ? $i % 12 .':30' : 12 .':30';
+							$sselected00 = $Job_Time_Start == $starttime00 . $ampm ? "selected" : "";
+							$sselected30 = $Job_Time_Start == $starttime30 . $ampm ? "selected" : "";
+						?>
+							<option value="<?= $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?= $starttime00 . $ampm ?></option><?php
+						
+						?>
+
+						<option value="<?= $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?= $starttime30 . $ampm ?></option><?php
+						}
+						echo "  </select>\n</div>";
+					echo "</div>";
+					
+					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
+						echo "<label for=\"Job_Time_End\">Job Time End</label>";
+						echo "<div>
+							<select id=\"Job_Time_End\" name=\"Job_Time_End\">\n";
+						for($i = 0; $i < 24; $i++) {
+
+							$ampm = $i >= 12 ? 'pm' : 'am';
+							$starttime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
+							$starttime30 = $i % 12 ? $i % 12 .':30' : 12 .':30';
+							$sselected00 = $Job_Time_End == $starttime00 . $ampm ? "selected" : "";
+							$sselected30 = $Job_Time_End == $starttime30 . $ampm ? "selected" : "";
+						?>
+							<option value="<?= $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?= $starttime00 . $ampm ?></option><?php
+						
+						?>
+
+						<option value="<?= $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?= $starttime30 . $ampm ?></option><?php
+						}
+						echo "  </select>\n</div>";
+					echo "</div>";
+					
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
 						echo "<label for=\"Job_Location\">Location</label>";
 						echo "<div><input type=\"text\" id=\"Job_Location\" name=\"Job_Location\" value=\"".$Job_Location."\"></div>";
@@ -743,9 +812,9 @@ $siteurl = get_option('siteurl');
 						echo "<div>\n";
 						//echo $Job_Audition_Time;
 						echo "  <select id=\"Job_Audition_Time\" name=\"Job_Audition_Time\">\n";
-						for($i = 0; $i < 24; $i++) {
+						for($i = 0; $i <= 24; $i++) {
 
-							$ampm = $i >= 12 ? ' pm' : ' am';
+							$ampm = $i >= 12 ? 'pm' : 'am';
 							$starttime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
 							$starttime30 = $i % 12 ? $i % 12 .':30' : 12 .':30';
 							$sselected00 = $Job_Audition_Time == $starttime00 . $ampm ? "selected" : "";
@@ -768,7 +837,7 @@ $siteurl = get_option('siteurl');
 						///echo $Job_Audition_Time_End;
 						echo "  <select id=\"Job_Audition_Time_End\" name=\"Job_Audition_Time_End\">\n";
 						for($i = 0; $i < 24; $i++) {
-							$ampm = $i >= 12 ? ' pm' : ' am';
+							$ampm = $i >= 12 ? 'pm' : 'am';
 							$endtime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
 							$endtime30 = $i % 12 ? $i % 12 .':30' : 12 .':30';
 							$eselected00 = $Job_Audition_Time_End == $endtime00 . $ampm ? "selected" : "";

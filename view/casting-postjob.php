@@ -332,6 +332,23 @@ function load_job_display($error = NULL){
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
+					
+					<div class='rbfield rbtext rbsingle'>
+						<label>Time Start:</label>
+						<div>
+							<input type='text' name='Job_Time_Start' class='timepicker' value='".(isset($_POST['Job_Time_Start'])?$_POST['Job_Time_Start']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					
+					<div class='rbfield rbtext rbsingle'>
+						<label>Time End:</label>
+						<div>
+							<input type='text' name='Job_Time_End' class='timepicker' value='".(isset($_POST['Job_Time_End'])?$_POST['Job_Time_End']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					
 					<div class='rbfield rbtext rbsingle'>
 						<h3>Job Location</h3>
 						<label>Location:</label>
@@ -357,12 +374,22 @@ function load_job_display($error = NULL){
 						</div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>Time:</label>
+						<label>Time Start:</label>
 						<div>
 							<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_POST['Job_Audition_Time'])?$_POST['Job_Audition_Time']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
+					
+					
+					<div class='rbfield rbtext rbsingle'>
+						<label>Time End:</label>
+						<div>
+							<input type='text' name='Job_Audition_Time_End' class='timepicker' value='".(isset($_POST['Job_Audition_Time_End'])?$_POST['Job_Audition_Time_End']:"")."'>
+							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
+						</div>
+					</div>
+					
 					<div class='rbfield rbtextarea rbsingle'>
 					<label>Venue:</label>
 						<div>

@@ -62,7 +62,22 @@
 						<tr>
 							<td><b>Duration:</b></td>
 							<td class='jobdesc'>".date('F j, Y', strtotime($r->Job_Date_Start))." - ".date('F j, Y', strtotime($r->Job_Date_End))."</td>
-						</tr>
+						</tr>";
+						
+						if(!empty($r->Job_Time_Start)){
+						echo "<tr>
+								<td><b>Time Start:</b></td>
+								<td class='jobdesc'>".$r->Job_Time_Start."</td>
+							</tr>	";
+						}
+						if(!empty($r->Job_Time_End)){
+						echo "<tr>
+								<td><b>Time End:</b></td>
+								<td class='jobdesc'>".$r->Job_Time_End."</td>
+							</tr>	";
+						}
+						
+					echo "
 						<tr>
 							<td><b>Location:</b></td>
 							<td class='jobdesc'>".$r->Job_Location."</td>
@@ -96,10 +111,17 @@
 						}
 						if(!empty($r->Job_Audition_Time)){
 						echo "<tr>
-								<td><b>Job Audition Time:</b></td>
+								<td><b>Job Audition Time Start:</b></td>
 								<td class='jobdesc'>".$r->Job_Audition_Time."</td>
 							</tr>	";
 						}
+						if(!empty($r->Job_Audition_Time)){
+						echo "<tr>
+								<td><b>Job Audition Time End:</b></td>
+								<td class='jobdesc'>".$r->Job_Audition_Time_End."</td>
+							</tr>	";
+						}
+						
 						if(!empty($r->Job_Audition_Venue)){
 						echo "<tr>
 								<td><b>Job Audition Venue:</b></td>
