@@ -258,12 +258,11 @@ $siteurl = get_option('siteurl');
 	$queryAlterCheck = "SELECT Job_Audition_Time_End FROM " . table_agency_casting_job ." LIMIT 1";
 	$resultsDataAlter = $wpdb->get_results($queryAlterCheck,ARRAY_A);
 	$count_alter = $wpdb->num_rows;
-	if($count_alter == 0){
+	if($count_alter == 0 or !($resultsDataAlter)){
 		$queryAlter = "ALTER TABLE " . table_agency_casting_job ." ADD Job_Audition_Time_End VARCHAR(10) NOT NULL";
 		//$queryAlter = "ALTER TABLE " . table_agency_casting_job ." CHANGE Job_Audition_Time_End VARCHAR(10) NOT NULL";
 		$resultsDataAlter = $wpdb->get_results($queryAlter,ARRAY_A);
 	}
-	
 	
 
 					$wpdb->query($sql);
