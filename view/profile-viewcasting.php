@@ -116,6 +116,13 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 			window.print();
 		}
 </script>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var actionsWidth = jQuery('#search-job').children('#action').width();
+		jQuery('#search-job').find('#field').css('padding-right',actionsWidth);
+		console.log(actionsWidth);
+	});
+</script>
 
 <?php
 
@@ -590,8 +597,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 echo "			<div class=\"cb\"></div>\n";
 
 if(is_user_logged_in()){
-	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>Go back to Applicants.</a> | \n";
-	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go back to dashboard.</a></p>\n";
+	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>Go Back to Applicants.</a> | \n";
+	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Dashboard.</a></p>\n";
 }
 
 echo "			<input type=\"hidden\" name=\"castingcart\" value=\"1\"/>";
