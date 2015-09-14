@@ -77,10 +77,9 @@ $siteurl = get_option('siteurl');
 
 			foreach($_POST as $key => $val ){
 				if(strpos($key, "profiletalent") !== false){
-
 					$wpdb->query($wpdb->prepare("DELETE FROM ".table_agency_castingcart_profile_hash." WHERE CastingProfileHashProfileID = %s",$val));
+					$wpdb->query($wpdb->prepare("DELETE FROM  " . table_agency_casting_job_application . " WHERE Job_ID = ".$_GET["Job_ID"]." AND Job_UserLinked = %s",$val));
 					array_push($arr_selected_profile, $val);
-					$wpdb->query("DELETE FROM  " . table_agency_casting_job_application . " WHERE Job_ID = ".$_GET["Job_ID"]." AND Job_UserProfileID = ".$val);
 				}
 			}
 
@@ -192,9 +191,11 @@ $siteurl = get_option('siteurl');
 												$wpdb->query($sql);
 
 												$results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
+												
+												//disabled admin send email
 												if(!empty( $results )){
-													RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
-													RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+													//RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+													//RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
 												}
 
 											}
@@ -217,9 +218,10 @@ $siteurl = get_option('siteurl');
 												)";
 												$wpdb->query($sql);
 												$results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
+												//disabled admin send email
 												if(!empty( $results )){
-													RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
-													RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+													//RBAgency_Casting::sendText(array($results["ProfileContactPhoneCell"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
+													//RBAgency_Casting::sendEmail(array($results["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$castingHash->Job_Talents_Hash."/".$hash_profile_id);
 												}
 										}
 
@@ -449,8 +451,9 @@ $siteurl = get_option('siteurl');
 							
 
 							/**END UPDATE CUSTOM FIELDS**/
-
-							if(isset($_POST["resend"])){
+							if(isset($_POST["resend"]) and !empty($_POST["Job_Talents_Resend_To"])){
+							
+								
 								$results = $wpdb->get_results("SELECT ProfileID,ProfileContactPhoneCell,ProfileContactEmail FROM ".table_agency_profile." WHERE ProfileID IN(". implode(",",array_filter(explode(",",$_POST["Job_Talents_Resend_To"]))).")",ARRAY_A);
 								$arr_mobile_numbers = array();
 								$arr_email = array();
@@ -937,6 +940,15 @@ $siteurl = get_option('siteurl');
 					var arr = [];
 					var arr_casting = [];
 
+					
+					jQuery("form[name=formDeleteProfile] input[type=checkbox]").each(function(){
+						arr.push(jQuery(this).val());
+					});	
+					jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
+					
+
+					
+					
 					jQuery("#selectall").change(function(){
 							var ischecked = jQuery(this).is(':checked');
 							jQuery("form[name=formDeleteProfile] input[type=checkbox]").each(function(){
