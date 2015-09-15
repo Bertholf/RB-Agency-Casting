@@ -23,6 +23,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
     </script>
 	<?php
 	echo "<div id=\"rbdashboard\">\n";
+	echo "<div id=\"rbcontent\">\n";
 	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
 	if (current_user_can( 'edit_posts' )){
 		echo "<h1>You are logged in as Administrator.</h1>\n";
@@ -191,7 +192,8 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 
 	echo "  </div>\n";
 
-	echo "</div>\n";
+	echo "</div><!-- #rbcontent -->\n";
+	echo "</div><!-- #rbdashboard -->\n";
 
 } else {
 	include ("include-login.php");
