@@ -120,6 +120,7 @@ See license.txt for full details.
  */
 
 	require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/functions.php");
+	require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/app/ajax.casting.php");
 
 
 

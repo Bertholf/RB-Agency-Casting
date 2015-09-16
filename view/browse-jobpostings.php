@@ -2,6 +2,7 @@
 global $wpdb;
 global $current_user;
 
+
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
@@ -9,6 +10,11 @@ wp_deregister_script('jquery');
 wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
 wp_enqueue_script('jquery_latest');
 wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js');
+
+
+
+
+
 
 echo $rb_header = RBAgency_Common::rb_header();
 if (is_user_logged_in()) {
@@ -89,7 +95,7 @@ if (is_user_logged_in()) {
 
 		echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">';
 		echo '<script type="text/javascript">
-				jQuery(document).ready(function(){
+				jQuery(document).ready(function($){
 					jQuery( ".datepicker" ).datepicker({
 						dateFormat: "yy-mm-dd"
 					});
@@ -97,6 +103,21 @@ if (is_user_logged_in()) {
 					
 					var date_start="'.$startdate.'";
 					jQuery("#filter_startdate").val(date_start);
+					
+					 jQuery(".delete_jobcast").on( "click", function() {
+						if (confirm("Are you sure you want to delete this Job") == true){
+							var Job_ID = $(this).attr("job_id");
+	                        $.post( "'.admin_url('admin-ajax.php').'", { jobID: Job_ID, action: "casting_deletejob" })
+						        .done(function( data ) {
+						            $(".job_"+Job_ID+" td").fadeOut();
+							        console.log( data );
+						    });
+                        }
+                        
+                        return false;
+						
+				    });
+					
 			})
 		</script>
 		<style>
@@ -230,7 +251,7 @@ if (is_user_logged_in()) {
 
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
-				echo "    <tr>\n";
+				echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">".$load->Job_Date_Start."</td>\n";
@@ -249,6 +270,8 @@ if (is_user_logged_in()) {
 							echo "        <td class=\"column-JobActions\" scope=\"col\">
 											<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
 											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
+											<br>
+											<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a>
 											</td>\n";
 						} else {
 							echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
