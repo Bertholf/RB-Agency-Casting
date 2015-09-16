@@ -307,7 +307,9 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						echo "<input type=\"hidden\" name=\"job_id\" value=\"".$_GET["Job_ID"]."\"/>";
 						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 						echo "</div></form>";
-						echo "<style type=\"text/css\">.rb_profile_tool{display:none;}</style>";
+						
+						// affted the /profile-casting/?Job_ID=1&search=Search - do not try to activate this again.
+						//echo "<style type=\"text/css\">.rb_profile_tool{display:none;}</style>";
 
 						if($rb_agency_option_allowsendemail == 1){
 							echo "<input type=\"button\" name=\"inviteprofiles\"  id=\"inviteprofiles\" value=\"[+]Invite Profiles\"/>";
