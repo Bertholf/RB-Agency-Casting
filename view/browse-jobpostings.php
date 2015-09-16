@@ -3,6 +3,20 @@ global $wpdb;
 global $current_user;
 
 
+//bulk delete
+if(isset($_POST['delete_bulk'])){
+	if(is_array($_POST['job_checkbox'])){
+		foreach($_POST['job_checkbox'] as $val){
+			casting_deletejob(array('jobID' => $val));
+		}
+		
+		$_SESSION['job_delete_bulk'] = count($_POST['job_checkbox']);
+		//redirect.. part of security so our codes cant affect by refresh re-send post.
+		wp_redirect(get_bloginfo('wpurl')."/browse-jobs/?delete");
+		exit;
+	}
+}
+
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
@@ -51,6 +65,13 @@ if (is_user_logged_in()) {
 			} elseif ( RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) {
 				echo "<p><h3>Your Job Postings</h3></p><br>";
 			}
+		}
+		
+		
+		if(isset($_GET['delete']) and !empty($_SESSION['job_delete_bulk'])){
+			$_pluralJobs = (int)$_SESSION['job_delete_bulk'] > 1 ? 'Jobs' : 'job';
+			echo "<p><b>".$_SESSION['job_delete_bulk']." $_pluralJobs deleted.</b></p><br>";
+			unset($_SESSION['job_delete_bulk']);
 		}
 
 		//setup filtering sessions
@@ -104,7 +125,11 @@ if (is_user_logged_in()) {
 					var date_start="'.$startdate.'";
 					jQuery("#filter_startdate").val(date_start);
 					
-					 jQuery(".delete_jobcast").on( "click", function() {
+					';
+					
+		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
+					echo '
+					jQuery(".delete_jobcast").on( "click", function() {
 						if (confirm("Are you sure you want to delete this Job") == true){
 							var Job_ID = $(this).attr("job_id");
 	                        $.post( "'.admin_url('admin-ajax.php').'", { jobID: Job_ID, action: "casting_deletejob" })
@@ -113,12 +138,32 @@ if (is_user_logged_in()) {
 							        console.log( data );
 						    });
                         }
-                        
                         return false;
-						
 				    });
-					
-			})
+				    
+				    jQuery(".job_checkbox_all").on( "click", function() {
+						if($(this).prop("checked")){
+							$(".job_checkbox").prop("checked" , true);
+						}else{
+							$(".job_checkbox").prop("checked" , false);
+						}
+				    });
+				    
+				    jQuery(".delete_bulk").on( "click", function() {
+				        if($(".job_checkbox:checked").length <= 0 ){
+				            alert("There\'s no any selected job to delete.");
+				            return false;
+				        }else{
+				            if (confirm("Are you sure you want to delete all selected Jobs") == true){
+				                return true;
+				            }
+				            return false;
+				        }
+				    });
+				    ';
+		}
+		echo '    
+			});
 		</script>
 		<style>
 			#filter_startdate{
@@ -186,10 +231,11 @@ if (is_user_logged_in()) {
 		echo "</table>";
 		echo "</form>";
 
-		echo "<form method=\"post\" action=\"" . admin_url("admin.php?page=" . (isset($_GET['page'])?$_GET["page"]:"")) . "\" id=\"job-postings\">\n";
+		echo "<form method=\"post\" id=\"job-postings\">\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
+		echo "        <th class=\"column-checkbox\"  scope=\"col\" style=\"width:30px;\"><input type='checkbox' value='0' class='job_checkbox_all' name='job_checkbox_all'></th>\n";
 		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">ID</th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Start Date</th>\n";
@@ -252,6 +298,7 @@ if (is_user_logged_in()) {
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
 				echo "    <tr class=\"job_".$load->Job_ID."\">\n";
+				echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">".$load->Job_Date_Start."</td>\n";
@@ -271,7 +318,7 @@ if (is_user_logged_in()) {
 											<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
 											<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
 											<br>
-											<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a>
+											<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
 											</td>\n";
 						} else {
 							echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
@@ -305,11 +352,15 @@ if (is_user_logged_in()) {
 			}
 
 		}
-
 		// only admin and casting should have access to casting dashboard
 		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
-			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='Delete'>";
+			echo "<br><br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 		}
+		
+		echo "</form>";
+
+		
 
 		// for models
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
