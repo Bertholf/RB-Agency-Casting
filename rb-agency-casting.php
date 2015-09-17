@@ -6,9 +6,9 @@ Plugin URI: http://rbplugin.com/wordpress/model-talent-agency-software/
 Description: Enhancement to the RB Agency software allowing casting directors to casting directly.
 Author: Rob Bertholf
 Author URI: http://rob.bertholf.com/
-Version: 0.1.9
+Version: 0.2.0
 */
-$RBAGENCY_casting_VERSION = "0.1.9"; 
+$RBAGENCY_casting_VERSION = "0.2.0"; 
 /*
 License: CF Commercial-to-GPL License
 Copyright 2007-2013 Rob Bertholf
