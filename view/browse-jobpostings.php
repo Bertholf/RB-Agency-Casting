@@ -179,16 +179,20 @@ if (is_user_logged_in()) {
 
 		// setup filter display
 		echo "<form id=\"jobposting-filter\" method='POST' action='".get_bloginfo('wpurl')."/browse-jobs/'>";
-		echo "<table>\n";
+		echo "<table class='table-filter'>\n";
 		echo "<tbody>";
 		echo "<tr>";
-		echo "        <td width='130'>Start Date<br>
-						<select name='filter_range'>
+		echo "        <td>Start Date<br>
+						<div class='tdbox'>
+							<select name='filter_range'>
 							<option value='0' ".selected(0, $range,false).">Before</option>
 							<option value='1' ".selected(1, $range,false).">Later than</option>
 							<option value='2' ".selected(2, $range,false).">Exact</option>";
-		echo "			</select> <br>
-						<input type='text' name='filter_startdate' id='filter_startdate' class='datepicker'>
+		echo "				</select>
+						</div>
+						<div class='tdbox'>
+							<input type='text' name='filter_startdate' id='filter_startdate' class='datepicker'>
+						</div>
 						</td>\n";
 
 		echo "        <td>Location<br>
@@ -232,7 +236,7 @@ if (is_user_logged_in()) {
 		echo "</form>";
 
 		echo "<form method=\"post\" id=\"job-postings\">\n";
-		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
+		echo "<table cellspacing=\"0\" class=\"widefat fixed rbtable\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-checkbox\"  scope=\"col\" style=\"width:30px;\"><input type='checkbox' value='0' class='job_checkbox_all' name='job_checkbox_all'></th>\n";
@@ -343,14 +347,17 @@ if (is_user_logged_in()) {
 
 		} else {
 
-			echo "</table>";			
 
+			echo "<tr><td colspan='8'>";
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 				echo "<p>You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 			} else {
 				echo "<p>There are no available job postings.</p>\n";
 			}
+			echo "</td></tr>";
+
+			echo "</table>";			
 
 			echo "<footer>";
 
@@ -361,17 +368,18 @@ if (is_user_logged_in()) {
 			echo "<div class='jobposting-actions'>";
 			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='Delete'>";
 			echo "</div>";
-			echo "<p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></div>\n";
 		}
+
+		// for models
+		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard</a></div>\n";
+		}
+
 		echo "</footer>";
 		
 		echo "</form>";
 		
-
-		// for models
-		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
-		}
 	echo "</div> <!-- #rbcontent -->";
 
 } else {

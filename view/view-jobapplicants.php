@@ -360,7 +360,7 @@ if (is_user_logged_in()) {
 
 		// setup filter display
 		echo "<form id=\"job-applicants-filter\" method='GET' action='".get_bloginfo('wpurl')."/view-applicants/'>";
-		echo "<table style='margin-bottom:20px'>\n";
+		echo "<table class='table-filter'>\n";
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <td>Job Title<br>
@@ -506,10 +506,10 @@ if (is_user_logged_in()) {
 		echo "</table>";
 		echo "</form>";
 
-		echo "<table cellspacing=\"0\" id=\"job-applicants\">\n";
+		echo "<table cellspacing=\"0\" id=\"job-applicants\" class='rbtable'>\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
-		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\">Select<br><input type='checkbox' id='sel_all'></th>\n";
+		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\"><input type='checkbox' id='sel_all'> Select</th>\n";
 		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:100px;\">Job Title / ID</th>\n";
 		echo "        <th class=\"column-JobApplicant\" id=\"JobApplicant\" scope=\"col\">Applicant</th>\n";
 		echo "        <th class=\"column-JobCriteriaPassed\" id=\"CriteriaPassed\" scope=\"col\">Criteria Passed</th>\n";
@@ -627,16 +627,18 @@ if (is_user_logged_in()) {
 
 		} else {
 
+			echo "<tr><td colspan='6'><p>You have no Applicants.<br>If you don't have any job postings, create a new job posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p></td></tr>";
 			echo "</table>";
-			echo "<p style=\"width:100%;\">You have no Applicants.<br>if you don't have any job postings, create a new job posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 
 		}
 
+		echo "<footer>";
+
 		// actual pagination
 		RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
-
-		echo "<br><div id=\"result-action\">
-				<select id='action_dropdown' style='float:left'>
+		
+		echo "<div class=\"jobposting-actions\">
+				<select id='action_dropdown'>
 					<option value=''>-- Select Action --</option>
 					<option value='2'>Add/Remove to Casting Cart</option>";
 				if($rb_agency_option_agencyemail == 1){
@@ -646,17 +648,17 @@ if (is_user_logged_in()) {
 
 		echo "
 				</select>
-				<input type='button' id='action_submit' style='margin-left:12px; float:left' class='button-primary' value='Submit'>
+				<input type='button' id='action_submit' class='button-primary' value='Submit'>
 				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
 				</div>\n";
-
-				echo "<div style=\"clear:both\">";
+				
+		echo "<div class='footer-links'>";
 
 		if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
-			echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings.</a></p>\n";
+			echo "<a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings</a> | \n";
 		}
-
-		echo "<br><p><a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></p>\n";
+		echo "<a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a>\n";
+		echo "</div><!-- .footer-links -->";
 
 	} else {
 		echo "<p class=\"rbalert info\">Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></p><br>";
