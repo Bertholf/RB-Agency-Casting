@@ -1109,10 +1109,10 @@ class RBAgency_Casting {
 
 				if($ceiling > 1){
 
-						echo "<div style='padding:12px;'>";
+						echo "<div id='jobposting-pagination' class='rbpagination bottom' >";
 
 						if(($ceiling - $selected_page) != ($ceiling - 1) && ($selected_page != 0)){
-							echo "<a href='".$link.($selected_page-1)."' style='margin:12px'>prev</a>";
+							echo "<a href='".$link.($selected_page-1)."'>prev</a>";
 						}
 
 						echo "<select name='paginate_page' style='width:100px' onchange='window.location.href= this.options[this.selectedIndex].value'>";
@@ -1129,9 +1129,8 @@ class RBAgency_Casting {
 							} else {
 								$next_link = $selected_page + 1; 
 							}
-							echo "<a href='".$link.$next_link."' style='margin:12px'>next</a>";
+							echo "<a href='".$link.$next_link."'>next</a>";
 						}
-
 						echo "</div>";
 
 				}

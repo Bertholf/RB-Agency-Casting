@@ -337,12 +337,13 @@ if (is_user_logged_in()) {
 
 			echo "</table>";
 
+			echo "<footer>";
 			// actual pagination
 			RBAgency_Casting::rb_casting_paginate($link, $table_name, $where, $record_per_page, $selected_page);
 
 		} else {
 
-			echo "</table>";
+			echo "</table>";			
 
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
@@ -351,15 +352,20 @@ if (is_user_logged_in()) {
 				echo "<p>There are no available job postings.</p>\n";
 			}
 
-		}
+			echo "<footer>";
+
+		}		
+		
 		// only admin and casting should have access to casting dashboard
 		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
+			echo "<div class='jobposting-actions'>";
 			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='Delete'>";
-			echo "<br><br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+			echo "</div>";
+			echo "<p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
 		}
+		echo "</footer>";
 		
 		echo "</form>";
-
 		
 
 		// for models
