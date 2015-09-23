@@ -228,7 +228,7 @@
 		if(!empty($rb_agency_options_arr['rb_agency_option_carticonurl'])){
 			$cartIcon = "<img src=\"{$rb_agency_options_arr['rb_agency_option_carticonurl']}\" style=\"border:0;\">";
 		}else{
-			$cartIcon = "<i class=\"fa fa-heart\"></i>";
+			$cartIcon = "<i class=\"fa fa-star\"></i>";
 		} 
 		
 		if(!empty($rb_agency_options_arr['rb_agency_option_faviconurl'])){
