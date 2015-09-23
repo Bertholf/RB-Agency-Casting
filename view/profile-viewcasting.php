@@ -284,10 +284,22 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					if(isset($_POST["removefromjob"])){
 						//$wpdb->query("UPDATE ".table_agency_castingcart." SET CastingJobID='', CastingCartProfileID='".rb_agency_get_current_userid()."' WHERE CastingJobID='".$_POST["job_id"]."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].")");
 						
-						$wpdb->query("DELETE FROM ". table_agency_castingcart ." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' AND CastingCartTalentID IN(".$_POST["shortlistprofiles"].") AND CastingJobID=$_POST[job_id]");
+						$_prodileID_Delete = $_POST["shortlistprofiles"];
 						
+						if(!empty($_prodileID_Delete)){
+							
+							if(current_user_can("edit_posts")){
+								$wpdb->query("DELETE FROM ". table_agency_castingcart ." WHERE CastingCartTalentID IN(".$_prodileID_Delete.") AND CastingJobID=$_POST[job_id]");
+							}else{
+								$wpdb->query("DELETE FROM ". table_agency_castingcart ." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' 
+									AND CastingCartTalentID IN(".$_prodileID_Delete.") AND CastingJobID=$_POST[job_id]");
+							}
+							echo "<div class=\"\">Succesfully removed from Job.</div>";
+							
+						}else{
+							echo "<div>No Selected profile(s).</div>";
+						}
 						
-						echo "<div class=\"\">Succesfully removed from Job.</div>";
 					}
 					echo "<div class=\"result-action\">";
 						echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
@@ -420,6 +432,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
 							</div>
 						</div>
+						
 						<div class="rbfield rbsubmit">
 							<input type="submit" name="checkavailability" value="Send" />
 						</div>
@@ -445,6 +458,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						$SearchMuxEmailToBcc	= $_POST['emailBcc'];
 						$SearchMuxSubject		= get_bloginfo('name')." : ".$_POST["subject"];
 						$SearchMuxMessage		= $_POST['message'];
+						$_selectedProfileToSend	= $_POST['shortlistprofiles_send'];
 
 						// Get Casting Cart
 						$query = "SELECT  profile.*, profile.ProfileGallery, profile.ProfileContactDisplay, profile.ProfileDateBirth, profile.ProfileLocationState, profile.ProfileID as pID , cart.CastingCartTalentID, cart.CastingCartTalentID, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1) AS ProfileMediaURL FROM ". table_agency_profile ." profile INNER JOIN  ".table_agency_castingcart."  cart WHERE  cart.CastingCartTalentID = profile.ProfileID   AND cart.CastingCartProfileID = '".rb_agency_get_current_userid()."' AND ProfileIsActive = 1 ORDER BY profile.ProfileContactNameFirst";
@@ -456,7 +470,14 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 
 						$casting = implode(",",$profileid_arr);
-						$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID) VALUES('".$casting."')");
+						
+						//bypass= the send should be from selected profile.. not in cart..
+						$casting =$_selectedProfileToSend;
+						
+						//search title as from subject info
+						$SearchTitle = $SearchMuxSubject;
+						
+						$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID,SearchTitle) VALUES('".$casting."' ,'".$SearchTitle."')");
 
 						$lastid = $wpdb->insert_id;
 
@@ -562,6 +583,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								<label>Subject:</label>
 								<div><input type="text" name="subject" id="subject"/></div>
 							</div>
+							<input type="hidden" name="shortlistprofiles_send" id="shortlistprofiles_send" value=""/>
 							<div class="rbfield rbtextarea rbsingle">
 								<label>Message:</label>
 								<div><textarea id="message" name="message" style="width:100%;height:200px;">Click the following link (or copy and paste it into your browser): [link-place-holder]</textarea></div>
@@ -591,7 +613,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						echo "Please <a href=\"". get_bloginfo("url")."/casting-login/?lastviewed=".get_bloginfo("url")."/profile-casting/?Job_ID=".$wpdb->prepare("%d",$_GET["Job_ID"])."\" style=\"color:##3E85D1 !important;\">login</a> to view the profile(s).";
 						echo "</div>";
 					}
-
+					
+					
 					if(isset($_GET["emailSent"])) {
 						echo "<p id=\"emailSent\">Email Sent Succesfully! Go Back to <a href=\"". get_bloginfo("url")."/search/\">Search</a>.</p>";
 					}
@@ -626,6 +649,7 @@ echo "  </div>\n";
 					}
 				});
 				jQuery("input[name=shortlistprofiles]").val(arr.toString());
+				jQuery("input[name=shortlistprofiles_send]").val(arr.toString());
 		});
 		jQuery("select[name=Job_ID]").change(function(){
 				jQuery("input[name=job_id][type=hidden]").val(jQuery(this).val());
@@ -644,6 +668,7 @@ echo "  </div>\n";
 					arr.remove(jQuery(this).val());
 				}
 			jQuery("input[name=shortlistprofiles]").val(arr.toString());
+			jQuery("input[name=shortlistprofiles_send]").val(arr.toString());
 		});
 	});
 </script>
