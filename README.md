@@ -1,10 +1,13 @@
 # RB Agency Casting
 Allows Casting Agents to post and manage jobs.
 
-### Current Version 0.2.0
+### Current Version 0.2.1
 
 
 ## Change Log
+
+### 0.2.1
+
 
 ### 0.2.0
 * ability to create additional custom fields for job posting form & casting registration
