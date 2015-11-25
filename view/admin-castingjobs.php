@@ -636,11 +636,11 @@ $siteurl = get_option('siteurl');
 							$sselected00 = $Job_Time_Start == $starttime00 . $ampm ? "selected" : "";
 							$sselected30 = $Job_Time_Start == $starttime30 . $ampm ? "selected" : "";
 						?>
-							<option value="<?= $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?= $starttime00 . $ampm ?></option><?php
+							<option value="<?php echo  $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?php echo  $starttime00 . $ampm ?></option><?php
 						
 						?>
 
-						<option value="<?= $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?= $starttime30 . $ampm ?></option><?php
+						<option value="<?php echo  $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?php echo  $starttime30 . $ampm ?></option><?php
 						}
 						echo "  </select>\n</div>";
 					echo "</div>";
@@ -657,11 +657,11 @@ $siteurl = get_option('siteurl');
 							$sselected00 = $Job_Time_End == $starttime00 . $ampm ? "selected" : "";
 							$sselected30 = $Job_Time_End == $starttime30 . $ampm ? "selected" : "";
 						?>
-							<option value="<?= $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?= $starttime00 . $ampm ?></option><?php
+							<option value="<?php echo  $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?php echo  $starttime00 . $ampm ?></option><?php
 						
 						?>
 
-						<option value="<?= $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?= $starttime30 . $ampm ?></option><?php
+						<option value="<?php echo  $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?php echo  $starttime30 . $ampm ?></option><?php
 						}
 						echo "  </select>\n</div>";
 					echo "</div>";
@@ -823,11 +823,11 @@ $siteurl = get_option('siteurl');
 							$sselected00 = $Job_Audition_Time == $starttime00 . $ampm ? "selected" : "";
 							$sselected30 = $Job_Audition_Time == $starttime30 . $ampm ? "selected" : "";
 						?>
-							<option value="<?= $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?= $starttime00 . $ampm ?></option><?php
+							<option value="<?php echo  $starttime00 . $ampm ?>" <?php echo $sselected00; ?>><?php echo  $starttime00 . $ampm ?></option><?php
 						
 						?>
 
-						<option value="<?= $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?= $starttime30 . $ampm ?></option><?php
+						<option value="<?php echo  $starttime30 . $ampm ?>" <?php echo $sselected30; ?>><?php echo  $starttime30 . $ampm ?></option><?php
 						}
 						echo "  </select>\n";
 						echo "</div>\n";
@@ -846,11 +846,11 @@ $siteurl = get_option('siteurl');
 							$eselected00 = $Job_Audition_Time_End == $endtime00 . $ampm ? "selected" : "";
 							$eselected30 = $Job_Audition_Time_End == $endtime30 . $ampm ? "selected" : "";
 						?>
-							<option value="<?= $endtime00 . $ampm ?>"  <?php echo $eselected00; ?>><?= $endtime00 . $ampm ?></option><?php
+							<option value="<?php echo  $endtime00 . $ampm ?>"  <?php echo $eselected00; ?>><?php echo  $endtime00 . $ampm ?></option><?php
 						
 						?>
 
-						<option value="<?= $endtime30 . $ampm ?>" <?php echo $eselected30; ?>><?= $endtime30 . $ampm ?></option><?php
+						<option value="<?php echo  $endtime30 . $ampm ?>" <?php echo $eselected30; ?>><?php echo  $endtime30 . $ampm ?></option><?php
 						}
 						echo "  </select>\n";
 						echo "</div>\n";
