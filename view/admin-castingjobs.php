@@ -1360,6 +1360,15 @@ $siteurl = get_option('siteurl');
 
 				echo "<form method=\"post\" name=\"formDeleteProfile\" action=\"".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".(!empty($_GET["Job_ID"])?$_GET["Job_ID"]:0))."\" class=\"rbaction-list\" >\n";
 				echo "<input type=\"hidden\" name=\"action2\" value=\"deleteprofile\"/>";
+				
+				//be sure new column added- audio file fields
+				$data_custom_exists = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(CastingProfile_audio) FROM " . table_agency_castingcart_availability));
+				if ( !$data_custom_exists ) {
+					$wpdb->query("ALTER TABLE ".table_agency_castingcart_availability." ADD `CastingProfile_audio` VARCHAR(255) NOT NULL AFTER `CastingJobID`");
+				}
+				
+				
+				
 				foreach ($results as $data) {
 					echo "<div class=\"list-item\" id=\"profile-".$data["ProfileID"]."\">";
 					echo "<div class=\"photo\">";					
@@ -1377,10 +1386,10 @@ $siteurl = get_option('siteurl');
 
 							echo "<input type=\"hidden\" name=\"delete_profile_id[]\" value=\"".$data["ProfileID"]."\">";
 
-							$query = "SELECT CastingAvailabilityStatus as status FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
+							$query = "SELECT CastingAvailabilityStatus as status,CastingProfile_audio as audio_file FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
 							$prepared = $wpdb->prepare($query,$data["ProfileID"],$_GET["Job_ID"]);
 							$availability = current($wpdb->get_results($prepared));
-
+							
 							$count2 = $wpdb->num_rows;
 
 							if($count2 <= 0){
@@ -1392,6 +1401,15 @@ $siteurl = get_option('siteurl');
 									echo "<span class=\"status notavailable\">Not Available</span>\n";
 								}
 							}
+							
+							
+							if(!empty($availability->audio_file)){
+								
+								$_file_FullURL = site_url() . RBAGENCY_UPLOADREL . '_casting-jobs/'. $availability->audio_file;
+								
+								echo '<span><a href="'.$_file_FullURL.'" target="_blank">Download/Play</a></span>';
+							}
+							
 						}
 					echo "</div>\n";
 				}
