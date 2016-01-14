@@ -110,45 +110,73 @@ $siteurl = get_option('siteurl');
 		// Remove to Profile Casting
 		if(isset($_POST["addprofilestocasting"])){
 
-			$profiles = explode(",",$_POST["addprofilestocasting"]);
+			// Set Default Values
 			$job_id = 0;
 			$agent_id = 0;
+			$sql = NULL;
+			$count_added = 0;
+			$arr_profiles = array();
 
+			// Identify New Profiles to Add
+			$arr_profiles = explode(",",$_POST["addprofilestocasting"]);
+
+// TODO: Combine both below...
+
+			// Are there existing profiles in the job?
 			if(isset($_GET["Job_ID"]) && !isset($_POST["addtoexisting"])){
-				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$_GET["Job_ID"]."'",ARRAY_A);
+				// Instance from GET
 				$job_id  = $_GET["Job_ID"];
 				$agent_id = $_POST["Agent_ID"];
-			} elseif(isset($_POST["addtoexisting"])){
-				list($job_id,$agent_id) = explode("-",$_POST["Job_ID"]);
+				// Run Query
 				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$job_id."'",ARRAY_A);
-			}
-			$arr_profiles = array();
-			foreach ($existing_profiles as $key) {
-				array_push($arr_profiles, $key["CastingCartTalentID"]);
+				$existing_count = $wpdb->num_rows;
+			} elseif(isset($_POST["addtoexisting"])){
+				// Instance from POST
+				list($job_id,$agent_id) = explode("-",$_POST["Job_ID"]);
+				// Run Query
+				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$job_id."'",ARRAY_A);
+				$existing_count = $wpdb->num_rows;
 			}
 
-			$sql = "";
-			foreach ($profiles as $key) {
-				if(!in_array($key,$arr_profiles)){
-					$sql .="('','".$agent_id."','".$key."','".$job_id."')";
-					if(end($profiles) != $key){
+			// Populate Profile Array with Existing Profiles
+			if ($existing_count > 0) {
+				foreach ($existing_profiles as $key) {
+					array_push($arr_profiles, $key["CastingCartTalentID"]);
+				}
+			}
+
+			// Populate Profile Array with NEW Profiles from Shortlist
+			foreach ($arr_profiles as $key) {
+				if(!in_array($key, $existing_profiles)){
+					$sql .=" ('','".$agent_id."','".$key."','".$job_id."')";
+					if(end($arr_profiles) != $key){
 						$sql .= ",";
 					}
+					$count_added++;
 				}
-				/*$wpdb->get_results("SELECT * FROM ".table_agency_casting_job_application." WHERE Job_ID='".$job_id."' AND Job_UserLinked = '".$key."'");
+
+				/*
+				// TODO: Check if needed
+				$wpdb->get_results("SELECT * FROM ".table_agency_casting_job_application." WHERE Job_ID='".$job_id."' AND Job_UserLinked = '".$key."'");
 				$is_applied = $wpdb->num_rows;
 				if($is_applied <= 0){
 					$get_profile_user_linked = $wpdb->get_row("SELECT ProfileUserLinked FROM ".table_agency_profile." WHERE ProfileID ='".$key."' ");
 
 					$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) VALUES('".$job_id."','".$get_profile_user_linked->ProfileUserLinked."') ");
-				}*/
+				} */
 
 			}
-			if(!empty($sql)){
-			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
 
+			// TODO Fix Logic
+			$count_added = $count_added - $existing_count;
+
+			// If SQL is found, execute it
+			if(!empty($sql)){
+				// Execute Query
 				$wpdb->query("INSERT INTO ".table_agency_castingcart."(CastingCartID, CastingCartProfileID, CastingCartTalentID,CastingJobID) VALUES".$sql);
-				echo ('<div id="message" class="updated"><p>'.count($profiles).(count($profiles) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
+
+				// Output Message
+				echo ('<div id="message" class="updated"><p>'. $count_added . ($count_added <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
 			}
 
 		}
@@ -316,14 +344,14 @@ $siteurl = get_option('siteurl');
 
 							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
 						}
-												
+
 					}
 					$temp_arr = array();
 					foreach($insert_to_casting_custom as $k=>$v){
 						if(!in_array($v,$temp_arr)){
 							$wpdb->query($v);
 							$temp_arr[$k] = $v; 
-						}						
+						}
 					}
 
 					$results = $wpdb->get_results("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($cartString)?$cartString:"''").")",ARRAY_A);
@@ -409,7 +437,7 @@ $siteurl = get_option('siteurl');
 																				SET Customfield_value = '".esc_attr($data)."' WHERE Job_ID = ".esc_attr($_GET["Job_ID"])." AND Customfield_ID = ".esc_attr($v)."
 																				";
 											}
-																	
+
 										}
 
 										$temp_arr = array();
@@ -418,7 +446,7 @@ $siteurl = get_option('siteurl');
 												//echo $v."<br>";
 												$wpdb->query($v);
 												$temp_arr[$k] = $v; 
-											}						
+											}
 										}
 									}else{
 										//Add
@@ -436,14 +464,14 @@ $siteurl = get_option('siteurl');
 
 												$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($_GET["Job_ID"])."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
 											}
-																	
+
 										}
 										$temp_arr = array();
 										foreach($insert_to_casting_custom as $k=>$v){
 											if(!in_array($v,$temp_arr)){
 												$wpdb->query($v);
 												$temp_arr[$k] = $v; 
-											}						
+											}
 										}
 									}
 								}
@@ -452,8 +480,7 @@ $siteurl = get_option('siteurl');
 
 							/**END UPDATE CUSTOM FIELDS**/
 							if(isset($_POST["resend"]) and !empty($_POST["Job_Talents_Resend_To"])){
-							
-								
+
 								$results = $wpdb->get_results("SELECT ProfileID,ProfileContactPhoneCell,ProfileContactEmail FROM ".table_agency_profile." WHERE ProfileID IN(". implode(",",array_filter(explode(",",$_POST["Job_Talents_Resend_To"]))).")",ARRAY_A);
 								$arr_mobile_numbers = array();
 								$arr_email = array();
@@ -943,12 +970,9 @@ $siteurl = get_option('siteurl');
 					
 					jQuery("form[name=formDeleteProfile] input[type=checkbox]").each(function(){
 						arr.push(jQuery(this).val());
-					});	
+					});
 					jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
-					
 
-					
-					
 					jQuery("#selectall").change(function(){
 							var ischecked = jQuery(this).is(':checked');
 							jQuery("form[name=formDeleteProfile] input[type=checkbox]").each(function(){
@@ -1040,7 +1064,15 @@ $siteurl = get_option('siteurl');
 					jQuery("#shortlisted input[name^=addtocastingcart]").click(function(){
 						if(jQuery("#shortlisted input[name^=profiletalent]:checked").length > 0){
 								if(confirm("Are you sure that you want to add the selected profiles to casting cart? Click 'Yes' to add, 'Cancel' to exit.")){
-									jQuery("input[name=addprofilestocasting]").val(arr.toString());
+									// Get Checked Items
+									var arr_checked = [];
+									$("#shortlisted input[name^=profiletalent]:checked").each(function() {
+										arr_checked.push(jQuery(this).val());
+										console.log(arr_checked);
+									});
+									// Assign checked items to "addprofilestocasting" hidden field
+									jQuery("input[name=addprofilestocasting]").val(arr_checked.toString());
+									// Submit Form
 									jQuery("form[name=formAddProfileToCasting]").submit();
 								}
 							} else {
@@ -1102,7 +1134,7 @@ $siteurl = get_option('siteurl');
 							echo "<div class=\"innerr\" style=\"padding: 10px;\">";
 								foreach ($results as $data) {
 									echo "<div class=\"list-item\" id=\"profile-".$data["ProfileID"]."\">";
-									echo "<div class=\"photo\">";									
+									echo "<div class=\"photo\">";
 									echo "	<a href=\"". RBAGENCY_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\"><img \" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".RBAGENCY_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=170&w=170&zc=2\" /></a>";
 									echo "</div>\n";
 									echo "<br>\n";
@@ -1156,7 +1188,7 @@ $siteurl = get_option('siteurl');
 						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
 							echo "<span style=\"font-size:12px;float:right;\">";
-							echo "<a  href=\"#TB_inline?width=600&height=550&inlineId=add-profiles\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
+							echo "<a href=\"#TB_inline?width=600&height=550&inlineId=add-profiles\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
 							if(isset($_GET["Job_ID"])){
 								echo "<input type=\"submit\" name=\"deleteprofiles\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
 								echo "<input type=\"submit\" name=\"addtocastingcart\" class=\"button-primary\" id=\"addtocastingcart\" value=\"Add to Client's Casting Cart\" />";
