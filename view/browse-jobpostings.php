@@ -33,7 +33,7 @@ wp_enqueue_script( 'jqueryui',  'http://code.jquery.com/ui/1.10.4/jquery-ui.js')
 echo $rb_header = RBAgency_Common::rb_header();
 if (is_user_logged_in()) {
 
-	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
 		$is_active = rb_check_profile_status();
 	}else{
 		$is_active = rb_check_casting_status();

@@ -557,6 +557,9 @@ class RBAgency_Casting {
 			$get_id = $wpdb->get_row($wpdb->prepare("SELECT ".$field_name." FROM " . table_agency_profile . " WHERE ProfileUserLinked = %d" ,$user_linked ),OBJECT,0);
 
 			if(count($get_id) > 0){
+				if(!empty($get_id->$field_name)){
+					return $get_id->$field_name;
+				}
 				if(isset($get_id->ProfileID)){
 					if(!$name){
 						return $get_id->ProfileID;
@@ -564,6 +567,7 @@ class RBAgency_Casting {
 						return $get_id->ProfileContactDisplay;
 					}
 				}
+				
 			}
 
 			return false;
