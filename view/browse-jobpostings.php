@@ -2,6 +2,8 @@
 global $wpdb;
 global $current_user;
 
+      get_currentuserinfo();
+
 
 //bulk delete
 if(isset($_POST['delete_bulk'])){
@@ -311,7 +313,7 @@ if (is_user_logged_in()) {
 				echo "        <td class=\"column-JobDateCreated\" scope=\"col\">".date("M d, Y - h:iA",strtotime($load->Job_Date_Created))."</td>\n";
 
 				// if model is viewing
-				if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
+				if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
 					echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
 				} else {
 
