@@ -27,7 +27,7 @@
 			<script type='text/javascript'>
 				jQuery(document).ready(function(){
 					jQuery('#apply_job').click(function(){";
-						if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) == false){
+						if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
 							if(strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){
 								echo "window.location = '".get_bloginfo('wpurl')."/view-applicants'; ";
 							} elseif(strpos($_SERVER['HTTP_REFERER'], "browse-jobs") > -1){
@@ -134,18 +134,23 @@
 						echo "
 						<tr>
 							<td></td>";
-							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) <= 0){
+							
+							
+							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )){
+								echo "<td class='jobdesc'>";
+								echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
+								echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+								echo "</td>";
+							}
+							
+							elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID,'ProfileID') || current_user_can( 'edit_posts' )){
 								if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){
 									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Back to Applicants'></td>";
 								} else {
 									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'></td>";
 								}
-							} else if(!current_user_can( 'edit_posts' )){
-								echo "<td class='jobdesc'>";
-								echo "<input id='apply_job' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
-								echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
-								echo "</td>";
-							}
+							} 
+						
 
 							if(current_user_can("edit_posts")){
 								echo "<td class='jobdesc'>";
