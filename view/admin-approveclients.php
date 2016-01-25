@@ -727,7 +727,7 @@ function rb_display_list() {
 	        	$rowColor = "";
 		        $DataTypeTitle = stripslashes($new_title);
 				if(!empty($CastingIsActive) && $CastingIsActive == 3){
-					$rowColor = "style=\"background:#F1B4B4;\"";
+					$rowColor = "style=\"background:#00a0d2;\"";
 				}
 				echo "    <tr ". (isset($rowColor)?$rowColor:"") ." data-isactive=\"".$CastingIsActive."\">\n";
 				echo "        <th class=\"check-column\" scope=\"row\">\n";
