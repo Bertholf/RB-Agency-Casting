@@ -546,7 +546,7 @@ class RBAgency_Casting {
 		 * can also be used to return any column in table
 		 * just assign it in the parameter $field_name
 		 */
-		public static function rb_casting_ismodel($user_linked = NULL, $field_name = NULL, $name = false){
+		public static function rb_casting_ismodel($user_linked = NULL, $field_name = '*', $name = false){
 
 			global $wpdb;
 
@@ -1331,7 +1331,7 @@ class RBAgency_Casting {
 				if ( empty($plaintext_pass) )
 					return;
 				$message  = __('Hi there,') . "\r\n\r\n";
-				$message .= sprintf(__("Thanks for joining %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n"; 
+				$message .= sprintf(__("Thanks for joining %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n";
 				$message .= get_option('home') ."/casting-login/\r\n";
 				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n";
 				$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n\r\n";

@@ -103,7 +103,7 @@
 			//$have_error = true;
 		}
 
-		if (isset($_POST['casting_agree'])  && $_POST['casting_agree'] <> "yes") {
+		if (!isset($_POST['casting_agree'])) {
 			$error .= __("You must agree to the terms and conditions to register.<br />",RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
