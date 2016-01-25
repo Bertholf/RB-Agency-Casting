@@ -811,7 +811,10 @@ $siteurl = get_option('siteurl');
 									});
 									jQuery("input[name=\'Job_Criteria\']").val(criteria.join("|"));
 									console.log(criteria.join("|"));
-									jQuery(".updatecriteria").html("&nbsp;Criteria successfully added!");
+									tb_remove();
+									alert("Criteria successfully added!");
+									//jQuery(".updatecriteria").html("&nbsp;Criteria successfully added!");
+									
 							});
 						});
 					';
@@ -1188,6 +1191,7 @@ $siteurl = get_option('siteurl');
 						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
 							echo "<span style=\"font-size:12px;float:right;\">";
+							echo "<a href=".site_url().'/wp-admin/admin.php?page=rb_agency_search'." class=\"button-primary\" title=\"Search profiles\">Search Profiles</a>";
 							echo "<a href=\"#TB_inline?width=600&height=550&inlineId=add-profiles\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
 							if(isset($_GET["Job_ID"])){
 								echo "<input type=\"submit\" name=\"deleteprofiles\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
