@@ -112,16 +112,16 @@
 		if($have_error == false){
 
 			$new_user = wp_insert_user( $userdata );
-			
+
 			$rb_agencyinteract_options_arr = get_option('rb_agencyinteract_options');
-			
-			
-			/* 
-			
+
+
+			/*
+
 			manually approve(0) (pending for approval(3) or, active(1))
 			automatically approve(1) (inactive(0) or archived(2))
 			if( manually approve(0) == active good
-			
+
 			*/
 			$_registerapproval = (int)$rb_agencyinteract_options_arr['rb_agencyinteract_casting_option_registerapproval'];//manually , automatic
 			$_default_registered = (int)$rb_agencyinteract_options_arr['rb_agencyinteract_casting_option_default_registered_users']; // options
@@ -141,7 +141,7 @@
 					$CastingIsActive = 0; //inactive
 				}
 			}
-			
+
 
 			//create folder
 			$CastingGallery 		= "casting-agent-" . $new_user;
@@ -179,20 +179,20 @@
 							CastingLocationCountry,
 							CastingDateCreated,
 							CastingIsActive)" .
-						"VALUES (". $new_user . 
-						",'" . esc_sql($CastingGallery) . "','" . 
-								esc_sql($CastingContactDisplay) . 
-						"','" . esc_sql($first_name) . "','" . 
-								esc_sql($last_name) . 
-						"','" . esc_sql($user_email) . "','" . 
-								esc_sql($_POST['casting_company']) . "','" . 
-								esc_sql($_POST['casting_website']) . "','" . 
-								esc_sql($_POST['casting_address']) . "','" . 
-								esc_sql($_POST['casting_city']) . "','" . 
-								esc_sql($_POST['CastingState']) . "','" . 
-								esc_sql($_POST['casting_zip']) . "','" . 
-								esc_sql($_POST['CastingCountry']) . "'" . 
-								",now(), ". 
+						"VALUES (". $new_user .
+						",'" . esc_sql($CastingGallery) . "','" .
+								esc_sql($CastingContactDisplay) .
+						"','" . esc_sql($first_name) . "','" .
+								esc_sql($last_name) .
+						"','" . esc_sql($user_email) . "','" .
+								esc_sql($_POST['casting_company']) . "','" .
+								esc_sql($_POST['casting_website']) . "','" .
+								esc_sql($_POST['casting_address']) . "','" .
+								esc_sql($_POST['casting_city']) . "','" .
+								esc_sql($_POST['CastingState']) . "','" .
+								esc_sql($_POST['casting_zip']) . "','" .
+								esc_sql($_POST['CastingCountry']) . "'" .
+								",now(), ".
 								$CastingIsActive .")";
 
 				$results = $wpdb->query($insert);
@@ -209,15 +209,15 @@
 				RBAgency_Casting::rb_casting_send_notification($new_user, $user_pass);
 		}
 
-		
+
 		// Log them in if no confirmation required.
 		if ($rb_agencyinteract_option_registerconfirm == 1) {
-		
+
 			/* echo 'xxxxxxxx'.$_default_registered;
 			echo 'xxxxxxxx'.$_registerapproval ;
 			exit; */
 			if(isset($login)){
-				//check the account status... 
+				//check the account status...
 				if($_default_registered == 3){
 					//pending for approval..
 					header("Location: ". get_bloginfo("wpurl"). "/casting-pending/");
@@ -236,8 +236,8 @@
 // *************************************************************************************************** //
 // Prepare Page
 	// add scripts
-	//wp_deregister_script('jquery'); 
-	//wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+	//wp_deregister_script('jquery');
+	//wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js');
 	wp_enqueue_script('jquery');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
 
@@ -245,9 +245,9 @@
 
 	echo "<div class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"rbcontent\">\n";
-   
+
 		// ****************************************************************************************** //
-		// Already logged in 
+		// Already logged in
 
 		if ( is_user_logged_in() && !current_user_can( 'create_users' ) ) {
 
@@ -262,7 +262,7 @@
 	echo "    <p class=\"alert\">\n";
 				if ( current_user_can( 'create_users' ) )
 					printf( __("A user account for %1$s has been created.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
-				else 
+				else
 					printf( __("Thank you for registering, %1$s.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 					echo "<br/>";
 					printf( __("Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)",RBAGENCY_casting_TEXTDOMAIN) );
@@ -288,10 +288,10 @@
 			// Self Registration
 			if ( $registration || current_user_can("create_users") ) {
 	echo "  <header class=\"entry-header\">";
-	echo "  	<h1 class=\"entry-title\">Join Our Team</h1>";
+	echo "  	<h1 class=\"entry-title\">". __("Join Our Team",RBAGENCY_casting_TEXTDOMAIN) ."</h1>";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
-	echo "		<p class=\"rbform-description\">To Join Our Team please complete the application below. </p>";
+	echo "		<p class=\"rbform-description\">". __("To Join Our Team please complete the application below.",RBAGENCY_casting_TEXTDOMAIN) ."</p>";
 	if(!$shortcode_register){
 		echo "    <form method=\"post\" action=\"". get_bloginfo('wpurl') ."/casting-register/\">\n";
 	} else {
@@ -393,7 +393,7 @@
 	echo "   		<label></label>\n";
 	echo "   		<div><input type=\"checkbox\" name=\"casting_agree\" value=\"yes\" /> ". sprintf(__("I agree to the %s terms of service",RBAGENCY_casting_TEXTDOMAIN), "<a href=\"".$rb_agency_option_casting_toc ."\" target=\"_blank\">") ."</a></div>\n";
 	echo "       </div><!-- #casting-agree -->\n";
- 
+
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Register'/>";
 
@@ -450,16 +450,16 @@
 
 }
 
-if(!$registration){echo "<p class='alert'>The administrator currently disabled the registration.<p>"; }
+if(!$registration){echo "<p class='alert'>". __("The administrator currently disabled the registration.",RBAGENCY_casting_TEXTDOMAIN) ."<p>"; }
 
 echo "  </div><!-- #content -->\n";
 echo "</div><!-- #container -->\n";
 
-// Get Sidebar 
+// Get Sidebar
 	$LayoutType = "";
 	if (isset($rb_agency_interact_option_castingmanage_sidebar) && $rb_agency_interact_option_castingmanage_sidebar) {
 		$LayoutType = "casting";
-		get_sidebar(); 
+		get_sidebar();
 	}
 
 // Get Footer

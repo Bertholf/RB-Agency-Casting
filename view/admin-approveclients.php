@@ -1,4 +1,4 @@
-<?php 
+<?php
 global $wpdb;
 define("LabelPlural", "Pending Clients");
 define("LabelSingular", "Pending Client");
@@ -26,15 +26,15 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 				$delete = "DELETE FROM " . table_agency_casting . " WHERE CastingID = ". $CastingID;
 				$results = $wpdb->query($delete);
 				//remove the account @ wp-users table.
-				
+
 				wp_delete_user( (int)$dataDelete['CastingUserLinked']);
 				//bulk acton
-				
+
 				if (isset($CastingGallery)) {
 					// Remove Folder
 					$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 					$mydir = opendir($dir);
-					
+
 					if($mydir){
 						while(false !== ($file = readdir($mydir))) {
 							if($file != "." && $file != ".." && !empty($file)){
@@ -70,10 +70,10 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 				// Delete casting jobs
 				$deleteCastingJobs = "DELETE FROM ".table_agency_casting_job." WHERE Job_UserLinked = ". $dataDelete['CastingUserLinked'];
 				$wpdb->query($deleteCastingJobs);
-				
+
 				//remove the account @ wp-users table.
 				wp_delete_user( (int)$dataDelete['CastingUserLinked']);
-							
+
 				flush();
 				if (isset($CastingGallery)) {
 					// Remove Folder
@@ -91,7 +91,7 @@ if (isset($_POST['action']) && $_POST["action"] ==  'deleteRecord' ) {
 					if(is_dir($dir)) {
 						@rmdir($dir) or DIE("couldn't delete $dir$file<br />");
 					}
-					
+
 				} else {
 					echo __("No valid record found.", RBAGENCY_casting_TEXTDOMAIN);
 				}
@@ -108,7 +108,7 @@ elseif(!isset($_GET["action"]) || isset($_GET["action"]) && $_GET["action"] =="a
 }
 elseif(isset($_GET["action"]) && $_GET["action"] !="approveRecord") {
 
-	rb_manage_client($_GET["CastingID"]); 
+	rb_manage_client($_GET["CastingID"]);
 
 }
 // *************************************************************************************************** //
@@ -225,16 +225,16 @@ function rb_manage_client($CastingID) {
 	}
 	//fetch data from database
 	$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingID = " .$CastingID);
-  
+
 
 
 // *************************************************************************************************** //
 // Prepare Page
 	// add scripts
 	if(!is_admin()){
-		wp_deregister_script('jquery'); 
+		wp_deregister_script('jquery');
 	}
-	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js'); 
+	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js');
 	wp_enqueue_script('jquery_latest');
 	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
 
@@ -242,9 +242,9 @@ function rb_manage_client($CastingID) {
 	echo "<div id=\"primary\" class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";
 	echo "  <div id=\"content\">\n";
 
-   
+
 		// ****************************************************************************************** //
-		// Already logged in 
+		// Already logged in
 
 	if (!empty( $error)) {
 		echo "<p class=\"error\">". $error ."</p>\n";
@@ -371,7 +371,7 @@ function rb_manage_client($CastingID) {
 			} else {
 			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" value=\"\" />\n";
 			}
-			echo "			<small class=\"rbfield-note\">Cannot be changed</small>";
+			echo "			<small class=\"rbfield-note\">". __("Cannot be changed", RBAGENCY_casting_TEXTDOMAIN) ."</small>";
 			echo "		</div>\n";
 			echo "  </div>\n";
 		}
@@ -380,19 +380,19 @@ function rb_manage_client($CastingID) {
 		echo "		<label>". __("Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPassword\" name=\"CastingPassword\" />\n";
-		echo "			<small class=\"rbfield-note\">Leave blank to keep same password</small>";
+		echo "			<small class=\"rbfield-note\">". __("Leave blank to keep same password", RBAGENCY_casting_TEXTDOMAIN) ."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
 		echo "	<div id=\"rbprofile-retype-password\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Retype Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPasswordConfirm\" name=\"CastingPasswordConfirm\" />";
-		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";
+		echo "			<small class=\"rbfield-note\">". __("Retype to Confirm", RBAGENCY_casting_TEXTDOMAIN) ."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
 
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
-	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
+	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='". __("Update Information", RBAGENCY_casting_TEXTDOMAIN) ."'/>";
 
 					// if ( current_user_can("create_users") ) { _e("Add User", RBAGENCY_casting_TEXTDOMAIN); } else { _e("Register", RBAGENCY_casting_TEXTDOMAIN); }echo "\" />\n";
 
@@ -450,7 +450,7 @@ function rb_display_list() {
 				$sortDirection = "desc";
 				$dir = "asc";
 		}
-  
+
 		// Filter
 		$filter = "WHERE 1=1 ";// "WHERE client.CastingIsActive = 3 ";
         if ((isset($_GET['CastingContactNameFirst']) && !empty($_GET['CastingContactNameFirst'])) || isset($_GET['CastingContactNameLast']) && !empty($_GET['CastingContactNameLast'])){
@@ -498,15 +498,15 @@ function rb_display_list() {
 										$delete = "DELETE FROM " . table_agency_casting . " WHERE CastingID = ". $CastingID;
 										$results = $wpdb->query($delete);
 										//remove the account @ wp-users table.
-										
+
 										wp_delete_user( (int)$dataDelete['CastingUserLinked']);
 										//bulk acton
-										
+
 										if (isset($CastingGallery)) {
 											// Remove Folder
 											$dir = RBAGENCY_UPLOADPATH . $CastingGallery ."/";
 											$mydir = opendir($dir);
-											
+
 											if($mydir){
 												while(false !== ($file = readdir($mydir))) {
 													if($file != "." && $file != ".." && !empty($file)){
@@ -595,7 +595,7 @@ function rb_display_list() {
 		if($items >= 50) {
         echo "<div class=\"tablenav\">\n";
  		echo "  <div class=\"tablenav-pages\">\n";
-		echo $p->show();// Echo out the list of paging. 
+		echo $p->show();// Echo out the list of paging.
 		echo "  </div>\n";
         echo "</div>\n";
 		}
@@ -603,7 +603,7 @@ function rb_display_list() {
 		echo "  <thead>\n";
 		echo "    <tr>\n";
 		echo "        <td style=\"width: 90%;\" nowrap=\"nowrap\">    \n";
-       
+
 
 
 		echo "    		<form method=\"GET\" action=\"". admin_url("admin.php?page=". $_GET['page']) ."\">\n";
@@ -640,39 +640,39 @@ function rb_display_list() {
 		echo "    </tr>\n";
 		echo "  </thead>\n";
 		echo "</table>\n";
-     
+
 		echo "<form method=\"post\" action=\"". admin_url("admin.php?page=". $_GET['page']) ."\" id=\"formMainBulk\">\n";
 		echo "    			<select name=\"BulkAction_ProfileApproval\">\n";
 		echo "              <option value=\"\"> ". __("Bulk Action", RBAGENCY_casting_TEXTDOMAIN) ."<option\>\n";
 		echo "              <option value=\"Approve\"> ". __("Approve", RBAGENCY_casting_TEXTDOMAIN) ."<option\>\n";
 		echo "              <option value=\"Delete\"> ". __("Delete", RBAGENCY_casting_TEXTDOMAIN) ."<option\>\n";
-		echo "              </select>"; 
+		echo "              </select>";
 		echo "    <input type=\"submit\" value=\"". __("Apply", RBAGENCY_casting_TEXTDOMAIN) ."\" name=\"ProfileBulkAction\" class=\"button-secondary\"  />\n";
 		echo "<table cellspacing=\"0\" class=\"widefat fixed\">\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"col\"><input type=\"checkbox\"/></th>\n";
-		echo "        <th class=\"column-ProfileID\" id=\"ProfileID\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileID&dir=". $sortDirection) ."\">ID</a></th>\n";
-		echo "        <th class=\"column-CastingContactNameFirst\" id=\"CastingContactNameFirst\" scope=\"col\" style=\"width:130px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactNameFirst&dir=". $sortDirection) ."\">First Name</a></th>\n";
-		echo "        <th class=\"column-CastingContactNameLast\" id=\"CastingContactNameLast\" scope=\"col\" style=\"width:130px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactNameLast&dir=". $sortDirection) ."\">Last Name</a></th>\n";
-		echo "        <th class=\"column-CastingContactEmail\" id=\"CastingContactEmail\" scope=\"col\" style=\"width:165px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactEmail&dir=". $sortDirection) ."\">Email Address</a></th>\n";
-		//echo "        <th class=\"column-ProfilesProfileDate\" id=\"ProfilesProfileDate\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileDateBirth&dir=". $sortDirection) ."\">Age</a></th>\n";
-		echo "        <th class=\"column-CastingLocationCity\" id=\"CastingLocationCity\" scope=\"col\" style=\"width:100px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationCity&dir=". $sortDirection) ."\">City</a></th>\n";
-		echo "        <th class=\"column-CastingLocationState\" id=\"CastingLocationState\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationState&dir=". $sortDirection) ."\">State</a></th>\n";
+		echo "        <th class=\"column-ProfileID\" id=\"ProfileID\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileID&dir=". $sortDirection) ."\">". __("ID", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
+		echo "        <th class=\"column-CastingContactNameFirst\" id=\"CastingContactNameFirst\" scope=\"col\" style=\"width:130px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactNameFirst&dir=". $sortDirection) ."\">". __("First Name", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
+		echo "        <th class=\"column-CastingContactNameLast\" id=\"CastingContactNameLast\" scope=\"col\" style=\"width:130px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactNameLast&dir=". $sortDirection) ."\">". __("Last Name", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
+		echo "        <th class=\"column-CastingContactEmail\" id=\"CastingContactEmail\" scope=\"col\" style=\"width:165px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingContactEmail&dir=". $sortDirection) ."\">". __("Email Address", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
+		//echo "        <th class=\"column-ProfilesProfileDate\" id=\"ProfilesProfileDate\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileDateBirth&dir=". $sortDirection) ."\">". __("Age", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
+		echo "        <th class=\"column-CastingLocationCity\" id=\"CastingLocationCity\" scope=\"col\" style=\"width:100px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationCity&dir=". $sortDirection) ."\">". __("City", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
+		echo "        <th class=\"column-CastingLocationState\" id=\"CastingLocationState\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationState&dir=". $sortDirection) ."\">". __("State", RBAGENCY_casting_TEXTDOMAIN) ."</a></th>\n";
 		echo "        <th class=\"column-ProfileDateViewLast\" id=\"ProfileDateViewLast\" scope=\"col\">Date Created</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
 		echo " <tfoot>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"manage-column column-cb check-column\" id=\"cb\" scope=\"col\"><input type=\"checkbox\"/></th>\n";
-		echo "        <th class=\"column\" scope=\"col\">ID</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">First Name</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">Last Name</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">Email Address</th>\n";
-		//echo "        <th class=\"column\" scope=\"col\">Age</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">City</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">State</th>\n";
-		echo "        <th class=\"column\" scope=\"col\">Date Created</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("ID", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("First Name", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("Last Name", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("Email Address", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
+		//echo "        <th class=\"column\" scope=\"col\">". __("Age</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("City", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("State", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">". __("Date Created", RBAGENCY_casting_TEXTDOMAIN) ."</th>\n";
 		echo "    </tr>\n";
 		echo " </tfoot>\n";
 		echo " <tbody>\n";
@@ -680,7 +680,7 @@ function rb_display_list() {
         $results2 =  $wpdb->get_results($query,ARRAY_A);
         $count_clients =  $wpdb->num_rows;
         foreach($results2 as $data) {
-            
+
             $CastingID = $data['CastingID'];
             $CastingGallery = stripslashes($data['CastingGallery']);
             $CastingContactNameFirst = stripslashes($data['CastingContactNameFirst']);
@@ -692,7 +692,7 @@ function rb_display_list() {
             $CastingStatHits = stripslashes($data['CastingStatHits']);
             $CastingDateCreated = stripslashes($data['CastingDateCreated']);
             $CastingIsActive = stripslashes($data["CastingIsActive"]);
-            
+
 			$DataTypeTitle = stripslashes($data['CastingType']);
 
 			if(strpos($data['CastingType'], ",") > 0){
@@ -700,29 +700,29 @@ function rb_display_list() {
             $new_title = "";
             foreach($title as $t){
                 $id = (int)$t;
-                $get_title = "SELECT DataTypeTitle FROM " . table_agency_data_type .  
-                             " WHERE DataTypeID = " . $id; 
-                $resource = $wpdb->get_row($get_title,ARRAY_A);     
+                $get_title = "SELECT DataTypeTitle FROM " . table_agency_data_type .
+                             " WHERE DataTypeID = " . $id;
+                $resource = $wpdb->get_row($get_title,ARRAY_A);
                 $get = $resource;
                 $count = $wpdb->num_rows;
                 if ($count > 0 ){
-                    $new_title .= "," . $get['DataTypeTitle']; 
+                    $new_title .= "," . $get['DataTypeTitle'];
                 }
             }
             $new_title = substr($new_title,1);
         } else {
                 $new_title = "";
                 $id = (int)$data['CastingType'];
-                $get_title = "SELECT DataTypeTitle FROM " . table_agency_data_type .  
-                             " WHERE DataTypeID = " . $id; 
-                $resource = $wpdb->get_row($get_title,ARRAY_A);     
+                $get_title = "SELECT DataTypeTitle FROM " . table_agency_data_type .
+                             " WHERE DataTypeID = " . $id;
+                $resource = $wpdb->get_row($get_title,ARRAY_A);
                 $get = $resource;
                 $count = $wpdb->num_rows;
                 if ($count > 0 ){
-                    $new_title = $get['DataTypeTitle']; 
+                    $new_title = $get['DataTypeTitle'];
                 }
         }
-         
+
 	        if($CastingIsActive != 1){
 	        	$rowColor = "";
 		        $DataTypeTitle = stripslashes($new_title);
@@ -760,20 +760,20 @@ function rb_display_list() {
 
 
         }
-           
+
             if ($count_clients < 1) {
 				if (isset($filter)) {
 		echo "    <tr>\n";
 		echo "        <th class=\"check-column\" scope=\"row\"></th>\n";
 		echo "        <td class=\"name column-name\" colspan=\"5\">\n";
-		echo "           <p>No profiles found with this criteria.</p>\n";
+		echo "           <p>". __("No profiles found with this criteria.", RBAGENCY_casting_TEXTDOMAIN) ."</p>\n";
 		echo "        </td>\n";
 		echo "    </tr>\n";
 				} else {
 		echo "    <tr>\n";
 		echo "        <th class=\"check-column\" scope=\"row\"></th>\n";
 		echo "        <td class=\"name column-name\" colspan=\"5\">\n";
-		echo "            <p>There aren't any profiles loaded yet!</p>\n";
+		echo "            <p>". __("There aren't any profiles loaded yet!", RBAGENCY_casting_TEXTDOMAIN) ."</p>\n";
 		echo "        </td>\n";
 		echo "    </tr>\n";
 				}
@@ -785,17 +785,17 @@ function rb_display_list() {
 		echo "              <option value=\"\"> ". __("Bulk Action", RBAGENCY_casting_TEXTDOMAIN) ."<option\>\n";
 		echo "              <option value=\"Approve\"> ". __("Approve", RBAGENCY_casting_TEXTDOMAIN) ."<option\>\n";
 		echo "              <option value=\"Delete\"> ". __("Delete", RBAGENCY_casting_TEXTDOMAIN) ."<option\>\n";
-		echo "              </select>"; 
+		echo "              </select>";
 		echo "    <input type=\"submit\" value=\"". __("Apply", RBAGENCY_casting_TEXTDOMAIN) ."\" name=\"ProfileBulkAction\" class=\"button-secondary\"  />\n";
 
 		echo "<div class=\"tablenav\">\n";
 		echo "  <div class='tablenav-pages'>\n";
 			if($items > 0) {
-				echo $p->show();// Echo out the list of paging. 
+				echo $p->show();// Echo out the list of paging.
 			}
 		echo "  </div>\n";
 		echo "</div>\n";
-    
+
 		echo "<p class=\"submit\">\n";
 		//echo "  <input type=\"hidden\" value=\"deleteRecord\" name=\"action\" />\n";
 		//echo "  <input type=\"submit\" value=\"". __('Delete') ."\" class=\"button-primary\" name=\"submit\" />	\n";
@@ -805,7 +805,7 @@ function rb_display_list() {
 		echo "</form>\n";
 }
 
-/* 
+/*
 
 
 
