@@ -1255,14 +1255,16 @@ $siteurl = get_option('siteurl');
 							});
 
 							function get_profiles(){
-
-
+								
+								//var gender = jQuery('select[name="ProfileCustomIDgender"]').val();
+								
 								jQuery.ajax({
 										type: 'POST',
 										dataType: 'json',
 										url: '<?php echo admin_url('admin-ajax.php'); ?>',
 										data: {
-											'action': 'rb_agency_search_profile'
+											'action': 'rb_agency_search_profile',
+											'value': '<?php echo $Job_Criteria ;?>',
 										},
 										success: function(d){
 											var profileDisplay = "";
@@ -1288,7 +1290,7 @@ $siteurl = get_option('siteurl');
 																		+"</table>";
 														jQuery("#profile-search-result").append(profileDisplay);
 														arr_profiles.push({name:p.ProfileContactNameFirst.toLowerCase()+" "+p.ProfileContactNameLast.toLowerCase(),profileid:p.ProfileID});
-
+														
 												}
 											});
 
