@@ -1443,9 +1443,19 @@ $siteurl = get_option('siteurl');
 							
 							if(!empty($availability->audio_file)){
 								
+								$rb_agency_option_profilemedia_links = $rb_agency_options_arr['rb_agency_option_profilemedia_links'] ;
 								$_file_FullURL = site_url() . RBAGENCY_UPLOADREL . '_casting-jobs/'. $availability->audio_file;
 								
-								echo '<span><a href="'.$_file_FullURL.'" target="_blank">Download/Play</a></span>';
+								if($rb_agency_option_profilemedia_links == 2)
+								{
+									echo '<a href="'.$_file_FullURL.'" target="_blank">Play</a>';	
+								}
+								else{
+									$_file_URL = '_casting-jobs/'. $availability->audio_file;
+									$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".$_file_URL ;
+									echo '<a href="'.$force_download_url.'">Download</a>';	
+								}
+								
 							}
 							
 						}
