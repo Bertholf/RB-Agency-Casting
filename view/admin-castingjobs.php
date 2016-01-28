@@ -184,6 +184,9 @@ $siteurl = get_option('siteurl');
 		if(isset($_POST["addprofiles"])){
 
 			if(isset($_GET["action2"]) && $_GET["action2"] == "addnew"){
+				
+				
+				
 				$profiles = $_POST["addprofiles"];
 
 				if(strpos($profiles,",") !== false){
@@ -195,6 +198,7 @@ $siteurl = get_option('siteurl');
 					array_push($_SESSION["cartArray"],$profiles);
 				}
 			} else {
+				
 										$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID= %d ", $_GET["Job_ID"]));
 										$add_new_profiles = $data->Job_Talents.",".$_POST["addprofiles"];
 										$castingHash = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'");
@@ -202,9 +206,12 @@ $siteurl = get_option('siteurl');
 
 										if(strpos($profiles,",") !== false){
 											$profiles = explode(",",$profiles);
+											
+											
+											
 											foreach($profiles as $profileid){
 													$hash_profile_id = RBAgency_Common::generate_random_string(20,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-												$sql = "INSERT INTO ".table_agency_castingcart_profile_hash."
+												 $sql = "INSERT INTO ".table_agency_castingcart_profile_hash."
 												(
 													CastingProfileHashID,
 													CastingProfileHashJobID,
@@ -217,8 +224,13 @@ $siteurl = get_option('siteurl');
 													'".$hash_profile_id."'
 												)";
 												$wpdb->query($sql);
+												
+												
 
 												$results = $wpdb->get_row("SELECT ProfileContactPhoneCell,ProfileContactEmail, ProfileID FROM ".table_agency_profile." WHERE ProfileID IN(".(!empty($profileid)?$profileid:"''").")",ARRAY_A);
+												
+												
+												
 												
 												//disabled admin send email
 												if(!empty( $results )){
@@ -256,6 +268,7 @@ $siteurl = get_option('siteurl');
 										$wpdb->query($wpdb->prepare("UPDATE ".table_agency_casting_job." SET Job_Talents=%s WHERE Job_ID = %d", implode(",",array_unique(explode(",",$add_new_profiles))), $_GET["Job_ID"]));
 										echo ('<div id="message" class="updated"><p>Added successfully!</p></div>');
 				}
+				
 		}
 		// Insert Profiles to Casting Job
 		if(isset($_POST["action2"]) && $_POST["action2"] =="add"){
@@ -1098,6 +1111,7 @@ $siteurl = get_option('siteurl');
 							}
 							$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($arr_profiles)?implode(",", $arr_profiles):"''").") ORDER BY profile.ProfileContactNameFirst ASC";
 							$results = $wpdb->get_results($query, ARRAY_A);
+							
 							$total_casting_profiles = $wpdb->num_rows;
 						echo "<div id=\"castingcartbox\" class=\"boxblock-container\" >";
 						echo "<div class=\"boxblock\">";
@@ -1184,8 +1198,12 @@ $siteurl = get_option('siteurl');
 									$cartString = RBAgency_Common::clean_string($cartString);
 						}
 						// Show Cart  
-						$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						//echo $query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						
+						 $query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						
 						$results = $wpdb->get_results($query, ARRAY_A);
+						
 						$count = $wpdb->num_rows;
 						$total_casting_profiles = $count;
 						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
@@ -1373,7 +1391,9 @@ $siteurl = get_option('siteurl');
 								jQuery("table.profile-search-list.selected").each(function(){
 									var profiles = jQuery(this).attr("id").split("profile-")[1];
 									arr_profiles_selected.push(profiles);
+									
 								});
+								
 								jQuery("input[name=addprofiles]").val(arr_profiles_selected.join());
 								window.parent.tb_remove();
 								arr_profiles_selected = [];
