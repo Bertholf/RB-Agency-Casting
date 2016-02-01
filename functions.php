@@ -840,7 +840,14 @@
 			   }elseif($ProfileCustomType == 4){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."[]\" ></textarea></div>";
+						if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+							$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+						}else{
+							$custom_value = "";
+						}
+											
+						$value = !empty($custom_value)?$custom_value:"";	
+						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >".$value."</textarea></div>";
 					echo "</div>\n";
 
 			   }elseif($ProfileCustomType == 5){
@@ -1017,7 +1024,14 @@
 			   }elseif($ProfileCustomType == 4){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."[]\" ></textarea></div>";
+						if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+							$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+						}else{
+							$custom_value = "";
+						}
+											
+						$value = !empty($custom_value)?$custom_value:"";	
+						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >".$value."</textarea></div>";
 					echo "</div>\n";
 
 			   }elseif($ProfileCustomType == 5){
@@ -1106,7 +1120,14 @@
 						   }elseif($ProfileCustomType == 4){
 						   		echo "<div class=\"rbfield rbtextarea rbsingle \" id=\"\">\n";
 									echo "<label>".$ProfileCustomTitle."</label>\n";
-									echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" ></textarea></div>";
+									if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
+										$custom_value = rb_agency_get_casting_job_custom_value($_GET['Job_ID'],$ProfileCustomID);
+									}else{
+										$custom_value = "";
+									}
+														
+									$value = !empty($custom_value)?$custom_value:"";	
+									echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >".$value."</textarea></div>";
 								echo "</div>\n";
 
 						   }elseif($ProfileCustomType == 5){
@@ -1240,7 +1261,7 @@
 						$value = !empty($custom_value)?$custom_value:"";	
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."[]\" >".$value."</textarea></div>";
+						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >".$value."</textarea></div>";
 					echo "</div>\n";
 
 			   }elseif($ProfileCustomType == 5){
@@ -1408,7 +1429,7 @@
 						$value = !empty($custom_value)?$custom_value:"";
 			   		echo "<tr>";
 						echo "<td>".$ProfileCustomTitle."</td>\n";
-						echo "<td><textarea name=\"UpdateJob_".$ProfileCustomID."[]\" >".$value."</textarea></td>";
+						echo "<td><textarea name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" >".$value."</textarea></td>";
 					echo "</tr>";
 
 			   }elseif($ProfileCustomType == 5){
@@ -1686,7 +1707,7 @@
 						$value = !empty($custom_value)?$custom_value:"";	
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
-						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."[]\" >".$value."</textarea></div>";
+						echo "<div><textarea name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >".$value."</textarea></div>";
 					echo "</div>\n";
 
 			   }elseif($ProfileCustomType == 5){

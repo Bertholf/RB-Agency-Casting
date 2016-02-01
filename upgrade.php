@@ -293,7 +293,7 @@ global $wpdb;
 			ID INT(20) NOT NULL AUTO_INCREMENT,
 			CastingID INT(20) NOT NULL,
 			Customfield_ID INT(20) NOT NULL,
-			Customfield_value VARCHAR(255),
+			Customfield_value VARCHAR(100),
 			Customfield_type INT(20),
 			PRIMARY KEY (ID)
 			);");
@@ -305,7 +305,7 @@ global $wpdb;
 			ID INT(20) NOT NULL AUTO_INCREMENT,
 			Job_ID INT(20) NOT NULL,
 			Customfield_ID INT(20) NOT NULL,
-			Customfield_value VARCHAR(255),
+			Customfield_value VARCHAR(100),
 			Customfield_type INT(20),
 			PRIMARY KEY (ID)
 			);");
