@@ -1149,7 +1149,9 @@ $siteurl = get_option('siteurl');
 									$cartString = RBAgency_Common::clean_string($cartString);
 						}
 						// Show Cart  
-						$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						
+$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						$results = $wpdb->get_results($query, ARRAY_A);
 						$count = $wpdb->num_rows;
 						$total_casting_profiles = $count;
