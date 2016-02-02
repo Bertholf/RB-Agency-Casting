@@ -113,7 +113,7 @@ $siteurl = get_option('siteurl');
 			$profiles = explode(",",$_POST["addprofilestocasting"]);
 			$job_id = 0;
 			$agent_id = 0;
-
+			//print_r($profiles);
 			if(isset($_GET["Job_ID"]) && !isset($_POST["addtoexisting"])){
 				$existing_profiles = $wpdb->get_results("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = '".$_GET["Job_ID"]."'",ARRAY_A);
 				$job_id  = $_GET["Job_ID"];
@@ -127,13 +127,10 @@ $siteurl = get_option('siteurl');
 				array_push($arr_profiles, $key["CastingCartTalentID"]);
 			}
 
-			$sql = "";
-			foreach ($profiles as $key) {
+			$sql = array();
+			/**foreach ($profiles as $key) {
 				if(!in_array($key,$arr_profiles)){
-					$sql .="('','".$agent_id."','".$key."','".$job_id."')";
-					if(end($profiles) != $key){
-						$sql .= ",";
-					}
+					$sql[] ="($job_id, '".$agent_id."','".$key."')";
 				}
 				/*$wpdb->get_results("SELECT * FROM ".table_agency_casting_job_application." WHERE Job_ID='".$job_id."' AND Job_UserLinked = '".$key."'");
 				$is_applied = $wpdb->num_rows;
@@ -143,12 +140,26 @@ $siteurl = get_option('siteurl');
 					$wpdb->query("INSERT INTO  " . table_agency_casting_job_application . " (Job_ID, Job_UserLinked) VALUES('".$job_id."','".$get_profile_user_linked->ProfileUserLinked."') ");
 				}*/
 
+			/**}**/
+			$handler_arr = array();
+			foreach($profiles as $k=>$v){
+				if(in_array($v,$handler_arr)){
+					$sql[] = "($job_id, '".$agent_id."','".$v."')";
+				}
+				$handler_arr[] = $v;
 			}
+			//print_r($sql);
+			$implodedSQL = implode(',',$sql);
 			if(!empty($sql)){
 			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
-
-				$wpdb->query("INSERT INTO ".table_agency_castingcart."(CastingCartID, CastingCartProfileID, CastingCartTalentID,CastingJobID) VALUES".$sql);
-				echo ('<div id="message" class="updated"><p>'.count($profiles).(count($profiles) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
+				$final_sql = "INSERT INTO ".table_agency_castingcart."(CastingJobID,CastingCartProfileID, CastingCartTalentID) VALUES".$implodedSQL;
+				//echo $final_sql;
+				$added = $wpdb->query($final_sql);
+				//echo  $wpdb->last_error;
+				if($added){
+					echo ('<div id="message" class="updated"><p>'.count($sql).(count($sql) <=1?" profile":" profiles").' successfully added to casting cart!</p></div>');
+				}
+				
 			}
 
 		}
@@ -1082,13 +1093,22 @@ $siteurl = get_option('siteurl');
 					if( (isset($_GET["action2"]) && $_GET["action2"] != "addnew") || !isset($_GET["action2"])) {
 
 						$casting_cart = $wpdb->get_results($wpdb->prepare("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$_GET["Job_ID"]),ARRAY_A);
+							
 							// Show Cart  
 							$arr_profiles = array();
 							foreach ($casting_cart as $key) {
-								array_push($arr_profiles, $key["CastingCartTalentID"]);
+								if(is_numeric($key["CastingCartTalentID"])){
+									array_push($arr_profiles, $key["CastingCartTalentID"]);	
+								}
+								
 							}
-							$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($arr_profiles)?implode(",", $arr_profiles):"''").") ORDER BY profile.ProfileContactNameFirst ASC";
+							$imploded_arr_profiles = '('.implode(',',$arr_profiles).')';
+							//echo $imploded_arr_profiles;
+							//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN $imploded_arr_profiles ORDER BY profile.ProfileContactNameFirst ASC";
+							//$query = "SELECT  profile.* FROM ". table_agency_profile ." profile WHERE ProfileID IN (,651,661,663,657,660,657,657,663,661,657,663,661,651) ORDER BY ProfileContactNameFirst ASC";
+							$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN $imploded_arr_profiles ORDER BY profile.ProfileContactNameFirst ASC";
 							$results = $wpdb->get_results($query, ARRAY_A);
+							$wpdb->last_error;
 							$total_casting_profiles = $wpdb->num_rows;
 						echo "<div id=\"castingcartbox\" class=\"boxblock-container\" >";
 						echo "<div class=\"boxblock\">";
