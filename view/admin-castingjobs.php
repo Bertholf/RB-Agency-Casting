@@ -1152,7 +1152,7 @@ $siteurl = get_option('siteurl');
 									echo "	<a href=\"". RBAGENCY_PROFILEDIR . $data['ProfileGallery'] ."/\" target=\"_blank\"><img \" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src=".RBAGENCY_UPLOADDIR . $data["ProfileGallery"] ."/". $data['ProfileMediaURL'] ."&h=170&w=170&zc=2\" /></a>";
 									echo "</div>\n";
 									echo "<br>\n";
-									echo "<strong class=\"name\">".(isset($_GET["Job_ID"])?"<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>":""). stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong>";
+									echo "<strong class=\"name\">".(isset($_GET["Job_ID"])?"<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>":""). stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong><br>";
 									if(isset($_GET["Job_ID"])){
 										$query = "SELECT CastingAvailabilityStatus as status FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = %d AND CastingJobID = %d";
 										$prepared = $wpdb->prepare($query,$data["ProfileID"],$_GET["Job_ID"]);
@@ -1161,14 +1161,36 @@ $siteurl = get_option('siteurl');
 										$count2 = $wpdb->num_rows;
 
 										if($count2 <= 0){
-											echo "<span class=\"status unconfirmed\">Unconfirmed</span>\n";
+											echo "<span class=\"status unconfirmed\">Unconfirmed</span><br>";
 										} else {
 											if($availability->status == "available"){
-												echo "<span class=\"status available\">Available</span>\n";
+												echo "<span class=\"status available\">Available</span><br>";
 											} else {
-												echo "<span class=\"status notavailable\">Not Available</span>\n";
+												echo "<span class=\"status notavailable\">Not Available</span><br>";
 											}
 										}
+
+										$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
+												$files = scandir($dir, 0);
+												
+												$medialink_option = $rb_agency_options_arr['rb_agency_option_profilemedia_links'];
+									
+												for($i = 0; $i < count($files); $i++){
+												$parsedFile = explode('-',$files[$i]);
+
+													if($parsedFile[0] == $_GET['Job_ID'] && $data["ProfileID"] == $parsedFile[1]){
+														$mp3_file = str_replace(array($parsedFile[0].'-',$parsedFile[1].'-'),'',$files[$i]);
+														if($medialink_option == 2){
+															//open in new window and play
+															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a>';
+														}elseif($medialink_option == 3){
+															//open in new window and download
+															$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a>';
+														}
+														
+													}
+												}
 									}
 									echo "</div>\n";
 									echo "<style type=\"text/css\">";
@@ -1420,7 +1442,7 @@ $siteurl = get_option('siteurl');
 					if(isset($_GET["Job_ID"])){
 						echo "<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>";
 					}
-					echo  stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong>\n";					
+					echo  stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong><br>";					
 						if(isset($_GET["Job_ID"])){
 
 							echo "<input type=\"hidden\" name=\"delete_profile_id[]\" value=\"".$data["ProfileID"]."\">";
@@ -1432,14 +1454,36 @@ $siteurl = get_option('siteurl');
 							$count2 = $wpdb->num_rows;
 
 							if($count2 <= 0){
-								echo "<span class=\"status unconfirmed\">Unconfirmed</span>\n";
+								echo "\n<span class=\"status unconfirmed\">Unconfirmed</span><br>";
 							} else {
 								if($availability->status == "available"){
-									echo "<span class=\"status available\">Available</span>\n";
+									echo "\n<span class=\"status available\">Available</span><br>";
 								} else {
-									echo "<span class=\"status notavailable\">Not Available</span>\n";
+									echo "\n<span class=\"status notavailable\">Not Available</span><br>";
 								}
 							}
+
+												$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
+												$files = scandir($dir, 0);
+												
+												$medialink_option = $rb_agency_options_arr['rb_agency_option_profilemedia_links'];
+									
+												for($i = 0; $i < count($files); $i++){
+												$parsedFile = explode('-',$files[$i]);
+
+													if($parsedFile[0] == $_GET['Job_ID'] && $data["ProfileID"] == $parsedFile[1]){
+														$mp3_file = str_replace(array($parsedFile[0].'-',$parsedFile[1].'-'),'',$files[$i]);
+														if($medialink_option == 2){
+															//open in new window and play
+															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a>';
+														}elseif($medialink_option == 3){
+															//open in new window and download
+															$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a>';
+														}
+														
+													}
+												}
 						}
 					echo "</div>\n";
 				}
