@@ -313,11 +313,12 @@ $siteurl = get_option('siteurl');
 							if(empty($data) || $data == '--Select--'){
 								$data = NULL;
 							}
-
+							print_r($_POST);
 							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
 						}
 												
 					}
+					//$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
 					$temp_arr = array();
 					foreach($insert_to_casting_custom as $k=>$v){
 						if(!in_array($v,$temp_arr)){
@@ -381,7 +382,7 @@ $siteurl = get_option('siteurl');
 							";
 
 							$wpdb->query($sql);
-
+							//print_r($_POST);
 							/**UPDATE CUSTOM FIELDS**/
 							foreach($_POST as $k=>$v){
 								$parseCustom = explode("_",$k);
@@ -393,6 +394,7 @@ $siteurl = get_option('siteurl');
 									if($wpdb->num_rows > 0){
 										//echo "update";
 										//Update
+										//print_r($profilecustom_ids);
 										foreach($profilecustom_ids as $k=>$v){
 											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
 												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
@@ -404,7 +406,9 @@ $siteurl = get_option('siteurl');
 												if(empty($data) || $data == '--Select--'){
 													$data = NULL;
 												}
-												
+												//$data = 25;
+												//echo $data . ' = '.$v;
+
 												$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_job_customfields
 																				SET Customfield_value = '".esc_attr($data)."' WHERE Job_ID = ".esc_attr($_GET["Job_ID"])." AND Customfield_ID = ".esc_attr($v)."
 																				";
@@ -412,18 +416,24 @@ $siteurl = get_option('siteurl');
 																	
 										}
 
+										//$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
+
 										$temp_arr = array();
 										foreach($update_to_casting_custom as $k=>$v){
 											if(!in_array($v,$temp_arr)){
+												global $wpdb;
 												//echo $v."<br>";
 												$wpdb->query($v);
-												$temp_arr[$k] = $v; 
+												//$temp_arr[$k] = $v; 
+												array_push($temp_arr,$v);
 											}						
 										}
 									}else{
 										//Add
+										//print_r($profilecustom_ids);
 										//echo "add";
 										foreach($profilecustom_ids as $k=>$v){
+											//print_r($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]);
 											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
 												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
 													$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
@@ -433,11 +443,13 @@ $siteurl = get_option('siteurl');
 												if(empty($data) || $data == '--Select--'){
 													$data = NULL;
 												}
-
+												//echo $profilecustom_types[$k];
 												$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($_GET["Job_ID"])."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
 											}
 																	
 										}
+										//$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
+
 										$temp_arr = array();
 										foreach($insert_to_casting_custom as $k=>$v){
 											if(!in_array($v,$temp_arr)){
@@ -452,9 +464,19 @@ $siteurl = get_option('siteurl');
 
 							/**END UPDATE CUSTOM FIELDS**/
 							if(isset($_POST["resend"]) and !empty($_POST["Job_Talents_Resend_To"])){
-							
+								$pIDS = array();
+								$profileIDSHandler = array();
+								$explodedIDS = explode(',',$_POST["Job_Talents_Resend_To"]);
+								//print_r($explodedIDS);
+								foreach($explodedIDS as $k=>$v){									
+									if(in_array($v,$profileIDSHandler)){
+										$pIDS[] = $v;
+									}
+									$profileIDSHandler[] = $v;
+								}
+								$idsImploded = '('.implode(',',$pIDS).')';
 								
-								$results = $wpdb->get_results("SELECT ProfileID,ProfileContactPhoneCell,ProfileContactEmail FROM ".table_agency_profile." WHERE ProfileID IN(". implode(",",array_filter(explode(",",$_POST["Job_Talents_Resend_To"]))).")",ARRAY_A);
+								$results = $wpdb->get_results("SELECT ProfileID,ProfileContactPhoneCell,ProfileContactEmail FROM ".table_agency_profile." WHERE ProfileID IN $idsImploded",ARRAY_A);
 								$arr_mobile_numbers = array();
 								$arr_email = array();
 								$castingHash = $wpdb->get_row("SELECT * FROM ".table_agency_casting_job." WHERE Job_ID='".$_GET["Job_ID"]."'");
@@ -944,7 +966,7 @@ $siteurl = get_option('siteurl');
 					jQuery("form[name=formDeleteProfile] input[type=checkbox]").each(function(){
 						arr.push(jQuery(this).val());
 					});	
-					jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
+					//jQuery("input[name=Job_Talents_Resend_To]").val(arr.toString());
 					
 
 					
@@ -1009,16 +1031,20 @@ $siteurl = get_option('siteurl');
 
 					});
 
+					//jQuery("input[name=Job_Talents_Resend_To]").val('');
 					jQuery("#shortlisted input[name^=profiletalent],#castingcartbox input[name^=profiletalent]").click(function(){
 						Array.prototype.remove = function(value) {
+
 							var idx = this.indexOf(value);
 							if (idx != -1) {
+								//alert(idx);
 								return this.splice(idx, 1); 
 							}
 							return false;
 						}
 						if(jQuery(this).is(':checked')){
 							arr.push(jQuery(this).val());
+							
 						} else {
 							arr.remove(jQuery(this).val());
 						}
@@ -1151,7 +1177,7 @@ $siteurl = get_option('siteurl');
 						// Show Cart  
 						//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						
-$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
+						$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						$results = $wpdb->get_results($query, ARRAY_A);
 						$count = $wpdb->num_rows;
 						$total_casting_profiles = $count;
