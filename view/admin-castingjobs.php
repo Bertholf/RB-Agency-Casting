@@ -1182,11 +1182,11 @@ $siteurl = get_option('siteurl');
 														$mp3_file = str_replace(array($parsedFile[0].'-',$parsedFile[1].'-'),'',$files[$i]);
 														if($medialink_option == 2){
 															//open in new window and play
-															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a>';
+															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a><br>';
 														}elseif($medialink_option == 3){
 															//open in new window and download
 															$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
-															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a>';
+															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a><br>';
 														}
 														
 													}
@@ -1475,11 +1475,11 @@ $siteurl = get_option('siteurl');
 														$mp3_file = str_replace(array($parsedFile[0].'-',$parsedFile[1].'-'),'',$files[$i]);
 														if($medialink_option == 2){
 															//open in new window and play
-															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a>';
+															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a><br>';
 														}elseif($medialink_option == 3){
 															//open in new window and download
 															$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
-															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a>';
+															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a><br>';
 														}
 														
 													}
