@@ -1400,7 +1400,7 @@ $siteurl = get_option('siteurl');
 					if(isset($_GET["Job_ID"])){
 						echo "<input type=\"checkbox\" name=\"profiletalent_".$data["ProfileID"]."\" value=\"".$data["ProfileID"]."\"/>";
 					}
-					echo  stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong>";					
+					echo  stripslashes($data['ProfileContactNameFirst']) ." ". stripslashes($data['ProfileContactNameLast']) . "</strong>\n";					
 						if(isset($_GET["Job_ID"])){
 
 							echo "<input type=\"hidden\" name=\"delete_profile_id[]\" value=\"".$data["ProfileID"]."\">";
