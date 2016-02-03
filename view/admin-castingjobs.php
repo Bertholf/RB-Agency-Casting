@@ -58,7 +58,7 @@ $siteurl = get_option('siteurl');
 	/*
 	 * Display Inform Talent
 	 */
-	if(isset($_SESSION['cartArray']) || isset($_GET["action"]) && $_GET["action"] == "informTalent" || !isset($_GET["action"])){
+	if( (isset($_SESSION['cartArray']) || isset($_GET["action"]) && $_GET["action"] == "informTalent" || !isset($_GET["action"])) && $_GET['action'] !=='viewAllAuditions' ){
 	?>
 
 
@@ -1510,5 +1510,204 @@ $siteurl = get_option('siteurl');
 
 		}}// end add/edit job
 
-		// Load casting jobs list
-		RBAgency_Casting::rb_display_casting_jobs(); ?>
+		
+
+if(isset($_GET['action']) && $_GET['action'] == 'viewAllAuditions' && isset($_GET['Job_ID'])){
+
+
+	$download_applicants_url =  RBAGENCY_casting_BASEDIR."view/download_applicants.php";
+	if(isset($_POST["mass_delete"])){
+				unset($_POST["mass_delete"]);
+				unset($_POST['batch_download']);
+
+				$ids_arr = array();
+			foreach($_POST['usercheckbox'] as $k=>$v){
+				$ids_arr[] = $v;
+				//echo $v;
+			}
+			$ids = implode(",",$ids_arr);
+
+				$wpdb->query("DELETE FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID IN(".$ids.") ");
+				//print_r($_POST);
+				echo "<div id=\"message\" class=\"updated\"><p>Successfully deleted.</p></div>";
+
+			}
+
+	if(isset($_POST['batch_download'])){
+
+		if($_POST['exportType'] == 'none'){
+
+			echo "<script> alert('Please select file type format'); </script>";
+		}elseif(empty($_POST['usercheckbox'])){
+			echo "<script> alert('Please select profile'); </script>";
+		}else{
+			unset($_POST["mass_delete"]);
+			unset($_POST['batch_download']);
+			$exporttype = $_POST['exportType'];
+			unset($_POST['exportType']);
+
+			$ids_arr = array();
+			foreach($_POST['usercheckbox'] as $k=>$v){
+				$ids_arr[] = $v;
+				//echo $v;
+			}
+			$ids = implode(",",$ids_arr);
+			//echo $ids;
+			header("Location:".$download_applicants_url."?profileids=".$ids."&Job_ID=".$_GET['Job_ID']."&export_type=".$exporttype);
+
+		}
+		
+		
+	}
+
+
+	//echo RBAGENCY_PLUGIN_URL;
+
+
+	$q = "SELECT cs_job.*, avail.* FROM  ".table_agency_casting_job." AS cs_job INNER JOIN ".table_agency_castingcart_availability."
+					AS avail ON cs_job.Job_ID = avail.CastingJobID WHERE cs_job.Job_ID = ".$_GET['Job_ID'];
+
+	//$q = "SELECT * FROM ".table_agency_castingcart." WHERE CastingJobID = ".$_GET['Job_ID'];
+	$profileIDs_arr = array();
+	$job_data = $wpdb->get_results($q);
+	/**echo $wpdb->last_error;
+	foreach($qq as $qqq){
+		if(is_numeric($qqq->CastingAvailabilityProfileID)){
+			$profileIDs_arr[] = $qqq->CastingAvailabilityProfileID;
+		}
+		
+		//$qqq->CastingCartTalentID;
+	}
+
+	$imploded_profileIDs_arr = '('.implode(',',$profileIDs_arr).')';
+	//echo $imploded_profileIDs_arr;
+
+	$query = "SELECT cs_job.*, avail.* FROM  ".table_agency_casting_job." AS cs_job INNER JOIN ".table_agency_castingcart_availability."
+					AS avail ON cs_job.Job_ID = avail.CastingJobID WHERE avail.CastingAvailabilityProfileID IN $imploded_profileIDs_arr
+					";
+	$job_data = $wpdb->get_results($query);**/
+	
+	//echo "<pre>";
+	//print_r($job_data);
+	//echo "</pre>"; 
+	?>
+	<style>
+	.checkAllAuditions{
+		margin-top: 10px!important;
+    margin-bottom: -40px!important;
+	}
+	</style>
+	<br>
+	<h1>Auditions for <?php echo $job_data[0]->Job_Title; ?></h1>
+	<form method="post" action="<?php echo admin_url("admin.php?page=". $_GET['page']."&action=viewAllAuditions&Job_ID=".$_GET['Job_ID']); ?>">
+	<table cellspacing="0" class="widefat fixed">
+		<thead>
+			<tr class="thead">
+				<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox" class="checkAllAuditions"/></th>
+				<th class="column" scope="col">Name</th>
+				<th class="column" scope="col">Job Title</th>
+				<th class="column" scope="col">Date Confirmed</th>
+				<th class="column" scope="col">MP3 Audition Files</th>
+				<th class="column" scope="col">Availability</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<?php
+				if(count($job_data) > 0)
+				{
+					foreach($job_data as $job)
+					{
+						$fullname = $profile['ProfileContactNameFirst'].' '.$profile['ProfileContactNameLast'];
+								
+							if(empty($fullname)){
+								$wpdb->query("DELETE FROM ".table_agency_castingcart_availability." WHERE CastingAvailabilityProfileID = ".$job->CastingAvailabilityProfileID);
+							}	
+
+							if(!empty($job->CastingAvailabilityProfileID)){		
+			?>
+				<tr>
+				<th class="check-column" scope="row">
+					<input type="checkbox" value="<?php echo $job->CastingAvailabilityProfileID; ?>" class="administrator" id="<?php echo $_GET['Job_ID']; ?>" name="usercheckbox[]"/>
+				</th>
+				<td>
+				<?php
+				$profileID = $job->CastingAvailabilityProfileID;
+				$queryData1 = "SELECT * FROM " . table_agency_profile . " WHERE ProfileID = ".$profileID;
+				$qd = $wpdb->get_results($queryData1,ARRAY_A);
+				//print_r($qd);
+				foreach($qd as $profile){
+					$fullname = $profile['ProfileContactNameFirst'].' '.$profile['ProfileContactNameLast'];
+				}
+				if(!empty($fullname)){
+					echo stripcslashes($fullname);
+				}else{
+					//remove the profile
+					//echo $profileID;
+					
+				}
+				
+				?>
+				</td>
+				<td><a href="<?php echo site_url(); ?>/job-detail/<?php echo $job->Job_ID ?>" target="_blank"><?php echo $job->Job_Title; ?></a></td>
+				<td><?php echo $job->CastingAvailabilityDateCreated; ?></td>
+				<td>
+
+
+				<?php 
+					$profileID = $job->CastingAvailabilityProfileID;
+					$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
+					$files = scandir($dir, 0);
+											
+					$medialink_option = $rb_agency_options_arr['rb_agency_option_profilemedia_links'];
+
+					for($i = 0; $i < count($files); $i++){
+						$parsedFile = explode('-',$files[$i]);
+
+							if($parsedFile[0] == $job->Job_ID && $profileID == $parsedFile[1]){
+								$mp3_file = str_replace(array($parsedFile[0].'-',$parsedFile[1].'-'),'',$files[$i]);
+									if($medialink_option == 2){
+										//open in new window and play
+										echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">'.$mp3_file.'</a><br>';
+									}elseif($medialink_option == 3){
+										//open in new window and download
+										$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+										echo '<a href="'.$force_download_url.'" target="_blank">'.$mp3_file.'</a><br>';
+									}
+														
+							}
+					}
+				?>
+				</td>
+				<td><?php echo ucfirst($job->CastingAvailabilityStatus); ?></td>
+			</tr>
+
+			<?php 
+						}
+					}
+				}
+
+				?>
+		</tbody>
+		<tfoot>
+					<tr class="thead">
+						<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox" class="checkAllAuditions"/></th>
+						<th class="column">Name</th>
+						<th class="column">Job Title</th>
+						<th class="column">Date Confirmed</th>
+						<th class="column">MP3 Audition Files</th>
+						<th class="column">Availability</th>
+					</tr>
+				</tfoot>
+	</table>
+	<br>
+	<input type="submit" class="btn button-secondary" onclick="javascript:return !confirm('Are you sure that you want to delete the selected?')?false:true;" name="mass_delete" value="Delete"/>
+	<input type="submit" class="btn button-secondary" onclick="javascript:return true;" name="batch_download" value="Download"/> <select name="exportType"><option value="none">SELECT FILE FORMAT</option><option value="csv">CSV</option><option value="xls">XLS</option></select>
+
+<?php
+	
+}elseif(!isset($_GET['action'])){
+	// Load casting jobs list
+		RBAgency_Casting::rb_display_casting_jobs(); 
+}
+		?>
