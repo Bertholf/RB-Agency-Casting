@@ -50,9 +50,9 @@ function get_user_login_info(){
 				header("Location: ". admin_url("admin.php?page=rb_agency_menu"));
 			} else {
 				if(RBAgency_Casting::rb_casting_ismodel($user_ID)){
-					//header("Location: ". get_bloginfo("wpurl"). "/profile-member/");
+					
 					wp_logout();
-					header("Location: ". get_bloginfo("wpurl"). "/castin-login/");
+					
 				} else {
 					header("Location: ". get_bloginfo("wpurl"). $customUrl);
 				}
@@ -64,9 +64,9 @@ function get_user_login_info(){
 	} else {
 		// Reload
 		if(RBAgency_Casting::rb_casting_ismodel($user_ID)){
-			//header("Location: ". get_bloginfo("wpurl"). "/profile-member/");
+			
 			wp_logout();
-			header("Location: ". get_bloginfo("wpurl"). "/castin-login/");
+			
 		} else {
 			header("Location: ". get_bloginfo("wpurl").  $customUrl);
 		}
