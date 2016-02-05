@@ -65,8 +65,8 @@ global $wpdb;
 			   	$extension = "xls";
 			  }
 
-	require_once("PHPExcel.php");
-	require_once("PHPExcel/IOFactory.php");
+	require_once("inc/PHPExcel.php");
+	require_once("inc/PHPExcel/IOFactory.php");
 	$objPHPExcel = new PHPExcel();
 	$objPHPExcel->setActiveSheetIndex(0);
 	$rowNumber = 1;
