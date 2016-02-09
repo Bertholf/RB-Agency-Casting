@@ -6,6 +6,11 @@ $curauth = get_user_by('id', $current_user->ID);
 // include casting class
 include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
+if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID,'CastingIsActive') == 3){
+	header("Location:".get_bloginfo("wpurl").'/casting-pending?status=pending');
+	exit();
+}
+
 echo $rb_header = RBAgency_Common::rb_header();
 
 if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){

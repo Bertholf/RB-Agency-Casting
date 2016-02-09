@@ -54,7 +54,11 @@ function get_user_login_info(){
 					wp_logout();
 					
 				} else {
-					header("Location: ". get_bloginfo("wpurl"). $customUrl);
+					if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID,'CastingIsActive') == 3){
+						header("Location:".get_bloginfo("wpurl").'/casting-pending?status=pending');
+					}else{
+						header("Location: ". get_bloginfo("wpurl").  $customUrl);
+					}
 				}
 			}
 			}
@@ -68,7 +72,12 @@ function get_user_login_info(){
 			wp_logout();
 			
 		} else {
-			header("Location: ". get_bloginfo("wpurl").  $customUrl);
+			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID,'CastingIsActive') == 3){
+				header("Location:".get_bloginfo("wpurl").'/casting-pending?status=pending');
+			}else{
+				header("Location: ". get_bloginfo("wpurl").  $customUrl);
+			}
+			
 		}
 	}
 }

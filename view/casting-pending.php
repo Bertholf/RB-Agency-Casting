@@ -35,11 +35,21 @@ echo $rb_header = RBAgency_Common::rb_header();
 					echo sprintf(__("<h3>Thanks for joining %s!</h3>"), get_option('blogname'));
 					echo "<br/>";
 					echo "Your account is pending for approval. You will receive and email once your registration is approved.";
+					if($_GET['status'] == 'pending'){
+						echo "<br>";
+						echo "<a href='".site_url()."/logout' class='button-primary'>Logout</a>";
+					}
 					echo " </div>\n";
 
 			echo " </div>\n"; // .welcome
 			//be sure to logout the profile
-			wp_logout();
+			if($_GET['status'] == 'pending'){
+
+			}else{
+				wp_logout();
+					
+			}
+			
 		
 		} else {
 
