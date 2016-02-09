@@ -324,7 +324,7 @@ $siteurl = get_option('siteurl');
 							if(empty($data) || $data == '--Select--'){
 								$data = NULL;
 							}
-							print_r($_POST);
+							//print_r($_POST);
 							$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($Job_ID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
 						}
 												
