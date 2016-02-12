@@ -48,6 +48,9 @@
 			$newrules['email-applicant/(.*)$'] = 'index.php?type=emailapplicant&target=$matches[1]&rbgroup=casting';
 			$newrules['casting-pending'] = 'index.php?type=casting-pending&rbgroup=casting';
 			$newrules['casting-inactive-archive'] = 'index.php?type=casting-inactive-archive&rbgroup=casting';
+
+
+			$newrules['job-type/(.*)$'] = 'index.php?type=joblists&target=$matches[1]';
 			return $newrules + $rules;
 		}
 
@@ -95,6 +98,10 @@
 					} elseif (get_query_var( 'type' ) == "favorite") {
 						return dirname(__FILE__) . '/view/profile-favorite.php';
 					}
+				}
+
+				if(get_query_var('type') == "joblists"){
+					return dirname(__FILE__) .'/view/job-lists.php';
 				}
 
 			}
@@ -1854,4 +1861,37 @@
 		   }
 		      
 	    }
+
+
+	    function shortcode_job_types($atts){
+
+	    	 $a = shortcode_atts( array(
+			        'show_description' => "true",
+			        'show_description' => "true",
+			    ), $atts );
+
+
+	    	global $wpdb;
+	    	$get_details = "SELECT * FROM " . table_agency_casting_job_type;
+			$results = $wpdb->get_results($get_details);
+			$output = "";
+			$output .= "<table>";
+			if($a['show_description'] == "true"){
+				$output .= "<tr><td>Job Type Title</td><td>Job Type Description</td>";
+			}else{
+				$output .= "<tr><td>Job Type Title</td>";
+			}
+			foreach($results as $job_type){
+				$output .= "<tr>";
+				$output .= "<td><a href=\"".site_url()."/job-type/".$job_type->Job_Type_ID."\">".$job_type->Job_Type_Title."</a></td>";
+				if($a['show_description'] == "true"){
+					$output .= "<td>".$job_type->Job_Type_Text."</td>";
+				}
+				$output .= "</tr>";
+			}
+			$output .= "</table>";
+
+			return $output;
+	    }
+	    add_shortcode( 'job-types', 'shortcode_job_types' );
 ?>

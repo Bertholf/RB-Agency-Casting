@@ -19,7 +19,7 @@
 
 	echo "<div id=\"content\">";
    
-	if (is_user_logged_in()) {
+	//if (is_user_logged_in()) {
 
 		echo "<style>
 				.jobdesc{margin-left:20px; width:250px; padding:20px 0px 20px 50px;}
@@ -136,10 +136,18 @@
 							<td></td>";
 							
 							
-							if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )){
+							if( (RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )) || !is_user_logged_in() ){
 								echo "<td class='jobdesc'>";
-								echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
-								echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+								if(is_user_logged_in()){
+									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
+									echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+								}else{
+									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/profile-login\"'>";
+									echo "<input id='go_back' type='button' class='button-primary' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
+								}
+								
+								
+								
 								echo "</td>";
 							}
 							
@@ -171,9 +179,9 @@
 			echo "<p>Job doesn't exist</p>";
 		}
 
-	} else {
-		include ("include-login.php");
-	}
+	//} else {
+		//include ("include-login.php");
+	//}
 
 	echo "</div><!-- #content -->";
 
