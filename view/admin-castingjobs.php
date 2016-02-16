@@ -1185,7 +1185,9 @@ $siteurl = get_option('siteurl');
 															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a><br>';
 														}elseif($medialink_option == 3){
 															//open in new window and download
-															$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+															//$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+															//echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a><br>';
+															$force_download_url = wpfdl_dl('_casting-jobs/'.$files[$i],get_option('wpfdl_token'),'dl');
 															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a><br>';
 														}
 														
@@ -1478,7 +1480,9 @@ $siteurl = get_option('siteurl');
 															echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">Play Audio</a><br>';
 														}elseif($medialink_option == 3){
 															//open in new window and download
-															$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+															//$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+															//echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a><br>';
+															$force_download_url = wpfdl_dl('_casting-jobs/'.$files[$i],get_option('wpfdl_token'),'dl');
 															echo '<a href="'.$force_download_url.'" target="_blank">Download Audio</a><br>';
 														}
 														
@@ -1671,7 +1675,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'viewAllAuditions' && isset($_GE
 										echo '<a href="'.site_url().'/wp-content/uploads/profile-media/_casting-jobs/'.$files[$i].'" target="_blank">'.$mp3_file.'</a><br>';
 									}elseif($medialink_option == 3){
 										//open in new window and download
-										$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+										//$force_download_url = RBAGENCY_PLUGIN_URL."ext/forcedownload.php?file=".'_casting-jobs/'.$files[$i];
+										//echo '<a href="'.$force_download_url.'" target="_blank">'.$mp3_file.'</a><br>';
+
+										$force_download_url = wpfdl_dl('_casting-jobs/'.$files[$i],get_option('wpfdl_token'),'dl');
 										echo '<a href="'.$force_download_url.'" target="_blank">'.$mp3_file.'</a><br>';
 									}
 														
