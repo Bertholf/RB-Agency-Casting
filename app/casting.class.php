@@ -1759,7 +1759,7 @@ class RBAgency_Casting {
 			$headers[] = 'MIME-Version: 1.0';
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 			$headers[] = 'From: '.$rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
-
+			echo $emails[0];
 			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
 	}
 
