@@ -1634,6 +1634,7 @@ class RBAgency_Casting {
 								<span class="view"><a href="<?php echo get_bloginfo("url")."/view-applicants/?filter_jobtitle=".$Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter"; ?>" target="_blank">Applicants</a> | </span>
 								<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=informTalent&Job_ID=<?php echo $Job_ID; ?>">Edit</a> | </span>
 								<span class="delete"><a class='submitdelete' title='Delete this Record' href='<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent&amp;action2=deleteCastingJob&amp;removeJob_ID=<?php echo $Job_ID; ?>' onclick="if ( confirm('You are about to delete this record\'\n \'Cancel\' to stop, \'OK\' to delete.') ) {return true;}return false;">Delete</a></span>
+								<span class="edit"><a href="admin.php?page=<?php echo $_GET['page']; ?>&action=viewAllAuditions&Job_ID=<?php echo $Job_ID; ?>">&nbsp; | &nbsp;View All Auditions</a></span>
 						</div>
 					</td>
 					<td>
