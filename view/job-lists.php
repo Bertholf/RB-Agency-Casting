@@ -10,10 +10,12 @@ global $wpdb;
 
 $job_types = $wpdb->get_row("SELECT Job_Type_Title FROM ".table_agency_casting_job_type. " WHERE Job_Type_ID = ".$job_type_id);
 
+$output = "";
+$output .= "<div id=\"rbcontent\">";
 echo "<h2>Lists of Jobs under ".$job_types->Job_Type_Title."</h2>";
 $results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Type = $job_type_id AND (Job_Visibility = 1 OR Job_Visibility = 2)");
 
-$output = "";
+
 $output .= "<table>";
 $output .= "<tr><td>Job Title</td><td>Job Description</td>";
 foreach($results as $job){
@@ -23,6 +25,7 @@ foreach($results as $job){
 	$output .= "</tr>";
 }
 $output .= "</table>";
+$output .= "</div>";
 
 echo $output;
 

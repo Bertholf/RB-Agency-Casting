@@ -1875,6 +1875,7 @@
 	    	$get_details = "SELECT * FROM " . table_agency_casting_job_type;
 			$results = $wpdb->get_results($get_details);
 			$output = "";
+			$output .= "<div id=\"rbcontent\">";
 			$output .= "<table>";
 			if($a['show_description'] == "true"){
 				$output .= "<tr><td>Job Type Title</td><td>Job Type Description</td>";
@@ -1890,6 +1891,7 @@
 				$output .= "</tr>";
 			}
 			$output .= "</table>";
+			$output .= "</div>";
 
 			return $output;
 	    }

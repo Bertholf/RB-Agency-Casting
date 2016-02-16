@@ -17,7 +17,7 @@
 
 	echo $rb_header = RBAgency_Common::rb_header();
 
-	echo "<div id=\"content\">";
+	echo "<div id=\"rbcontent\">";
    
 	//if (is_user_logged_in()) {
 
@@ -42,7 +42,7 @@
 				});
 			</script>";
 
-		echo "<p><h2>Job Details</h2><p><br>";
+		echo "<p><h2>Job Details</h2></p><br>";
 
 		global $wpdb;
 
@@ -167,7 +167,7 @@
 							}
 						echo "</tr>	";
 
-					echo "<table>";
+					echo "</table>";
 			}
 
 			// for models
@@ -183,7 +183,7 @@
 		//include ("include-login.php");
 	//}
 
-	echo "</div><!-- #content -->";
+	echo "</div><!-- #rbcontent -->";
 
 	//get_sidebar(); 
 	echo $rb_footer = RBAgency_Common::rb_footer(); 
