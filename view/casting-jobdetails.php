@@ -142,7 +142,7 @@
 									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
 									echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
 								}else{
-									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/profile-login\"'>";
+									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/profile-login?h=/job-application/".get_query_var('value')."\"'>";
 									echo "<input id='go_back' type='button' class='button-primary' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
 								}
 								
