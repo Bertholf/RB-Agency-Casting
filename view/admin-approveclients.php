@@ -723,7 +723,7 @@ function rb_display_list() {
                 }
         }
 
-	        if($CastingIsActive != 1){
+	        if($CastingIsActive == 3){
 	        	$rowColor = "";
 		        $DataTypeTitle = stripslashes($new_title);
 				if(!empty($CastingIsActive) && $CastingIsActive == 3){

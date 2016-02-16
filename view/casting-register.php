@@ -141,7 +141,7 @@
 					$CastingIsActive = 0; //inactive
 				}
 			}
-
+			
 
 			//create folder
 			$CastingGallery 		= "casting-agent-" . $new_user;
