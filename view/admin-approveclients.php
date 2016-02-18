@@ -559,8 +559,22 @@ function rb_display_list() {
 
 		if(isset($_GET["action"]) && $_GET["action"] =="approveRecord"){
 			$CastingID = $_GET["CastingID"];
+			
+
+				
 			$queryApprove = "UPDATE ". table_agency_casting ." SET CastingIsActive = 1 WHERE CastingID =  %d";
 			$resultsApprove = $wpdb->query($wpdb->prepare($queryApprove,$CastingID));
+
+			//get casting userlinked id
+			$casting_userLinked = "";
+			$q = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."agency_casting WHERE CastingID = ".$CastingID);
+			
+			foreach($q as $v){
+				$casting_userLinked = $v->CastingUserLinked;
+			}
+			//notify agent
+			wp_new_user_notification_approve($casting_userLinked);
+
 			if(isset($resultsApprove)){
 				echo ('<div id="message" class="updated"><p>'. __("".(isset($profileLabel)?$profileLabel:"")." Approved successfully!", RBAGENCY_casting_TEXTDOMAIN) .'</p></div>');
 			}
