@@ -844,7 +844,7 @@
 			   	    	}
 			   	    	echo "</select>";
 			   	    echo "</div>";
-			   }elseif($ProfileCustomType == 4){
+			   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
 						if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
@@ -1028,7 +1028,7 @@
 			   	    	}
 			   	    	echo "</select>";
 			   	    echo "</div>";
-			   }elseif($ProfileCustomType == 4){
+			   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";
 						if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
@@ -1124,7 +1124,7 @@
 						   	    	echo "</select>";
 						   	    	echo "</div>";
 						   	    echo "</div>\n";
-						   }elseif($ProfileCustomType == 4){
+						   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 						   		echo "<div class=\"rbfield rbtextarea rbsingle \" id=\"\">\n";
 									echo "<label>".$ProfileCustomTitle."</label>\n";
 									if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
@@ -1263,7 +1263,7 @@
 			   	    	}
 			   	    	echo "</select></div>";
 			   	    echo "</div>";
-			   }elseif($ProfileCustomType == 4){
+			   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 			   	$custom_value = rb_agency_get_casting_register_custom_value($castID,$ProfileCustomID);
 						$value = !empty($custom_value)?$custom_value:"";	
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
@@ -1431,7 +1431,7 @@
 			   	    	}
 			   	    	echo "</select></td>";
 			   	    echo "</tr>";
-			   }elseif($ProfileCustomType == 4){
+			   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 			   	$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);											
 						$value = !empty($custom_value)?$custom_value:"";
 			   		echo "<tr>";
@@ -1551,7 +1551,7 @@
 			   	    	echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
 			   	    	echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
 			   	    echo "</tr>";
-			   }elseif($ProfileCustomType == 4){
+			   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 			   		echo "<tr>";
 						echo "<td><strong>".$ProfileCustomTitle."</strong></td>\n";
 						echo "<td>".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."</td>";
@@ -1709,7 +1709,7 @@
 			   	    	}
 			   	    	echo "</select></div>";
 			   	    echo "</div>";
-			   }elseif($ProfileCustomType == 4){
+			   }elseif($ProfileCustomType == 4 || $ProfileCustomType == 11){
 			   	$custom_value = rb_agency_get_casting_register_custom_value($castID,$ProfileCustomID);
 						$value = !empty($custom_value)?$custom_value:"";	
 			   		echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
