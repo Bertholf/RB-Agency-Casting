@@ -51,6 +51,8 @@
 
 
 			$newrules['job-type/(.*)$'] = 'index.php?type=joblists&target=$matches[1]';
+
+
 			return $newrules + $rules;
 		}
 
@@ -103,6 +105,7 @@
 				if(get_query_var('type') == "joblists"){
 					return dirname(__FILE__) .'/view/job-lists.php';
 				}
+
 
 			}
 			return $template;
