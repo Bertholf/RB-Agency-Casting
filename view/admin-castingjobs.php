@@ -1095,17 +1095,20 @@ $siteurl = get_option('siteurl');
 						$casting_cart = $wpdb->get_results($wpdb->prepare("SELECT CastingCartTalentID FROM ".table_agency_castingcart." WHERE CastingJobID = %d ",$_GET["Job_ID"]),ARRAY_A);
 							
 							// Show Cart  
-							if(!empty($cartArray)){
-									$cartString = implode(",", array_unique($cartArray));
-									//$cartString = RBAgency_Common::clean_string($cartString);
+							$arr_profiles = array();
+							foreach ($casting_cart as $key) {
+								if(is_numeric($key["CastingCartTalentID"])){
+									array_push($arr_profiles, $key["CastingCartTalentID"]);	
+								}
+								
 							}
-							$implodedCartArray = '('.implode(',',$cartArray).')';
+							$imploded_arr_profiles = '('.implode(',',$arr_profiles).')';
 							//echo $imploded_arr_profiles;
 							//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN $imploded_arr_profiles ORDER BY profile.ProfileContactNameFirst ASC";
 							//$query = "SELECT  profile.* FROM ". table_agency_profile ." profile WHERE ProfileID IN (,651,661,663,657,660,657,657,663,661,657,663,661,651) ORDER BY ProfileContactNameFirst ASC";
-							$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN $implodedCartArray ORDER BY profile.ProfileContactNameFirst ASC";
+							$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN $imploded_arr_profiles ORDER BY profile.ProfileContactNameFirst ASC";
 							$results = $wpdb->get_results($query, ARRAY_A);
-							//$wpdb->last_error;
+							$wpdb->last_error;
 							$total_casting_profiles = $wpdb->num_rows;
 						echo "<div id=\"castingcartbox\" class=\"boxblock-container\" >";
 						echo "<div class=\"boxblock\">";
@@ -1213,16 +1216,18 @@ $siteurl = get_option('siteurl');
 						echo "<div class=\"boxblock\">";
 						if(!empty($cartArray)){
 									$cartString = implode(",", array_unique($cartArray));
-									//$cartString = RBAgency_Common::clean_string($cartString);
+									$cartString = RBAgency_Common::clean_string($cartString);
 						}
-						$implodedCartArray = '('.implode(',',$cartArray).')';
 						// Show Cart  
 						//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						
-						$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN $implodedCartArray ORDER BY profile.ProfileContactNameFirst ASC";
+						$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						$results = $wpdb->get_results($query, ARRAY_A);
 						$count = $wpdb->num_rows;
 						$total_casting_profiles = $count;
+
+						
+
 						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
 							echo "<span style=\"font-size:12px;float:right;\">";

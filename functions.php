@@ -952,6 +952,7 @@
 		   }
 		   
 		   $result_query_get = $wpdb->get_results($query_get,ARRAY_A);
+		   
 		   $temp_arr = array();
 		   foreach( $result_query_get as $result){
 
