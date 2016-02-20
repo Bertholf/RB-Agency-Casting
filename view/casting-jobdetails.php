@@ -135,6 +135,8 @@
 						<tr>
 							<td></td>";
 							
+
+							//$wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."casting_jobs WHERE Job_ID = %d",$_GET['value']));
 							
 							if( (RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )) || !is_user_logged_in() ){
 								echo "<td class='jobdesc'>";

@@ -11,7 +11,7 @@
 	$job_id = get_query_var('target');
 
 	$Job = $wpdb->get_row($wpdb->prepare("SELECT job.*,client.* FROM ".table_agency_casting_job." as job INNER JOIN ".table_agency_casting." as client ON client.CastingID = job.Job_UserLinked WHERE job.Job_ID = %d",$job_id));
-   
+  
 	// check if already applied
 	$check_applied = "SELECT Job_UserLinked FROM " . table_agency_casting_job_application . " WHERE Job_ID = " . $job_id."  AND Job_UserLinked='".$current_user->ID."'"; 
 
@@ -19,6 +19,28 @@
 	$get_checkapplied = $wpdb->get_results($check_applied,ARRAY_A);
 	$count = $wpdb->num_rows;
 
+
+
+	//check if invited already
+	$qp = "SELECT ProfileID FROM ".$wpdb->prefix."agency_profile WHERE ProfileUserLinked = ".$current_user->ID;
+	$qp_result = $wpdb->get_results($qp);
+	$Profile_ID = "";
+	foreach($qp_result as $res){
+		$Profile_ID = $res->ProfileID;
+	}
+	$q = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."agency_casting_job WHERE Job_ID = ".$job_id." AND Job_Talents IN (".$Profile_ID.")");
+	$invited_already = $wpdb->num_rows;
+
+	if($invited_already > 0){
+		echo $rb_header = RBAgency_Common::rb_header();
+
+		echo "<p>You are already invited to this job. Please check your email for the invite link to accept or decline.</p>"; 
+		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>"; 
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+
+		echo $rb_footer = RBAgency_Common::rb_footer();
+		exit();
+	}
 	if($count <= 0){
 
 		// message

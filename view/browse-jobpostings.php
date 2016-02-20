@@ -36,9 +36,9 @@ echo $rb_header = RBAgency_Common::rb_header();
 if (is_user_logged_in()) {
 
 	if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-		$is_active = rb_check_profile_status();
+		$is_active = rb_check_profile_status($current_user->ID);
 	}else{
-		$is_active = rb_check_casting_status();
+		$is_active = rb_check_casting_status($current_user->ID);
 	}
 	
 	if($is_active == false and !current_user_can("edit_posts")){
@@ -298,6 +298,17 @@ if (is_user_logged_in()) {
 		}
 		// end pagination setup
 
+		$profileUserID = "";
+		$userIDS = $wpdb->get_results("SELECT ProfileID,ProfileUserLinked FROM wp_agency_profile WHERE ProfileUserLinked = $current_user->ID");
+
+		foreach($userIDS as $user){
+			$profileUserID = $user->ProfileID;
+		}
+		
+		// load postings for models , talents and admin view
+		//$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " " . $where . " LIMIT " . $limit1 . "," . $record_per_page );
+		$load_data = $wpdb->get_results("SELECT jobs.*, agency.* FROM wp_agency_casting_job jobs, wp_agency_casting as agency WHERE jobs.Job_ID > 0 AND agency.CastingUserLinked = jobs.Job_UserLinked");
+		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
 
