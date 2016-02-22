@@ -34,10 +34,13 @@
 	if($invited_already > 0){
 		echo $rb_header = RBAgency_Common::rb_header();
 
+		echo "<div id=\"rbcontent\">";
+
 		echo "<p>You are already invited to this job. Please check your email for the invite link to accept or decline.</p>"; 
 		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>"; 
 		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 
+		echo "</div> <!--#rbcontent-->";
 		echo $rb_footer = RBAgency_Common::rb_footer();
 		exit();
 	}
@@ -95,6 +98,8 @@
 
 			echo $rb_header = RBAgency_Common::rb_header();
 
+				echo "<div id=\"rbcontent\">";
+
 				if($has_applied <=0 ){
 					// insert
 					$insert = "INSERT INTO " . table_agency_casting_job_application . " 
@@ -118,6 +123,8 @@
 					echo "You've already applied to this Job.";
 				}
 
+				echo "</div><!-- #rbcontent -->";
+
 				echo $rb_footer = RBAgency_Common::rb_footer();
 
 		} else {
@@ -129,7 +136,7 @@
 
 			echo $rb_header = RBAgency_Common::rb_header();
 
-			echo "<div id=\"content\">";
+			echo "<div id=\"rbcontent\">";
 
 			if (is_user_logged_in()) {
 
@@ -176,7 +183,7 @@
 				include ("include-login.php");
 
 			}
-			echo "</div><!-- #content -->";
+			echo "</div><!-- #rbcontent -->";
 
 		}
 
@@ -186,9 +193,13 @@
 
 		echo $rb_header = RBAgency_Common::rb_header();
 
+		echo "<div id=\"rbcontent\">";
+
 		echo "<p>You already applied for this job.</p>"; 
 		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>"; 
 		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+
+		echo "</div><!-- #rbcontent -->";
 
 		echo $rb_footer = RBAgency_Common::rb_footer(); 
 
