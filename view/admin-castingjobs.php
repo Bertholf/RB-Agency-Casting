@@ -506,6 +506,8 @@ $siteurl = get_option('siteurl');
 		} elseif(isset($_GET["action2"]) && $_GET["action2"] == "deleteCastingJob"){
 				$wpdb->query("DELETE FROM ".table_agency_casting_job." WHERE Job_ID = '".$_GET["removeJob_ID"]."'");
 				echo ('<div id="message" class="updated"><p>Deleted successfully!</p></div>');
+		
+				RBAgency_Casting::rb_display_casting_jobs();
 		}
 
 				$Job_ID = ""; 
