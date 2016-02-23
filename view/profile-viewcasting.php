@@ -330,7 +330,9 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 
 						echo "<input type=\"button\" name=\"sendProfiles\" id=\"sendProfiles\" value=\"[+]Send Profiles\" />";
+						
 						}
+						echo "<input id='go_back' type='button' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
 						echo "</div>";
 
 					}
@@ -701,6 +703,15 @@ echo "  </div>\n";
 	jQuery(document).ready(function(){
 		var arr = [];
 		var arr_casting = [];
+
+		//on page load all checked
+		jQuery("input[name=selectallprofiles]").prop("checked",true);
+		jQuery("#profile-casting-list #profile-list  input[name^=profileid]").each(function(){
+					jQuery(this).removeAttr("checked");
+					jQuery(this).prop("checked",true);
+					arr.push(jQuery(this).val());
+				});
+		jQuery("input[name=shortlistprofiles]").val(arr.toString());
 
 		jQuery("input[name=selectallprofiles]").change(function(){
 				var ischecked = jQuery(this).is(':checked');

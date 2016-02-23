@@ -1874,8 +1874,62 @@
 
 	    function shortcode_job_types($atts){
 
-	    	 $a = shortcode_atts( array(
-			        'show_description' => "true",
+	    	$a = shortcode_atts( array(
+			    'show_description' => "true",
+			    'show_all_jobs' => "false",
+			), $atts );
+
+
+	    	global $wpdb;
+
+			$output .= "<div id=\"job-types\">";
+			$output .= "<ul>";
+				$job_types = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
+				if(count($job_types) > 0 ){
+					foreach($job_types as $jobtype){
+						$output .= "    <li>\n";
+						$output .= "        <a href=\"".site_url()."/job-type/".$jobtype->Job_Type_ID."\">".$jobtype->Job_Type_Title."</a>";
+						$output .= "    </li>\n";
+					}
+				}
+			$output .= "</ul>";
+			$output .= "</div>";
+
+			if($a['show_all_jobs'] == "true"){
+
+				$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting." as agency WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked";
+				//$results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Visibility = 1 OR Job_Visibility = 2");
+				$results = $wpdb->get_results($query2);
+
+				$output .= "<br><h3>Showing Open to All and Matching Criteria Jobs</h3>";
+
+				$output .= "<div id=\"job-auditions\">";
+				foreach($results as $job){
+					$output .= "	<div class=\"job-audition\">";
+					$output .= "		<div class=\"ja-thumbnail\">";
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\"><img src=\"".RBAGENCY_PLUGIN_URL."/assets/img/rbplugin-logo-o25.png\"></a>";
+					$output .= "		</div><!-- .ja-thumbnail -->";
+					$output .= "		<div class=\"ja-content\">";
+					$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
+
+											$job_desc = explode(" ", $job->Job_Text);
+											$job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
+
+					$output .= "			<p>".$job_desc_excerpt."</p>";
+					$output .= "			<p class=\"ja-date\">Apply Before 28/02/2016</p><!-- .ja-content -->";
+					$output .= "		</div><!-- .ja-content -->";
+					$output .= "		<div class=\"ja-footer\">";
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">View this Job</a>";			
+					$output .= "		</div><!-- .ja-footer -->";
+					$output .= "	</div><!-- .job-audition -->";
+				}
+				$output .= "</div><!-- #job-auditions -->";
+			}
+			
+			$output .= "</div><!-- #rbcontent -->";
+			return $output;
+	    	
+	    	/** $a = shortcode_atts( array(
 			        'show_description' => "true",
 			    ), $atts );
 
@@ -1903,6 +1957,8 @@
 			$output .= "</div>";
 
 			return $output;
+
+			**/
 	    }
 	    add_shortcode( 'job-types', 'shortcode_job_types' );
 
