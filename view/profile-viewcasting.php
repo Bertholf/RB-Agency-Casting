@@ -447,149 +447,216 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					<?php
 					//Send Profile
 					if(isset($_POST["sendProfileBtn"])){
-						// Prepre varialbes
-
-						//START
-						$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
-						$fromName 				= $_POST["fromName"];
-						$fromEmail 				= $_POST["fromEmail"];
-						$SearchMuxToName		= $_POST['sendToName'];
-						$SearchMuxToEmail		= $_POST["sendToEmail"];
-						$SearchMuxEmailToBcc	= $_POST['emailBcc'];
-						$SearchMuxSubject		= get_bloginfo('name')." : ".$_POST["subject"];
-						$SearchMuxMessage		= $_POST['message'];
-						$_selectedProfileToSend	= $_POST['shortlistprofiles_send'];
-
-						// Get Casting Cart
-						$query = "SELECT  profile.*, profile.ProfileGallery, profile.ProfileContactDisplay, profile.ProfileDateBirth, profile.ProfileLocationState, profile.ProfileID as pID , cart.CastingCartTalentID, cart.CastingCartTalentID, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1) AS ProfileMediaURL FROM ". table_agency_profile ." profile INNER JOIN  ".table_agency_castingcart."  cart WHERE  cart.CastingCartTalentID = profile.ProfileID   AND cart.CastingCartProfileID = '".rb_agency_get_current_userid()."' AND ProfileIsActive = 1 ORDER BY profile.ProfileContactNameFirst";
-						$result = $wpdb->get_results($query,ARRAY_A);
-						$profileid_arr = array();
-
-						foreach($result as $fetch){
-							$profileid_arr[] = $fetch["pID"];
+						
+						$req_fields = array(
+							'Your Name' =>'yourName',
+							'Your Email' =>'yourEmail',
+							'Your Tel No'=>'yourTelNo',
+							'Subject' => 'subject'
+							);
+						$err_msg = array();
+						foreach($req_fields as $k=>$v){
+							if(empty($_POST[$v])){
+								$err_msg[] = $k ." is required!";
+							}
 						}
+						if(!empty($err_msg)){
+							foreach($err_msg as $err){
+								echo "<span style='color:red;'>".$err."</span><br>";
+							}
+							//return false;
+						}else{
+							// Prepre varialbes						
+							$message_content = 'Link to model shortlist: [link-place-holder]';
+							//START
+							$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
+							$fromName 				= $_POST["yourName"];
+							$fromEmail 				= $_POST["yourEmail"];
+							$SearchMuxToName		= 'Admin';
+							$SearchMuxToEmail = get_option('admin_email');
+							$SearchMuxEmailToBcc	= $_POST['emailBcc'];
+							$SearchMuxSubject		= get_bloginfo('name')." : ".$_POST["subject"];
+							$SearchTitle		    = $_POST["subject"];
+							$SearchMuxMessage		= stripcslashes($_POST['message']) ."<br><br>". $message_content ;
 
-						$casting = implode(",",$profileid_arr);
-						
-						//bypass= the send should be from selected profile.. not in cart..
-						$casting =$_selectedProfileToSend;
-						
-						//search title as from subject info
-						$SearchTitle = $SearchMuxSubject;
-						
-						$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID,SearchTitle) VALUES('".$casting."' ,'".$SearchTitle."')");
+							// Get Casting Cart
+							$query = "SELECT  profile.*, profile.ProfileGallery, profile.ProfileContactDisplay, profile.ProfileDateBirth, profile.ProfileLocationState, profile.ProfileID as pID , cart.CastingCartTalentID, cart.CastingCartTalentID, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1) AS ProfileMediaURL FROM ". table_agency_profile ." profile INNER JOIN  ".table_agency_castingcart."  cart WHERE  cart.CastingCartTalentID = profile.ProfileID   AND cart.CastingCartProfileID = '".rb_agency_get_current_userid()."' AND ProfileIsActive = 1 ORDER BY profile.ProfileContactNameFirst";
+							$result = $wpdb->get_results($query,ARRAY_A);
+							$profileid_arr = array();
 
-						$lastid = $wpdb->insert_id;
-
-						// Create Record
-						$insert = "INSERT INTO " . table_agency_searchsaved_mux ." 
-								(
-								SearchID,
-								SearchMuxHash,
-								SearchMuxToName,
-								SearchMuxToEmail,
-								SearchMuxSubject,
-								SearchMuxMessage,
-								SearchMuxCustomValue
-								)" .
-								"VALUES
-								(
-								'" . $wpdb->escape($lastid) . "',
-								'" . $wpdb->escape($SearchMuxHash) . "',
-								'" . $wpdb->escape($SearchMuxToName) . "',
-								'" . $wpdb->escape($SearchMuxToEmail) . "',
-								'" . $wpdb->escape($SearchMuxSubject) . "',
-								'" . $wpdb->escape($SearchMuxMessage) . "',
-								'" . $wpdb->escape($SearchMuxCustomValue) ."'
-								)";
-						$results = $wpdb->query($insert);
-
-						$SearchMuxMessage = str_replace("[link-place-holder]",network_site_url()."/client-view/".$SearchMuxHash,$SearchMuxMessage);
-
-
-						$Message   = $SearchMuxMessage;
-						$headers[] = 'MIME-Version: 1.0';
-						$headers[] = "Content-Type: text/html; charset=\"". get_option('blog_charset') . "\"\n";
-						$headers[] = 'From: "'. $fromName .'" <'. trim($fromEmail) .'>';
-
-						$bccArray = explode(";",$SearchMuxEmailToBcc);
-
-						foreach($bccArray as $bcc){
-							$headers[] = 'Bcc: '.$bcc;
-						}
-
-						add_filter('wp_mail_from','yoursite_wp_mail_from');
-						add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
-
-						$Message = str_replace("\n","<br>",$Message);
-						
-						$profileHTML = '<br/><br/>';
-						
-						$sql = "SELECT profile.*, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media
-									WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\"
-										AND media.ProfileMediaPrimary = 1 LIMIT 1 ) AS ProfileMediaURL  FROM ".table_agency_profile ." AS profile 
-									WHERE ProfileID IN ( {$casting} ) GROUP BY(profile.ProfileID) ";
-						
-						$resultProf = $wpdb->get_results($sql,ARRAY_A);
-						foreach($resultProf as $dataList){
-							$ProfileContactDisplay =$dataList['ProfileContactDisplay'];
+							foreach($result as $fetch){
+								$profileid_arr[] = $fetch["pID"];
+							}
 							
-							$profileHTML .='<div style="display: inline-block;width:190px;height:280px;padding:10px 2px;font-family: Arial, Tahoma, Verdana;text-align:center;">';
-							 $profileHTML .="<a style=\"text-decoration:none;\" href=\"". RBAGENCY_PROFILEDIR ."". $dataList["ProfileGallery"] ."/\" title=\"". stripslashes($ProfileContactDisplay) ."\">
-									<img style=\"width:180px;height:230px\" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src="
-								. RBAGENCY_casting_UPLOADDIR . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
-								<br/>";
-							$profileHTML .= "<b>$ProfileContactDisplay</b>";
-							$profileHTML .='</div>';
-						}	
+							$casting = implode(",",$profileid_arr);
+							
+							//get the info from session
+							if(!is_user_logged_in()) {
+								$session_cart = $_SESSION['cart'];
+								if(!is_array($session_cart))$session_cart = array();
+								$casting = implode(",",$session_cart);
+							}
+							
+							
+							
+							
+							
+							$wpdb->query("INSERT INTO " . table_agency_searchsaved." (SearchProfileID,SearchTitle) VALUES('".$casting."','".$SearchTitle."')");
+
+							$lastid = $wpdb->insert_id;
+
+							// Create Record
+							$insert = "INSERT INTO " . table_agency_searchsaved_mux ." 
+									(
+									SearchID,
+									SearchMuxHash,
+									SearchMuxToName,
+									SearchMuxToEmail,
+									SearchMuxSubject,
+									SearchMuxMessage,
+									SearchMuxCustomValue
+									)" .
+									"VALUES
+									(
+									'" . $wpdb->escape($lastid) . "',
+									'" . $wpdb->escape($SearchMuxHash) . "',
+									'" . $wpdb->escape($SearchMuxToName) . "',
+									'" . $wpdb->escape($SearchMuxToEmail) . "',
+									'" . $wpdb->escape($SearchMuxSubject) . "',
+									'" . $wpdb->escape($SearchMuxMessage) . "',
+									'" . $wpdb->escape($SearchMuxCustomValue) ."'
+									)";
+							$results = $wpdb->query($insert);
+							
+							$query = "SELECT search.SearchTitle, search.SearchProfileID, search.SearchOptions, searchsent.SearchMuxHash, searchsent.SearchMuxCustomThumbnail FROM ". table_agency_searchsaved ." search LEFT JOIN ". table_agency_searchsaved_mux ." searchsent ON search.SearchID = searchsent.SearchID WHERE searchsent.SearchMuxHash = \"". $SearchMuxHash ."\"";
+
+
+							$SearchMuxMessage = str_replace("[link-place-holder]",network_site_url()."/client-view/".$SearchMuxHash,$SearchMuxMessage);
+
+
+							$Message   = $SearchMuxMessage;
+							$headers[] = 'MIME-Version: 1.0';
+							$headers[] = "Content-Type: text/html; charset=\"". get_option('blog_charset') . "\"\n";
+							$headers[] = 'From: "'. $fromName .'" <'. trim($fromEmail) .'>';
+							$bccArray = explode(";",$SearchMuxEmailToBcc);
+
+							foreach($bccArray as $bcc){
+								$headers[] = 'Bcc: '.$bcc;
+							}
+							
+							if(is_user_logged_in()) {
+								add_filter('wp_mail_from','yoursite_wp_mail_from');
+								add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
+												}
+												
+							$Message = str_replace("\n","<br>",$Message);
+							
+							
 						
-						
-						$Message .= $profileHTML;
-						
-						$isSent = wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
-						if($isSent){
-							echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
-						} else {
-							echo "<p id=\"emailSent\">Error sending the email!</p>";
+							$rb_agency_options_arr = get_option('rb_agency_options');
+							$rb_agency_option_profilenaming	= isset($rb_agency_options_arr['rb_agency_option_profilenaming']) ?$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
+							
+							
+							$profileHTML = '<br/><br/>';
+							
+							$sql = "SELECT profile.*, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media
+										WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\"
+											AND media.ProfileMediaPrimary = 1 LIMIT 1 ) AS ProfileMediaURL  FROM ".table_agency_profile ." AS profile 
+										WHERE ProfileID IN ( {$casting} ) GROUP BY(profile.ProfileID) ";
+							
+							$resultProf = $wpdb->get_results($sql,ARRAY_A);
+							foreach($resultProf as $dataList){
+								$ProfileContactDisplay =$dataList['ProfileContactDisplay'];
+								
+								$profileHTML .='<div style="display: inline-block;width:190px;height:280px;padding:10px 2px;font-family: Arial, Tahoma, Verdana;text-align:center;">';
+								//$profileHTML .="<a style=\"text-decoration:none;\" href=\"". rb_agency_PROFILEDIR ."". $dataList["ProfileGallery"] ."/\" title=\"". stripslashes($ProfileContactDisplay) ."\">
+								$profileHTML .="<img style=\"width:180px;height:230px\" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src="
+									. rb_agency_UPLOADDIR . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
+									<br/>";
+								$profileHTML .= "<b>$ProfileContactDisplay</b>";
+								$profileHTML .='</div>';
+							}	
+							
+							
+							$Message .= $profileHTML;
+							
+							
+							 
+							$isSent =wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+							//mail($SearchMuxToEmail,"My subject",stripcslashes(make_clickable($Message)));
+							if($isSent){
+								echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
+							}else{
+								echo "<p id=\"emailSent\">Error sending the email!</p>";
+							}
 						}
-
-
+												 
+						 
 					}
 					global $current_user;
-  					get_currentuserinfo();
+      				get_currentuserinfo();
 					?>
-					<div id="sendProfilesForm" class="rbform block" style="display:none;">
-						<h2>Send Profiles</h2>
+					<?php $display_none = empty($err_msg) ? 'style="display:none;"' : '' ; ?>
+					<div id="sendProfilesForm" <?php echo $display_none; ?> >
+					
+					
+						<h3>Send Profiles</h3>
 						<form method="post" action="">
+							<?php
+							$rb_agency_options_arr = get_option('rb_agency_options');
+							
+							//if not logged -- then the from/ name into rb-agency settings...
+							if(!is_user_logged_in()) {
+							?>
+		
+								<div>								
+									<input type="hidden" name="fromName" id="fromName" value="<?php echo $rb_agency_options_arr['rb_agency_option_agencyname']; ?>"/>
+								</div>
+								<div>
+									<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $rb_agency_options_arr['rb_agency_option_agencyemail']; ?>"/>
+								</div>
+							<?php
+							}else{ ?>
+								<div>								
+									<input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname." ".$current_user->user_lastname; ?>" disabled="disabled"/>
+								</div>
+								<div>
+									<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $current_user->user_email; ?>" disabled="disabled"/>
+								</div>
+							<?php } ?>	
 							<div>
-								<input type="hidden" name="fromName" id="fromName" value="<?php echo $current_user->user_firstname." ".$current_user->user_lastname; ?>" disabled="disabled"/>
+								<label>Your Name<span style="color:red;">*</span>   </label>
+								<input type="text" name="yourName" id="yourName" />
 							</div>
 							<div>
-								<input type="hidden" name="fromEmail" id="fromEmail" value="<?php echo $current_user->user_email; ?>" disabled="disabled"/>
+								<label>Your Email <span style="color:red;">*</span>  </label>
+								<input type="text" name="yourEmail" id="yourEmail"/>
 							</div>
-							<div class="rbfield rbtext rbsingle">
-								<label>Send to Name:</label>
-								<div><input type="text" name="sendToName" id="sendToName" /></div>
+							<div>
+								<label>Your Tel. No. <span style="color:red;">*</span>  </label>
+								<input type="text" name="yourTelNo" id="yourTelNo" />
 							</div>
-							<div class="rbfield rbtext rbsingle">
-								<label>Send to Email:</label>
-								<div><input type="text" name="sendToEmail" id="sendToEmail" /></div>
+							<div>
+								<label>Send to Email: </label>
+								<input type="text" name="sendToEmail" id="sendToEmail" value="Admin" disabled/>
 							</div>
-							<div class="rbfield rbtext rbsingle">
-								<label>BCC:</label>
-								<div><input type="text" name="emailBcc" id="emailBcc"/></div>
+							<div>
+								<label>BCC: </label>
+								<input type="text" name="emailBcc" id="emailBcc"/>
 							</div>
-							<div class="rbfield rbtext rbsingle">
-								<label>Subject:</label>
-								<div><input type="text" name="subject" id="subject"/></div>
+							<div>
+								<label>Subject <span style="color:red;">*</span>  </label>
+								<input type="text" name="subject" id="subject" />
 							</div>
-							<input type="hidden" name="shortlistprofiles_send" id="shortlistprofiles_send" value=""/>
-							<div class="rbfield rbtextarea rbsingle">
-								<label>Message:</label>
-								<div><textarea id="message" name="message" style="width:100%;height:200px;">Click the following link (or copy and paste it into your browser): [link-place-holder]</textarea></div>
-							</div>
-							<div class="rbfield rbsubmit">
+							
+							
+							<div>
+								<label>Message: </label>								
+								
+								<textarea id="message" name="message" style="width:100%;height:200px;"></textarea>
+								<br/>
 								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />
+								
 							</div>
 						</form>
 					</div>
