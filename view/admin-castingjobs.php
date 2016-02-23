@@ -1721,7 +1721,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'viewAllAuditions' && isset($_GE
 
 <?php
 	
-}elseif(!isset($_GET['action']) || isset($_GET['Job_Title'])){
+}elseif(!isset($_GET['action']) || isset($_GET['Job_Title']) || isset($_GET['page_index'])){
 	// Load casting jobs list
 		RBAgency_Casting::rb_display_casting_jobs(); 
 }

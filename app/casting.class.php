@@ -1520,6 +1520,11 @@ class RBAgency_Casting {
 				$query .= "&Job_Title". $selectedTitle ."";
 				$filter .= " AND jobs.Job_Title LIKE '%". $selectedTitle ."%'";
 			}
+			if(isset($_GET['Agency_Producer']) && !empty($_GET['Agency_Producer'])){
+				$selectedTitle = isset($_GET['Agency_Producer'])?$_GET['Agency_Producer']:"";
+				$query .= "&Agency_Producer". $selectedTitle ."";
+				$filter .= " AND agency.CastingContactCompany LIKE '%". $selectedTitle ."%' ";
+			}
 
 			//Paginate
 			$sqldata  = "SELECT jobs.*,talents.* , agency.* FROM ". table_agency_casting_job ." jobs LEFT JOIN ". table_agency_castingcart_availability ." talents ON jobs.Job_ID = talents.CastingAvailabilityID LEFT JOIN ".table_agency_casting." as agency ON agency.CastingUserLinked = jobs.Job_UserLinked ". $filter  .""; // number of total rows in the database
@@ -1564,9 +1569,16 @@ class RBAgency_Casting {
 								<input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
 								Search by : 
 								Title: <input type="text" name="Job_Title" value="<?php echo isset($Job_Title)?$Job_Title:""; ?>" style="width: 100px;" />
-									<input type="submit" value="Filter" class="button-primary" />
+									
 									<input type="hidden" name="action" value="informTalent"/>
 									<input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
+								
+							</td>
+							<td style="width: 360px;" nowrap="nowrap">
+								
+								<input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
+								Agency/Producer : <input type="text" name="Agency_Producer" value="<?php echo isset($_GET['Agency_Producer'])?$_GET['Agency_Producer'] : ""; ?>" style="width: 100px;" />
+								<input type="submit" value="Filter" class="button-primary" />	
 								</form>
 							</td>
 							<td style="width: 200px;" nowrap="nowrap">
