@@ -791,3 +791,24 @@ msgstr ""
 
 msgid "Add selected profile(s)"
 msgstr ""
+
+msgid "Your Name"
+msgstr ""
+
+msgid "Your Email"
+msgstr ""
+
+msgid "Your Tel. No."
+msgstr ""
+
+msgid "Send To Email:"
+msgstr ""
+
+msgid "BCC:"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Message:"
+msgstr ""
