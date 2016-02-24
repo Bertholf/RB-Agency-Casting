@@ -627,33 +627,33 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								</div>
 							<?php } ?>	
 							<div>
-								<label>Your Name<span style="color:red;">*</span>   </label>
+								<label><?php echo __("Your Name", RBAGENCY_casting_TEXTDOMAIN); ?><span style="color:red;">*</span>   </label>
 								<input type="text" name="yourName" id="yourName" />
 							</div>
 							<div>
-								<label>Your Email <span style="color:red;">*</span>  </label>
+								<label><?php echo __("Your Email", RBAGENCY_casting_TEXTDOMAIN); ?> <span style="color:red;">*</span>  </label>
 								<input type="text" name="yourEmail" id="yourEmail"/>
 							</div>
 							<div>
-								<label>Your Tel. No. <span style="color:red;">*</span>  </label>
+								<label><?php echo __("Your Tel. No.", RBAGENCY_casting_TEXTDOMAIN); ?> <span style="color:red;">*</span>  </label>
 								<input type="text" name="yourTelNo" id="yourTelNo" />
 							</div>
 							<div>
-								<label>Send to Email: </label>
+								<label><?php echo __("Send to Email:", RBAGENCY_casting_TEXTDOMAIN); ?> </label>
 								<input type="text" name="sendToEmail" id="sendToEmail" value="Admin" disabled/>
 							</div>
 							<div>
-								<label>BCC: </label>
+								<label><?php echo __("BCC:", RBAGENCY_casting_TEXTDOMAIN); ?> </label>
 								<input type="text" name="emailBcc" id="emailBcc"/>
 							</div>
 							<div>
-								<label>Subject <span style="color:red;">*</span>  </label>
+								<label><?php echo __("Subject", RBAGENCY_casting_TEXTDOMAIN); ?> <span style="color:red;">*</span>  </label>
 								<input type="text" name="subject" id="subject" />
 							</div>
 							
 							
 							<div>
-								<label>Message: </label>								
+								<label><?php echo __("Message:", RBAGENCY_casting_TEXTDOMAIN); ?> </label>								
 								
 								<textarea id="message" name="message" style="width:100%;height:200px;"></textarea>
 								<br/>
@@ -685,7 +685,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					
 					
 					if(isset($_GET["emailSent"])) {
-						echo "<p id=\"emailSent\">Email Sent Succesfully! Go Back to <a href=\"". get_bloginfo("url")."/search/\">Search</a>.</p>";
+						echo "<p id=\"emailSent\">".__("Email Sent Succesfully! Go Back to", RBAGENCY_casting_TEXTDOMAIN)." <a href=\"". get_bloginfo("url")."/search/\">Search</a>.</p>";
 					}
 
 echo "			<div class=\"cb\"></div>\n";
