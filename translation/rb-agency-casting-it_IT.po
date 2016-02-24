@@ -3,155 +3,155 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2015-11-21 11:12+0800\n"
+"PO-Revision-Date: 2016-02-23 15:10+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2\n"
-"X-Poedit-Basepath: C:\\Dropbox\\Users\\Rob\\Scripts\\RB Plugin\\rb-agency\n"
+"X-Poedit-Basepath: C:/Dropbox/Users/Rob/Scripts/RB Plugin/rb-agency\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: it_IT\n"
-"X-Generator: Poedit 1.8.1\n"
-"X-Poedit-SearchPath-0: C:\\Dropbox\\Users\\Rob\\Scripts\\RB Plugin\\rb-agency\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-SearchPath-0: C:/Dropbox/Users/Rob/Scripts/RB Plugin/rb-agency\n"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/functions.php:99
 msgid "RB Agency Updates"
-msgstr "Aggiornamento piattaforma"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/functions.php:366
 msgid "Male"
-msgstr "Uomo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/functions.php:368
 msgid "Female"
-msgstr "Femmina"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/functions.php:397
 msgid "No Profiles Found"
-msgstr "Nessun profilo trovato"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:364
 #: Plugin\rb-agency/rb-agency.php:477
 msgid "Settings"
-msgstr "Impostazioni"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:373
 msgid "RB Agency"
-msgstr "RB Agency"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:386
 #: Plugin\rb-agency/rb-agency.php:388
 msgid "Generate Client List"
-msgstr "Genera lista clienti"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:434
 msgid "Any Profile Type"
-msgstr "Tipo profilo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:439
 msgid "Only"
-msgstr "Solo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:442
 msgid "Starting Age"
-msgstr "Avvio"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:443
 msgid "Ending Age"
-msgstr "Fine"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Gender"
-msgstr "Sesso"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Both Male &amp; Female"
-msgstr "Entrambi Uomini &amp; Donne"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Female Only"
-msgstr "Solo donne"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Male Only"
-msgstr "Solo uomini"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:446
 msgid "Insert Profile List"
-msgstr "Inserire lista profilo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:447
 msgid "Insert Search Form"
-msgstr "Cerca"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:456
 msgid "My Post Section Title"
-msgstr "Mio titolo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:471
 msgid "Agency"
-msgstr "Agenzia"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:472
 msgid "Overview"
-msgstr "Panorama"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:473
 msgid "Manage Profiles"
-msgstr "Gestisci profili"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:473
 msgid "Manage Profile"
-msgstr "Gestisci profilo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:474
 msgid "Search Profiles"
-msgstr "Cerca profili"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:475
 msgid "Saved Searches"
-msgstr "Ricerche salvate"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:476
 msgid "Tools &amp; Reports"
-msgstr "Impostazioni report"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:476
 msgid "Run Reports"
-msgstr "Avvia report"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:477
 msgid "Edit Settings"
-msgstr "Modifica impostazioni"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:565
 msgid "Almost done..."
-msgstr "Quasi finito..."
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:565
 msgid "One More Step"
-msgstr "Primo passo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:565
 msgid "Please click here to complete the uninstallation process"
-msgstr "Clicca qui per interrompere il processo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/casting.php:49
 msgid "New Casting added successfully!"
-msgstr "Nuovo casting è stato aggiunto"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/casting.php:49
 #: Plugin\rb-agency/admin/client.php:107
 msgid "Update and add media"
-msgstr "Aggiorna e invia media"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/casting.php:51
 #: Plugin\rb-agency/admin/client.php:109
 msgid "Error creating record, please ensure you have filled out all required fields."
-msgstr "Errore nell'inserimento, si prega di accertarsi di aver compilato tutti i campi obbligatori."
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/casting.php:467
 #: Plugin\rb-agency/admin/client.php:1427
@@ -159,44 +159,44 @@ msgstr "Errore nell'inserimento, si prega di accertarsi di aver compilato tutti 
 #: Plugin\rb-agency/admin/taxonomy.php:220
 #: Plugin\rb-agency/admin/taxonomy.php:263
 msgid "Delete"
-msgstr "Cancella"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:107
 msgid "New Client added successfully!"
-msgstr "Nuovo cliente è stato aggiunto"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:405
 msgid "Client updated successfully!"
-msgstr "Cliente aggiornato"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:407
 msgid "Error updating record, please ensure you have filled out all required fields."
-msgstr "Errore durante l'aggiornamento, assicurarsi di aver compilato tutti i campi obbligatori."
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:419
 #: Plugin\rb-agency/admin/client.php:460
 msgid "Client deleted successfully!"
-msgstr "Cliente cancellato"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:457
 msgid "No valid record found."
-msgstr "Dato non trovato"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:468
 msgid "Back to Client List"
-msgstr "Torna alla lista clienti"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Edit Client"
-msgstr "Modifica cliente"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Country"
-msgstr "Regione"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:519
 msgid "Make changes in the form below to edit a Client."
-msgstr "Apportare modifiche al modulo sottostante per modificare un cliente"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:519
 #: Plugin\rb-agency/admin/client.php:530
@@ -568,226 +568,226 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "State"
-msgstr "Provincia"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "City"
-msgstr "Città"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Street"
-msgstr "Indirizzo"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "ZIP"
-msgstr "CAP"
+msgstr ""
 
 msgid "Welcome"
-msgstr "Bentornato"
+msgstr ""
 
 msgid "First Name"
-msgstr "Nome"
+msgstr ""
 
 msgid "Last Name"
-msgstr "Cognome"
+msgstr ""
 
 msgid "required"
-msgstr "richiesto"
+msgstr ""
 
 msgid "Company (required)"
-msgstr "Societa"
+msgstr ""
 
 msgid "Company"
-msgstr "Societa"
+msgstr ""
 
 msgid "Street Address"
-msgstr "Indirizzo stradale"
+msgstr ""
 
 msgid "Home"
-msgstr "Abitazione"
+msgstr ""
 
 msgid "Work"
-msgstr "Ufficio"
+msgstr ""
 
 msgid "Leave blank to keep same"
-msgstr "Lasciare vuoto per mantenere lo stesso"
+msgstr ""
 
 msgid "Retype to Confirm"
-msgstr "Digitare nuovamente per confermare"
+msgstr ""
 
 msgid "Join Our Team"
-msgstr "Unisciti al nostro Team"
+msgstr ""
 
 msgid "To Join Our Team please complete the application below."
-msgstr "Per far parte del nostro Team si prega di compilare il seguente modulo."
+msgstr ""
 
 msgid "I agree to the %s terms of service"
-msgstr "Accetto i Termini e Condizioni del servizio"
+msgstr ""
 
 msgid "Thank you for registering, %1$s."
-msgstr "Grazie per In Registrazione"
+msgstr ""
 
 msgid "Please check your email address. That's where you'll receive your login password"
-msgstr "A breve riceverete la password di accesso. Si prega di verificare I'indirizo email."
+msgstr ""
 
 msgid "(It might go into your spam folder)"
-msgstr "(Controllare anche nella cartella SPAM)"
+msgstr ""
 
 msgid "We have registered you as Agent/Producer."
-msgstr "Tu sei Registrato come Agente"
+msgstr ""
 
 msgid "Search Database"
-msgstr "Ricerca nel Database"
+msgstr ""
 
 msgid "Age"
-msgstr "Età"
+msgstr ""
 
 msgid "Edit Information"
-msgstr "Modifica le tue Infomazioni"
+msgstr ""
 
 msgid "Post a New Job"
-msgstr "Inserisci un nuovo Lavoro"
+msgstr ""
 
 msgid "View Your Job Postings"
-msgstr "Visializza i toui Annunci d'Impiego"
+msgstr ""
 
 msgid "View Your Applicants"
-msgstr "Visualizza i tuoi Candidati"
+msgstr ""
 
 msgid "New Job Posting"
-msgstr "Inserimento Nuovo Lavoro"
+msgstr ""
 
 msgid "Job Description"
-msgstr "Descrizione Lavoro"
+msgstr ""
 
 msgid "Title:"
-msgstr "Titolo:"
+msgstr ""
 
 msgid "offer:"
-msgstr "Offerta:"
+msgstr ""
 
 msgid "Job Duration"
-msgstr "Durata Lavoro"
+msgstr ""
 
 msgid "Date Start:"
-msgstr "Data Inizio:"
+msgstr ""
 
 msgid "Date End:"
-msgstr "Data Fine:"
+msgstr ""
 
 msgid "Job Location"
-msgstr "SEde del Lavoro"
+msgstr ""
 
 msgid "Location:"
-msgstr "Sede:"
+msgstr ""
 
 msgid "Region:"
-msgstr "Citta"
+msgstr ""
 
 msgid "Job Audition"
-msgstr "Provini/Selezioni"
+msgstr ""
 
 msgid "Time:"
-msgstr "Orario:"
+msgstr ""
 
 msgid "Venue:"
-msgstr "Luogo:"
+msgstr ""
 
 msgid "Job Criteria"
-msgstr "Tipologia:"
+msgstr ""
 
 msgid "Visibility:"
-msgstr "Visibilità"
+msgstr ""
 
 msgid "Submit Job"
-msgstr "Inserisci Lavoro"
+msgstr ""
 
 msgid "Your Job Postings"
-msgstr "I tuoi annunci di Lavoro"
+msgstr ""
 
 msgid "Job Title"
-msgstr "Titolo Lavoro"
+msgstr ""
 
 msgid "Date Posted"
-msgstr "Data inserzione"
+msgstr ""
 
 msgid "Actions"
-msgstr "Azioni"
+msgstr ""
 
 msgid "Applicants to your Job Postings"
-msgstr "I candidati alle tue offerte di lavoro"
+msgstr ""
 
 msgid "Criteria Matched"
-msgstr "Abbinamento Criteri"
+msgstr ""
 
 msgid "Your Rating"
-msgstr "Il Tuo Punteggio"
+msgstr ""
 
 msgid "Records Per Page"
-msgstr "Risultati per pagina"
+msgstr ""
 
 msgid "filter"
-msgstr "Filtra"
+msgstr ""
 
 msgid "Select"
-msgstr "Seleziona"
+msgstr ""
 
 msgid "Job Title / ID"
-msgstr "Titolo Lavoro ID"
+msgstr ""
 
 msgid "Applicant"
-msgstr "Candidati"
+msgstr ""
 
 msgid "Criteria Passed"
-msgstr "Criteri Richiesti"
+msgstr ""
 
 msgid "Application Letter"
-msgstr "Lettera di Candidatura"
+msgstr ""
 
 msgid "Action"
-msgstr "Azione"
+msgstr ""
 
 msgid "You have no Applicants."
-msgstr "Non ci sono Candidati"
+msgstr ""
 
 msgid "if you don't have any job postings, create a new job posting"
-msgstr "Senon avete offerte di Lavoro, create una Nuova offerta di Lavoro"
+msgstr ""
 
 msgid "Here"
-msgstr "QUI"
+msgstr ""
 
 msgid "Add/Remove to Casting Cart"
-msgstr "Aggiungi/rimuovi dal Carrello"
+msgstr ""
 
 msgid "View Your Casting Cart"
-msgstr "Visualizza Carrello"
+msgstr ""
 
 msgid "Submit"
-msgstr "Invia"
+msgstr ""
 
 msgid "Go Back to Casting Dashboard"
-msgstr "Torna indietro"
+msgstr ""
 
 msgid "Casting Cart"
-msgstr "Carrello dei Casting"
+msgstr ""
 
 msgid "Select a job"
-msgstr "Seleziona Lavoro"
+msgstr ""
 
 msgid "Search"
-msgstr "Ricerca"
+msgstr ""
 
 msgid "Clear"
-msgstr "Pulisci"
+msgstr ""
 
 msgid "Select all"
-msgstr "Seleziona Tutto"
+msgstr ""
 
 msgid "Go back to Applicants."
-msgstr "Ritorna ai Candidati"
+msgstr ""
 
 msgid "Remove selected profile(s)"
-msgstr "Rimuovi Profili Selezionati"
+msgstr ""
 
 msgid "Add selected profile(s)"
-msgstr "Aggiungi Profili Selezionati"
+msgstr ""
