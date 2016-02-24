@@ -1874,7 +1874,7 @@
 
 	    function shortcode_job_types($atts){
 
-	    	$a = shortcode_atts( array(
+			$a = shortcode_atts( array(
 			    'show_description' => "true",
 			    'show_all_jobs' => "false",
 			), $atts );
@@ -1912,14 +1912,19 @@
 					$output .= "		<div class=\"ja-content\">";
 					$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
 
-											$job_desc = explode(" ", $job->Job_Text);
-											$job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
+											// $job_desc = explode(" ", $job->Job_Text);
+											// $job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
 
-					$output .= "			<p>".$job_desc_excerpt."</p>";
+					$output .= "			<p>".$job->Job_Intro."</p>";
 					$output .= "			<p class=\"ja-date\">Apply Before 28/02/2016</p><!-- .ja-content -->";
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";
 					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">View this Job</a>";			
+					$output .= "			<div class=\"ja-share\">";
+					$output .= "				<div class=\"fb-share-button\" data-href=\"".get_permalink()."\" data-layout=\"button\"></div>";
+					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";
+					$output .= "				<a href=\"mailto:test@yahoo.com\" title=\"\"><img src=\"".RBAGENCY_casting_PLUGIN_URL."/images/envelope.png\" style=\"height:20px; display: inline-block;\"></a>";
+					$output .= "			</div><!-- .ja-share -->";
 					$output .= "		</div><!-- .ja-footer -->";
 					$output .= "	</div><!-- .job-audition -->";
 				}
@@ -1927,40 +1932,39 @@
 			}
 			
 			$output .= "</div><!-- #rbcontent -->";
-			return $output;
-	    	
-	    	/** $a = shortcode_atts( array(
-			        'show_description' => "true",
-			    ), $atts );
-
-
-	    	global $wpdb;
-	    	$get_details = "SELECT * FROM " . table_agency_casting_job_type;
-			$results = $wpdb->get_results($get_details);
-			$output = "";
-			$output .= "<div id=\"rbcontent\">";
-			$output .= "<table>";
-			if($a['show_description'] == "true"){
-				$output .= "<tr><td>Job Type Title</td><td>Job Type Description</td>";
-			}else{
-				$output .= "<tr><td>Job Type Title</td>";
-			}
-			foreach($results as $job_type){
-				$output .= "<tr>";
-				$output .= "<td><a href=\"".site_url()."/job-type/".$job_type->Job_Type_ID."\">".$job_type->Job_Type_Title."</a></td>";
-				if($a['show_description'] == "true"){
-					$output .= "<td>".$job_type->Job_Type_Text."</td>";
-				}
-				$output .= "</tr>";
-			}
-			$output .= "</table>";
-			$output .= "</div>";
 
 			return $output;
-
-			**/
 	    }
 	    add_shortcode( 'job-types', 'shortcode_job_types' );
+
+	    function ja_social_js(){ // Job Auditions Social Buttons
+	    	$output='<div id="fb-root"></div>
+					<script>(function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0];
+					  if (d.getElementById(id)) return;
+					  js = d.createElement(s); js.id = id;
+					  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+					  fjs.parentNode.insertBefore(js, fjs);
+					}(document, \'script\', \'facebook-jssdk\'));</script><script>window.twttr = (function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0],
+					    t = window.twttr || {};
+					  if (d.getElementById(id)) return t;
+					  js = d.createElement(s);
+					  js.id = id;
+					  js.src = "https://platform.twitter.com/widgets.js";
+					  fjs.parentNode.insertBefore(js, fjs);
+					 
+					  t._e = [];
+					  t.ready = function(f) {
+					    t._e.push(f);
+					  };
+					 
+					  return t;
+					}(document, "script", "twitter-wjs"));</script>';
+			echo $output;
+	    }
+	    add_action('wp_head','ja_social_js');
+	    
 
 	    function rb_agency_detail_profile_castingjob($JobID){
 	    	global $wpdb;

@@ -250,7 +250,8 @@ $siteurl = get_option('siteurl');
 					$cartString = RBAgency_Common::clean_string($cartString);
 					$hash = RBAgency_Common::generate_random_string(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 					$sql = "INSERT INTO ".table_agency_casting_job." (
-							Job_Title, 
+							Job_Title,
+							Job_Intro,
 							Job_Text,
 							Job_Date_Start,
 							Job_Date_End,
@@ -274,6 +275,7 @@ $siteurl = get_option('siteurl');
 						)
 						VALUES(
 							'".esc_attr($_POST["Job_Title"])."', 
+							'".esc_attr($_POST["Job_Intro"])."',
 							'".esc_attr($_POST["Job_Text"])."',
 							'".esc_attr($_POST["Job_Date_Start"])."',
 							'".esc_attr($_POST["Job_Date_End"])."',
@@ -372,6 +374,7 @@ $siteurl = get_option('siteurl');
 							$sql = "UPDATE ".table_agency_casting_job." 
 								SET
 										Job_Title = '".esc_attr($_POST["Job_Title"])."', 
+										Job_Intro = '".esc_attr($_POST["Job_Intro"])."', 
 										Job_Text = '".esc_attr($_POST["Job_Text"])."',
 										Job_Date_Start = '".esc_attr($_POST["Job_Date_Start"])."',
 										Job_Date_End = '".esc_attr($_POST["Job_Date_End"])."',
@@ -512,6 +515,7 @@ $siteurl = get_option('siteurl');
 
 				$Job_ID = ""; 
 				$Job_Title = ""; 
+				$Job_Intro = ""; 
 				$Job_Text = "";
 				$Job_Date_Start = "";
 				$Job_Date_End = "";
@@ -542,6 +546,7 @@ $siteurl = get_option('siteurl');
 				$Job_AgencyName = $data->CastingContactCompany;
 				$Job_Agency_ID = $data->Job_UserLinked;
 				$Job_Title = $data->Job_Title; 
+				$Job_Intro = $data->Job_Intro; 
 				$Job_Text = $data->Job_Text;
 				$Job_Date_Start = $data->Job_Date_Start;
 				$Job_Date_End = $data->Job_Date_End;
@@ -644,19 +649,23 @@ $siteurl = get_option('siteurl');
 						echo "<div><input type=\"text\" id=\"Job_Title\" name=\"Job_Title\" value=\"".$Job_Title."\"></div>";
 					echo "</div>";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
-						echo "<label for=\"Job_Text\">Description</label>";
-						echo "<div><textarea id=\"Job_Title\" name=\"Job_Text\">".$Job_Text."</textarea></div>";
+						echo "<label for=\"Job_Intro\">Job Intro</label>";
+						echo "<div><input type=\"text\" id=\"Job_Intro\" name=\"Job_Intro\" value=\"".$Job_Intro."\"></div>";
 					echo "</div>";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
-						echo "<label for=\"Job_Offering\">Offer</label>";
+						echo "<label for=\"Job_Text\">Description</label>";
+						echo "<div><textarea id=\"Job_Text\" name=\"Job_Text\">".$Job_Text."</textarea></div>";
+					echo "</div>";
+					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
+						echo "<label for=\"Job_Offering\">Payment</label>";
 						echo "<div><input type=\"text\" id=\"Job_Offering\" name=\"Job_Offering\" value=\"".$Job_Offering."\"></div>";
 					echo "</div>";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
-						echo "<label for=\"Job_Date_Start\">Job Date Start</label>";
+						echo "<label for=\"Job_Date_Start\">Shoot Date Start</label>";
 						echo "<div><input type=\"text\" class=\"datepicker\" id=\"Job_Date_Start\" name=\"Job_Date_Start\" value=\"".$Job_Date_Start."\"></div>";
 					echo "</div>";
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
-						echo "<label for=\"Job_Date_End\">Job Date End</label>";
+						echo "<label for=\"Job_Date_End\">Shoot Date End</label>";
 						echo "<div><input type=\"text\" class=\"datepicker\" id=\"Job_Date_End\" name=\"Job_Date_End\" value=\"".$Job_Date_End."\"></div>";
 					echo "</div>";
 					

@@ -77,6 +77,8 @@ footer .footer-links { float: right; clear: right; }
 #job-auditions .job-audition .ja-content p:last-child { margin-bottom: 0; }
 #job-auditions .job-audition .ja-content .ja-date { font-style: italic; font-size: small; }
 #job-auditions .job-audition .ja-footer > a { padding: 5px 10px; border: 1px solid #aaa; border-radius: 3px; }
+#job-auditions .job-audition .ja-footer .ja-share { margin-top: 15px; }
+#job-auditions .job-audition .ja-footer .ja-share iframe { margin-bottom: 0; }
 
 
 /*Job Types List Links*/
@@ -107,7 +109,8 @@ footer .footer-links { float: right; clear: right; }
 	#job-auditions .job-audition .ja-thumbnail { float: left; margin-right: 15px; }
 	#job-auditions .job-audition .ja-thumbnail img { display: block; }
 	#job-auditions .job-audition .ja-content { padding-right: 170px; }
-	#job-auditions .job-audition .ja-footer { position: absolute; top: 0; right: 0; padding-top: 75px; }
+	#job-auditions .job-audition .ja-footer { position: absolute; top: 0; right: 0; padding-top: 75px; width: 200px; text-align: right; }
+	#job-auditions .job-audition .ja-footer .ja-share { position: absolute; top: 15px; right: 15px; margin-top: 0px; }
 
 	/*Job Details*/
 	#job-details { padding: 0; }

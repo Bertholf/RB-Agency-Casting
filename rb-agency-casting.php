@@ -267,6 +267,7 @@ class RBAgencyCasting {
 					Job_ID BIGINT(20) NOT NULL AUTO_INCREMENT,
 					Job_UserLinked BIGINT(20) NOT NULL,
 					Job_Title VARCHAR(255),
+					Job_Intro TEXT,
 					Job_Text TEXT,
 					Job_Date_Start VARCHAR(255),
 					Job_Talents VARCHAR(1000),

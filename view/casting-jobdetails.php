@@ -17,14 +17,11 @@
 
 	echo $rb_header = RBAgency_Common::rb_header();
 
-	echo "<div id=\"rbcontent\">";
+	echo "<div id=\"rbcontent\" class=\"job-".$job_id."\">";
    
 	//if (is_user_logged_in()) {
 
-		echo "<style>
-				.jobdesc{margin-left:20px; width:250px; padding:20px 0px 20px 50px;}
-			</style>
-			<script type='text/javascript'>
+		echo "<script type='text/javascript'>
 				jQuery(document).ready(function(){
 					jQuery('#apply_job').click(function(){";
 						if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
@@ -42,7 +39,7 @@
 				});
 			</script>";
 
-		echo "<p><h2>Job Details</h2></p><br>";
+		echo "<h2>".__("Job Details",RBAGENCY_TEXTDOMAIN)."</h2><br>";
 
 		global $wpdb;
 
@@ -50,126 +47,151 @@
 		$data_r = $wpdb->get_results("SELECT * FROM ". table_agency_casting_job . " WHERE Job_ID = " . $job_id);
 		if(count($data_r) > 0){
 			foreach($data_r as $r){
-				echo "<table>
-						<tr>
-							<td><b>Title:</b></td>
-							<td class='jobdesc'>".$r->Job_Title."</td>
-						</tr>
-						<tr>
-							<td><b>Description:</b></td>
-							<td class='jobdesc'>".$r->Job_Text."</td>
-						</tr>
-						<tr>
-							<td><b>Duration:</b></td>
-							<td class='jobdesc'>".date('F j, Y', strtotime($r->Job_Date_Start))." - ".date('F j, Y', strtotime($r->Job_Date_End))."</td>
-						</tr>";
-						
-						if(!empty($r->Job_Time_Start)){
-						echo "<tr>
-								<td><b>Time Start:</b></td>
-								<td class='jobdesc'>".$r->Job_Time_Start."</td>
-							</tr>	";
-						}
-						if(!empty($r->Job_Time_End)){
-						echo "<tr>
-								<td><b>Time End:</b></td>
-								<td class='jobdesc'>".$r->Job_Time_End."</td>
-							</tr>	";
-						}
-						
-					echo "
-						<tr>
-							<td><b>Location:</b></td>
-							<td class='jobdesc'>".$r->Job_Location."</td>
-						</tr>
-						<tr>
-							<td><b>Region:</b></td>
-							<td class='jobdesc'>".$r->Job_Region."</td>
-						</tr>
-						<tr>
-							<td><b>Job Type:</b></td>
-							<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."</td>
-						</tr>
-						<tr>
-							<td><b>Job Criteria:</b></td>";
 
-							if(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 2){
-								echo "<td class='jobdesc'>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."</td>";
-							} elseif(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 1){
-								echo "<td class='jobdesc'>Open to All</td>";
-							} elseif(RBAgency_Casting::rb_get_job_visibility($r->Job_ID) == 0){
-								echo "<td class='jobdesc'>Invite Only</td>";
+				echo "<h3>".__($r->Job_Title, RBAGENCY_TEXTDOMAIN)."</h3>";
+				echo "<p>".__($r->Job_Text, RBAGENCY_TEXTDOMAIN)."</p>";
+				// echo "<p>".$r->Job_Criteria."</p>";
+
+				$job_criteria = explode("|", $r->Job_Criteria);
+				$criteria_age = $job_criteria[0];
+				$criteria_age_val = explode("/", $criteria_age);
+
+				echo "<div id=\"job-details\">";
+					echo "<div id=\"details\">";
+						echo "<table>
+							<tr id=\"shoot-date-start\">
+								<td><b>".__("Shoot Date Start:", RBAGENCY_TEXTDOMAIN)."</b></td>
+								<td class='jobdesc'>".date('F j, Y', strtotime($r->Job_Date_Start))."</td>
+							</tr>
+							<tr id=\"shoot-date-end\">
+								<td><b>Shoot Date End:</b></td>
+								<td class='jobdesc'>".date('F j, Y', strtotime($r->Job_Date_End))."</td>
+							</tr>";
+							
+							if(!empty($r->Job_Time_Start)){
+							echo "<tr id=\"job-time-start\">
+									<td><b>Job Time Start:</b></td>
+									<td class='jobdesc'>".$r->Job_Time_Start."</td>
+								</tr>";
 							}
-
-
-						echo "</tr>	";
-						if(!empty($r->Job_Audition_Date)){
-						echo "<tr>
-								<td><b>Job Audition Date:</b></td>
-								<td class='jobdesc'>".$r->Job_Audition_Date."</td>
-							</tr>	";
-						}
-						if(!empty($r->Job_Audition_Time)){
-						echo "<tr>
-								<td><b>Job Audition Time Start:</b></td>
-								<td class='jobdesc'>".$r->Job_Audition_Time."</td>
-							</tr>	";
-						}
-						if(!empty($r->Job_Audition_Time)){
-						echo "<tr>
-								<td><b>Job Audition Time End:</b></td>
-								<td class='jobdesc'>".$r->Job_Audition_Time_End."</td>
-							</tr>	";
-						}
-						
-						if(!empty($r->Job_Audition_Venue)){
-						echo "<tr>
-								<td><b>Job Audition Venue:</b></td>
-								<td class='jobdesc'>".$r->Job_Audition_Venue."</td>
-							</tr>	";
-						}
-						//Custom fields
-						rb_agency_detail_castingjob();
-						//End custom fields
+							if(!empty($r->Job_Time_End)){
+							echo "<tr id=\"job-time-end\">
+									<td><b>Job Time End:</b></td>
+									<td class='jobdesc'>".$r->Job_Time_End."</td>
+								</tr>";
+							}
 						echo "
-						<tr>
-							<td></td>";
+							<tr>
+								<td><b>Location:</b></td>
+								<td class='jobdesc'>".$r->Job_Location."</td>
+							</tr>
+							<tr>
+								<td><b>Region:</b></td>
+								<td class='jobdesc'>".$r->Job_Region."</td>
+							</tr>
+							<tr>
+								<td><b>Payment :</b></td>
+								<td class='jobdesc'>".$r->Job_Offering."</td>
+							</tr>";
+						echo "
+							<tr>
+								<td><b>Job Type:</b></td>
+								<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."</td>
+							</tr>
+							<tr id=\"agency-producer\">
+								<td><b>Agency/Producer</b></td>
+								<td class='jobdesc'>".$r->CastingContactCompany."</td>
+							</tr>";
+						echo "</table>";												
+					echo "</div>";
+					echo "<div id=\"how-to-apply\">";
+					echo "<table>";
 							
+							if(!empty($criteria_age)){
+							echo "<tr>
+									<td><b>Criteria</b></td>
+									<td class='jobdesc'>";
+									foreach ($job_criteria as $criteria) {
 
-							//$wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."casting_jobs WHERE Job_ID = %d",$_GET['value']));
-							
-							if( (RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )) || !is_user_logged_in() ){
-								echo "<td class='jobdesc'>";
-								if(is_user_logged_in()){
-									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
-									echo "<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
-								}else{
-									echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/profile-login?h=/job-application/".get_query_var('value')."\"'>";
-									echo "<input id='go_back' type='button' class='button-primary' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
-								}
-								
-								
-								
-								echo "</td>";
+										$criteria_item = explode("/", $criteria);
+										$criteria_item_label = $criteria_item[0];
+										$criteria_item_value = $criteria_item[1];
+
+										// $job_types = $wpdb->get_row("SELECT Job_Type_Title FROM ".table_agency_casting_job_type. " WHERE Job_Type_ID = ".$job_type_id);
+
+										if($criteria_item_value != "null" && $criteria_item_value != "undefined"){
+											if($criteria_item_label == "gender"){
+												$criteria_gender = $wpdb->get_row($wpdb->prepare("SELECT GenderID, GenderTitle FROM ".table_agency_data_gender." WHERE GenderID='".$criteria_item_value."' "),ARRAY_A,0);
+												$count = $wpdb->num_rows;
+												if($count > 0){
+													$criteria_item_value = $criteria_gender["GenderTitle"];
+												}
+											}
+											echo __(ucfirst($criteria_item_label), RBAGENCY_TEXTDOMAIN).": ".__($criteria_item_value, RBAGENCY_TEXTDOMAIN)."<br>";
+										}										
+									}
+							echo "	</td>
+								</tr>";
+							}
+							if(!empty($r->Job_Audition_Date_Start)){
+							echo "<tr>
+									<td><b>Audition Date Start:</b></td>
+									<td class='jobdesc'>".$r->Job_Audition_Date_Start."</td>
+								</tr>";
+							}
+							if(!empty($r->Job_Audition_Date_End)){
+							echo "
+								<tr>
+									<td><b>Audition Date End:</b></td>
+									<td class='jobdesc'>".$r->Job_Audition_Date_End."</td>
+								</tr>";
+							}
+							if(!empty($r->Job_Audition_Time)){
+							echo "<tr>
+									<td><b>Audition Time End:</b></td>
+									<td class='jobdesc'>".$r->Job_Audition_Time."</td>
+								</tr>";
+							}
+							if(!empty($r->Job_Audition_Time)){
+							echo "<tr>
+									<td><b>Audition Time End:</b></td>
+									<td class='jobdesc'>".$r->Job_Audition_Time_End."</td>
+								</tr>";
 							}
 							
-							elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID,'ProfileID') || current_user_can( 'edit_posts' )){
-								if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){
-									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Back to Applicants'></td>";
-								} else {
-									echo "<td class='jobdesc'><input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'></td>";
-								}
-							} 
-						
-
-							if(current_user_can("edit_posts")){
-								echo "<td class='jobdesc'>";
-								echo "<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$r->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"View Applicants\"/>";
-								echo "</td>";
+							if(!empty($r->Job_Audition_Venue)){
+							echo "<tr>
+									<td><b>Audition Venue:</b></td>
+									<td class='jobdesc'>".$r->Job_Audition_Venue."</td>
+								</tr>";
 							}
-						echo "</tr>	";
-
+							//Custom fields
+							rb_agency_detail_castingjob();
+							//End custom fields							
 					echo "</table>";
+						if( (RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )) || !is_user_logged_in() ){							
+							if(is_user_logged_in()){
+								echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
+								echo "&nbsp;&nbsp;<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+							}else{
+								echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/profile-login?h=/job-application/".get_query_var('value')."\"'>";
+								echo "&nbsp;&nbsp;&nbsp;&nbsp;<input id='go_back' type='button' class='button-primary' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
+							}
+						} elseif(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID,'ProfileID') || current_user_can( 'edit_posts' )){
+							if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){
+								echo "<input id='apply_job' type='button' class='button-primary' value='Back to Applicants'>";
+							} else {
+								echo "<input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'>";
+							}
+						}
+						if(current_user_can("edit_posts")){
+							echo "<td class='jobdesc'>";
+							echo "&nbsp;&nbsp;<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$r->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"View Applicants\"/>";
+							echo "</td>";
+						}					
+					echo "</div><!-- #how-to-apply -->";
+				echo "</div>";
+				
 			}
 
 			// for models
