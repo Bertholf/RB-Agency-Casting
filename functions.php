@@ -1922,8 +1922,7 @@
 					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">View this Job</a>";			
 					$output .= "			<div class=\"ja-share\">";
 					$output .= "				<div class=\"fb-share-button\" data-href=\"".get_permalink()."\" data-layout=\"button\"></div>";
-					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";
-					$output .= "				<a href=\"mailto:test@yahoo.com\" title=\"\"><img src=\"".RBAGENCY_casting_PLUGIN_URL."/images/envelope.png\" style=\"height:20px; display: inline-block;\"></a>";
+					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";					
 					$output .= "			</div><!-- .ja-share -->";
 					$output .= "		</div><!-- .ja-footer -->";
 					$output .= "	</div><!-- .job-audition -->";
