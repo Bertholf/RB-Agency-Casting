@@ -50,11 +50,6 @@
 
 				echo "<h3>".__($r->Job_Title, RBAGENCY_TEXTDOMAIN)."</h3>";
 				echo "<p>".__($r->Job_Text, RBAGENCY_TEXTDOMAIN)."</p>";
-				// echo "<p>".$r->Job_Criteria."</p>";
-
-				$job_criteria = explode("|", $r->Job_Criteria);
-				$criteria_age = $job_criteria[0];
-				$criteria_age_val = explode("/", $criteria_age);
 
 				echo "<div id=\"job-details\">";
 					echo "<div id=\"details\">";
@@ -106,33 +101,6 @@
 					echo "</div>";
 					echo "<div id=\"how-to-apply\">";
 					echo "<table>";
-							
-							if(!empty($criteria_age)){
-							echo "<tr>
-									<td><b>Criteria</b></td>
-									<td class='jobdesc'>";
-									foreach ($job_criteria as $criteria) {
-
-										$criteria_item = explode("/", $criteria);
-										$criteria_item_label = $criteria_item[0];
-										$criteria_item_value = $criteria_item[1];
-
-										// $job_types = $wpdb->get_row("SELECT Job_Type_Title FROM ".table_agency_casting_job_type. " WHERE Job_Type_ID = ".$job_type_id);
-
-										if($criteria_item_value != "null" && $criteria_item_value != "undefined"){
-											if($criteria_item_label == "gender"){
-												$criteria_gender = $wpdb->get_row($wpdb->prepare("SELECT GenderID, GenderTitle FROM ".table_agency_data_gender." WHERE GenderID='".$criteria_item_value."' "),ARRAY_A,0);
-												$count = $wpdb->num_rows;
-												if($count > 0){
-													$criteria_item_value = $criteria_gender["GenderTitle"];
-												}
-											}
-											echo __(ucfirst($criteria_item_label), RBAGENCY_TEXTDOMAIN).": ".__($criteria_item_value, RBAGENCY_TEXTDOMAIN)."<br>";
-										}										
-									}
-							echo "	</td>
-								</tr>";
-							}
 							if(!empty($r->Job_Audition_Date_Start)){
 							echo "<tr>
 									<td><b>Audition Date Start:</b></td>
