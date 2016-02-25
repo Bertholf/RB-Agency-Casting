@@ -370,9 +370,9 @@ $siteurl = get_option('siteurl');
 					echo "No profiles selected in Casting cart.";
 				}
 		} elseif(isset($_POST["action2"]) && $_POST["action2"] =="edit"){
-			//print_r($_POST);
+		
 
-			$rs= $wpdb->get_results("SELECT * FROM ".table_agency_casting_job);
+		$rs= $wpdb->get_results("SELECT * FROM ".table_agency_casting_job);
 		$job_intro = '';
 		foreach($rs as $r){
 			$job_intro = $r->Job_Intro;
@@ -381,6 +381,7 @@ $siteurl = get_option('siteurl');
 		if(!isset($job_intro)){
 			$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job ADD Job_Intro VARCHAR(100)");
 		}
+							
 							$sql = "UPDATE ".table_agency_casting_job." 
 								SET
 										Job_Title = '".esc_attr($_POST["Job_Title"])."', 
@@ -394,7 +395,7 @@ $siteurl = get_option('siteurl');
 										Job_Region = '".esc_attr($_POST["Job_Region"])."',
 										Job_Offering = '".esc_attr($_POST["Job_Offering"])."',
 										Job_Talents = '".esc_attr($_POST["Job_Talents"])."',
-										Job_Visibility = '".esc_attr($_POST["Job_Visibility"])."',
+										Job_Visibility = ".$_POST["Job_Visibility"].",
 										Job_Criteria = '".esc_attr($_POST["Job_Criteria"])."',
 										Job_Type = '".esc_attr($_POST["Job_Type"])."',
 										Job_Talents_Hash = '".esc_attr($_POST["Job_Talents_Hash"])."',
@@ -407,6 +408,7 @@ $siteurl = get_option('siteurl');
 							";
 
 							$wpdb->query($sql);
+
 							//print_r($_POST);
 							/**UPDATE CUSTOM FIELDS**/
 							foreach($_POST as $k=>$v){
@@ -441,7 +443,7 @@ $siteurl = get_option('siteurl');
 																	
 										}
 
-										//$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
+										$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
 
 										$temp_arr = array();
 										foreach($update_to_casting_custom as $k=>$v){
@@ -473,7 +475,7 @@ $siteurl = get_option('siteurl');
 											}
 																	
 										}
-										//$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
+										$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
 
 										$temp_arr = array();
 										foreach($insert_to_casting_custom as $k=>$v){
@@ -762,6 +764,7 @@ $siteurl = get_option('siteurl');
 					echo '<input type="hidden" name="Job_Criteria" value="" />';
 					echo '<div id="add-criteria" style="display:none;">';
 					echo '<script type="text/javascript">';
+
 					if(!empty($Job_Criteria)){
 						echo 'jQuery(function(){jQuery("#criteria").html("Loading Criteria List");
 
@@ -834,11 +837,27 @@ $siteurl = get_option('siteurl');
 												var val = jQuery(this).find("input:checked").each(function(){
 													arr.push(jQuery(this).val());
 												});
-												criteria.push(id+"/"+arr.toString());
+												criteria.push(arr.toString()+"/"+id);
 											}
 									});
 									jQuery("input[name=\'Job_Criteria\']").val(criteria.join("|"));
 									console.log(criteria.join("|"));
+
+									jQuery.ajax({
+											type: "POST",
+											url: "'. admin_url('admin-ajax.php') .'",
+											data: {
+												action: "load_criteria_fields",
+												value : criteria.join("|")
+											},
+											success: function (results) {
+												jQuery("#criteria").html(results);
+											},
+											error: function (err){
+												console.log(err);
+											}
+									}); 
+
 									jQuery(".updatecriteria").html("&nbsp;Criteria successfully added!");
 							});
 						});
@@ -1242,11 +1261,13 @@ $siteurl = get_option('siteurl');
 						}
 						// Show Cart  
 						//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
-						
+						echo $_SESSION['custom_fields_imploded'];
 						$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						$results = $wpdb->get_results($query, ARRAY_A);
 						$count = $wpdb->num_rows;
 						$total_casting_profiles = $count;
+
+
 						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
 							echo "<span style=\"font-size:12px;float:right;\">";
