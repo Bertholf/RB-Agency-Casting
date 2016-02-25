@@ -1916,7 +1916,9 @@
 											// $job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
 
 					$output .= "			<p>".$job->Job_Intro."</p>";
-					$output .= "			<p class=\"ja-date\">Apply Before 28/02/2016</p><!-- .ja-content -->";
+					if(!empty($job->Job_Audition_Date_End)){
+						$output .= "			<p class=\"ja-date\">Apply Before ".$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
+					}
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";
 					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">View this Job</a>";			
