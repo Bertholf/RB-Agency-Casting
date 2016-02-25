@@ -371,6 +371,16 @@ $siteurl = get_option('siteurl');
 				}
 		} elseif(isset($_POST["action2"]) && $_POST["action2"] =="edit"){
 			//print_r($_POST);
+
+			$rs= $wpdb->get_results("SELECT * FROM ".table_agency_casting_job);
+		$job_intro = '';
+		foreach($rs as $r){
+			$job_intro = $r->Job_Intro;
+		}
+
+		if(!isset($job_intro)){
+			$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job ADD Job_Intro VARCHAR(100)");
+		}
 							$sql = "UPDATE ".table_agency_casting_job." 
 								SET
 										Job_Title = '".esc_attr($_POST["Job_Title"])."', 
