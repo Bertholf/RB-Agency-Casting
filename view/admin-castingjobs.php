@@ -332,7 +332,7 @@ $siteurl = get_option('siteurl');
 						}
 												
 					}
-					//$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
+					$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
 					$temp_arr = array();
 					foreach($insert_to_casting_custom as $k=>$v){
 						if(!in_array($v,$temp_arr)){
@@ -443,8 +443,7 @@ $siteurl = get_option('siteurl');
 																	
 										}
 
-										$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
-
+										
 										$temp_arr = array();
 										foreach($update_to_casting_custom as $k=>$v){
 											if(!in_array($v,$temp_arr)){
@@ -806,7 +805,7 @@ $siteurl = get_option('siteurl');
 											if(jQuery(this).hasClass("rbselect")){
 												var val = jQuery(this).find("select").val();
 												var id = jQuery(this).attr("attrid");
-												if(val !=""){
+												if(val !="" && val!== undefined && val !== undefined){
 													criteria.push(id+"/"+val);
 												}
 											} else if(jQuery(this).hasClass("rbtext")){
@@ -841,7 +840,10 @@ $siteurl = get_option('siteurl');
 											}
 									});
 									jQuery("input[name=\'Job_Criteria\']").val(criteria.join("|"));
+									jQuery("input[name=\'Job_Criteria_Profile\']").val(criteria.join("|"));
 									console.log(criteria.join("|"));
+
+									
 
 									jQuery.ajax({
 											type: "POST",
@@ -851,7 +853,10 @@ $siteurl = get_option('siteurl');
 												value : criteria.join("|")
 											},
 											success: function (results) {
+
 												jQuery("#criteria").html(results);
+												
+
 											},
 											error: function (err){
 												console.log(err);
@@ -1261,7 +1266,7 @@ $siteurl = get_option('siteurl');
 						}
 						// Show Cart  
 						//$query = "SELECT  profile.*,media.* FROM ". table_agency_profile ." profile, ". table_agency_profile_media ." media WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 AND profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
-						echo $_SESSION['custom_fields_imploded'];
+						
 						$query = "SELECT  profile.*,media.ProfileMediaPrimary,media.ProfileMediaType,media.ProfileMediaURL FROM ". table_agency_profile ." profile  LEFT JOIN ". table_agency_profile_media ." media ON (profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\" AND media.ProfileMediaPrimary = 1 ) WHERE profile.ProfileID IN (".(!empty($cartString)?$cartString:0).") ORDER BY profile.ProfileContactNameFirst ASC";
 						$results = $wpdb->get_results($query, ARRAY_A);
 						$count = $wpdb->num_rows;
@@ -1271,7 +1276,7 @@ $siteurl = get_option('siteurl');
 						echo "<h3 style=\"overflow: hidden\">Talents Shortlisted by Admin - ".($total_casting_profiles > 1?$total_casting_profiles." profiles":$total_casting_profiles." profile");
 						if(!empty( $_SESSION['cartArray']) || isset($_GET["Job_ID"])){
 							echo "<span style=\"font-size:12px;float:right;\">";
-							echo "<a  href=\"#TB_inline?width=600&height=550&inlineId=add-profiles\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
+							echo "<a  href=\"#TB_inline?width=600&height=550&inlineId=add-profiles;get_profiles();\" class=\"thickbox button-primary\" title=\"Add profiles to '".$Job_Title."' Job\">Add Profiles</a>";
 							if(isset($_GET["Job_ID"])){
 								echo "<input type=\"submit\" name=\"deleteprofiles\" class=\"button-primary\" id=\"deleteprofiles\" value=\"Remove selected\" />";
 								echo "<input type=\"submit\" name=\"addtocastingcart\" class=\"button-primary\" id=\"addtocastingcart\" value=\"Add to Client's Casting Cart\" />";
@@ -1284,6 +1289,7 @@ $siteurl = get_option('siteurl');
 					?>
 					<?php add_thickbox(); ?>
 					<div id="add-profiles" style="display:none;">
+					<input type="hidden" name="Job_Criteria_Profile" value="" />
 					<table>
 					<tr>
 					<td><label>First Name:</label> <input type="text" name="firstname"/></td>
@@ -1335,13 +1341,16 @@ $siteurl = get_option('siteurl');
 
 							function get_profiles(){
 
+								
+								console.log(jQuery("input[name=\'Job_Criteria_Profile\']").val());
+								var param = jQuery("input[name=\'Job_Criteria_Profile\']").val();
 
 								jQuery.ajax({
-										type: 'POST',
 										dataType: 'json',
-										url: '<?php echo admin_url('admin-ajax.php'); ?>',
+										url: '<?php echo admin_url('admin-ajax.php','relative'); ?>',
 										data: {
-											'action': 'rb_agency_search_profile'
+											'action': 'rb_agency_search_profile',
+											'value' : param
 										},
 										success: function(d){
 											var profileDisplay = "";

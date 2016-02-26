@@ -666,13 +666,20 @@
 
 
 	function load_criteria_fields(){
+		session_start();
 
-		$data = isset($_POST['value'])?trim($_POST['value']):"";
+		$custom_fields_criteria = get_option('custom_fields_criteria');
+		$criteria = isset($_POST['value'])?trim($_POST['value']):$custom_fields_criteria;
+		add_option('custom_fields_criteria',$criteria);
+		update_option('custom_fields_criteria',$criteria);
+		
+		
+		$custom_fields_criteria_option = get_option('custom_fields_criteria');
 
 		include (dirname(__FILE__) ."/app/casting.class.php");
 
 		//load ajax functions
-		RBAgency_Casting::load_criteria_fields($data);
+		RBAgency_Casting::load_criteria_fields($custom_fields_criteria_option);
 
 	}
 
