@@ -134,7 +134,7 @@
 			if (is_user_logged_in()) {
 
 				echo "<style>
-						.jobdesc{margin-left:20px; width:150px; padding:10px 0px 10px 30px;}
+						table tr:last-child td { text-align: right }
 					</style>";
 
 				echo "<form method='get' action='".get_bloginfo('wpurl')."/job-application/".$job_id."/' >";

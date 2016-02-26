@@ -106,9 +106,9 @@ footer .footer-links { float: right; clear: right; }
 	#job-auditions .job-audition .ja-thumbnail,
 	#job-auditions .job-audition .ja-content,
 	#job-auditions .job-audition .ja-footer { padding: 24px; }
-	#job-auditions .job-audition .ja-thumbnail { float: left; margin-right: 15px; }
+	#job-auditions .job-audition .ja-thumbnail { float: left; }
 	#job-auditions .job-audition .ja-thumbnail img { display: block; }
-	#job-auditions .job-audition .ja-content { padding-right: 170px; }
+	#job-auditions .job-audition .ja-content { padding-left: 170px; padding-right: 170px; }
 	#job-auditions .job-audition .ja-footer { position: absolute; top: 0; right: 0; padding-top: 75px; width: 200px; text-align: right; }
 	#job-auditions .job-audition .ja-footer .ja-share { position: absolute; top: 15px; right: 15px; margin-top: 0px; }
 
