@@ -1904,7 +1904,7 @@
 
 			if($a['show_all_jobs'] == "true"){
 
-				$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting." as agency WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked";
+				$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting." as agency WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked AND (jobs.Job_Visibility == 1 && jobs.Job_Visibility == 2)";
 				//$results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Visibility = 1 OR Job_Visibility = 2");
 				$results = $wpdb->get_results($query2);
 
