@@ -13,7 +13,7 @@ $output .= "<div id=\"rbcontent\">";
 echo "<h2>".__("Lists of Jobs under", RBAGENCY_casting_TEXTDOMAIN)." ".$job_types->Job_Type_Title."</h2>";
 $results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Type = $job_type_id AND (Job_Visibility = 1 OR Job_Visibility = 2)");
 
-
+//$wpdb->query("DELETE FROM ".table_agency_casting_job);
 $output .= "<table>";
 $output .= "<tr><td>".__("Job Title", RBAGENCY_casting_TEXTDOMAIN)."</td><td>".__("Job Description", RBAGENCY_casting_TEXTDOMAIN)."</td>";
 foreach($results as $job){

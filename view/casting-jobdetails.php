@@ -181,7 +181,7 @@
 							if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){
 								echo "<input id='apply_job' type='button' class='button-primary' value='Back to Applicants'>";
 							} else {
-								echo "<input id='apply_job' type='button' class='button-primary' value='Browse More Jobs'>";
+								echo "&nbsp;&nbsp;<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
 							}
 						}
 						if(current_user_can("edit_posts")){
