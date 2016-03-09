@@ -96,6 +96,11 @@ footer .footer-links { float: right; clear: right; }
 #job-details #how-to-apply table { margin-bottom: 15px; }
 #job-details #how-to-apply input { margin-bottom: 10px; }
 
+
+/* JQueryUI Dialog/Popup */
+.ui-widget-overlay { background: rgba(0,0,0,0.7)!important; opacity: initial!important; }
+
+
 /*Media Query*/
 @media (min-width: 544px) {
 
