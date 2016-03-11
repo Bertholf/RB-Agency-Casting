@@ -1603,7 +1603,7 @@
 			   }elseif($ProfileCustomType == 11){
 			   		echo "<tr>";
 						echo "<td><strong>".$ProfileCustomTitle."</strong></td>\n";
-						echo "<td><a href='".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."'> Click Here</a></td>";
+						echo "<td><a href='".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."' target='_blank'> Click Here</a></td>";
 					echo "</tr>";
 			   }
 	    }
@@ -2060,7 +2060,7 @@
 			   }elseif($ProfileCustomType == 11){
 			   		echo "<tr>";
 						echo "<td><strong>".$ProfileCustomTitle."</strong></td>\n";
-						echo "<td><a href='".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."'> Click Here</a></td>";
+						echo "<td><a href='".rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID)."' target='_blank'> Click Here</a></td>";
 					echo "</tr>";
 			   }
 	    }
