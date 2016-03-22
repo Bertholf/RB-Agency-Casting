@@ -250,8 +250,8 @@
 			// Self Registration
 	if ( $registration || current_user_can("create_users") ) {
 	echo "  <header class=\"entry-header\">";
-		echo "<h1>Welcome ". $current_user->user_firstname ."</h1>\n";
-		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
+		echo "<h1>". __("Welcome ",RBAGENCY_casting_TEXTDOMAIN). $current_user->user_firstname ."</h1>\n";
+		echo "<h1>". __("We have registered you as Agent/Producer.",RBAGENCY_casting_TEXTDOMAIN)."</h1>\n";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
 	echo "	<h3>". __("Account Information", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
@@ -395,13 +395,13 @@
 		echo "<h3>Additional Details</h3>";
 			rb_get_customfields_castingregister();
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
-	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
+	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='".__("Update Information",RBAGENCY_casting_TEXTDOMAIN)."'/>";
 
 					// if ( current_user_can("create_users") ) { _e("Add User", RBAGENCY_casting_TEXTDOMAIN); } else { _e("Register", RBAGENCY_casting_TEXTDOMAIN); }echo "\" />\n";
 
 					wp_nonce_field("add-user");
 
-	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
+	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"".__("updatecasting",RBAGENCY_casting_TEXTDOMAIN)."\" />\n";
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>
@@ -412,7 +412,7 @@
 
 }
 
-if(!$registration){echo "<p class='alert'>The administrator currently disabled the registration.<p>"; }
+if(!$registration){echo "<p class='alert'>".__("The administrator currently disabled the registration.",RBAGENCY_casting_TEXTDOMAIN)."<p>"; }
 
 echo "  </div><!-- #content -->\n";
 echo "</div><!-- #container -->\n";

@@ -34,9 +34,9 @@
 	if($invited_already > 0){
 		echo $rb_header = RBAgency_Common::rb_header();
 
-		echo "<p>You are already invited to this job. Please check your email for the invite link to accept or decline.</p>"; 
-		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>"; 
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+		echo __("<p>You are already invited to this job. Please check your email for the invite link to accept or decline.</p>",RBAGENCY_casting_TEXTDOMAIN); 
+		echo __("<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>",RBAGENCY_casting_TEXTDOMAIN); 
+		echo __("<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n",RBAGENCY_casting_TEXTDOMAIN);
 
 		echo $rb_footer = RBAgency_Common::rb_footer();
 		exit();
@@ -115,7 +115,7 @@
 						echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
 					}
 				} else {
-					echo "You've already applied to this Job.";
+					echo __("You've already applied to this Job.",RBAGENCY_casting_TEXTDOMAIN);
 				}
 
 				echo $rb_footer = RBAgency_Common::rb_footer();
@@ -145,25 +145,25 @@
 					foreach($data_r as $r){
 						echo "<table>
 								<tr>
-									<td><h2>Application for ".$r->Job_Title."</h2></td>
+									<td><h2>".__("Application for",RBAGENCY_casting_TEXTDOMAIN)." ".$r->Job_Title."</h2></td>
 									<td class='jobdesc'><input type='hidden' name='Job_ID' value='".$job_id."'></td>
 								</tr>
 								<tr>
-									<td>Location: </td>
+									<td>".__("Location:",RBAGENCY_casting_TEXTDOMAIN)." </td>
 									<td class='jobdesc'> ".$r->Job_Location."</td>
 								</tr>
 								<tr>
-									<td>Type: </td>
+									<td>".__("Type:",RBAGENCY_casting_TEXTDOMAIN)." </td>
 									<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."<br>".RBAgency_Casting::rb_get_job_criteria($r->Job_Criteria)."
 									<input type='hidden' value='".$r->Job_Criteria."' name='Job_Criteria'></td>
 								</tr>
 								<tr>
-									<td>Make Your Pitch!: </td>
+									<td>".__("Make Your Pitch!:",RBAGENCY_casting_TEXTDOMAIN)." </td>
 									<td class='jobdesc'><textarea name='job_pitch'></textarea></td>
 								</tr>
 								<tr>
 									<td></td>
-									<td class='jobdesc'><input type='submit' class='button-primary' name='apply_job' value='Submit my Application'></td>
+									<td class='jobdesc'><input type='submit' class='button-primary' name='apply_job' value='".__("Submit my Application",RBAGENCY_casting_TEXTDOMAIN)."'></td>
 								</tr>																							
 								<table>";
 					}

@@ -31,9 +31,9 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "<div id=\"rbcontent\">\n";
 	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
 	if (current_user_can( 'edit_posts' )){
-		echo "<h1>You are logged in as Administrator.</h1>\n";
+		echo "<h1>".__("You are logged in as Administrator.",RBAGENCY_casting_TEXTDOMAIN)."</h1>\n";
 	} else {
-		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
+		echo "<h1>".__("We have registered you as Agent/Producer.",RBAGENCY_casting_TEXTDOMAIN)."</h1>\n";
 	}
 
   // Return them where we found them 
@@ -63,8 +63,8 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 		}
 
 		echo "<div class=\"event\">\n";
-		echo "<h3>You have successfully logged in!</h3>\n";
-		echo "You may now access the profile data.  You may now return to <strong><a href=\"". RBAGENCY_PROFILEDIR ."". $ProfileGallery ."\">". $ProfileContactDisplay ."'s</strong></a> profile.\n";
+		echo "<h3>".__("You have successfully logged in!",RBAGENCY_casting_TEXTDOMAIN)."</h3>\n";
+		echo __("You may now access the profile data.  You may now return to ",RBAGENCY_casting_TEXTDOMAIN)."<strong><a href=\"". RBAGENCY_PROFILEDIR ."". $ProfileGallery ."\">". $ProfileContactDisplay ."'s</strong></a> profile.\n";
 		echo "</div>\n";
 		$_SESSION['ProfileLastViewed'] = "";
 	}
@@ -75,61 +75,61 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	$user_company = isset($user_data['CastingContactCompany'])?$user_data['CastingContactCompany']:"";
 
 	echo "  <div id=\"profile-info\">\n";
-	echo "		<h3>Casting</h3>\n";
+	echo "		<h3>".__("Casting",RBAGENCY_casting_TEXTDOMAIN)."</h3>\n";
 	echo "		<ul>\n";
 
-	echo "		<li>Username: <strong>" . $curauth->user_login . "</strong></li>\n";
+	echo "		<li>".__("Username:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $curauth->user_login . "</strong></li>\n";
 
 	if(isset($data_r->CastingContactNameFirst) && $data_r->CastingContactNameFirst != ""){
-		echo "		<li>First Name: <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
+		echo "		<li>".__("First Name:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactNameFirst . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactNameLast) && $data_r->CastingContactNameLast != ""){
-		echo "		<li>Last Name: <strong>" . $data_r->CastingContactNameLast . "</strong></li>\n";
+		echo "		<li>".__("Last Name:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactNameLast . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactEmail) && $data_r->CastingContactEmail != ""){
-		echo "		<li>User Email: <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
+		echo "		<li>".__("User Email:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactEmail . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactCompany) && $data_r->CastingContactCompany != ""){
-		echo "		<li>Company: <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
+		echo "		<li>".__("Company:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactCompany . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactWebsite) && $data_r->CastingContactWebsite != ""){
-		echo "		<li>Website: <strong>" . $data_r->CastingContactWebsite . "</strong></li>\n";
+		echo "		<li>".__("Website:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactWebsite . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingLocationStreet) && $data_r->CastingLocationStreet != ""){
-		echo "		<li>Street: <strong>" . $data_r->CastingLocationStreet . "</strong></li>\n";
+		echo "		<li>".__("Street:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingLocationStreet . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingLocationCity) && $data_r->CastingLocationCity !=""){
-		echo "		<li>City: <strong>" . $data_r->CastingLocationCity . "</strong></li>\n";
+		echo "		<li>".__("City:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingLocationCity . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingLocationCountry) && $data_r->CastingLocationCountry!=""){
-		echo "		<li>Country: <strong>" . rb_agency_getCountryTitle($data_r->CastingLocationCountry) . "</strong></li>\n";
+		echo "		<li>".__("Country:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . rb_agency_getCountryTitle($data_r->CastingLocationCountry) . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingLocationState) && $data_r->CastingLocationState!=""){
-		echo "		<li>State: <strong>" . rb_agency_getStateTitle($data_r->CastingLocationState) . "</strong></li>\n";
+		echo "		<li>".__("State:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . rb_agency_getStateTitle($data_r->CastingLocationState) . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingLocationZip) && $data_r->CastingLocationZip!=""){
-		echo "		<li>Zip: <strong>" . $data_r->CastingLocationZip . "</strong></li>\n";
+		echo "		<li>".__("Zip:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingLocationZip . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactPhoneHome) && $data_r->CastingContactPhoneHome!=""){
-		echo "		<li>Home Phone: <strong>" . $data_r->CastingContactPhoneHome . "</strong></li>\n";
+		echo "		<li>".__("Home Phone:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactPhoneHome . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactPhoneWork) && $data_r->CastingContactPhoneWork!=""){
-		echo "		<li>Work Phone: <strong>" . $data_r->CastingContactPhoneWork . "</strong></li>\n";
+		echo "		<li>".__("Work Phone:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactPhoneWork . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactPhoneCell) && $data_r->CastingContactPhoneCell!=""){
-		echo "		<li>Cell Phone: <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
+		echo "		<li>".__("Cell Phone:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $data_r->CastingContactPhoneCell . "</strong></li>\n";
 	}
 
 	if(isset($data_r->CastingContactLinkFacebook) && $data_r->CastingContactLinkFacebook!=""){
@@ -154,37 +154,37 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 
 	echo "		</ul>\n";
 	echo "		<ul class=\"links\">\n";
-	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\">Edit Information</a></li>\n";
+	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\">".__("Edit Information",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 	
 	$is_active = rb_check_casting_status();
 	if($is_active == true){
 		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_postnewjob'])){
-			echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\">Post a New Job</a></li>\n";
+			echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\">".__("Post a New Job",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 		}
 	}
 	if (current_user_can( 'edit_posts' )){
 		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
-			echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View All Job Postings</a></li>\n";
+			echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">".__("View All Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 		}
 		
 		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
-			echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View All Applicants</a></li>\n";
+			echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">".__("View All Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 		}
 	} else {
 		
 		if($is_active == true){
 			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
-				echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">View Your Job Postings</a></li>\n";
+				echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\">".__("View Your Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 			}
 			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
-				echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">View Your Applicants</a></li>\n";
+				echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\">".__("View Your Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 			}
 		}
-		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\">View Your Casting Cart</a></li>\n";
+		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\">".__("View Your Casting Cart",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 	}
 
 
-	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\">Log out</a></li>\n";
+	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\">".__("Log out",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 	echo "  	</ul><!-- .links -->\n";
 
 

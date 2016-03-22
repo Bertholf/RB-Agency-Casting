@@ -173,8 +173,8 @@ if(isset($_POST['save_job'])){
 			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<p class="rbalert success">';
-			echo '				<strong>You have successfully added your new Job Posting!</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">Add new Job Posting?</a>';
-			echo '				<a href=\''.get_bloginfo('wpurl').'/casting-dashboard\'">Go Back to Casting Dashboard</a>';
+			echo '				<strong>'.__("You have successfully added your new Job Posting!",RBAGENCY_casting_TEXTDOMAIN).'</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">Add new Job Posting?</a>';
+			echo '				<a href=\''.get_bloginfo('wpurl').'/casting-dashboard\'">'.__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN).'</a>';
 			echo '			</p>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
@@ -305,21 +305,21 @@ function load_job_display($error = NULL){
 		//===============================
 		echo " <form method='post' action='' onsubmit=\"return ValidateForm();\" class=\"rbform\">
 					<div class='rbfield rbtext rbsingle'>
-						<h3>Job Description</h3>
-						<label>Title:</label>
+						<h3>".__("Job Description",RBAGENCY_casting_TEXTDOMAIN)."</h3>
+						<label>".__("Title:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div><input type='text' name='Job_Title' value='".(isset($_POST['Job_Title'])?$_POST['Job_Title']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtextarea rbsingle'>
-						<label>Description:</label>
+						<label>".__("Description:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>Offer:</label>
+						<label>".__("Offer:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
 						<h3>Job Duration</h3>
-						<label>Date Start:</label>
+						<label>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
@@ -327,7 +327,7 @@ function load_job_display($error = NULL){
 					</div>
 
 					<div class='rbfield rbtext rbsingle'>
-						<label>Date End:</label>
+						<label>".__("Date End:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Date_End' class='datepicker' value='".(isset($_POST['Job_Date_End'])?$_POST['Job_Date_End']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
@@ -335,7 +335,7 @@ function load_job_display($error = NULL){
 					</div>
 					
 					<div class='rbfield rbtext rbsingle'>
-						<label>Time Start:</label>
+						<label>".__("Time Start:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Time_Start' class='timepicker' value='".(isset($_POST['Job_Time_Start'])?$_POST['Job_Time_Start']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
@@ -343,7 +343,7 @@ function load_job_display($error = NULL){
 					</div>
 					
 					<div class='rbfield rbtext rbsingle'>
-						<label>Time End:</label>
+						<label>".__("Time End:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Time_End' class='timepicker' value='".(isset($_POST['Job_Time_End'])?$_POST['Job_Time_End']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
@@ -351,31 +351,31 @@ function load_job_display($error = NULL){
 					</div>
 					
 					<div class='rbfield rbtext rbsingle'>
-						<h3>Job Location</h3>
-						<label>Location:</label>
+						<h3>".__("Job Location",RBAGENCY_casting_TEXTDOMAIN)."</h3>
+						<label>".__("Location:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div><input type='text' name='Job_Location' value='".(isset($_POST['Job_Location'])?$_POST['Job_Location']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>Region:</label>
+						<label>".__("Region:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div><input type='text' name='Job_Region' value='".(isset($_POST['Job_Region'])?$_POST['Job_Region']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<h3>Job Audition</h3>
-						<label>Date Start:</label>
+						<h3>".__("Audition",RBAGENCY_casting_TEXTDOMAIN)."</h3>
+						<label>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Audition_Date_Start' class='datepicker' value='".(isset($_POST['Job_Audition_Date_Start'])?$_POST['Job_Audition_Date_Start']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>Date End:</label>
+						<label>".__("Date End:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Audition_Date_End' class='datepicker' value='".(isset($_POST['Job_Audition_Date_End'])?$_POST['Job_Audition_Date_End']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>Time Start:</label>
+						<label>".__("Time Start:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Audition_Time' class='timepicker' value='".(isset($_POST['Job_Audition_Time'])?$_POST['Job_Audition_Time']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
@@ -384,7 +384,7 @@ function load_job_display($error = NULL){
 					
 					
 					<div class='rbfield rbtext rbsingle'>
-						<label>Time End:</label>
+						<label>".__("Time End:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Audition_Time_End' class='timepicker' value='".(isset($_POST['Job_Audition_Time_End'])?$_POST['Job_Audition_Time_End']:"")."'>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
@@ -392,18 +392,18 @@ function load_job_display($error = NULL){
 					</div>
 					
 					<div class='rbfield rbtextarea rbsingle'>
-					<label>Venue:</label>
+					<label>".__("Venue:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<textarea name='Job_Audition_Venue'>".(isset($_POST['Job_Audition_Venue'])?$_POST['Job_Audition_Venue']:"")."</textarea>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>
 					</div>
 					<div class='rbfield rbselect rbsingle'>
-						<h3>Job Criteria</h3>
-						<label>Type:</label>
+						<h3>".__("Job Criteria",RBAGENCY_casting_TEXTDOMAIN)."</h3>
+						<label>".__("Type:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<select id='Job_Type' name='Job_Type'>
-								<option value=''>-- Select Type --</option>";
+								<option value=''>".__("-- Select Type --",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 								$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type); 
 								if(count($get_job_type)){
 									foreach($get_job_type as $jtype){
@@ -415,10 +415,10 @@ function load_job_display($error = NULL){
 						</div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>Visibility:</label>
+						<label>".__("Visibility:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<select id='Job_Visibility' name='Job_Visibility'>
-								<option value=''>-- Select Type --</option>
+								<option value=''>".__("-- Select Type --",RBAGENCY_casting_TEXTDOMAIN)."</option>
 								<option value='0' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","0",false).">Invite Only</option>
 								<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">Open to All</option>
 								<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">Matching Criteria</option>
@@ -439,7 +439,7 @@ function load_job_display($error = NULL){
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
-		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "		</div><!-- #rbcontent -->\n"; // #content
 
@@ -447,7 +447,7 @@ function load_job_display($error = NULL){
 
 		echo "		<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
 		echo '			<p class="rbalert error">';
-		echo '				<strong>You are not permitted to access this page.</strong>';
+		echo '				<strong>'.__("You are not permitted to access this page.",RBAGENCY_casting_TEXTDOMAIN).'</strong>';
 		echo '			</p>';
 		if(!is_user_logged_in()){
 			require_once("include-login.php");

@@ -254,7 +254,7 @@ if(isset($_GET['save_job'])){
 			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
-			echo '				<p>You have successfully updated your new Job Posting! <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
+			echo '				<p>'.__('You have successfully updated your new Job Posting!',RBAGENCY_casting_TEXTDOMAIN).' <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
 			echo '				<p><a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
@@ -305,44 +305,44 @@ function load_job_display($error = NULL, $data){
 		echo " <form method='get' actipn='".$_SERVER['PHP_SELF']."' class=\"rbform\">
 					<table>
 						<tr>
-							<td><h3>Job Description</h3></td>
+							<td><h3>".__("Job Description",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td>Title:</td>
+							<td>".__("Title:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td><input type='text' name='Job_Title' value='".$data['Job_Title']."'></td>
 						</tr>
 						<tr>
-							<td>Description:</td>
+							<td>".__("Description:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td><input type='text' name='Job_Text' value='".$data['Job_Text']."'></td>
 						</tr>
 						<tr>
-							<td>Offer:</td>
+							<td>".__("Offer:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td><input type='text' name='Job_Offering' value='".$data['Job_Offering']."'></td>
 						</tr>
 						<tr>
-							<td><h3>Job Duration</h3></td><td></td>
+							<td><h3>".__("Job Duration",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 						</tr>
 						<tr>
-							<td>Date Start:</td>
+							<td>".__("Date Start::",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Date_Start' id='Job_Date_Start'  value='".$data['Job_Date_Start']."' class='datepicker'>
 							</td>
 						</tr>
 						<tr>
-							<td>Date End:</td>
+							<td>".__("Date End:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Date_End' id='Job_Date_End'  value='".$data['Job_Date_End']."' class='datepicker'>
 							</td>
 						</tr>
 						<tr>
-							<td>Time Start:</td>
+							<td>".__("Time Start:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Time_Start' id='Job_Time_Start' class='timepicker' value='".$data['Job_Time_Start']."'>
 							</td>
 						</tr>
 						<tr>
-							<td>Time End:</td>
+							<td>".__("Time End:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Time_End' id='Job_Time_End' class='timepicker' value='".$data['Job_Time_End']."'>
 							</td>
@@ -350,54 +350,54 @@ function load_job_display($error = NULL, $data){
 						
 						
 						<tr>
-							<td><h3>Job Location</h3></td><td></td>
+							<td><h3>".__("Job Location",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 						</tr>
 						<tr>
-							<td>Location:</td>
+							<td>".__("Location:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td><input type='text' name='Job_Location' value='".$data['Job_Location']."'></td>
 						</tr>
 						<tr>
-							<td>Region:</td>
+							<td>".__("Region:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td><input type='text' name='Job_Region' value='".$data['Job_Region']."'></td>
 						</tr>
 						<tr>
-							<td><h3>Job Audition</h3></td><td></td>
+							<td><h3>".__("Job Audition",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 						</tr>
 						<tr>
-							<td>Date Start:</td>
+							<td>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Audition_Date_Start' id='Job_Audition_Date_Start' class='datepicker' value='".$data['Job_Audition_Date_Start']."'>
 							</td>
 						</tr>
 						<tr>
-							<td>Date End:</td>
+							<td>".__("Date End:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Audition_Date_End' id='Job_Audition_Date_End' class='datepicker' value='".$data['Job_Audition_Date_End']."'>
 							</td>
 						</tr>
 						<tr>
-							<td>Time Start:</td>
+							<td>".__("Time Start:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Audition_Time' id='Job_Audition_Time' class='timepicker' value='".$data['Job_Audition_Time']."'>
 							</td>
 						</tr>
 						<tr>
-							<td>Time End:</td>
+							<td>".__("Time End:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Audition_Time_End' id='Job_Audition_Time_End' class='timepicker' value='".$data['Job_Audition_Time_End']."'>
 							</td>
 						</tr>
 						<tr>
-						<td>Venue:</td>
+						<td>".__("Venue",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<textarea name='Job_Audition_Venue'>".$data['Job_Audition_Venue']."</textarea>
 							</td>
 						</tr>
 						<tr>
-							<td><h3>Job Criteria</h3></td><td></td>
+							<td><h3>".__("Job Criteria",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 						</tr>
 						<tr>
-							<td>Type:</td>
+							<td>".__("Type:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<select id='Job_Type' name='Job_Type'>
 									<option value=''>-- Select Type --</option>";
@@ -413,10 +413,10 @@ function load_job_display($error = NULL, $data){
 							</td>
 						</tr>
 						<tr>
-							<td>Visibility:</td>
+							<td>".__("Visibility:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<select id='Job_Visibility' name='Job_Visibility'>
-									<option value=''>-- Select Type --</option>
+									<option value=''>".__("-- Select Type --",RBAGENCY_casting_TEXTDOMAIN)."</option>
 									<option value='0' ".selected($data['Job_Visibility'],"0",false).">Invite Only</option>
 									<option value='1' ".selected($data['Job_Visibility'],"1",false).">Open to All</option>
 									<option value='2' ".selected($data['Job_Visibility'],"2",false).">Matching Criteria</option>
