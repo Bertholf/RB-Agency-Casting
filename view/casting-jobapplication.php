@@ -35,8 +35,8 @@
 		echo $rb_header = RBAgency_Common::rb_header();
 
 		echo __("<p>You are already invited to this job. Please check your email for the invite link to accept or decline.</p>",RBAGENCY_casting_TEXTDOMAIN); 
-		echo __("<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>",RBAGENCY_casting_TEXTDOMAIN); 
-		echo __("<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n",RBAGENCY_casting_TEXTDOMAIN);
+		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>".__("Apply to more jobs here.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>"; 
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>".__("Go Back to Profile Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 
 		echo $rb_footer = RBAgency_Common::rb_footer();
 		exit();
@@ -186,9 +186,9 @@
 
 		echo $rb_header = RBAgency_Common::rb_header();
 
-		echo "<p>You already applied for this job.</p>"; 
-		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>"; 
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+		echo "<p>".__("You already applied for this job.",RBAGENCY_casting_TEXTDOMAIN)."</p>"; 
+		echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>".__("Apply to more jobs here.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>"; 
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>".__("Go Back to Profile Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 
 		echo $rb_footer = RBAgency_Common::rb_footer(); 
 

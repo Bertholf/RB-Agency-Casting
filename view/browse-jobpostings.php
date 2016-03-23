@@ -46,7 +46,7 @@ if (is_user_logged_in()) {
 			<div id="rbcontent" role="main">
 			
 				<header class="entry-header">
-				<h1 class="entry-title">You are not permitted to access this page.</h1>
+				<h1 class="entry-title">'.__("You are not permitted to access this page.",RBAGENCY_casting_TEXTDOMAIN).'</h1>
 				</header>
 				<div class="entry-content">
 				<p class="rbalert error">
@@ -60,10 +60,10 @@ if (is_user_logged_in()) {
 	echo "<div id=\"rbcontent\">";
 
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-				echo "<p><h3>Job Postings</h3></p><br>";
+				echo "<p><h3>".__("Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</h3></p><br>";
 		} else {
 			if ( current_user_can( 'edit_posts' ) ) {
-				echo "<p><h3>All Job Postings from Casting Agents</h3></p><br>";
+				echo "<p><h3>".__("All Job Postings from Casting Agents",RBAGENCY_casting_TEXTDOMAIN)."</h3></p><br>";
 			} elseif ( RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) {
 				echo "<p><h3>Your Job Postings</h3></p><br>";
 			}
@@ -184,7 +184,7 @@ if (is_user_logged_in()) {
 		echo "<table class='table-filter'>\n";
 		echo "<tbody>";
 		echo "<tr>";
-		echo "        <td>Start Date<br>
+		echo "        <td>".__("Start Date",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<div class='tdbox'>
 							<select name='filter_range'>
 							<option value='0' ".selected(0, $range,false).">Before</option>
@@ -199,7 +199,7 @@ if (is_user_logged_in()) {
 
 		echo "        <td>Location<br>
 						<select name='filter_location'>
-							<option value=''>-- Select Location --</option>";
+							<option value=''>".__("-- Select Location --",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 
 		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) ) {
 			$get_all_loc = "SELECT DISTINCT LOWER(Job_Location) as Location FROM " . table_agency_casting_job . " WHERE Job_UserLinked = " . $current_user->ID;
@@ -217,7 +217,7 @@ if (is_user_logged_in()) {
 		echo "				</select> 
 					</td>\n";
 
-		echo "        <td>Records Per Page<br>
+		echo "        <td>".__("Records Per Page",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_perpage'>
 							<option value=''>- # of Rec -</option>";
 							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";
@@ -242,13 +242,13 @@ if (is_user_logged_in()) {
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
 		echo "        <th class=\"column-checkbox\"  scope=\"col\" style=\"width:30px;\"><input type='checkbox' value='0' class='job_checkbox_all' name='job_checkbox_all'></th>\n";
-		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">ID</th>\n";
-		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">Job Title</th>\n";
-		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">Start Date</th>\n";
-		echo "        <th class=\"column-JobLocation\" id=\"JobLocation\" scope=\"col\">Location</th>\n";
-		echo "        <th class=\"column-JobRegion\" id=\"JobRegion\" scope=\"col\">Region</th>\n";
-		echo "        <th class=\"column-JobDatePosted\" id=\"JobDatePosted\" scope=\"col\">Date posted</th>\n";
-		echo "        <th class=\"column-JobActions\" id=\"JobActions\" scope=\"col\">Actions</th>\n";
+		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\" style=\"width:50px;\">".__("ID",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:150px;\">".__("Job Title",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">".__("Start Date",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobLocation\" id=\"JobLocation\" scope=\"col\">".__("Location",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobRegion\" id=\"JobRegion\" scope=\"col\">".__("Region",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobDatePosted\" id=\"JobDatePosted\" scope=\"col\">".__("Date posted",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobActions\" id=\"JobActions\" scope=\"col\">".__("Actions",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
 
@@ -325,7 +325,7 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -333,19 +333,19 @@ if (is_user_logged_in()) {
 											if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
 												echo "        <td class=\"column-JobActions\" scope=\"col\">
 																<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
+																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																<br>
 																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
 																</td>\n";
 											} else {
-												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
+												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>
+																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																</td>\n";
 											}
 
 										//if agent
 										} else {
-											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>View Details</a></td>\n";
+											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 										}
 
 									}
@@ -364,7 +364,7 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -372,19 +372,19 @@ if (is_user_logged_in()) {
 											if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
 												echo "        <td class=\"column-JobActions\" scope=\"col\">
 																<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
+																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																<br>
 																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
 																</td>\n";
 											} else {
 												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>View Applicants</a>
+																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																</td>\n";
 											}
 
 										//if agent
 										} else {
-											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>View Details</a></td>\n";
+											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 										}
 
 									}
@@ -424,12 +424,12 @@ if (is_user_logged_in()) {
 			echo "<div class='jobposting-actions'>";
 			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='Delete'>";
 			echo "</div>";
-			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a></div>\n";
+			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
 		}
 
 		// for models
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard</a></div>\n";
+			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/profile-member'>".__("Go Back to Profile Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
 		}
 
 		echo "</footer>";

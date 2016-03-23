@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-22 01:48-0700\n"
+"PO-Revision-Date: 2016-03-23 14:05-0700\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -1230,9 +1230,6 @@ msgstr ""
 msgid "Invitation Sent Succesfully!"
 msgstr ""
 
-msgid "(Note: The \"[casting-job-url]\" will be the link to your shorlisted profile for the job)"
-msgstr ""
-
 msgid "Send"
 msgstr ""
 
@@ -1243,9 +1240,6 @@ msgid "Check Availability"
 msgstr ""
 
 msgid "Send to:"
-msgstr ""
-
-msgid "(Note: The \"[shortlisted-link-placeholder]\" will be the link to your shorlisted profile for the job)"
 msgstr ""
 
 msgid "Add your message here...<br />[shortlisted-link-placeholder]"
@@ -1309,4 +1303,196 @@ msgid "here."
 msgstr ""
 
 msgid "Here."
+msgstr ""
+
+msgid "Invite Profiles"
+msgstr ""
+
+msgid "(Note: The \"[casting-job-url]\" will be the link to your shorlisted profile for the job)"
+msgstr ""
+
+msgid "Add your message here... Click this link to view Job details: [casting-job-url]"
+msgstr ""
+
+msgid "(Note: The \"[shortlisted-link-placeholder]\" will be the link to your shorlisted profile for the job)"
+msgstr ""
+
+msgid "Link to model shortlist: [link-place-holder]"
+msgstr ""
+
+msgid "Error sending the email!"
+msgstr ""
+
+msgid "75% - 100% Matched"
+msgstr ""
+
+msgid "50% - 75% Matched"
+msgstr ""
+
+msgid "25% - 50% Matched"
+msgstr ""
+
+msgid "0% - 25% Matched"
+msgstr ""
+
+msgid "No Rating"
+msgstr ""
+
+msgid "No profile selected. Try again"
+msgstr ""
+
+msgid "Empty Cart"
+msgstr ""
+
+msgid "Currently"
+msgstr ""
+
+msgid "in Cart"
+msgstr ""
+
+msgid "There are currently no profiles in the casting cart"
+msgstr ""
+
+msgid "Age:"
+msgstr ""
+
+msgid "Remove from Cart"
+msgstr ""
+
+msgid "Cart Actions"
+msgstr ""
+
+msgid "Save Search & Email"
+msgstr ""
+
+msgid "Mass Email"
+msgstr ""
+
+msgid "Quick Print"
+msgstr ""
+
+msgid "Without Details"
+msgstr ""
+
+msgid "There are no profiles added to the casting cart."
+msgstr ""
+
+msgid "Compose Email"
+msgstr ""
+
+msgid "Recipient:"
+msgstr ""
+
+msgid "Add Message Here"
+msgstr ""
+
+msgid "This message was sent to you by:<br />[site-title]<br />[site-url]"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "prev"
+msgstr ""
+
+msgid "next"
+msgstr ""
+
+msgid "Email Messages successfully sent!"
+msgstr ""
+
+msgid "Successfully deleted."
+msgstr ""
+
+msgid "Search by :"
+msgstr ""
+
+msgid "Agency/Producer :"
+msgstr ""
+
+msgid "Go Back to My Dashboard"
+msgstr ""
+
+msgid "You're not signed in."
+msgstr ""
+
+msgid "--Select--"
+msgstr ""
+
+msgid "Additional Details"
+msgstr ""
+
+msgid "Other Details"
+msgstr ""
+
+msgid "Showing Open to All and Matching Criteria Jobs"
+msgstr ""
+
+msgid "Apply Before"
+msgstr ""
+
+msgid "View this Job"
+msgstr ""
+
+msgid "Job Postings"
+msgstr ""
+
+msgid "All Job Postings from Casting Agents"
+msgstr ""
+
+msgid "Start Date"
+msgstr ""
+
+msgid "-- Select Location --"
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Region"
+msgstr ""
+
+msgid "View Details"
+msgstr ""
+
+msgid "Go Back to Profile Dashboard"
+msgstr ""
+
+msgid "Sender name must not be equal to blanks.<br>"
+msgstr ""
+
+msgid "Sender email must not be equal to blanks.<br>"
+msgstr ""
+
+msgid "You must enter a valid sender email address.<br />"
+msgstr ""
+
+msgid "Subject must not be equal to blanks.<br>"
+msgstr ""
+
+msgid "You must have a valid message.<br />"
+msgstr ""
+
+msgid "Message was successfully sent!<br />"
+msgstr ""
+
+msgid "Recipients Email is not available.<br />"
+msgstr ""
+
+msgid "Apply to more jobs here."
+msgstr ""
+
+msgid "You already applied for this job."
+msgstr ""
+
+msgid "Job Details"
+msgstr ""
+
+msgid "Email is required.<br />"
 msgstr ""

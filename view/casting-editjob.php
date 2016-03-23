@@ -502,7 +502,7 @@ function load_job_display($error = NULL, $data){
 		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 		echo '			<header class="entry-header">';
-		echo '				<h1 class="entry-title">You are not permitted to access this page.</h1>';
+		echo '				<h1 class="entry-title">'.__("You are not permitted to access this page.",RBAGENCY_casting_TEXTDOMAIN).'</h1>';
 		echo '			</header>';
 		if(!is_user_logged_in()){
 			require_once("include-login.php");

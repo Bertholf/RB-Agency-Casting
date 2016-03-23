@@ -280,7 +280,7 @@
 				$displayActions .= "</div>";
 
 			if(isset($is_model_or_talent) && $is_model_or_talent > 0){
-				$displayActions .= "<div class=\"rb-goback-link\"><a href=\"".get_bloginfo("url")."/casting-dashboard/\">Go Back to My Dashboard</a></div>";
+				$displayActions .= "<div class=\"rb-goback-link\"><a href=\"".get_bloginfo("url")."/casting-dashboard/\">".__("Go Back to My Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>";
 			}
 
 		$disp = $displayActions;
@@ -408,7 +408,7 @@
 								if (results == 'error') {
 									Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
 								} else if (results == -1) {
-									Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\">You're not signed in.</span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
+									Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\"><?php echo __('You're not signed in.',RBAGENCY_casting_TEXTDOMAIN); ?></span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
 									setTimeout(function () {
 										if (Obj.attr("class") == "save_favorite") {
 											Obj.fadeOut().empty().html("").fadeIn();
@@ -571,7 +571,7 @@
 									if (results == 'error') {
 										Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
 									} else if (results == -1) {
-										Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\">You're not signed in.</span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
+										Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\"><?php echo  __('You're not signed in.',RBAGENCY_casting_TEXTDOMAIN); ?></span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
 										setTimeout(function () {
 											if (Obj.attr("class") == "save_castingcart") {
 												Obj.fadeOut().empty().html("").fadeIn();
@@ -840,7 +840,7 @@
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
 			   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
-			   	    	echo "<option>--Select--</option>";
+			   	    	echo "<option>".__("--Select--",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 			   	    	for($idx=0;$idx<count($parse);$idx++){
 			   	    		if(!empty($parse[$idx])){
 			   	    			if(isset($_GET['Job_ID']) && !empty($_GET['Job_ID'])){
@@ -1031,7 +1031,7 @@
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
 			   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
-			   	    	echo "<option>--Select--</option>";
+			   	    	echo "<option>".__("--Select--",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 			   	    	for($idx=0;$idx<count($parse);$idx++){
 			   	    		if(!empty($parse[$idx])){
 			   	    			echo "<option value=\"".$parse[$idx]."\" ".$selected.">".$parse[$idx]."</option>";
@@ -1126,7 +1126,7 @@
 						   	    	echo "<div>";
 						   	    	echo "<select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 						   	    	$parse3 = explode("|",$ProfileCustomOptions);
-						   	    	echo "<option>--Select--</option>";
+						   	    	echo "<option>".__("--Select--",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 						   	    	for($idx=0;$idx<count($parse3);$idx++){
 						   	    		if(!empty($parse3[$idx])){			   	    			
 						   	    			echo "<option value=\"".$parse3[$idx]."\" >".$parse3[$idx]."</option>";
@@ -1211,7 +1211,7 @@
 		   $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 		  
 		   echo "<br>";
-		   echo "<h3>Additional Details</h3>";
+		   echo "<h3>".("Additional Details",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
 		   $temp_arr = array();
 		   foreach( $result_query_get as $result){
 		   			if($result["ProfileCustomView"] == 0 || $result["ProfileCustomView"] == 1){
@@ -1264,7 +1264,7 @@
 			   	    	echo "<label>".$ProfileCustomTitle."</label>";
 			   	    	echo "<div><select name=\"ProfileCustom2_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
-			   	    	echo "<option>--Select--</option>";
+			   	    	echo "<option>".__("--Select--",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 			   	    	for($idx=0;$idx<count($parse);$idx++){
 			   	    		if(!empty($parse[$idx])){
 			   	    			$custom_value = rb_agency_get_casting_register_custom_value($castID,$ProfileCustomID);
@@ -1432,7 +1432,7 @@
 			   	    	echo "<td>".$ProfileCustomTitle."</td>";
 			   	    	echo "<td><select name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" >";
 			   	    	$parse = explode("|",$ProfileCustomOptions);
-			   	    	echo "<option>--Select--</option>";
+			   	    	echo "<option>".__("--Select--",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 			   	    	for($idx=0;$idx<count($parse);$idx++){
 			   	    		if(!empty($parse[$idx])){
 			   	    			$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
@@ -1527,7 +1527,7 @@
 			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 
 	    	echo "<tr>
-					<td><h3>Other Details</h3></td><td></td>
+					<td><h3>".__("Other Details",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 				</tr>";
 	    	foreach($custom_fields as $custom_field){
 	    		if($custom_field["ProfileCustomView"] == 0 || $custom_field["ProfileCustomView"] == 1){
@@ -1620,7 +1620,7 @@
 			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 			
 	    	echo "<tr>
-					<td><h3>Other Details</h3></td><td></td>
+					<td><h3>".__("Other Details",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 				</tr>";
 	    	foreach($custom_fields as $custom_field){
 	    		if($custom_field["ProfileCustomView"] == 0 || $custom_field["ProfileCustomView"] == 1){
@@ -1908,7 +1908,7 @@
 				//$results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Visibility = 1 OR Job_Visibility = 2");
 				$results = $wpdb->get_results($query2);
 
-				$output .= "<br><h3>Showing Open to All and Matching Criteria Jobs</h3>";
+				$output .= "<br><h3>".__("Showing Open to All and Matching Criteria Jobs",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
 
 				$output .= "<div id=\"job-auditions\">";
 				foreach($results as $job){
@@ -1924,11 +1924,11 @@
 
 					$output .= "			<p>".$job->Job_Intro."</p>";
 					if(!empty($job->Job_Audition_Date_End)){
-						$output .= "			<p class=\"ja-date\">Apply Before ".$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
+						$output .= "			<p class=\"ja-date\"> ".__("Apply Before",RBAGENCY_casting_TEXTDOMAIN).$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
 					}
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";
-					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">View this Job</a>";			
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a>";			
 					$output .= "			<div class=\"ja-share\">";
 					$output .= "				<div class=\"fb-share-button\" data-href=\"".get_permalink()."\" data-layout=\"button\"></div>";
 					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";					
@@ -1985,7 +1985,7 @@
 			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 			//print_r($custom_fields);
 	    	echo "<tr>
-					<td><h3>Other Details</h3></td><td></td>
+					<td><h3>".__("Other Details",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 				</tr>";
 	    	foreach($custom_fields as $custom_field){
 	    		if($custom_field["ProfileCustomView"] == 0 || $custom_field["ProfileCustomView"] == 1){

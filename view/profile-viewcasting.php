@@ -367,7 +367,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					if($rb_agency_option_allowsendemail == 1){
 						?>
 						<div id="inviteprofilesForm" style="display:none;">
-						<strong>Invite Profiles</strong>
+						<strong><?php echo __("Invite Profiles",RBAGENCY_casting_TEXTDOMAIN); ?></strong>
 						<form method="post" action="">
 						<div>
 							<?php echo __("Message:",RBAGENCY_casting_TEXTDOMAIN); ?><br/>
@@ -468,7 +468,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							//return false;
 						}else{
 							// Prepre varialbes						
-							$message_content = 'Link to model shortlist: [link-place-holder]';
+							$message_content = __('Link to model shortlist: [link-place-holder]',RBAGENCY_casting_TEXTDOMAIN);
 							//START
 							$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
 							$fromName 				= $_POST["yourName"];
@@ -586,9 +586,9 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							$isSent =wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
 							//mail($SearchMuxToEmail,"My subject",stripcslashes(make_clickable($Message)));
 							if($isSent){
-								echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
+								echo "<p id=\"emailSent\"> ".__("Email Sent Succesfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $SearchMuxToName ."!</p>";
 							}else{
-								echo "<p id=\"emailSent\">Error sending the email!</p>";
+								echo "<p id=\"emailSent\">".__("Error sending the email!",RBAGENCY_casting_TEXTDOMAIN)."</p>";
 							}
 						}
 												 

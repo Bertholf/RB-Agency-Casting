@@ -468,17 +468,17 @@ if (is_user_logged_in()) {
 		echo "        <td>Criteria Matched<br>
 						<select name='filter_jobpercentage'>
 							<option value=''>".__("-- Select Matched % --",RBAGENCY_casting_TEXTDOMAIN)."</option>
-							<option value='75-100' ".selected($percentage,'75-100',false).">75% - 100% Matched</option>
-							<option value='50-75' ".selected($percentage,'50-75',false).">50% - 75% Matched</option>
-							<option value='25-50' ".selected($percentage,'25-50',false).">25% - 50% Matched</option>
-							<option value='0-25' ".selected($percentage,'0-25',false).">0% - 25% Matched</option>
+							<option value='75-100' ".selected($percentage,'75-100',false).">".__("75% - 100% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='50-75' ".selected($percentage,'50-75',false).">".__("50% - 75% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='25-50' ".selected($percentage,'25-50',false).">".__("25% - 50% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='0-25' ".selected($percentage,'0-25',false).">".__("0% - 25% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
 						</select>
 						</td>\n";
 
 		echo "        <td>".__("Your Rating",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_rating'>
 							<option value=''> - </option>";
-							echo "<option value='not_rated' ".selected('not_rated', $rating,false).">No Rating</option>";
+							echo "<option value='not_rated' ".selected('not_rated', $rating,false).">".__("No Rating",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 							$page = 1;
 							for($page = 1; $page <= 5; $page ++){
 								echo "<option value='$page' ".selected($page, $rating,false).">$page Star</option>";
