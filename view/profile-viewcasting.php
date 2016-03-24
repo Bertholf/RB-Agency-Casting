@@ -207,7 +207,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
 					}
 					echo "</select></div>";
-					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"Search\"/>";
+					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"".__("Search",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
 							echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 						} else {
@@ -601,7 +601,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					<div id="sendProfilesForm" <?php echo $display_none; ?> >
 					
 					
-						<h3>Send Profiles</h3>
+						<h3><?php echo __("Send Profiles",RBAGENCY_casting_TEXTDOMAIN); ?></h3>
 						<form method="post" action="">
 							<?php
 							$rb_agency_options_arr = get_option('rb_agency_options');

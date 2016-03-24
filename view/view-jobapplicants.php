@@ -465,7 +465,7 @@ if (is_user_logged_in()) {
 
 		
 						</td>\n";
-		echo "        <td>Criteria Matched<br>
+		echo "        <td>".__("Criteria Matched",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_jobpercentage'>
 							<option value=''>".__("-- Select Matched % --",RBAGENCY_casting_TEXTDOMAIN)."</option>
 							<option value='75-100' ".selected($percentage,'75-100',false).">".__("75% - 100% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
@@ -648,7 +648,7 @@ if (is_user_logged_in()) {
 
 		echo "
 				</select>
-				<input type='button' id='action_submit' class='button-primary' value='Submit'>
+				<input type='button' id='action_submit' class='button-primary' value='".__("Submit",RBAGENCY_casting_TEXTDOMAIN)."'>
 				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
 				</div>\n";
 				

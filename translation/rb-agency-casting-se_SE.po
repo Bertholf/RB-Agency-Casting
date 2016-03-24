@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-23 14:05-0700\n"
+"PO-Revision-Date: 2016-03-23 19:35-0700\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -1495,4 +1495,73 @@ msgid "Job Details"
 msgstr ""
 
 msgid "Email is required.<br />"
+msgstr ""
+
+msgid "You have no Job Postings.<br>Start New Job Posting"
+msgstr ""
+
+msgid "There are no available job postings."
+msgstr ""
+
+msgid "Edit Job Posting"
+msgstr ""
+
+msgid "View Your Job Postings?"
+msgstr ""
+
+msgid "Invite Only"
+msgstr ""
+
+msgid "Open to All"
+msgstr ""
+
+msgid "Matching Criteria"
+msgstr ""
+
+msgid "Go Back to Casting Dashboard."
+msgstr ""
+
+msgid "Successfully Submitted Your Application"
+msgstr ""
+
+msgid "Duration:"
+msgstr ""
+
+msgid "Job Audition Date:"
+msgstr ""
+
+msgid "Audition Time Start:"
+msgstr ""
+
+msgid "Job Audition Time Start:"
+msgstr ""
+
+msgid "Job Audition Time End:"
+msgstr ""
+
+msgid "Job Audition Venue:"
+msgstr ""
+
+msgid "Add new Job Posting?"
+msgstr ""
+
+msgid " must have a display name identified"
+msgstr ""
+
+msgid "Send Profiles"
+msgstr ""
+
+msgid "Send to Name:"
+msgstr ""
+
+msgid "Date Created"
+msgstr ""
+
+msgid "Profiles"
+msgstr ""
+
+msgid "Applicants"
+msgstr ""
+
+msgid "No profiles found with this criteria."
 msgstr ""

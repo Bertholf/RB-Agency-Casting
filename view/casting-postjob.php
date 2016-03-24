@@ -173,7 +173,7 @@ if(isset($_POST['save_job'])){
 			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<p class="rbalert success">';
-			echo '				<strong>'.__("You have successfully added your new Job Posting!",RBAGENCY_casting_TEXTDOMAIN).'</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">Add new Job Posting?</a>';
+			echo '				<strong>'.__("You have successfully added your new Job Posting!",RBAGENCY_casting_TEXTDOMAIN).'</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">'.__("Add new Job Posting?",RBAGENCY_casting_TEXTDOMAIN).'</a>';
 			echo '				<a href=\''.get_bloginfo('wpurl').'/casting-dashboard\'">'.__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN).'</a>';
 			echo '			</p>';
 			echo "			<div class=\"cb\"></div>\n";
@@ -291,7 +291,7 @@ function load_job_display($error = NULL){
 
 		echo "<div id=\"rbcontent\" ";?><?php echo post_class(); ?><?php echo ">\n";
 		echo '			<header class="entry-header">';
-		echo '				<h1 class="entry-title">New Job Posting</h1>';
+		echo '				<h1 class="entry-title">'.__("New Job Posting",RBAGENCY_casting_TEXTDOMAIN).'</h1>';
 		echo '			</header>';
 
 		if(isset($error) && $error != ""){
@@ -318,7 +318,7 @@ function load_job_display($error = NULL){
 						<div><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<h3>Job Duration</h3>
+						<h3>".__("Job Duration",RBAGENCY_casting_TEXTDOMAIN)."</h3>
 						<label>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div>
 							<input type='text' name='Job_Date_Start' class='datepicker' value='".(isset($_POST['Job_Date_Start'])?$_POST['Job_Date_Start']:"")."'>
@@ -434,7 +434,7 @@ function load_job_display($error = NULL){
 					<div class='rbfield rbsubmit'>
 						<label></label>
 
-						<input type='submit' name='save_job' value='Submit Job'>
+						<input type='submit' name='save_job' value='".__("Submit Job",RBAGENCY_casting_TEXTDOMAIN)."'>
 					</div>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";

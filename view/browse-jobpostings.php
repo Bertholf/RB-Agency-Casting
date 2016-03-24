@@ -407,9 +407,9 @@ if (is_user_logged_in()) {
 			echo "<tr><td colspan='8'>";
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
-				echo "<p>You have no Job Postings.<br>Start New Job Posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
+				echo "<p>".__("You have no Job Postings.<br>Start New Job Posting",RBAGENCY_casting_TEXTDOMAIN)." <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
 			} else {
-				echo "<p>There are no available job postings.</p>\n";
+				echo "<p>".__("There are no available job postings.",RBAGENCY_casting_TEXTDOMAIN)."</p>\n";
 			}
 			echo "</td></tr>";
 

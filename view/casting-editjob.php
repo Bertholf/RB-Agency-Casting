@@ -254,7 +254,7 @@ if(isset($_GET['save_job'])){
 			echo '			<div class="entry-content">';
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
-			echo '				<p>'.__('You have successfully updated your new Job Posting!',RBAGENCY_casting_TEXTDOMAIN).' <a href="'.get_bloginfo('wpurl').'/browse-jobs">View Your Job Postings?</a></p>';
+			echo '				<p>'.__('You have successfully updated your new Job Posting!',RBAGENCY_casting_TEXTDOMAIN).' <a href="'.get_bloginfo('wpurl').'/browse-jobs">'.__('View Your Job Postings?',RBAGENCY_casting_TEXTDOMAIN).'</a></p>';
 			echo '				<p><a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
@@ -324,7 +324,6 @@ function load_job_display($error = NULL, $data){
 							<td><h3>".__("Job Duration",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 						</tr>
 						<tr>
-							<td>".__("Date Start::",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Date_Start' id='Job_Date_Start'  value='".$data['Job_Date_Start']."' class='datepicker'>
 							</td>
@@ -400,7 +399,7 @@ function load_job_display($error = NULL, $data){
 							<td>".__("Type:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<select id='Job_Type' name='Job_Type'>
-									<option value=''>-- Select Type --</option>";
+									<option value=''>".__("-- Select Type --",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 
 									$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
 									if(count($get_job_type)){
@@ -417,9 +416,9 @@ function load_job_display($error = NULL, $data){
 							<td>
 								<select id='Job_Visibility' name='Job_Visibility'>
 									<option value=''>".__("-- Select Type --",RBAGENCY_casting_TEXTDOMAIN)."</option>
-									<option value='0' ".selected($data['Job_Visibility'],"0",false).">Invite Only</option>
-									<option value='1' ".selected($data['Job_Visibility'],"1",false).">Open to All</option>
-									<option value='2' ".selected($data['Job_Visibility'],"2",false).">Matching Criteria</option>
+									<option value='0' ".selected($data['Job_Visibility'],"0",false).">".__("Invite Only",RBAGENCY_casting_TEXTDOMAIN)."</option>
+									<option value='1' ".selected($data['Job_Visibility'],"1",false).">".__("Open to All",RBAGENCY_casting_TEXTDOMAIN)."</option>
+									<option value='2' ".selected($data['Job_Visibility'],"2",false).">".__("Matching Criteria",RBAGENCY_casting_TEXTDOMAIN)."</option>
 								</select>
 							</td>
 						</tr>";
@@ -430,13 +429,13 @@ function load_job_display($error = NULL, $data){
 							<td id='criteria'></td>
 						</tr>
 						<tr>
-							<td colspan=\"2\"><input type='submit' name='save_job' value='Submit Job'></td>
+							<td colspan=\"2\"><input type='submit' name='save_job' value='".__("Submit Job",RBAGENCY_casting_TEXTDOMAIN)."'></td>
 						</tr>
 					</table>
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
-		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>";
+		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "  	</div><!-- #content -->\n"; // #content
 		echo "	</div><!-- #primary -->\n"; // #primary

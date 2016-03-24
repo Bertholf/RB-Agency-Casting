@@ -408,7 +408,7 @@
 								if (results == 'error') {
 									Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
 								} else if (results == -1) {
-									Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\"><?php echo __('You're not signed in.',RBAGENCY_casting_TEXTDOMAIN); ?></span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
+									Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\">You're not signed in.</span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
 									setTimeout(function () {
 										if (Obj.attr("class") == "save_favorite") {
 											Obj.fadeOut().empty().html("").fadeIn();
@@ -571,7 +571,7 @@
 									if (results == 'error') {
 										Obj.fadeOut().empty().html("Error in query. Try again").fadeIn();
 									} else if (results == -1) {
-										Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\"><?php echo  __('You're not signed in.',RBAGENCY_casting_TEXTDOMAIN); ?></span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
+										Obj.fadeOut().empty().html("<span style=\"color:red;font-size:11px;\">You're not signed in.</span><a href=\"<?php echo get_bloginfo('wpurl'); ?>/profile-member/\">Sign In</a>.").fadeIn();
 										setTimeout(function () {
 											if (Obj.attr("class") == "save_castingcart") {
 												Obj.fadeOut().empty().html("").fadeIn();
@@ -1211,7 +1211,7 @@
 		   $userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 		  
 		   echo "<br>";
-		   echo "<h3>".("Additional Details",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
+		   echo "<h3>".__("Additional Details",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
 		   $temp_arr = array();
 		   foreach( $result_query_get as $result){
 		   			if($result["ProfileCustomView"] == 0 || $result["ProfileCustomView"] == 1){

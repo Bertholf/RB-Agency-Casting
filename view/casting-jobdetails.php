@@ -148,11 +148,11 @@
 							}
 							if(!empty($r->Job_Audition_Time)){
 							echo "<tr>
-									<td><b>".__("Audition Time End:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
+									<td><b>".__("Audition Time Start:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Time."</td>
 								</tr>";
 							}
-							if(!empty($r->Job_Audition_Time)){
+							if(!empty($r->Job_Audition_Time_End)){
 							echo "<tr>
 									<td><b>".__("Audition Time End:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Time_End."</td>

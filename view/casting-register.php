@@ -154,7 +154,7 @@
 			} elseif ($rb_agency_option_profilenaming == 1) {
 				$CastingContactDisplay = $first_name . " ". substr($last_name, 0, 1);
 			} elseif ($rb_agency_option_profilenaming == 2) {
-				$error .= "<b><i>". __(LabelSingular ." must have a display name identified",RBAGENCY_casting_TEXTDOMAIN) . ".</i></b><br>";
+				$error .= "<b><i>".LabelSingular. __(" must have a display name identified",RBAGENCY_casting_TEXTDOMAIN) . ".</i></b><br>";
 				$have_error = true;
 			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
 				$CastingContactDisplay = "ID ". $ProfileID;

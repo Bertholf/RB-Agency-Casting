@@ -110,9 +110,9 @@
 						$Message .= get_bloginfo("name");
 
 						RBAgency_Casting::sendClientNewJobNotification($Job->CastingContactEmail,$Job->Job_Title,$Message);
-						echo "<p>Successfully Submitted Your Application</p>"; 
-						echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>Apply to more jobs here.</a></p>"; 
-						echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+						echo "<p>".__("Successfully Submitted Your Application",RBAGENCY_casting_TEXTDOMAIN)."</p>"; 
+						echo "<p><a href='".get_bloginfo('wpurl')."/browse-jobs/'>".__("Apply to more jobs here.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>"; 
+						echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>".__("Go Back to Profile Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 					}
 				} else {
 					echo __("You've already applied to this Job.",RBAGENCY_casting_TEXTDOMAIN);
