@@ -788,7 +788,7 @@
 		}
 		add_action( 'widgets_init', 'rb_castinglogin_widgets_init' );
 
-		function rb_check_casting_status($userID){
+		function rb_check_casting_status($userID=""){
 			global $current_user, $wpdb;
 			get_currentuserinfo();
 		
