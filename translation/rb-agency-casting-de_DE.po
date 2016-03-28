@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-23 19:35-0700\n"
+"PO-Revision-Date: 2016-03-28 17:46+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: de_DE\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SearchPath-0: C:/Dropbox/Users/Rob/Scripts/RB Plugin/rb-agency\n"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/functions.php:99
@@ -192,7 +192,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:519
 msgid "Make changes in the form below to edit a Client."
@@ -568,11 +568,11 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "State"
-msgstr ""
+msgstr "Bundesland"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "City"
-msgstr ""
+msgstr "Stadt"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Street"
@@ -583,25 +583,25 @@ msgid "ZIP"
 msgstr ""
 
 msgid "Welcome"
-msgstr ""
+msgstr "Herzlich willkommen"
 
 msgid "First Name"
-msgstr ""
+msgstr "Vorname"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Familienname"
 
 msgid "required"
 msgstr ""
 
 msgid "Company (required)"
-msgstr ""
+msgstr "Unternehmen (erforderlich)"
 
 msgid "Company"
 msgstr ""
 
 msgid "Street Address"
-msgstr ""
+msgstr "Straße Adresse"
 
 msgid "Home"
 msgstr ""
@@ -616,13 +616,13 @@ msgid "Retype to Confirm"
 msgstr ""
 
 msgid "Join Our Team"
-msgstr ""
+msgstr "Trete unserem Team bei"
 
 msgid "To Join Our Team please complete the application below."
-msgstr ""
+msgstr "Für unser Team Join füllen Sie bitte die Anwendung unter."
 
 msgid "I agree to the %s terms of service"
-msgstr ""
+msgstr "Ich bin damit einverstanden, die %s Nutzungsbedingungen"
 
 msgid "Thank you for registering, %1$s."
 msgstr ""
@@ -634,16 +634,16 @@ msgid "(It might go into your spam folder)"
 msgstr ""
 
 msgid "We have registered you as Agent/Producer."
-msgstr ""
+msgstr "Wir haben registriert Sie als Agent / Produzent."
 
 msgid "Search Database"
-msgstr ""
+msgstr "Datenbank durchsuchen"
 
 msgid "Age"
 msgstr ""
 
 msgid "Edit Information"
-msgstr ""
+msgstr "Informationen bearbeiten"
 
 msgid "Post a New Job"
 msgstr ""
@@ -760,7 +760,7 @@ msgid "Add/Remove to Casting Cart"
 msgstr ""
 
 msgid "View Your Casting Cart"
-msgstr ""
+msgstr "Sehen Sie Ihre Casting Wagen"
 
 msgid "Submit"
 msgstr ""
@@ -835,16 +835,16 @@ msgid "Account Information"
 msgstr ""
 
 msgid "E-mail (required)"
-msgstr ""
+msgstr "Email (erforderlich)"
 
 msgid "Website"
-msgstr ""
+msgstr "Webseite"
 
 msgid "Select state"
-msgstr ""
+msgstr "Wählen Bundesland"
 
 msgid "Zip"
-msgstr ""
+msgstr "Reißverschluss"
 
 msgid "Contact Phone"
 msgstr ""
@@ -853,7 +853,7 @@ msgid "Cell"
 msgstr ""
 
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 msgid "Cannot be changed"
 msgstr ""
@@ -862,7 +862,7 @@ msgid "Login Settings"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 msgid "Leave blank to keep same password"
 msgstr ""
@@ -931,7 +931,7 @@ msgid "Your Messsage:"
 msgstr ""
 
 msgid "<h3>Thanks for joining %s!</h3>"
-msgstr ""
+msgstr "Danke fürs Beitreten %s!"
 
 msgid "Your account is currently set as Inactive or Archived. You will receive an email once your registration is approved or activated by the admin."
 msgstr ""
@@ -1030,61 +1030,61 @@ msgid "You may now access the profile data.  You may now return to "
 msgstr ""
 
 msgid "Casting"
-msgstr ""
+msgstr "Guss"
 
 msgid "Username:"
-msgstr ""
+msgstr "Benutzername:"
 
 msgid "First Name:"
-msgstr ""
+msgstr "Vorname:"
 
 msgid "Last Name:"
-msgstr ""
+msgstr "Familienname:"
 
 msgid "User Email:"
-msgstr ""
+msgstr "Benutzer EMail:"
 
 msgid "Company:"
-msgstr ""
+msgstr "Unternehmen:"
 
 msgid "Website:"
-msgstr ""
+msgstr "Webseite:"
 
 msgid "Street:"
-msgstr ""
+msgstr "Straße:"
 
 msgid "City:"
-msgstr ""
+msgstr "Stadt:"
 
 msgid "Country:"
-msgstr ""
+msgstr "Land:"
 
 msgid "State:"
-msgstr ""
+msgstr "Bundesland:"
 
 msgid "Zip:"
-msgstr ""
+msgstr "Reißverschluss:"
 
 msgid "Home Phone:"
-msgstr ""
+msgstr "Festnetztelefon:"
 
 msgid "Work Phone:"
-msgstr ""
+msgstr "Arbeitshandy:"
 
 msgid "Cell Phone:"
-msgstr ""
+msgstr "Handy:"
 
 msgid "View All Job Postings"
-msgstr ""
+msgstr "Alle anzeigen Job-Angebote"
 
 msgid "View All Applicants"
-msgstr ""
+msgstr "Alle Bewerber"
 
 msgid "Log out"
-msgstr ""
+msgstr "Ausloggen"
 
 msgid "Your account is pending for approval. You will receive and email once your registration is approved."
-msgstr ""
+msgstr "Ihr Konto ist anhängig zur Genehmigung vor. Sie erhalten eine E-Mail erhalten, sobald Ihre Anmeldung zugelassen ist."
 
 msgid "Start Date cannot be greater than the End Date.<br />"
 msgstr ""
@@ -1126,16 +1126,16 @@ msgid "Users cannot currently register themselves, but you can manually create u
 msgstr ""
 
 msgid "Username (required)"
-msgstr ""
+msgstr "Benutzername (erforderlich)"
 
 msgid "Password (required)"
-msgstr ""
+msgstr "Passwort (erforderlich)"
 
 msgid "Select country"
-msgstr ""
+msgstr "Wählen Land"
 
 msgid "Register"
-msgstr ""
+msgstr "Neu registrieren"
 
 msgid "adduser"
 msgstr ""
@@ -1156,19 +1156,19 @@ msgid "forgot password"
 msgstr ""
 
 msgid "Client - Register here"
-msgstr ""
+msgstr "Client - Hier registrieren"
 
 msgid "Create your free profile page"
-msgstr ""
+msgstr "Legen Sie Ihr gratis Profilseite"
 
 msgid "List Auditions & Jobs Free"
-msgstr ""
+msgstr "Liste Castings und Jobs Kostenlose"
 
 msgid "Contact People in the talent Directory"
-msgstr ""
+msgstr "Kontakt Leute in der Talent-Verzeichnis"
 
 msgid "Register Now"
-msgstr ""
+msgstr "Jetzt registrieren"
 
 msgid "Lists of Jobs under"
 msgstr ""
