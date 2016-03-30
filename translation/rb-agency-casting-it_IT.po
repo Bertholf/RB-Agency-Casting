@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-28 19:51+0800\n"
+"PO-Revision-Date: 2016-03-30 15:37+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Country"
-msgstr ""
+msgstr "Nazione"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:519
 msgid "Make changes in the form below to edit a Client."
@@ -568,11 +568,11 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "City"
-msgstr ""
+msgstr "Città"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Street"
@@ -586,22 +586,22 @@ msgid "Welcome"
 msgstr ""
 
 msgid "First Name"
-msgstr ""
+msgstr "Nome"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Cognome"
 
 msgid "required"
 msgstr ""
 
 msgid "Company (required)"
-msgstr ""
+msgstr "Società (richiesto)"
 
 msgid "Company"
 msgstr ""
 
 msgid "Street Address"
-msgstr ""
+msgstr "Indirizzo"
 
 msgid "Home"
 msgstr ""
@@ -616,22 +616,22 @@ msgid "Retype to Confirm"
 msgstr ""
 
 msgid "Join Our Team"
-msgstr ""
+msgstr "Unisciti al nostro team"
 
 msgid "To Join Our Team please complete the application below."
-msgstr ""
+msgstr "Far parte del nostro team si prega di compilare la domanda qui sotto."
 
 msgid "I agree to the %s terms of service"
-msgstr ""
+msgstr "Accetto il %s termini di servizio"
 
 msgid "Thank you for registering, %1$s."
 msgstr ""
 
 msgid "Please check your email address. That's where you'll receive your login password"
-msgstr ""
+msgstr "Si prega di verificare il tuo indirizzo email. Ecco dove riceverai la password di login"
 
 msgid "(It might go into your spam folder)"
-msgstr ""
+msgstr "(Si potrebbe andare nella cartella spam)"
 
 msgid "We have registered you as Agent/Producer."
 msgstr ""
@@ -835,16 +835,16 @@ msgid "Account Information"
 msgstr ""
 
 msgid "E-mail (required)"
-msgstr ""
+msgstr "Email (richiesto)"
 
 msgid "Website"
-msgstr ""
+msgstr "Sito web"
 
 msgid "Select state"
-msgstr ""
+msgstr "Selezionare Stato"
 
 msgid "Zip"
-msgstr ""
+msgstr "Cerniera lampo"
 
 msgid "Contact Phone"
 msgstr ""
@@ -1126,16 +1126,16 @@ msgid "Users cannot currently register themselves, but you can manually create u
 msgstr ""
 
 msgid "Username (required)"
-msgstr ""
+msgstr "Nome utente (richiesto)"
 
 msgid "Password (required)"
 msgstr ""
 
 msgid "Select country"
-msgstr ""
+msgstr "Selezionare Nazione"
 
 msgid "Register"
-msgstr ""
+msgstr "Registro"
 
 msgid "adduser"
 msgstr ""
