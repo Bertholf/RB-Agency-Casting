@@ -373,7 +373,7 @@
 			} else {
 			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" value=\"\" />\n";
 			}
-			echo "			<small class=\"rbfield-note\">Cannot be changed</small>";
+			echo "			<small class=\"rbfield-note\">".__("Cannot be changed",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 			echo "		</div>\n";
 			echo "  </div>\n";
 		}
@@ -389,7 +389,7 @@
 		echo "		<label>". __("Retype Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPasswordConfirm\" name=\"CastingPasswordConfirm\" />";
-		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";
+		echo "			<small class=\"rbfield-note\">".__("Retype to Confirm",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
 		echo "<h3>Additional Details</h3>";

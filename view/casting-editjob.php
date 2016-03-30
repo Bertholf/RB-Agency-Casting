@@ -255,7 +255,7 @@ if(isset($_GET['save_job'])){
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<header class="entry-header">';
 			echo '				<p>'.__('You have successfully updated your new Job Posting!',RBAGENCY_casting_TEXTDOMAIN).' <a href="'.get_bloginfo('wpurl').'/browse-jobs">'.__('View Your Job Postings?',RBAGENCY_casting_TEXTDOMAIN).'</a></p>';
-			echo '				<p><a href="'.get_bloginfo('wpurl').'/casting-dashboard">Go Back to Casting Dashboard.</a></p>';
+			echo '				<p><a href="'.get_bloginfo('wpurl').'/casting-dashboard">'.__("Go Back to Casting Dashboard.",RBAGENCY_casting_TEXTDOMAIN).'</a></p>';
 			echo '			</header>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content

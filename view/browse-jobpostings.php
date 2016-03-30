@@ -219,7 +219,7 @@ if (is_user_logged_in()) {
 
 		echo "        <td>".__("Records Per Page",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_perpage'>
-							<option value=''>- # of Rec -</option>";
+							<option value=''>".__("- # of Rec -",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";
 
 		$page = 0;
@@ -407,7 +407,7 @@ if (is_user_logged_in()) {
 			echo "<tr><td colspan='8'>";
 			// only admin and casting should post jobs
 			if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
-				echo "<p>".__("You have no Job Postings.<br>Start New Job Posting",RBAGENCY_casting_TEXTDOMAIN)." <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p>\n";
+				echo "<p>".__("You have no Job Postings.<br>Start New Job Posting",RBAGENCY_casting_TEXTDOMAIN)." <a href='".get_bloginfo('wpurl')."/casting-postjob'>".__("Here.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 			} else {
 				echo "<p>".__("There are no available job postings.",RBAGENCY_casting_TEXTDOMAIN)."</p>\n";
 			}

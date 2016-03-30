@@ -103,9 +103,9 @@
 
 					$id = $wpdb->query($insert);
 					if($id > 0){
-						$Message  = "Hi ".$Job->CastingContactDisplay.",\n\n";
-						$Message .= "You have a new applicant for the job ".$Job->Job_Title.".\n\n";
-						$Message .= "To review, please click the link below:\n\n";
+						$Message  = __("Hi ",RBAGENCY_casting_TEXTDOMAIN).$Job->CastingContactDisplay.",\n\n";
+						$Message .=  __("You have a new applicant for the job ",RBAGENCY_casting_TEXTDOMAIN).$Job->Job_Title.".\n\n";
+						$Message .= __("To review, please click the link below:",RBAGENCY_casting_TEXTDOMAIN)."\n\n";
 						$Message .= get_bloginfo("wpurl")."/view-applicants/?filter_jobtitle=".$Job->Job_ID."\n\n\n";
 						$Message .= get_bloginfo("name");
 
