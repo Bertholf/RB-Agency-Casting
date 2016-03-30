@@ -1565,3 +1565,6 @@ msgstr ""
 
 msgid "No profiles found with this criteria."
 msgstr ""
+
+msgid "%s Registration Successful! Login Details"
+msgstr ""
