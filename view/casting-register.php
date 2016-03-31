@@ -263,7 +263,7 @@
 				if ( current_user_can( 'create_users' ) )
 					printf( __("A user account for %1$s has been created.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 				else
-					printf( __("Thank you for registering, %1$s.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
+					printf( __("Thank you for registering, %s.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 					echo "<br/>";
 					printf( __("Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)",RBAGENCY_casting_TEXTDOMAIN) );
 	echo "    </p><!-- .alert -->\n";
@@ -351,7 +351,7 @@
 				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
 				$result_query_get = $wpdb->get_results($query_get);
 				$location=site_url().'/club/';
-				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates(\'CastingCountry\',\'CastingState\');">';
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStatesCastingRegister(\'CastingCountry\',\'CastingState\');">';
 				echo '<option value="">'. __("Select country", RBAGENCY_casting_TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
 						echo '<option value='.$r->CountryID.' '.selected($_POST['CastingCountry'],$r->CountryID,false).' >'.$r->CountryTitle.'</option>';

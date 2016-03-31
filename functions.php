@@ -771,6 +771,13 @@
 			}
 		}*/
 
+		function localize_from_script(){
+			wp_enqueue_script( 'script-handle', RBAGENCY_casting_PLUGIN_URL .'js/casting.js', array( 'jquery' ) );
+			wp_localize_script( 'script-handle', 'objectL10n', array(
+				'select_state' => esc_html__( 'Select state', RBAGENCY_casting_TEXTDOMAIN )
+			) );
+		}
+		add_action( 'init', 'localize_from_script' );
 
 		/**
 		 * Switch casting-login sidebars to widget
