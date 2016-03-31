@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-31 22:05+0800\n"
+"PO-Revision-Date: 2016-03-31 23:24+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Gender"
-msgstr "Genere"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Both Male &amp; Female"
@@ -109,7 +109,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:474
 msgid "Search Profiles"
-msgstr "Profili di ricerca"
+msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:475
 msgid "Saved Searches"
@@ -583,7 +583,7 @@ msgid "ZIP"
 msgstr ""
 
 msgid "Welcome"
-msgstr "Benvenuto"
+msgstr ""
 
 msgid "First Name"
 msgstr "Nome"
@@ -634,25 +634,25 @@ msgid "(It might go into your spam folder)"
 msgstr ""
 
 msgid "We have registered you as Agent/Producer."
-msgstr "Vi abbiamo registrato di Agente/Produttore"
+msgstr ""
 
 msgid "Search Database"
-msgstr "Ricerca Database"
+msgstr ""
 
 msgid "Age"
-msgstr "Età"
+msgstr ""
 
 msgid "Edit Information"
-msgstr "Modifica informazioni"
+msgstr ""
 
 msgid "Post a New Job"
-msgstr "Posta un nuovo lavoro"
+msgstr ""
 
 msgid "View Your Job Postings"
-msgstr "Visualizza i vostri annunci d'impiego"
+msgstr ""
 
 msgid "View Your Applicants"
-msgstr "Visualizza i suoi clienti"
+msgstr ""
 
 msgid "New Job Posting"
 msgstr ""
@@ -760,7 +760,7 @@ msgid "Add/Remove to Casting Cart"
 msgstr ""
 
 msgid "View Your Casting Cart"
-msgstr "Visualizza il tuo carrello Casting"
+msgstr ""
 
 msgid "Submit"
 msgstr ""
@@ -952,7 +952,7 @@ msgid "Application for"
 msgstr ""
 
 msgid "Type:"
-msgstr "Digitare:"
+msgstr ""
 
 msgid "Make Your Pitch!:"
 msgstr ""
@@ -1030,40 +1030,40 @@ msgid "You may now access the profile data.  You may now return to "
 msgstr ""
 
 msgid "Casting"
-msgstr "Agente di Casting"
+msgstr ""
 
 msgid "Username:"
 msgstr "Nome utente:"
 
 msgid "First Name:"
-msgstr "Nome:"
+msgstr ""
 
 msgid "Last Name:"
-msgstr "Cognome:"
+msgstr ""
 
 msgid "User Email:"
-msgstr "Email degli utenti:"
+msgstr ""
 
 msgid "Company:"
-msgstr "Società:"
+msgstr ""
 
 msgid "Website:"
-msgstr "Sito web:"
+msgstr ""
 
 msgid "Street:"
-msgstr "Strada:"
+msgstr ""
 
 msgid "City:"
-msgstr "Città:"
+msgstr ""
 
 msgid "Country:"
-msgstr "Nazione:"
+msgstr ""
 
 msgid "State:"
-msgstr "Stato:"
+msgstr ""
 
 msgid "Zip:"
-msgstr "Cerniera lampo:"
+msgstr ""
 
 msgid "Home Phone:"
 msgstr ""
@@ -1081,7 +1081,7 @@ msgid "View All Applicants"
 msgstr ""
 
 msgid "Log out"
-msgstr "Disconnettersi"
+msgstr ""
 
 msgid "Your account is pending for approval. You will receive and email once your registration is approved."
 msgstr ""
@@ -1414,7 +1414,7 @@ msgid "Agency/Producer :"
 msgstr ""
 
 msgid "Go Back to My Dashboard"
-msgstr "Tornare al mio Dashboard"
+msgstr ""
 
 msgid "You're not signed in."
 msgstr ""
@@ -1624,4 +1624,13 @@ msgid ": New Job Applicant for "
 msgstr ""
 
 msgid ": Casting Cart"
+msgstr ""
+
+msgid "Congratulations! Your account is approved."
+msgstr "Complimenti! Il tuo account è stato approvato."
+
+msgid "%s Congratulations! Your account is approved."
+msgstr "%s Complimenti! Il tuo account è stato approvato."
+
+msgid "Advanced Search"
 msgstr ""
