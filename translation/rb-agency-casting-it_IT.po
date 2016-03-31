@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-31 23:24+0800\n"
+"PO-Revision-Date: 2016-03-31 23:40+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -583,7 +583,7 @@ msgid "ZIP"
 msgstr ""
 
 msgid "Welcome"
-msgstr ""
+msgstr "Benvenuto"
 
 msgid "First Name"
 msgstr "Nome"
@@ -634,25 +634,25 @@ msgid "(It might go into your spam folder)"
 msgstr ""
 
 msgid "We have registered you as Agent/Producer."
-msgstr ""
+msgstr "Vi abbiamo registrato di Agente / Produttore."
 
 msgid "Search Database"
-msgstr ""
+msgstr "Ricerca Database"
 
 msgid "Age"
 msgstr ""
 
 msgid "Edit Information"
-msgstr ""
+msgstr "Modifica informazioni"
 
 msgid "Post a New Job"
-msgstr ""
+msgstr "Posta un nuovo lavoro"
 
 msgid "View Your Job Postings"
-msgstr ""
+msgstr "Visualizza i vostri annunci d'impiego"
 
 msgid "View Your Applicants"
-msgstr ""
+msgstr "Visualizza i suoi clienti"
 
 msgid "New Job Posting"
 msgstr ""
@@ -760,7 +760,7 @@ msgid "Add/Remove to Casting Cart"
 msgstr ""
 
 msgid "View Your Casting Cart"
-msgstr ""
+msgstr "Visualizza il tuo carrello Casting"
 
 msgid "Submit"
 msgstr ""
@@ -1009,7 +1009,7 @@ msgid "Job doesn't exist"
 msgstr ""
 
 msgid "Welcome "
-msgstr ""
+msgstr "Benvenuto"
 
 msgid "You are logged in as Administrator."
 msgstr ""
@@ -1030,40 +1030,40 @@ msgid "You may now access the profile data.  You may now return to "
 msgstr ""
 
 msgid "Casting"
-msgstr ""
+msgstr "Agente di Casting"
 
 msgid "Username:"
 msgstr "Nome utente:"
 
 msgid "First Name:"
-msgstr ""
+msgstr "Nome:"
 
 msgid "Last Name:"
-msgstr ""
+msgstr "Cognome:"
 
 msgid "User Email:"
-msgstr ""
+msgstr "Email degli utenti:"
 
 msgid "Company:"
-msgstr ""
+msgstr "Società:"
 
 msgid "Website:"
-msgstr ""
+msgstr "Sito web:"
 
 msgid "Street:"
-msgstr ""
+msgstr "Strada:"
 
 msgid "City:"
-msgstr ""
+msgstr "Città:"
 
 msgid "Country:"
-msgstr ""
+msgstr "Nazione:"
 
 msgid "State:"
-msgstr ""
+msgstr "Stato:"
 
 msgid "Zip:"
-msgstr ""
+msgstr "Cerniera lampo:"
 
 msgid "Home Phone:"
 msgstr ""
@@ -1081,7 +1081,7 @@ msgid "View All Applicants"
 msgstr ""
 
 msgid "Log out"
-msgstr ""
+msgstr "Disconnettersi"
 
 msgid "Your account is pending for approval. You will receive and email once your registration is approved."
 msgstr ""
