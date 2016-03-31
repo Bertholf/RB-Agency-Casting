@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-30 17:04+0800\n"
+"PO-Revision-Date: 2016-03-31 22:05+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Gender"
-msgstr ""
+msgstr "Genere"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:444
 msgid "Both Male &amp; Female"
@@ -109,7 +109,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:474
 msgid "Search Profiles"
-msgstr ""
+msgstr "Profili di ricerca"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/rb-agency.php:475
 msgid "Saved Searches"
@@ -583,7 +583,7 @@ msgid "ZIP"
 msgstr ""
 
 msgid "Welcome"
-msgstr ""
+msgstr "Benvenuto"
 
 msgid "First Name"
 msgstr "Nome"
@@ -624,35 +624,35 @@ msgstr "Far parte del nostro team si prega di compilare la domanda qui sotto."
 msgid "I agree to the %s terms of service"
 msgstr "Accetto il %s termini di servizio"
 
-msgid "Thank you for registering, %1$s."
-msgstr ""
+msgid "Thank you for registering, %s."
+msgstr "Grazie per la registrazione, %s."
 
 msgid "Please check your email address. That's where you'll receive your login password"
-msgstr "Si prega di verificare il tuo indirizzo email. Ecco dove riceverai la password di login"
+msgstr ""
 
 msgid "(It might go into your spam folder)"
-msgstr "(Si potrebbe andare nella cartella spam)"
+msgstr ""
 
 msgid "We have registered you as Agent/Producer."
-msgstr ""
+msgstr "Vi abbiamo registrato di Agente/Produttore"
 
 msgid "Search Database"
-msgstr ""
+msgstr "Ricerca Database"
 
 msgid "Age"
-msgstr ""
+msgstr "Età"
 
 msgid "Edit Information"
-msgstr ""
+msgstr "Modifica informazioni"
 
 msgid "Post a New Job"
-msgstr ""
+msgstr "Posta un nuovo lavoro"
 
 msgid "View Your Job Postings"
-msgstr ""
+msgstr "Visualizza i vostri annunci d'impiego"
 
 msgid "View Your Applicants"
-msgstr ""
+msgstr "Visualizza i suoi clienti"
 
 msgid "New Job Posting"
 msgstr ""
@@ -760,7 +760,7 @@ msgid "Add/Remove to Casting Cart"
 msgstr ""
 
 msgid "View Your Casting Cart"
-msgstr ""
+msgstr "Visualizza il tuo carrello Casting"
 
 msgid "Submit"
 msgstr ""
@@ -853,7 +853,7 @@ msgid "Cell"
 msgstr ""
 
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 msgid "Cannot be changed"
 msgstr ""
@@ -862,7 +862,7 @@ msgid "Login Settings"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Parola d'ordine"
 
 msgid "Leave blank to keep same password"
 msgstr ""
@@ -952,7 +952,7 @@ msgid "Application for"
 msgstr ""
 
 msgid "Type:"
-msgstr ""
+msgstr "Digitare:"
 
 msgid "Make Your Pitch!:"
 msgstr ""
@@ -1030,40 +1030,40 @@ msgid "You may now access the profile data.  You may now return to "
 msgstr ""
 
 msgid "Casting"
-msgstr ""
+msgstr "Agente di Casting"
 
 msgid "Username:"
-msgstr ""
+msgstr "Nome utente:"
 
 msgid "First Name:"
-msgstr ""
+msgstr "Nome:"
 
 msgid "Last Name:"
-msgstr ""
+msgstr "Cognome:"
 
 msgid "User Email:"
-msgstr ""
+msgstr "Email degli utenti:"
 
 msgid "Company:"
-msgstr ""
+msgstr "Società:"
 
 msgid "Website:"
-msgstr ""
+msgstr "Sito web:"
 
 msgid "Street:"
-msgstr ""
+msgstr "Strada:"
 
 msgid "City:"
-msgstr ""
+msgstr "Città:"
 
 msgid "Country:"
-msgstr ""
+msgstr "Nazione:"
 
 msgid "State:"
-msgstr ""
+msgstr "Stato:"
 
 msgid "Zip:"
-msgstr ""
+msgstr "Cerniera lampo:"
 
 msgid "Home Phone:"
 msgstr ""
@@ -1081,7 +1081,7 @@ msgid "View All Applicants"
 msgstr ""
 
 msgid "Log out"
-msgstr ""
+msgstr "Disconnettersi"
 
 msgid "Your account is pending for approval. You will receive and email once your registration is approved."
 msgstr ""
@@ -1117,7 +1117,7 @@ msgid "A user account for %1$s has been created."
 msgstr ""
 
 msgid "Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)"
-msgstr ""
+msgstr "Si prega di verificare il tuo indirizzo email. Ecco dove riceverai la password di accesso.<br/> (Si potrebbe andare nella cartella spam)"
 
 msgid "Users can register themselves or you can manually create users here."
 msgstr ""
@@ -1386,7 +1386,7 @@ msgstr ""
 msgid "Add Message Here"
 msgstr ""
 
-msgid "This message was sent to you by:"
+msgid "This message was sent to you by:<br />[site-title]<br />[site-url]"
 msgstr ""
 
 msgid "Min"
@@ -1414,7 +1414,7 @@ msgid "Agency/Producer :"
 msgstr ""
 
 msgid "Go Back to My Dashboard"
-msgstr ""
+msgstr "Tornare al mio Dashboard"
 
 msgid "You're not signed in."
 msgstr ""
@@ -1567,28 +1567,28 @@ msgid "No profiles found with this criteria."
 msgstr ""
 
 msgid "%s Registration Successful! Login Details"
-msgstr ""
+msgstr "%s Registrazione di successo! dettagli del login"
 
 msgid "Hi there,"
-msgstr ""
+msgstr "Ciao,"
 
 msgid "Thanks for joining %s! Here's how to log in:"
-msgstr ""
+msgstr "Grazie per essere %s! Ecco come accedere a:"
 
 msgid "Username: %s"
-msgstr ""
+msgstr "Nome utente: %s"
 
 msgid "Password: %s"
-msgstr ""
+msgstr "Parola d'ordine: %s"
 
 msgid "If you have any problems, please contact us at %s."
-msgstr ""
+msgstr "In caso di problemi, contattaci all'indirizzo %s."
 
 msgid "Regards,"
-msgstr ""
+msgstr "Saluti,"
 
 msgid " Team"
-msgstr ""
+msgstr "Squadra"
 
 msgid "Login: "
 msgstr ""
