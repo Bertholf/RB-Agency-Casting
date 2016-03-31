@@ -22,14 +22,14 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 			jQuery("body").on('click','#asearch', function(){
 				window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
 			});
-			var htm = '<input class="button-primary" id="asearch" type="button" value="Advanced Search">';
+			var htm = '<input class="button-primary" id="asearch" type="button" value="<?php echo __("Advanced Search",RBAGENCY_casting_TEXTDOMAIN); ?>">';
 			jQuery('.rbsubmit').append(htm);
 		});
     </script>
 	<?php
 	echo "<div id=\"rbdashboard\">\n";
 	echo "<div id=\"rbcontent\">\n";
-	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
+	echo "<h1>".__("Welcome",RBAGENCY_casting_TEXTDOMAIN)." ". $curauth->user_login ."</h1>\n";
 	if (current_user_can( 'edit_posts' )){
 		echo "<h1>".__("You are logged in as Administrator.",RBAGENCY_casting_TEXTDOMAIN)."</h1>\n";
 	} else {
@@ -191,7 +191,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "  </div>\n";
 
 	echo "  <div id=\"search\">\n";
-	echo "    <h2>Search Database</h2>\n";
+	echo "    <h2>".__("Search Database",RBAGENCY_casting_TEXTDOMAIN)."</h2>\n";
 
 			echo RBAgency_Profile::search_form("", "", 0, 0);
 
