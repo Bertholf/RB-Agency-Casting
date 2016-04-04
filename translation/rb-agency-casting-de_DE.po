@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-31 23:20+0800\n"
+"PO-Revision-Date: 2016-04-04 21:42+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -604,16 +604,16 @@ msgid "Street Address"
 msgstr "Straße Adresse"
 
 msgid "Home"
-msgstr ""
+msgstr "Zuhause"
 
 msgid "Work"
-msgstr ""
+msgstr "Arbeit"
 
 msgid "Leave blank to keep same"
 msgstr ""
 
 msgid "Retype to Confirm"
-msgstr ""
+msgstr "Erneut eingeben zu bestätigen"
 
 msgid "Join Our Team"
 msgstr "Trete unserem Team bei"
@@ -769,49 +769,49 @@ msgid "Go Back to Casting Dashboard"
 msgstr ""
 
 msgid "Casting Cart"
-msgstr ""
+msgstr "Casting Wagen"
 
 msgid "Select a job"
-msgstr ""
+msgstr "Wählen Sie einen Job"
 
 msgid "Search"
-msgstr ""
+msgstr "Suche"
 
 msgid "Clear"
-msgstr ""
+msgstr "Klar"
 
 msgid "Select all"
-msgstr ""
+msgstr "Alles auswählen"
 
 msgid "Go back to Applicants."
-msgstr ""
+msgstr "Zurück an die Antragsteller."
 
 msgid "Remove selected profile(s)"
 msgstr ""
 
 msgid "Add selected profile(s)"
-msgstr ""
+msgstr "In ausgewählten Profil(e)"
 
 msgid "Your Name"
-msgstr ""
+msgstr "Dein Name"
 
 msgid "Your Email"
-msgstr ""
+msgstr "Deine Email"
 
 msgid "Your Tel. No."
-msgstr ""
+msgstr "Deine Telefonnummer"
 
 msgid "Send To Email:"
-msgstr ""
+msgstr "Senden an Email:"
 
 msgid "BCC:"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Fach"
 
 msgid "Message:"
-msgstr ""
+msgstr "Nachricht:"
 
 msgid "Casting Agent"
 msgstr ""
@@ -832,7 +832,7 @@ msgid "castin"
 msgstr ""
 
 msgid "Account Information"
-msgstr ""
+msgstr "Kontoinformationen"
 
 msgid "E-mail (required)"
 msgstr "Email (erforderlich)"
@@ -847,10 +847,10 @@ msgid "Zip"
 msgstr "Reißverschluss"
 
 msgid "Contact Phone"
-msgstr ""
+msgstr "Kontakt-Telefon"
 
 msgid "Cell"
-msgstr ""
+msgstr "Zelle"
 
 msgid "Username"
 msgstr "Benutzername"
@@ -859,19 +859,19 @@ msgid "Cannot be changed"
 msgstr ""
 
 msgid "Login Settings"
-msgstr ""
+msgstr "Einstellungen für das Anmelden"
 
 msgid "Password"
 msgstr "Passwort"
 
 msgid "Leave blank to keep same password"
-msgstr ""
+msgstr "Freilassen gleiche Passwort zu halten"
 
 msgid "Retype Password"
-msgstr ""
+msgstr "Passwort erneut eingeben"
 
 msgid "Update Information"
-msgstr ""
+msgstr "Aktualisieren Informationen"
 
 msgid "Job Title is required.<br />"
 msgstr ""
@@ -1009,7 +1009,7 @@ msgid "Job doesn't exist"
 msgstr ""
 
 msgid "Welcome "
-msgstr ""
+msgstr "Herzlich willkommen "
 
 msgid "You are logged in as Administrator."
 msgstr ""
@@ -1195,7 +1195,7 @@ msgid "Send Email"
 msgstr ""
 
 msgid "- Select a job-"
-msgstr ""
+msgstr "- Wählen Sie einen Job -"
 
 msgid "No Job Selected"
 msgstr ""
@@ -1210,46 +1210,46 @@ msgid "No Selected profile(s)."
 msgstr ""
 
 msgid "Remove selected profile(s) from Cart"
-msgstr ""
+msgstr "Entfernen Sie ausgewählte Profil(e) aus Warenkorb"
 
 msgid "Remove selected profile(s) from Job"
-msgstr ""
+msgstr "Entfernen Sie ausgewählte Profil(e) von Job"
 
 msgid "[+]Invite Profiles"
 msgstr ""
 
 msgid "[+]Check Availability"
-msgstr ""
+msgstr "[+] Verfügbarkeit prüfen"
 
 msgid "[+]Send Profiles"
-msgstr ""
+msgstr "[+] Senden Profile"
 
 msgid "Go Back"
-msgstr ""
+msgstr "Geh zurück"
 
 msgid "Invitation Sent Succesfully!"
 msgstr ""
 
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 msgid "Email Sent Succesfully to"
-msgstr ""
+msgstr "Email gesendet Erfolgreich in den"
 
 msgid "Check Availability"
-msgstr ""
+msgstr "Verfügbarkeit prüfen"
 
 msgid "Send to:"
-msgstr ""
+msgstr "Senden an:"
 
 msgid "Add your message here...<br />[shortlisted-link-placeholder]"
-msgstr ""
+msgstr "Fügen Sie Ihre Anzeige hier...<br />[shortlisted-link-placeholder]"
 
 msgid "Email Sent Succesfully! Go Back to"
 msgstr ""
 
 msgid "Go Back to Dashboard."
-msgstr ""
+msgstr "Zurück zu Armaturenbrett."
 
 msgid "All Applicants to All Job Postings from Casting Agents"
 msgstr ""
@@ -1315,10 +1315,10 @@ msgid "Add your message here... Click this link to view Job details: [casting-jo
 msgstr ""
 
 msgid "(Note: The \"[shortlisted-link-placeholder]\" will be the link to your shorlisted profile for the job)"
-msgstr ""
+msgstr "(Hinweis: Die \"[shortlisted-link-placeholder]\" wird der Link zu Ihrer engeren Auswahl Profil für den Job sein)"
 
 msgid "Link to model shortlist: [link-place-holder]"
-msgstr ""
+msgstr "Link zum Modell Auswahl: [link-place-holder]"
 
 msgid "Error sending the email!"
 msgstr ""
@@ -1423,7 +1423,7 @@ msgid "--Select--"
 msgstr ""
 
 msgid "Additional Details"
-msgstr ""
+msgstr "Weitere Einzelheiten"
 
 msgid "Other Details"
 msgstr ""
@@ -1618,7 +1618,7 @@ msgid "has put you forward for a Job. Click link to view job info & confirm avai
 msgstr ""
 
 msgid ": Check availability"
-msgstr ""
+msgstr ": Verfügbarkeit prüfen"
 
 msgid ": New Job Applicant for "
 msgstr ""
