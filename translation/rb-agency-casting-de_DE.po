@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-04-05 14:25+0800\n"
+"PO-Revision-Date: 2016-04-05 16:12+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr ""
 #: Plugin\rb-agency/admin/taxonomy.php:220
 #: Plugin\rb-agency/admin/taxonomy.php:263
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:107
 msgid "New Client added successfully!"
@@ -646,43 +646,43 @@ msgid "Edit Information"
 msgstr "Informationen bearbeiten"
 
 msgid "Post a New Job"
-msgstr ""
+msgstr "Einen neuen Job"
 
 msgid "View Your Job Postings"
-msgstr ""
+msgstr "Sehen Sie Ihre Job-Angebote"
 
 msgid "View Your Applicants"
-msgstr ""
+msgstr "Sehen Sie Ihre Bewerber"
 
 msgid "New Job Posting"
-msgstr ""
+msgstr "Neuer Job Posting"
 
 msgid "Job Description"
-msgstr ""
+msgstr "Job Beschreibung"
 
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
 msgid "offer:"
-msgstr ""
+msgstr "Angebot:"
 
 msgid "Job Duration"
-msgstr ""
+msgstr "Job Dauer"
 
 msgid "Date Start:"
-msgstr ""
+msgstr "Datum Beginn:"
 
 msgid "Date End:"
-msgstr ""
+msgstr "Datum Ende:"
 
 msgid "Job Location"
-msgstr ""
+msgstr "Job Ort"
 
 msgid "Location:"
-msgstr ""
+msgstr "Ort:"
 
 msgid "Region:"
-msgstr ""
+msgstr "Bereich:"
 
 msgid "Job Audition"
 msgstr ""
@@ -691,28 +691,28 @@ msgid "Time:"
 msgstr ""
 
 msgid "Venue:"
-msgstr ""
+msgstr "Tagungsort:"
 
 msgid "Job Criteria"
-msgstr ""
+msgstr "Job Kriterien"
 
 msgid "Visibility:"
-msgstr ""
+msgstr "Sichtweite:"
 
 msgid "Submit Job"
-msgstr ""
+msgstr "Einreichen Job"
 
 msgid "Your Job Postings"
-msgstr ""
+msgstr "Ihre Job-Angebote"
 
 msgid "Job Title"
-msgstr ""
+msgstr "Berufsbezeichnung"
 
 msgid "Date Posted"
-msgstr ""
+msgstr "Datum der Veröffentlichung"
 
 msgid "Actions"
-msgstr ""
+msgstr "Aktionen"
 
 msgid "Applicants to your Job Postings"
 msgstr ""
@@ -724,10 +724,10 @@ msgid "Your Rating"
 msgstr ""
 
 msgid "Records Per Page"
-msgstr ""
+msgstr "Datensätze pro Seite"
 
 msgid "filter"
-msgstr ""
+msgstr "Sieb"
 
 msgid "Select"
 msgstr ""
@@ -766,7 +766,7 @@ msgid "Submit"
 msgstr ""
 
 msgid "Go Back to Casting Dashboard"
-msgstr ""
+msgstr "Zurück zu Meine Übersicht"
 
 msgid "Casting Cart"
 msgstr "Casting Wagen"
@@ -913,7 +913,7 @@ msgid "You have successfully updated your new Job Posting!"
 msgstr ""
 
 msgid "-- Select Type --"
-msgstr ""
+msgstr "-- Wählen Art --"
 
 msgid "Email Applicant"
 msgstr ""
@@ -952,7 +952,7 @@ msgid "Application for"
 msgstr ""
 
 msgid "Type:"
-msgstr ""
+msgstr "Art:"
 
 msgid "Make Your Pitch!:"
 msgstr ""
@@ -1093,7 +1093,7 @@ msgid "You have successfully added your new Job Posting!"
 msgstr ""
 
 msgid "Description:"
-msgstr ""
+msgstr "Beschreibung:"
 
 msgid "You are not permitted to access this page."
 msgstr ""
@@ -1396,10 +1396,10 @@ msgid "Max"
 msgstr ""
 
 msgid "prev"
-msgstr ""
+msgstr "früher"
 
 msgid "next"
-msgstr ""
+msgstr "nächster"
 
 msgid "Email Messages successfully sent!"
 msgstr ""
@@ -1444,19 +1444,19 @@ msgid "All Job Postings from Casting Agents"
 msgstr ""
 
 msgid "Start Date"
-msgstr ""
+msgstr "Anfangsdatum"
 
 msgid "-- Select Location --"
-msgstr ""
+msgstr "-- Wählen Ort --"
 
 msgid "ID"
 msgstr ""
 
 msgid "Location"
-msgstr ""
+msgstr "Ort"
 
 msgid "Region"
-msgstr ""
+msgstr "Bereich"
 
 msgid "View Details"
 msgstr ""
@@ -1519,7 +1519,7 @@ msgid "Matching Criteria"
 msgstr ""
 
 msgid "Go Back to Casting Dashboard."
-msgstr ""
+msgstr "Zurück zu Meine Übersicht"
 
 msgid "Successfully Submitted Your Application"
 msgstr ""
@@ -1549,7 +1549,7 @@ msgid " must have a display name identified"
 msgstr ""
 
 msgid "Send Profiles"
-msgstr ""
+msgstr "Senden Profile"
 
 msgid "Send to Name:"
 msgstr ""
@@ -1633,22 +1633,22 @@ msgid "%s Congratulations! Your account is approved."
 msgstr ""
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Erweiterte Suche"
 
 msgid "Successfully Updated!"
-msgstr ""
+msgstr "Erfolgreich aktualisiert!"
 
 msgid "Back to Profile Casting"
-msgstr ""
+msgstr "Zurück zum Profil Casting"
 
 msgid "Your Name is required!"
-msgstr ""
+msgstr "Ihr Name ist erforderlich!"
 
 msgid "Your Email is required!"
-msgstr ""
+msgstr "Ihr Email ist erforderlich!"
 
 msgid "Your Tel No is required!"
-msgstr ""
+msgstr "Ihre Telefonnummer ist erforderlich!"
 
 msgid "Subject is required!"
-msgstr ""
+msgstr "Betreff ist erforderlich!"
