@@ -157,7 +157,7 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\">".__("Edit Information",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
 	
 	$is_active = rb_check_casting_status();
-	echo $is_active;
+	
 	if($is_active == true){
 		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_postnewjob'])){
 			echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\">".__("Post a New Job",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
