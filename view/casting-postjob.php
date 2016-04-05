@@ -314,7 +314,7 @@ function load_job_display($error = NULL){
 						<div><textarea name='Job_Text'>".(isset($_POST['Job_Text'])?$_POST['Job_Text']:"")."</textarea><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>
-						<label>".__("Offer:",RBAGENCY_casting_TEXTDOMAIN)."</label>
+						<label>".__("offer:",RBAGENCY_casting_TEXTDOMAIN)."</label>
 						<div><input type='text' name='Job_Offering' value='".(isset($_POST['Job_Offering'])?$_POST['Job_Offering']:"")."'><span style=\"display:none;\" class=\"error_msg tooltip\"></span></div>
 					</div>
 					<div class='rbfield rbtext rbsingle'>

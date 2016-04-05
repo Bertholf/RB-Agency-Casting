@@ -187,9 +187,9 @@ if (is_user_logged_in()) {
 		echo "        <td>".__("Start Date",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<div class='tdbox'>
 							<select name='filter_range'>
-							<option value='0' ".selected(0, $range,false).">Before</option>
-							<option value='1' ".selected(1, $range,false).">Later than</option>
-							<option value='2' ".selected(2, $range,false).">Exact</option>";
+							<option value='0' ".selected(0, $range,false).">".__("Before",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='1' ".selected(1, $range,false).">".__("Later than",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='2' ".selected(2, $range,false).">".__("Exact",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 		echo "				</select>
 						</div>
 						<div class='tdbox'>
@@ -197,7 +197,7 @@ if (is_user_logged_in()) {
 						</div>
 						</td>\n";
 
-		echo "        <td>Location<br>
+		echo "        <td>".__("Location",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_location'>
 							<option value=''>".__("-- Select Location --",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 
@@ -231,7 +231,7 @@ if (is_user_logged_in()) {
 						</td>\n";
 
 
-		echo "        <td><input type='submit' name='filter' class='button-primary' value='filter'></td>\n";
+		echo "        <td><input type='submit' name='filter' class='button-primary' value='".__("filter",RBAGENCY_casting_TEXTDOMAIN)."'></td>\n";
 		echo "    </tr>\n";
 		echo "</tbody>";
 		echo "</table>";
@@ -247,7 +247,7 @@ if (is_user_logged_in()) {
 		echo "        <th class=\"column-JobDate\" id=\"JobDate\" scope=\"col\">".__("Start Date",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
 		echo "        <th class=\"column-JobLocation\" id=\"JobLocation\" scope=\"col\">".__("Location",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
 		echo "        <th class=\"column-JobRegion\" id=\"JobRegion\" scope=\"col\">".__("Region",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
-		echo "        <th class=\"column-JobDatePosted\" id=\"JobDatePosted\" scope=\"col\">".__("Date posted",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobDatePosted\" id=\"JobDatePosted\" scope=\"col\">".__("Date Posted",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
 		echo "        <th class=\"column-JobActions\" id=\"JobActions\" scope=\"col\">".__("Actions",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
@@ -422,7 +422,7 @@ if (is_user_logged_in()) {
 		// only admin and casting should have access to casting dashboard
 		if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_user_can( 'edit_posts' )){
 			echo "<div class='jobposting-actions'>";
-			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='Delete'>";
+			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='".__("Delete",RBAGENCY_casting_TEXTDOMAIN)."'>";
 			echo "</div>";
 			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
 		}
