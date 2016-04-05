@@ -209,9 +209,9 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					echo "</select></div>";
 					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"".__("Search",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
-							echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
+							echo "<input type=\"button\" name=\"clear\" value=\"".__("Clear",RBAGENCY_casting_TEXTDOMAIN)."\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 						} else {
-							echo "<input type=\"button\" name=\"clear\" value=\"Back to Profile Casting\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
+							echo "<input type=\"button\" name=\"clear\" value=\"".__("Back to Profile Casting",RBAGENCY_casting_TEXTDOMAIN)."\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 						}
 					echo "</div></form>";
 
@@ -307,7 +307,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
 						echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"><div class=\"action\">";
 						echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"".__("Remove selected profile(s) from Cart",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
-						echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
+						echo "<input type=\"submit\" name=\"addtojob\"  value=\"".__("Add selected profile(s)",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 						echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
 						echo "</div></form>";
@@ -463,7 +463,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 						if(!empty($err_msg)){
 							foreach($err_msg as $err){
-								echo "<span style='color:red;'>".$err."</span><br>";
+								echo "<span style='color:red;'>".__($err,RBAGENCY_casting_TEXTDOMAIN)."</span><br>";
 							}
 							//return false;
 						}else{
@@ -690,7 +690,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 echo "			<div class=\"cb\"></div>\n";
 
 if(is_user_logged_in()){
-	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>".__("Go Back to Applicants.",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
+	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>".__("Go back to Applicants.",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
 	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 }
 

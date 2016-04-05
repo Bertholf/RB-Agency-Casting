@@ -1258,7 +1258,11 @@
 			   $ProfileCustomType  = $result['ProfileCustomType'];
 			   $ProfileCustomOptions = $result['ProfileCustomOptions'];	
 			  
-			   
+			   $result_count = count($result);
+
+			   if($result_count > 0){
+			   	 echo "<h3>".__("Additional Details",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
+			   }
 			   if($ProfileCustomType == 1 || $ProfileCustomType == 7){
 			   	    echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">\n";
 						echo "<label>".$ProfileCustomTitle."</label>\n";

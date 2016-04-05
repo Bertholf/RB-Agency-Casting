@@ -1817,9 +1817,10 @@ class RBAgency_Casting {
 
 		// Mail it
 		$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
-		$headers[] = 'MIME-Version: 1.0';
-		$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+		//$headers[] = 'MIME-Version: 1.0';
+		//$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		//$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+		$headers = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
 		$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname." ".__(": Check availability",RBAGENCY_casting_TEXTDOMAIN)." ", $Message, $headers);
 
 	}

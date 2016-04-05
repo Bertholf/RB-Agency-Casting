@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-03-31 23:20+0800\n"
+"PO-Revision-Date: 2016-04-05 14:25+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -1633,4 +1633,22 @@ msgid "%s Congratulations! Your account is approved."
 msgstr ""
 
 msgid "Advanced Search"
+msgstr ""
+
+msgid "Successfully Updated!"
+msgstr ""
+
+msgid "Back to Profile Casting"
+msgstr ""
+
+msgid "Your Name is required!"
+msgstr ""
+
+msgid "Your Email is required!"
+msgstr ""
+
+msgid "Your Tel No is required!"
+msgstr ""
+
+msgid "Subject is required!"
 msgstr ""

@@ -135,7 +135,7 @@
 
 			$result = $wpdb->query($update);
 
-			$error = "Successfully Updated!";
+			$error = __("Successfully Updated!",RBAGENCY_casting_TEXTDOMAIN);
 
 			$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
 
@@ -382,7 +382,7 @@
 		echo "		<label>". __("Password (required)", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPassword\" name=\"CastingPassword\" />\n";
-		echo "			<small class=\"rbfield-note\">Leave blank to keep same password</small>";
+		echo "			<small class=\"rbfield-note\">".__("Leave blank to keep same password",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
 		echo "	<div id=\"rbprofile-retype-password\" class=\"rbfield rbtext rbsingle\">\n";
@@ -392,7 +392,7 @@
 		echo "			<small class=\"rbfield-note\">".__("Retype to Confirm",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
-		echo "<h3>Additional Details</h3>";
+		
 			rb_get_customfields_castingregister();
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='".__("Update Information",RBAGENCY_casting_TEXTDOMAIN)."'/>";
