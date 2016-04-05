@@ -153,7 +153,7 @@
 		   }
 	
 		   $castID = isset($_GET['CastingID']) ? $_GET['CastingID'] : $castingIDFromTable; 
-
+		   $insert_to_casting_custom = array();
 					foreach($_POST as $k=>$v){
 						$parseCustom = explode("_",$k);
 						if($parseCustom[0] == 'ProfileCustom2'){
@@ -298,7 +298,7 @@
 				echo "		<div>\n";
 				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
 				$result_query_get = $wpdb->get_results($query_get);
-				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates(\'CastingCountry\',\'CastingState\');">';
 				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
 						echo '<option value='.$r->CountryID.' '.selected(isset($data_r->CastingLocationCountry)?$data_r->CastingLocationCountry:0,$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
