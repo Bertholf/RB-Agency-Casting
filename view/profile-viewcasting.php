@@ -638,7 +638,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								<input type="text" name="yourTelNo" id="yourTelNo" />
 							</div>
 							<div>
-								<label><?php echo __("Send to Email:", RBAGENCY_casting_TEXTDOMAIN); ?> </label>
+								<label><?php echo __("Send To Email", RBAGENCY_casting_TEXTDOMAIN); ?>: </label>
 								<input type="text" name="sendToEmail" id="sendToEmail" value="Admin" disabled/>
 							</div>
 							<div>

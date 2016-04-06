@@ -419,9 +419,9 @@ function load_job_display($error = NULL){
 						<div>
 							<select id='Job_Visibility' name='Job_Visibility'>
 								<option value=''>".__("-- Select Type --",RBAGENCY_casting_TEXTDOMAIN)."</option>
-								<option value='0' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","0",false).">Invite Only</option>
-								<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">Open to All</option>
-								<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">Matching Criteria</option>
+								<option value='0' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","0",false).">".__("Invite Only",RBAGENCY_casting_TEXTDOMAIN)."</option>
+								<option value='1' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","1",false).">".__("Open to All",RBAGENCY_casting_TEXTDOMAIN)."</option>
+								<option value='2' ".selected(isset($_POST['Job_Visibility'])?$_POST['Job_Visibility']:"","2",false).">".__("Matching Criteria",RBAGENCY_casting_TEXTDOMAIN)."</option>
 							</select>
 							<span style=\"display:none;\" class=\"error_msg tooltip\"></span>
 						</div>

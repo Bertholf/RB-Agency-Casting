@@ -200,7 +200,7 @@
 			}
 
 		} else {
-			echo "<p>".("Job doesn't exist",RBAGENCY_casting_TEXTDOMAIN)."</p>";
+			echo "<p>".__("Job doesn't exist",RBAGENCY_casting_TEXTDOMAIN)."</p>";
 		}
 
 	//} else {

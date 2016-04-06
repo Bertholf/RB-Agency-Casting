@@ -65,7 +65,7 @@ if (is_user_logged_in()) {
 			if ( current_user_can( 'edit_posts' ) ) {
 				echo "<p><h3>".__("All Job Postings from Casting Agents",RBAGENCY_casting_TEXTDOMAIN)."</h3></p><br>";
 			} elseif ( RBAgency_Casting::rb_casting_is_castingagent($current_user->ID)) {
-				echo "<p><h3>Your Job Postings</h3></p><br>";
+				echo "<p><h3>".__("Your Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</h3></p><br>";
 			}
 		}
 		
@@ -313,7 +313,8 @@ if (is_user_logged_in()) {
 			foreach($load_data as $load){
 
 				if($load->Job_Visibility == 0){
-					if(strpos($load->Job_Talents,$profileUserID) !== false ){
+					@$find = strpos($load->Job_Talents,$profileUserID);
+					if($find !== false ){
 									echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
@@ -332,10 +333,10 @@ if (is_user_logged_in()) {
 										if(current_user_can( 'edit_posts' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
 											if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
 												echo "        <td class=\"column-JobActions\" scope=\"col\">
-																<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
+																<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>".__("Edit Job Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>
 																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																<br>
-																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
+																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>".__("Delete Job",RBAGENCY_casting_TEXTDOMAIN)."</a><br/>
 																</td>\n";
 											} else {
 												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>

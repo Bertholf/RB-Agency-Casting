@@ -290,7 +290,7 @@ function load_job_display($error = NULL, $data){
 		echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 		echo "  	<div id=\"content\" role=\"main\" class=\"transparent\">\n";
 		echo '			<header class="entry-header">';
-		echo '				<h1 class="entry-title">Edit Job Posting</h1>';
+		echo '				<h1 class="entry-title">'.__("Edit Job Posting",RBAGENCY_casting_TEXTDOMAIN).'</h1>';
 		echo '			</header>';
 
 		if(isset($error) && $error != ""){
@@ -317,13 +317,14 @@ function load_job_display($error = NULL, $data){
 							<td><input type='text' name='Job_Text' value='".$data['Job_Text']."'></td>
 						</tr>
 						<tr>
-							<td>".__("Offer:",RBAGENCY_casting_TEXTDOMAIN)."</td>
+							<td>".__("offer:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td><input type='text' name='Job_Offering' value='".$data['Job_Offering']."'></td>
 						</tr>
 						<tr>
 							<td><h3>".__("Job Duration",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 						</tr>
 						<tr>
+						<td>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</td>
 							<td>
 								<input type='text' name='Job_Date_Start' id='Job_Date_Start'  value='".$data['Job_Date_Start']."' class='datepicker'>
 							</td>
