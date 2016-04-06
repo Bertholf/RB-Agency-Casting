@@ -656,9 +656,9 @@ if (is_user_logged_in()) {
 		echo "<div class='footer-links'>";
 
 		if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
-			echo "<a href='".get_bloginfo('wpurl')."/browse-jobs'>".__("Go Back to Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
+			echo "<a href='".get_bloginfo('wpurl')."/browse-jobs' class=\"pure-button\">".__("Go Back to Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
 		}
-		echo "<a href='".get_bloginfo('wpurl')."/profile-casting'>".__("View Your Casting Cart")."</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a>\n";
+		echo "<a href='".get_bloginfo('wpurl')."/profile-casting' class=\"pure-button\">".__("View Your Casting Cart")."</a> <a href='".get_bloginfo('wpurl')."/casting-dashboard' class=\"pure-button\">".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a>\n";
 		echo "</div><!-- .footer-links -->";
 
 	} else {

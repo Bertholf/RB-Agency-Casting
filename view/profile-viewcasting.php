@@ -693,8 +693,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 echo "			<div class=\"cb\"></div>\n";
 
 if(is_user_logged_in()){
-	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>".__("Go back to Applicants.",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
-	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
+	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants' class=\"pure-button\">".__("Go back to Applicants.",RBAGENCY_casting_TEXTDOMAIN)."</a>\n";
+	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard' class=\"pure-button\">".__("Go Back to Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 }
 
 echo "			<input type=\"hidden\" name=\"castingcart\" value=\"1\"/>";
