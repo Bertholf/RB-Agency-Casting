@@ -144,7 +144,8 @@ jQuery(document).ready(function(){
 		var profile_id = jQuery(this).prevAll(".profile_id").eq(0).val();
 
 		var job_id = jQuery(this).prevAll(".job_id").eq(0).val();
-
+		console.log(job_id);
+		//console.log(profile_id);
 		jQuery.ajax({
 				type: "POST",
 				url: "<?php echo admin_url('admin-ajax.php') ?>",
@@ -183,7 +184,7 @@ if (is_user_logged_in()) {
 			<div id="rbcontent" role="main">
 			
 				<header class="entry-header">
-				<h1 class="entry-title">You are not permitted to access this page.</h1>
+				<h1 class="entry-title">'.__('You are not permitted to access this page.',RBAGENCY_casting_TEXTDOMAIN).'</h1>
 				</header>
 				<div class="entry-content">
 				<p class="rbalert error">
@@ -207,9 +208,9 @@ if (is_user_logged_in()) {
 	
 
 		if ( current_user_can( 'edit_posts' ) ) {
-			echo "<p><h3>All Applicants to All Job Postings from Casting Agents</h3></p><br>";
+			echo "<p><h3>".__("All Applicants to All Job Postings from Casting Agents",RBAGENCY_casting_TEXTDOMAIN)."</h3></p><br>";
 		} else {
-			echo "<p><h3>Applicants to your Job Postings</h3></p><br>";
+			echo "<p><h3>".__("Applicants to your Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</h3></p><br>";
 		}
 
 		//setup filtering sessions
@@ -363,9 +364,9 @@ if (is_user_logged_in()) {
 		echo "<table class='table-filter'>\n";
 		echo "<tbody>";
 		echo "    <tr class=\"thead\">\n";
-		echo "        <td>Job Title<br>
+		echo "        <td>".__("Job Title",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_jobtitle' style='width: 100%;'>
-							<option value=''>-- Select Job Title --</option>";
+							<option value=''>".__("-- Select Job Title --",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 
 		$job_applicant = array();
 
@@ -393,9 +394,9 @@ if (is_user_logged_in()) {
 	
 		echo "			</select>
 						</td>\n";
-		echo "        <td>Applicant<br>
+		echo "        <td>".__("Applicant",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_applicant'>
-							<option value=''>-- Select Applicant --</option>";
+							<option value=''>".__("-- Select Applicant --",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 							
 				
 			if(current_user_can("edit_posts")){	
@@ -465,20 +466,20 @@ if (is_user_logged_in()) {
 
 		
 						</td>\n";
-		echo "        <td>Criteria Matched<br>
+		echo "        <td>".__("Criteria Matched",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_jobpercentage'>
-							<option value=''>-- Select Matched % --</option>
-							<option value='75-100' ".selected($percentage,'75-100',false).">75% - 100% Matched</option>
-							<option value='50-75' ".selected($percentage,'50-75',false).">50% - 75% Matched</option>
-							<option value='25-50' ".selected($percentage,'25-50',false).">25% - 50% Matched</option>
-							<option value='0-25' ".selected($percentage,'0-25',false).">0% - 25% Matched</option>
+							<option value=''>".__("-- Select Matched % --",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='75-100' ".selected($percentage,'75-100',false).">".__("75% - 100% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='50-75' ".selected($percentage,'50-75',false).">".__("50% - 75% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='25-50' ".selected($percentage,'25-50',false).">".__("25% - 50% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
+							<option value='0-25' ".selected($percentage,'0-25',false).">".__("0% - 25% Matched",RBAGENCY_casting_TEXTDOMAIN)."</option>
 						</select>
 						</td>\n";
 
-		echo "        <td>Your Rating<br>
+		echo "        <td>".__("Your Rating",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_rating'>
 							<option value=''> - </option>";
-							echo "<option value='not_rated' ".selected('not_rated', $rating,false).">No Rating</option>";
+							echo "<option value='not_rated' ".selected('not_rated', $rating,false).">".__("No Rating",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 							$page = 1;
 							for($page = 1; $page <= 5; $page ++){
 								echo "<option value='$page' ".selected($page, $rating,false).">$page Star</option>";
@@ -487,9 +488,9 @@ if (is_user_logged_in()) {
 		echo "			</select>
 						</td>\n";
 
-		echo "        <td>Records Per Page<br>
+		echo "        <td>".__("Records Per Page",RBAGENCY_casting_TEXTDOMAIN)."<br>
 						<select name='filter_perpage'>
-							<option value=''>- # of Rec -</option>";
+							<option value=''>".__("- # of Rec -",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 							echo "<option value='2' ".selected(2, $perpage,false).">2</option>";
 
 		$page = 0;
@@ -509,12 +510,12 @@ if (is_user_logged_in()) {
 		echo "<table cellspacing=\"0\" id=\"job-applicants\" class='rbtable'>\n";
 		echo " <thead>\n";
 		echo "    <tr class=\"thead\">\n";
-		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\"><input type='checkbox' id='sel_all'> Select</th>\n";
-		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:100px;\">Job Title / ID</th>\n";
-		echo "        <th class=\"column-JobApplicant\" id=\"JobApplicant\" scope=\"col\">Applicant</th>\n";
-		echo "        <th class=\"column-JobCriteriaPassed\" id=\"CriteriaPassed\" scope=\"col\">Criteria Passed</th>\n";
-		echo "        <th class=\"column-JobApplicationLetter\" id=\"JobApplicationLetter\" scope=\"col\">Application Letter</th>\n";
-		echo "        <th class=\"column-JobAction\" id=\"JobAction\" scope=\"col\">Action</th>\n";
+		echo "        <th class=\"column-JobID\" id=\"JobID\" scope=\"col\"><input type='checkbox' id='sel_all'> ".__("Select",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobTitle\" id=\"JobTitle\" scope=\"col\" style=\"width:100px;\">".__("Job Title / ID",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobApplicant\" id=\"JobApplicant\" scope=\"col\">".__("Applicant",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobCriteriaPassed\" id=\"CriteriaPassed\" scope=\"col\">".__("Criteria Passed",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobApplicationLetter\" id=\"JobApplicationLetter\" scope=\"col\">".__("Application Letter",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
+		echo "        <th class=\"column-JobAction\" id=\"JobAction\" scope=\"col\">".__("Action",RBAGENCY_casting_TEXTDOMAIN)."</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
 
@@ -564,7 +565,7 @@ if (is_user_logged_in()) {
 				echo $display."<br/><br/></td>\n";
 
 				if(RBAgency_Casting::rb_get_job_visibility($load->Job_ID) == 1){
-					echo "        <td class=\"column-JobLocation\" scope=\"col\">100% Matched <br> <hr style='margin:5px'> Open to All<br>";
+					echo "        <td class=\"column-JobLocation\" scope=\"col\">".__("100% Matched <br> <hr style='margin:5px'> Open to All<br>",RBAGENCY_casting_TEXTDOMAIN);
 				} else {
 					echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Criteria_Passed . RBAgency_Casting::rb_casting_get_percentage_passed($load->Job_ID, $load->Job_Criteria_Passed) . "<br>";
 				}
@@ -591,21 +592,21 @@ if (is_user_logged_in()) {
 
 				echo "        <td class=\"column-JobAction\" scope=\"col\">";
 				if(current_user_can("edit_posts")){
-					echo "<a href='".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$load->Job_ID)."' style=\"font-size:12px;\">Edit Job Details</a><br>";
+					echo "<a href='".admin_url("admin.php?page=rb_agency_castingjobs&action=informTalent&Job_ID=".$load->Job_ID)."' style=\"font-size:12px;\">".__("Edit Job Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				} else {
-					echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">Edit Job Details</a><br>";
+					echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">".__("Edit Job Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
-				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
+				echo "        <input type='hidden' class='profile_id' value='".$load->Job_UserProfileID."'>";
 				if($rb_agency_option_allowsendemail == 1){
-					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."' style=\"font-size:12px;\">Send Email</a><br>";
+					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."' style=\"font-size:12px;\">".__("Send Email",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
-				if(RBAgency_Casting::rb_check_in_cart($load->app_id,$load->Job_ID)){
-					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">Remove from Casting</a><br>";
+				if(RBAgency_Casting::rb_check_in_cart($load->Job_UserProfileID,$load->Job_ID)){
+					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">".__("Remove from Casting",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				} else {
-					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">Add to CastingCart</a><br>";
+					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">".__("Add to CastingCart",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
-				echo "<a href=\"".get_bloginfo("url")."/profile-casting/\" style=\"font-size:12px;\">View Casting Cart</a>";
+				echo "<a href=\"".get_bloginfo("url")."/profile-casting/\" style=\"font-size:12px;\">".__("View Casting Cart",RBAGENCY_casting_TEXTDOMAIN)."</a>";
 			      echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
 
 				$link_bg = plugins_url('rb-agency-casting/view/sprite.png');
@@ -627,7 +628,7 @@ if (is_user_logged_in()) {
 
 		} else {
 
-			echo "<tr><td colspan='6'><p>You have no Applicants.<br>If you don't have any job postings, create a new job posting <a href='".get_bloginfo('wpurl')."/casting-postjob'>Here.</a></p></td></tr>";
+			echo "<tr><td colspan='6'><p>".__("You have no Applicants.<br>If you don't have any job postings, create a new job posting",RBAGENCY_casting_TEXTDOMAIN)." <a href='".get_bloginfo('wpurl')."/casting-postjob'>".__("Here.",RBAGENCY_casting_TEXTDOMAIN)."</a></p></td></tr>";
 			echo "</table>";
 
 		}
@@ -639,29 +640,29 @@ if (is_user_logged_in()) {
 		
 		echo "<div class=\"jobposting-actions\">
 				<select id='action_dropdown'>
-					<option value=''>-- Select Action --</option>
-					<option value='2'>Add/Remove to Casting Cart</option>";
+					<option value=''>".__("-- Select Action --",RBAGENCY_casting_TEXTDOMAIN)."</option>
+					<option value='2'>".__("Add/Remove to Casting Cart",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 				if($rb_agency_option_agencyemail == 1){
-						echo "<option value='0'>Send Email to Selected</option>";
-						echo "<option value='1'>Send Email to All Visible</option>";
+						echo "<option value='0'>".__("Send Email to Selected",RBAGENCY_casting_TEXTDOMAIN)."</option>";
+						echo "<option value='1'>".__("Send Email to All Visible",RBAGENCY_casting_TEXTDOMAIN)."</option>";
 				}
 
 		echo "
 				</select>
-				<input type='button' id='action_submit' class='button-primary' value='Submit'>
+				<input type='button' id='action_submit' class='button-primary' value='".__("Submit",RBAGENCY_casting_TEXTDOMAIN)."'>
 				<div id='re_bottom' style='margin-left:12px; float:left; width:20px; height:20px'></div>
 				</div>\n";
 				
 		echo "<div class='footer-links'>";
 
 		if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'browse-jobs') > -1){
-			echo "<a href='".get_bloginfo('wpurl')."/browse-jobs'>Go Back to Job Postings</a> | \n";
+			echo "<a href='".get_bloginfo('wpurl')."/browse-jobs'>".__("Go Back to Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
 		}
-		echo "<a href='".get_bloginfo('wpurl')."/profile-casting'>View Your Casting Cart</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard</a>\n";
+		echo "<a href='".get_bloginfo('wpurl')."/profile-casting'>".__("View Your Casting Cart")."</a> | <a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a>\n";
 		echo "</div><!-- .footer-links -->";
 
 	} else {
-		echo "<p class=\"rbalert info\">Only Casting Agents are permitted on this page.<br>You need to be registered <a href='".get_bloginfo('wpurl')."/casting-register'>here.</a></p><br>";
+		echo "<p class=\"rbalert info\">".__("Only Casting Agents are permitted on this page.<br>You need to be registered",RBAGENCY_casting_TEXTDOMAIN)." <a href='".get_bloginfo('wpurl')."/casting-register'>".__("here.",RBAGENCY_casting_TEXTDOMAIN)."</a></p><br>";
 	}
 
 	echo "</div> <!-- #rbcontent -->";

@@ -1217,7 +1217,7 @@ $siteurl = get_option('siteurl');
 										}
 
 										$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
-												$files = scandir($dir, 0);
+												@$files = scandir($dir, 0);
 												
 												$medialink_option = $rb_agency_options_arr['rb_agency_option_profilemedia_links'];
 									
@@ -1520,7 +1520,7 @@ $siteurl = get_option('siteurl');
 								
 
 												$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
-												$files = scandir($dir, 0);
+												@$files = scandir($dir, 0);
 												
 												$medialink_option = $rb_agency_options_arr['rb_agency_option_profilemedia_links'];
 									
@@ -1717,7 +1717,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'viewAllAuditions' && isset($_GE
 
 
 					$profileID = $job->CastingAvailabilityProfileID;
-					$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
+					@$dir = RBAGENCY_UPLOADPATH ."_casting-jobs/";
 					$files = scandir($dir, 0);
 													
 					$medialink_option = $rb_agency_options_arr['rb_agency_option_profilemedia_links'];

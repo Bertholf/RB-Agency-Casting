@@ -60,46 +60,46 @@
 					echo "<div id=\"details\">";
 						echo "<table>
 							<tr id=\"shoot-date-start\">
-								<td><b>".__("Shoot Date Start:", RBAGENCY_TEXTDOMAIN)."</b></td>
+								<td><b>".__("Shoot Date Start:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".date('F j, Y', strtotime($r->Job_Date_Start))."</td>
 							</tr>
 							<tr id=\"shoot-date-end\">
-								<td><b>Shoot Date End:</b></td>
+								<td><b>".__("Shoot Date End:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".date('F j, Y', strtotime($r->Job_Date_End))."</td>
 							</tr>";
 							
 							if(!empty($r->Job_Time_Start)){
 							echo "<tr id=\"job-time-start\">
-									<td><b>Job Time Start:</b></td>
+									<td><b>".__("Job Time Start:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Time_Start."</td>
 								</tr>";
 							}
 							if(!empty($r->Job_Time_End)){
 							echo "<tr id=\"job-time-end\">
-									<td><b>Job Time End:</b></td>
+									<td><b>".__("Job Time End:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Time_End."</td>
 								</tr>";
 							}
 						echo "
 							<tr>
-								<td><b>Location:</b></td>
+								<td><b>".__("Location:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->Job_Location."</td>
 							</tr>
 							<tr>
-								<td><b>Region:</b></td>
+								<td><b>".__("Region:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->Job_Region."</td>
 							</tr>
 							<tr>
-								<td><b>Payment :</b></td>
+								<td><b>".__("Payment :", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->Job_Offering."</td>
 							</tr>";
 						echo "
 							<tr>
-								<td><b>Job Type:</b></td>
+								<td><b>".__("Job Type:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."</td>
 							</tr>
 							<tr id=\"agency-producer\">
-								<td><b>Agency/Producer</b></td>
+								<td><b>".__("Agency/Producer",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->CastingContactCompany."</td>
 							</tr>";
 						echo "</table>";												
@@ -109,7 +109,7 @@
 							
 							if(!empty($criteria_age)){
 							echo "<tr>
-									<td><b>Criteria</b></td>
+									<td><b>".__("Criteria",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>";
 									foreach ($job_criteria as $criteria) {
 
@@ -135,33 +135,33 @@
 							}
 							if(!empty($r->Job_Audition_Date_Start)){
 							echo "<tr>
-									<td><b>Audition Date Start:</b></td>
+									<td><b>".__("Audition Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Date_Start."</td>
 								</tr>";
 							}
 							if(!empty($r->Job_Audition_Date_End)){
 							echo "
 								<tr>
-									<td><b>Audition Date End:</b></td>
+									<td><b>".__("Audition Date End:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Date_End."</td>
 								</tr>";
 							}
 							if(!empty($r->Job_Audition_Time)){
 							echo "<tr>
-									<td><b>Audition Time End:</b></td>
+									<td><b>".__("Audition Time Start:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Time."</td>
 								</tr>";
 							}
-							if(!empty($r->Job_Audition_Time)){
+							if(!empty($r->Job_Audition_Time_End)){
 							echo "<tr>
-									<td><b>Audition Time End:</b></td>
+									<td><b>".__("Audition Time End:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Time_End."</td>
 								</tr>";
 							}
 							
 							if(!empty($r->Job_Audition_Venue)){
 							echo "<tr>
-									<td><b>Audition Venue:</b></td>
+									<td><b>".__("Audition Venue:",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 									<td class='jobdesc'>".$r->Job_Audition_Venue."</td>
 								</tr>";
 							}
@@ -172,7 +172,7 @@
 						if( (RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') && !current_user_can( 'edit_posts' )) || !is_user_logged_in() ){							
 							if(is_user_logged_in()){
 								echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/job-application/".$r->Job_ID."\"'>";
-								echo "&nbsp;&nbsp;<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+								echo "&nbsp;&nbsp;<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='".__("Browse More Jobs",RBAGENCY_casting_TEXTDOMAIN)."'>";
 							}else{
 								echo "<input id='apply_job_btn' type='button' class='button-primary' value='Apply to this Job' onClick='window.location.href=\"".get_bloginfo("wpurl")."/profile-login?h=/job-application/".get_query_var('value')."\"'>";
 								echo "&nbsp;&nbsp;&nbsp;&nbsp;<input id='go_back' type='button' class='button-primary' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
@@ -181,12 +181,12 @@
 							if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "view-applicants") > -1){
 								echo "<input id='apply_job' type='button' class='button-primary' value='Back to Applicants'>";
 							} else {
-								echo "&nbsp;&nbsp;<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='Browse More Jobs'>";
+								echo "&nbsp;&nbsp;<input id='browse_jobs' type='button' class='button-primary' onClick='window.location.href= \"".get_bloginfo('wpurl')."/browse-jobs\"' style='margin-left:12px;' value='".__("Browse More Jobs",RBAGENCY_casting_TEXTDOMAIN)."'>";
 							}
 						}
 						if(current_user_can("edit_posts")){
 							echo "<td class='jobdesc'>";
-							echo "&nbsp;&nbsp;<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$r->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"View Applicants\"/>";
+							echo "&nbsp;&nbsp;<input id=\"view_applicants\" type='button' class='button-primary'  onClick='window.location.href=\"".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$r->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_rating=&filter_perpage=10&filter=filter\"' value=\"".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 							echo "</td>";
 						}					
 					echo "</div><!-- #how-to-apply -->";
@@ -196,11 +196,11 @@
 
 			// for models
 			if(RBAgency_Casting::rb_casting_ismodel($current_user->ID) && !current_user_can( 'edit_posts' )){
-				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>Go Back to Profile Dashboard.</a></p>\n";
+				echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/profile-member'>".__("Go Back to Profile Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 			}
 
 		} else {
-			echo "<p>Job doesn't exist</p>";
+			echo "<p>".__("Job doesn't exist",RBAGENCY_casting_TEXTDOMAIN)."</p>";
 		}
 
 	//} else {

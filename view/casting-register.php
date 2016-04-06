@@ -154,7 +154,7 @@
 			} elseif ($rb_agency_option_profilenaming == 1) {
 				$CastingContactDisplay = $first_name . " ". substr($last_name, 0, 1);
 			} elseif ($rb_agency_option_profilenaming == 2) {
-				$error .= "<b><i>". __(LabelSingular ." must have a display name identified",RBAGENCY_casting_TEXTDOMAIN) . ".</i></b><br>";
+				$error .= "<b><i>".LabelSingular. __(" must have a display name identified",RBAGENCY_casting_TEXTDOMAIN) . ".</i></b><br>";
 				$have_error = true;
 			} elseif ($rb_agency_option_profilenaming == 3) { // by firstname
 				$CastingContactDisplay = "ID ". $ProfileID;
@@ -263,7 +263,7 @@
 				if ( current_user_can( 'create_users' ) )
 					printf( __("A user account for %1$s has been created.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 				else
-					printf( __("Thank you for registering, %1$s.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
+					printf( __("Thank you for registering, %s.",RBAGENCY_casting_TEXTDOMAIN), $_POST['casting_user_name'] );
 					echo "<br/>";
 					printf( __("Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)",RBAGENCY_casting_TEXTDOMAIN) );
 	echo "    </p><!-- .alert -->\n";
@@ -351,8 +351,8 @@
 				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
 				$result_query_get = $wpdb->get_results($query_get);
 				$location=site_url().'/club/';
-				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates(\'CastingCountry\',\'CastingState\');">';
-				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStatesCastingRegister(\'CastingCountry\',\'CastingState\');">';
+				echo '<option value="">'. __("Select country", RBAGENCY_casting_TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
 						echo '<option value='.$r->CountryID.' '.selected($_POST['CastingCountry'],$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
 					}
@@ -395,7 +395,7 @@
 	echo "       </div><!-- #casting-agree -->\n";
 
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
-	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Register'/>";
+	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='".__('Register',RBAGENCY_casting_TEXTDOMAIN)."'/>";
 
 					// if ( current_user_can("create_users") ) { _e("Add User",RBAGENCY_casting_TEXTDOMAIN); } else { _e("Register",RBAGENCY_casting_TEXTDOMAIN); }echo "\" />\n";
 
@@ -437,7 +437,7 @@
 
 					}
 
-	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"adduser\" />\n";
+	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"".__("adduser",RBAGENCY_casting_TEXTDOMAIN)."\" />\n";
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>

@@ -129,7 +129,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 	echo "	<div class=\"".fullwidth_class()."  clearfix\">\n";
 	echo "  	<div id=\"rbcontent\" role=\"main\" >\n";
 	echo '			<header class="entry-header">';
-	echo '				<h1 class="entry-title">Casting Cart</h1>';
+	echo '				<h1 class="entry-title">'.__("Casting Cart",RBAGENCY_casting_TEXTDOMAIN).'</h1>';
 	echo '			</header>';
 	echo '			<div class="entry-content">';
 	echo "				<div id=\"rbcasting-cart\">\n";
@@ -176,16 +176,16 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							<div id="emailbox" style="display:none;">
 								<form method="post" enctype="multipart/form-data" action="">
 									<input type="hidden" name="action" value="cartEmail" />
-									<div class="field"><label for="SearchMuxToName">Sender Name:</label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
-									<div class="field"><label for="SearchMuxToEmail">Sender Email:</label><br/><input type="email" id="SearchMuxToEmail" name="SearchMuxToEmail" value="" required/></div>
-									<div class="field"><label for="SearchMuxSubject">Subject:</label><br/><input type="text" id="SearchMuxSubject" name="SearchMuxSubject" value="Casting Cart" required></div>
-									<div class="field"><label for="SearchMuxMessage">Message to Admin:</label><br/>
+									<div class="field"><label for="SearchMuxToName"><?php echo __("Sender Name:",RBAGENCY_casting_TEXTDOMAIN); ?></label><br/><input type="text" id="SearchMuxToName" name="SearchMuxToName" value="" required/></div>
+									<div class="field"><label for="SearchMuxToEmail"><?php echo __("Sender Email:",RBAGENCY_casting_TEXTDOMAIN); ?></label><br/><input type="email" id="SearchMuxToEmail" name="SearchMuxToEmail" value="" required/></div>
+									<div class="field"><label for="SearchMuxSubject"><?php echo __("Subject:",RBAGENCY_casting_TEXTDOMAIN); ?></label><br/><input type="text" id="SearchMuxSubject" name="SearchMuxSubject" value="Casting Cart" required></div>
+									<div class="field"><label for="SearchMuxMessage"><?php echo __("Message to Admin:",RBAGENCY_casting_TEXTDOMAIN); ?></label><br/>
 										<textarea id="SearchMuxMessage" name="SearchMuxMessage" style="width: 500px; height: 300px; ">[casting-link-placeholder]</textarea>
 									</div>
-									<p>(Note: The "[casting-link-placeholder]" will be the link to your casting cart page) </p>
+									<p><?php echo __("(Note: The \"[casting-link-placeholder]\" will be the link to your casting cart page)",RBAGENCY_casting_TEXTDOMAIN); ?> </p>
 									<div class="field submit">
 										<input type="hidden" name="action" value="sendEmailCastingCart" />
-										<input type="submit" name="submit" value="Send Email" class="button-primary" /> 
+										<input type="submit" name="submit" value="<?php echo __('Send Email',RBAGENCY_casting_TEXTDOMAIN); ?>" class="button-primary" /> 
 									</div>
 								</form>
 							</div>
@@ -202,16 +202,16 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					}
 					echo "<form method=\"get\" action=\"\" id=\"search-job\" class=\"search-form\">";
 					echo "<div id=\"field\"><select name=\"Job_ID\">";
-					echo "<option value=\"\">- Select a job-</option>";
+					echo "<option value=\"\">".__('- Select a job-',RBAGENCY_casting_TEXTDOMAIN)."</option>";
 					foreach ($Jobs as $key) {
 						echo "<option value=\"".$key->Job_ID."\" ".selected($key->Job_ID,isset($_GET["Job_ID"])?$_GET["Job_ID"]:"")." >".$key->Job_Title."</option>";
 					}
 					echo "</select></div>";
-					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"Search\"/>";
+					echo "<div id=\"action\"><input type=\"submit\" name=\"search\"  value=\"".__("Search",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
-							echo "<input type=\"button\" name=\"clear\" value=\"Clear\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
+							echo "<input type=\"button\" name=\"clear\" value=\"".__("Clear",RBAGENCY_casting_TEXTDOMAIN)."\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 						} else {
-							echo "<input type=\"button\" name=\"clear\" value=\"Back to Profile Casting\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
+							echo "<input type=\"button\" name=\"clear\" value=\"".__("Back to Profile Casting",RBAGENCY_casting_TEXTDOMAIN)."\" onclick=\"window.location.href='".get_bloginfo("url")."/profile-casting/'\"/>";
 						}
 					echo "</div></form>";
 
@@ -263,7 +263,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								//
 							}
 						}else{
-							echo "<div class=\"\">No Job Selected</div>";
+							echo "<div class=\"\">".__("No Job Selected",RBAGENCY_casting_TEXTDOMAIN)."</div>";
 						}
 						/* 						
 						print_r($_POST);
@@ -278,7 +278,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							CastingCartTalentID IN(".$_POST["shortlistprofiles"].") AND
 							(CastingJobID<= 0 OR CastingJobID IS NULL) ");
 							
-						echo "<div class=\"\">Succesfully removed from cart.</div>";
+						echo "<div class=\"\">".__("Succesfully removed from cart.",RBAGENCY_casting_TEXTDOMAIN)."</div>";
 					}
 
 					if(isset($_POST["removefromjob"])){
@@ -294,20 +294,20 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								$wpdb->query("DELETE FROM ". table_agency_castingcart ." WHERE CastingCartProfileID='".rb_agency_get_current_userid()."' 
 									AND CastingCartTalentID IN(".$_prodileID_Delete.") AND CastingJobID=$_POST[job_id]");
 							}
-							echo "<div class=\"\">Succesfully removed from Job.</div>";
+							echo "<div class=\"\">".__("Succesfully removed from Job.",RBAGENCY_casting_TEXTDOMAIN)."</div>";
 							
 						}else{
-							echo "<div>No Selected profile(s).</div>";
+							echo "<div>".__("No Selected profile(s).",RBAGENCY_casting_TEXTDOMAIN)."</div>";
 						}
 						
 					}
 					echo "<div class=\"result-action\">";
-						echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> Select all</label>";
+						echo "<label><input type=\"checkbox\" name=\"selectallprofiles\"  id=\"selectall\"/> ".__("Select all",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 
 					if(!isset($_GET["Job_ID"]) || empty($_GET["Job_ID"])){
 						echo "<form method=\"post\" name=\"castingcartForm\" action=\"\"><div class=\"action\">";
-						echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"Remove selected profile(s) from Cart\"/>";
-						echo "<input type=\"submit\" name=\"addtojob\"  value=\"Add selected profile(s)\"/>";
+						echo "<input type=\"submit\" name=\"removefromcart\" onclick=\"return confirm('Are you sure to remove selected profiles?')?1:false;\" value=\"".__("Remove selected profile(s) from Cart",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
+						echo "<input type=\"submit\" name=\"addtojob\"  value=\"".__("Add selected profile(s)",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 						echo "<input type=\"hidden\" name=\"job_id\" value=\"\"/>";
 						echo "</div></form>";
@@ -315,7 +315,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 					if(isset($_GET["Job_ID"]) && !empty($_GET["Job_ID"])){
 						echo "<form method=\"post\" action=\"\"><div class=\"action\">";
-						echo "<input type=\"submit\" name=\"removefromjob\"  value=\"Remove selected profile(s) from Job\"/>";
+						echo "<input type=\"submit\" name=\"removefromjob\"  value=\"".__("Remove selected profile(s) from Job",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						echo "<input type=\"hidden\" name=\"job_id\" value=\"".$_GET["Job_ID"]."\"/>";
 						echo "<input type=\"hidden\" name=\"shortlistprofiles\" value=\"\"/>";
 						echo "</div></form>";
@@ -324,15 +324,15 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						//echo "<style type=\"text/css\">.rb_profile_tool{display:none;}</style>";
 
 						if($rb_agency_option_allowsendemail == 1){
-							echo "<input type=\"button\" name=\"inviteprofiles\"  id=\"inviteprofiles\" value=\"[+]Invite Profiles\"/>";
+							echo "<input type=\"button\" name=\"inviteprofiles\"  id=\"inviteprofiles\" value=\"".__("[+]Invite Profiles",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						} elseif($rb_agency_option_allowsendemail == 2){
-							echo "<input type=\"button\" name=\"checkavailability\"  id=\"checkavailability\" value=\"[+]Check Availability\"/>";
+							echo "<input type=\"button\" name=\"checkavailability\"  id=\"checkavailability\" value=\"".__("[+]Check Availability",RBAGENCY_casting_TEXTDOMAIN)."\"/>";
 						}
 
-						echo "<input type=\"button\" name=\"sendProfiles\" id=\"sendProfiles\" value=\"[+]Send Profiles\" />";
+						echo "<input type=\"button\" name=\"sendProfiles\" id=\"sendProfiles\" value=\"".__("[+]Send Profiles",RBAGENCY_casting_TEXTDOMAIN)."\" />";
 						
 						}
-						echo "<input id='go_back' type='button' onClick='window.history.back();' style='margin-left:12px;' value='Go Back'>";
+						echo "<input id='go_back' type='button' onClick='window.history.back();' style='margin-left:12px;' value='".__("Go Back",RBAGENCY_casting_TEXTDOMAIN)."'>";
 						echo "</div>";
 
 					}
@@ -362,22 +362,21 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								RBAgency_Casting::sendEmail(array($mobile["ProfileContactEmail"]),get_bloginfo("wpurl")."/profile-casting/jobs/".$job_hash->Job_Talents_Hash."/".$user_hash_record->CastingProfileHash,$_POST["message"]);
 							}
 						}
-							echo "<p id=\"emailSent\">Invitation Sent Succesfully!</p>";
+							echo "<p id=\"emailSent\">".__("Invitation Sent Succesfully!",RBAGENCY_casting_TEXTDOMAIN)."</p>";
 					}
 					if($rb_agency_option_allowsendemail == 1){
 						?>
 						<div id="inviteprofilesForm" style="display:none;">
-						<strong>Invite Profiles</strong>
+						<strong><?php echo __("Invite Profiles",RBAGENCY_casting_TEXTDOMAIN); ?></strong>
 						<form method="post" action="">
 						<div>
-							Message:<br/>
-								<p>(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job) </p>
+							<?php echo __("Message:",RBAGENCY_casting_TEXTDOMAIN); ?><br/>
+								<p><?php echo  __('(Note: The "[casting-job-url]" will be the link to your shorlisted profile for the job)',RBAGENCY_casting_TEXTDOMAIN); ?> </p>
 
-								<textarea name="message" style="width:100%;height:200px;">Add your message here...
-								Click this link to view Job details: [casting-job-url]
+								<textarea name="message" style="width:100%;height:200px;"><?php echo __("Add your message here... Click this link to view Job details: [casting-job-url]",RBAGENCY_casting_TEXTDOMAIN); ?>
 								</textarea>
 							<br/>
-							<input type="submit" name="inviteprofiles" value="Send" />
+							<input type="submit" name="inviteprofiles" value="<?php echo __('Send',RBAGENCY_casting_TEXTDOMAIN); ?>" />
 							<input type="hidden" name="shortlistprofiles" value=""/>
 
 							</div>
@@ -407,7 +406,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 
 						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
-						echo "<p id=\"emailSent\">Email Sent Succesfully to ". $data_job->CastingContactEmail ."!</p>";
+						echo "<p id=\"emailSent\">" .__("Email Sent Succesfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $data_job->CastingContactEmail ."!</p>";
 					}
 
 
@@ -417,26 +416,26 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 
 					<div id="checkavailabilityForm" class="rbform block" style="display:none;">
-					<strong>Check Availability</strong>
+					<strong><?php echo __("Check Availability",RBAGENCY_casting_TEXTDOMAIN); ?></strong>
 					<form method="post" action="">
 						<div class="rbfield rbtext rbsingle">
-							<label>Send to:</label>
+							<label><?php echo __('Send to:',RBAGENCY_casting_TEXTDOMAIN); ?></label>
 							<div><input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" /></div>
 						</div>
 						<div class="rbfield rbtext rbsingle">
-							<label>BCC:</label>
+							<label><?php echo __('BCC:',RBAGENCY_casting_TEXTDOMAIN); ?></label>
 							<div><input type="text" name="email_bcc" /></div>
 						</div>
 						<div class="rbfield rbtext rbsingle">
-							<label>Message:</label>
+							<label><?php echo __('Message:',RBAGENCY_casting_TEXTDOMAIN); ?></label>
 							<div>
-								<small>(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job) </small><br />
-								<textarea name="message" style="width:100%;height:200px;">Add your message here...<br />[shortlisted-link-placeholder]</textarea>
+								<small><?php echo __('(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job)',RBAGENCY_casting_TEXTDOMAIN); ?> </small><br />
+								<textarea name="message" style="width:100%;height:200px;"><?php echo __("Add your message here...<br />[shortlisted-link-placeholder]",RBAGENCY_casting_TEXTDOMAIN); ?></textarea>
 							</div>
 						</div>
 						
 						<div class="rbfield rbsubmit">
-							<input type="submit" name="checkavailability" value="Send" />
+							<input type="submit" name="checkavailability" value="<?php echo __("Send",RBAGENCY_casting_TEXTDOMAIN); ?>" />
 						</div>
 					</form>
 					</div>
@@ -464,12 +463,12 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 						if(!empty($err_msg)){
 							foreach($err_msg as $err){
-								echo "<span style='color:red;'>".$err."</span><br>";
+								echo "<span style='color:red;'>".__($err,RBAGENCY_casting_TEXTDOMAIN)."</span><br>";
 							}
 							//return false;
 						}else{
 							// Prepre varialbes						
-							$message_content = 'Link to model shortlist: [link-place-holder]';
+							$message_content = __('Link to model shortlist: [link-place-holder]',RBAGENCY_casting_TEXTDOMAIN);
 							//START
 							$SearchMuxHash			= RBAgency_Common::generate_random_string(8);
 							$fromName 				= $_POST["yourName"];
@@ -573,7 +572,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								$profileHTML .='<div style="display: inline-block;width:190px;height:280px;padding:10px 2px;font-family: Arial, Tahoma, Verdana;text-align:center;">';
 								//$profileHTML .="<a style=\"text-decoration:none;\" href=\"". rb_agency_PROFILEDIR ."". $dataList["ProfileGallery"] ."/\" title=\"". stripslashes($ProfileContactDisplay) ."\">
 								$profileHTML .="<img style=\"width:180px;height:230px\" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src="
-									. rb_agency_UPLOADDIR . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
+									. RBAGENCY_casting_UPLOADDIR."/" . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
 									<br/>";
 								$profileHTML .= "<b>$ProfileContactDisplay</b>";
 								$profileHTML .='</div>';
@@ -583,13 +582,16 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							$Message .= $profileHTML;
 							
 							
+							
 							 
 							$isSent =wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+							//wp_mail('charlieanchetamacaraeg@gmail.com', get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+
 							//mail($SearchMuxToEmail,"My subject",stripcslashes(make_clickable($Message)));
 							if($isSent){
-								echo "<p id=\"emailSent\">Email Sent Succesfully to ". $SearchMuxToName ."!</p>";
+								echo "<p id=\"emailSent\"> ".__("Email Sent Succesfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $SearchMuxToName ."!</p>";
 							}else{
-								echo "<p id=\"emailSent\">Error sending the email!</p>";
+								echo "<p id=\"emailSent\">".__("Error sending the email!",RBAGENCY_casting_TEXTDOMAIN)."</p>";
 							}
 						}
 												 
@@ -602,7 +604,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					<div id="sendProfilesForm" <?php echo $display_none; ?> >
 					
 					
-						<h3>Send Profiles</h3>
+						<h3><?php echo __("Send Profiles",RBAGENCY_casting_TEXTDOMAIN); ?></h3>
 						<form method="post" action="">
 							<?php
 							$rb_agency_options_arr = get_option('rb_agency_options');
@@ -639,7 +641,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								<input type="text" name="yourTelNo" id="yourTelNo" />
 							</div>
 							<div>
-								<label><?php echo __("Send to Email:", RBAGENCY_casting_TEXTDOMAIN); ?> </label>
+								<label><?php echo __("Send To Email", RBAGENCY_casting_TEXTDOMAIN); ?>: </label>
 								<input type="text" name="sendToEmail" id="sendToEmail" value="Admin" disabled/>
 							</div>
 							<div>
@@ -657,7 +659,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								
 								<textarea id="message" name="message" style="width:100%;height:200px;"></textarea>
 								<br/>
-								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="Send" />
+								<input type="submit" id="sendProfileBtn" name="sendProfileBtn" value="<?php echo __('Send',RBAGENCY_casting_TEXTDOMAIN); ?>" />
 								
 							</div>
 						</form>
@@ -691,8 +693,8 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 echo "			<div class=\"cb\"></div>\n";
 
 if(is_user_logged_in()){
-	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>Go Back to Applicants.</a> | \n";
-	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Dashboard.</a></p>\n";
+	echo "<p><a href='".get_bloginfo('wpurl')."/view-applicants'>".__("Go back to Applicants.",RBAGENCY_casting_TEXTDOMAIN)."</a> | \n";
+	echo "<a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 }
 
 echo "			<input type=\"hidden\" name=\"castingcart\" value=\"1\"/>";

@@ -129,13 +129,12 @@
 						CastingLocationCity = '".$_POST['casting_city']."',
 						CastingLocationState = '".$_POST['CastingState']."',
 						CastingLocationZip = '".$_POST['casting_zip']."',
-						CastingLocationCountry = '".$_POST['CastingCountry']."', 
-						CastingIsActive = '".$CastingStatus."', ";
+						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
 			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
 
 			$result = $wpdb->query($update);
 
-			$error = "Successfully Updated!";
+			$error = __("Successfully Updated!",RBAGENCY_casting_TEXTDOMAIN);
 
 			$data_r = $wpdb->get_row("SELECT * FROM ". table_agency_casting . " WHERE CastingUserLinked = " . $current_user->ID);
 
@@ -153,7 +152,7 @@
 		   }
 	
 		   $castID = isset($_GET['CastingID']) ? $_GET['CastingID'] : $castingIDFromTable; 
-
+		   $insert_to_casting_custom = array();
 					foreach($_POST as $k=>$v){
 						$parseCustom = explode("_",$k);
 						if($parseCustom[0] == 'ProfileCustom2'){
@@ -250,8 +249,8 @@
 			// Self Registration
 	if ( $registration || current_user_can("create_users") ) {
 	echo "  <header class=\"entry-header\">";
-		echo "<h1>Welcome ". $current_user->user_firstname ."</h1>\n";
-		echo "<h1>We have registered you as Agent/Producer.</h1>\n";
+		echo "<h1>". __("Welcome ",RBAGENCY_casting_TEXTDOMAIN). $current_user->user_firstname ."</h1>\n";
+		echo "<h1>". __("We have registered you as Agent/Producer.",RBAGENCY_casting_TEXTDOMAIN)."</h1>\n";
 	echo "  </header>";
 	echo "  <div id=\"client-register\" class=\"rbform\">";
 	echo "	<h3>". __("Account Information", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
@@ -298,7 +297,7 @@
 				echo "		<div>\n";
 				$query_get ="SELECT * FROM `".table_agency_data_country."` ORDER BY CountryTitle ASC" ;
 				$result_query_get = $wpdb->get_results($query_get);
-				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates();">';
+				echo '<select name="CastingCountry" id="CastingCountry"  onchange="javascript:populateStates(\'CastingCountry\',\'CastingState\');">';
 				echo '<option value="">'. __("Select country", _TEXTDOMAIN) .'</option>';
 					foreach($result_query_get as $r){
 						echo '<option value='.$r->CountryID.' '.selected(isset($data_r->CastingLocationCountry)?$data_r->CastingLocationCountry:0,$r->CountryID,false).' >'.$r->CountryTitle.'</option>';
@@ -373,7 +372,7 @@
 			} else {
 			echo "			<input type=\"text\" id=\"CastingUsername\"  name=\"CastingUsername\" value=\"\" />\n";
 			}
-			echo "			<small class=\"rbfield-note\">Cannot be changed</small>";
+			echo "			<small class=\"rbfield-note\">".__("Cannot be changed",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 			echo "		</div>\n";
 			echo "  </div>\n";
 		}
@@ -382,26 +381,26 @@
 		echo "		<label>". __("Password (required)", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPassword\" name=\"CastingPassword\" />\n";
-		echo "			<small class=\"rbfield-note\">Leave blank to keep same password</small>";
+		echo "			<small class=\"rbfield-note\">".__("Leave blank to keep same password",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
 		echo "	<div id=\"rbprofile-retype-password\" class=\"rbfield rbtext rbsingle\">\n";
 		echo "		<label>". __("Retype Password", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 		echo "		<div>";
 		echo "			<input type=\"password\" id=\"CastingPasswordConfirm\" name=\"CastingPasswordConfirm\" />";
-		echo "			<small class=\"rbfield-note\">Retype to Confirm</small>";
+		echo "			<small class=\"rbfield-note\">".__("Retype to Confirm",RBAGENCY_casting_TEXTDOMAIN)."</small>";
 		echo "		</div>\n";
 		echo "	</div>\n";
-		echo "<h3>Additional Details</h3>";
+		
 			rb_get_customfields_castingregister();
 	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
-	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='Update Information'/>";
+	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='".__("Update Information",RBAGENCY_casting_TEXTDOMAIN)."'/>";
 
 					// if ( current_user_can("create_users") ) { _e("Add User", RBAGENCY_casting_TEXTDOMAIN); } else { _e("Register", RBAGENCY_casting_TEXTDOMAIN); }echo "\" />\n";
 
 					wp_nonce_field("add-user");
 
-	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"updatecasting\" />\n";
+	echo "   		<input name=\"action\" type=\"hidden\" id=\"action\" value=\"".__("updatecasting",RBAGENCY_casting_TEXTDOMAIN)."\" />\n";
 	echo "       </div><!-- #casting-submit -->\n";
 	// Facebook connect
 	?>
@@ -412,7 +411,7 @@
 
 }
 
-if(!$registration){echo "<p class='alert'>The administrator currently disabled the registration.<p>"; }
+if(!$registration){echo "<p class='alert'>".__("The administrator currently disabled the registration.",RBAGENCY_casting_TEXTDOMAIN)."<p>"; }
 
 echo "  </div><!-- #content -->\n";
 echo "</div><!-- #container -->\n";

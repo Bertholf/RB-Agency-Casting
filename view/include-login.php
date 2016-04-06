@@ -57,9 +57,9 @@
 					echo "          <div class=\"clear line\"></div>\n";*/
 					echo "        <div id=\"rbsign-up\" class=\"inline-block\">\n";
 					echo "          <div id=\"talent-register\" class=\"register\">\n";
-					echo "            <h1>". __("Not a member", RBAGENCY_interact_TEXTDOMAIN). "?</h1>\n";
+					echo "            <h1>". __("Not a member", RBAGENCY_casting_TEXTDOMAIN). "?</h1>\n";
 
-					echo "<h3>". __("Client - Register here", RBAGENCY_interact_TEXTDOMAIN). "</h3>";
+					echo "<h3>". __("Client - Register here", RBAGENCY_casting_TEXTDOMAIN). "</h3>";
 					echo "<ul>";
 					echo "	<li>". __("Create your free profile page", RBAGENCY_casting_TEXTDOMAIN). "</li>";
 					echo "	<li>". __("List Auditions & Jobs Free", RBAGENCY_casting_TEXTDOMAIN). "</li>";

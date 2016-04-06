@@ -160,19 +160,19 @@
 
 		echo "<p style='color:red; margin-bottom:20px'>$remarks</p>";
 
-		echo "<h1>Email Applicant</h1>";
+		echo "<h1>".__("Email Applicant",RBAGENCY_casting_TEXTDOMAIN)."</h1>";
 
 		echo "<form method='POST' action='".get_bloginfo('wpurl')."/email-applicant/$job_id/$user_linked_id'>";
 
 		echo "<table>";
 
-		echo "<tr><td> Your Name: </td></tr><td><input type='text' name='sender_name' value='".$name."'></td></tr>";
+		echo "<tr><td>".__("Your Name:",RBAGENCY_casting_TEXTDOMAIN)."  </td></tr><td><input type='text' name='sender_name' value='".$name."'></td></tr>";
 
-		echo "<tr><td> Your Email: </td></tr><td><input type='text' name='sender_email' value='".$email."'></td></tr>";
+		echo "<tr><td>".__("Your Email:",RBAGENCY_casting_TEXTDOMAIN)."  </td></tr><td><input type='text' name='sender_email' value='".$email."'></td></tr>";
 
-		echo "<tr><td> Subject: </td></tr><td><input type='text' name='subject' style='width:400px' value='".$subject."'></td></tr>";
+		echo "<tr><td>".__("Subject:",RBAGENCY_casting_TEXTDOMAIN)."  </td></tr><td><input type='text' name='subject' style='width:400px' value='".$subject."'></td></tr>";
 
-		echo "<tr><td> Your Messsage: </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'>".$message."</textarea></td></tr>";
+		echo "<tr><td>".__("Your Messsage:",RBAGENCY_casting_TEXTDOMAIN)."  </td></tr><td><textarea style='width:400px; height:300px' name='sender_message'>".$message."</textarea></td></tr>";
 
 		echo "<tr><td></td></tr><td><input type='submit' name='send_email' value='Send Email' class='button-primary'></td></tr>";
 
@@ -180,9 +180,9 @@
 
 		echo "</form>";
 
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>Go Back to Applicants.</a></p>\n";
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/view-applicants'>".__("Go Back to Applicants.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 
-		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>Go Back to Casting Dashboard.</a></p>\n";
+		echo "<br><p style=\"width:100%;\"><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 
 
 	} else {

@@ -22,7 +22,7 @@ echo $rb_header = RBAgency_Common::rb_header();
 echo "	<div id=\"primary\" class=\"".fullwidth_class()." column\">\n";
 echo "  	<div id=\"rbcontent\" role=\"main\" class=\"transparent\">\n";
 echo '			<header class="entry-header">';
-echo '				<h1 class="entry-title">Favorites</h1>';
+echo '				<h1 class="entry-title">'.__("Favorites",RBAGENCY_casting_TEXTDOMAIN).'</h1>';
 echo '			</header>';
 echo '			<div class="entry-content">';
 echo "				<div id=\"profile-favorites\">\n";

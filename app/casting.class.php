@@ -159,7 +159,7 @@ class RBAgency_Casting {
 					echo "    <div style=\"float: left; width: 100px; height: 100px; overflow: scroll-y; margin-left: 10px; line-height: 11px; font-size: 9px; \">\n";
 
 					if (!empty($data['ProfileDateBirth'])) {
-						echo "<strong>Age:</strong> ". rb_agency_get_age($data['ProfileDateBirth']) ."<br />\n";
+						echo "<strong>".__("Age:",RBAGENCY_casting_TEXTDOMAIN)."</strong> ". rb_agency_get_age($data['ProfileDateBirth']) ."<br />\n";
 					}
 					// TODO: ADD MORE FIELDS
 
@@ -357,14 +357,14 @@ class RBAgency_Casting {
 				/*if($msg!=""){
 				echo "          <div id=\"message\" class=\"updated\"><p>Email Messages successfully sent!</p></div>";
 				}*/
-				echo "          <strong>Recipient:</strong><br/><textarea name=\"MassEmailRecipient\" style=\"width:100%;\">".$rb_agency_value_agencyemail."</textarea><br/>";
-				echo "          <strong>Bcc:</strong><br/><textarea name=\"MassEmailBccEmail\" style=\"width:100%;\">".$recipient."</textarea><br/>";
-				echo "          <strong>Subject:</strong> <br/><input type=\"text\" name=\"MassEmailSubject\" style=\"width:100%\"/>";
+				echo "          <strong>".__("Recipient:",RBAGENCY_casting_TEXTDOMAIN)."</strong><br/><textarea name=\"MassEmailRecipient\" style=\"width:100%;\">".$rb_agency_value_agencyemail."</textarea><br/>";
+				echo "          <strong>".__("Bcc:",RBAGENCY_casting_TEXTDOMAIN)."</strong><br/><textarea name=\"MassEmailBccEmail\" style=\"width:100%;\">".$recipient."</textarea><br/>";
+				echo "          <strong>".__("Subject:",RBAGENCY_casting_TEXTDOMAIN)."</strong> <br/><input type=\"text\" name=\"MassEmailSubject\" style=\"width:100%\"/>";
 				echo "          <br/>";
 			/*	echo "          <strong>Message:</strong><br/>     <textarea name=\"MassEmailMessage\"  style=\"width:100%;height:300px;\">this message was sent to you by ".$rb_agency_value_agencyname." ".network_site_url( '/' )."</textarea>";*/
 				//Adding Wp editor
 				$content = "Add Message Here<br />Click the following link (or copy and paste it into your browser):<br />
-[link-place-holder]<br /><br />This message was sent to you by:<br />[site-title]<br />[site-url]";
+[link-place-holder]<br /><br />".__("This message was sent to you by:",RBAGENCY_casting_TEXTDOMAIN)."<br />[site-title]<br />[site-url]";
 				$editor_id = 'MassEmailMessage';
 				wp_editor( $content, $editor_id,array("wpautop"=>false,"tinymce"=>true) );
 
@@ -743,16 +743,16 @@ class RBAgency_Casting {
 				@list($min_val,$max_val) =  @explode("-",$list_value);
 
 				echo "<div class=\"rbfield rbmulti rbmetric profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
-				echo "<label for=\"ProfileCustomIDage\">Age</label>";
+				echo "<label for=\"ProfileCustomIDage\">".__("Age",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 				echo "<div class=\"clear\"></div>";
-				echo "<div><div><label for=\"ProfileCustomIDage_min\">Min</label>";
+				echo "<div><div><label for=\"ProfileCustomIDage_min\">".__("Min",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 				echo "<input value=\"".(isset($min_val)?$min_val:"")."\" class=\"stubby rbmin\" type=\"text\" name=\"ProfileCustomIDage[]\"  onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");'/></div>";
-				echo "<div><label for=\"ProfileCustomIDage_max\">Max</label>";
+				echo "<div><label for=\"ProfileCustomIDage_max\">".__("Max",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 				echo "<input value=\"".(isset($max_val)?$max_val:"")."\" class=\"stubby rbmax\" type=\"text\" name=\"ProfileCustomIDage[]\" onkeyup='num_only(this); this.value = this.value.replace(/[^0-9]+/g, \"\");' /></div>";
 				echo "</div></div>";
 
 				echo "<div class=\"rbfield rbselect rbsingle profilecustomid_gender\"  attrid=\"gender\"  id=\"profilecustomid_gender\">";
-				echo "	<label for=\"ProfileCustomIDgender\">Gender</label>";
+				echo "	<label for=\"ProfileCustomIDgender\">".__("Gender",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 				echo "	<div>";
 				echo "		<select name=\"ProfileCustomIDgender[]\">";
 				echo "			<option value=\"\">--</option>";
@@ -1119,7 +1119,7 @@ class RBAgency_Casting {
 						echo "<div id='jobposting-pagination' class='rbpagination bottom' >";
 
 						if(($ceiling - $selected_page) != ($ceiling - 1) && ($selected_page != 0)){
-							echo "<a href='".$link.($selected_page-1)."'>prev</a>";
+							echo "<a href='".$link.($selected_page-1)."'>".__("prev",RBAGENCY_casting_TEXTDOMAIN)."</a>";
 						}
 
 						echo "<select name='paginate_page' style='width:100px' onchange='window.location.href= this.options[this.selectedIndex].value'>";
@@ -1136,7 +1136,7 @@ class RBAgency_Casting {
 							} else {
 								$next_link = $selected_page + 1; 
 							}
-							echo "<a href='".$link.$next_link."'>next</a>";
+							echo "<a href='".$link.$next_link."'>".__("next",RBAGENCY_casting_TEXTDOMAIN)."</a>";
 						}
 						echo "</div>";
 
@@ -1325,26 +1325,34 @@ class RBAgency_Casting {
 				$user_login = stripslashes($user->user_login);
 				$user_email = stripslashes($user->user_email);
 
-				$message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "\r\n\r\n";
-				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-				$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
+				$message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "<br><br>";
+				$message .= sprintf(__('Username: %s'), $user_login) . "<br><br>";
+				$message .= sprintf(__('E-mail: %s'), $user_email) . "<br>";
+
+				$rb_agency_options_arr = get_option('rb_agency_options');
 
 				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
 
 				if ( empty($plaintext_pass) )  
 					return;
-				$message  = __('Hi there,') . "\r\n\r\n";
-				$message .= sprintf(__("Thanks for joining %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n"; 
-				$message .= get_option('home') ."/casting-login/\r\n"; 
-				$message .= sprintf(__('Username: %s'), $user_login) . "\r\n"; 
-				$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n\r\n"; 
-				$message .= sprintf(__('If you have any problems, please contact us at %s.'), get_option('admin_email')) . "\r\n\r\n"; 
-				$message .= __('Regards,')."\r\n";
-				$message .= get_option('blogname') . __(' Team') ."\r\n"; 
-				$message .= get_option('home') ."\r\n"; 
+				$message  = __('Hi there,',RBAGENCY_casting_TEXTDOMAIN) . "<br><br>";
+				$message .= sprintf(__("Thanks for joining %s! Here's how to log in:",RBAGENCY_casting_TEXTDOMAIN), get_option('blogname')) . "<br><br>"; 
+				$message .= __('Login: ',RBAGENCY_interact_TEXTDOMAIN)."<a href='".get_option('home') ."/casting-login'>".get_option('home') ."/casting-login </a><br>"; 
+				$message .= sprintf(__('Username: %s',RBAGENCY_casting_TEXTDOMAIN), $user_login) . "<br>"; 
+				$message .= sprintf(__('Password: %s',RBAGENCY_casting_TEXTDOMAIN), $plaintext_pass) . "<br><br>"; 
+				$message .= sprintf(__('If you have any problems, please contact us at %s.',RBAGENCY_casting_TEXTDOMAIN), get_option('admin_email')) . "<br><br>"; 
+				$message .= __('Regards,',RBAGENCY_casting_TEXTDOMAIN)."<br>";
+				$message .= get_option('blogname') . __(' Team',RBAGENCY_casting_TEXTDOMAIN) ."<br>"; 
+				$message .= get_option('home') ."<br>"; 
+				$message .= "<br>"; 
+				$message .= '<img src="'.get_option('home').$rb_agency_options_arr['rb_agency_option_agencylogo'].'" width="200">';
+				$headers = 'From: '. get_option('blogname') .' <'. get_option('admin_email') .'>' . "<br>";
 
-				$headers = 'From: '. get_option('blogname') .' <'. get_option('admin_email') .'>' . "\r\n";
-				wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details'), get_option('blogname')), $message, $headers);
+				//add_filter( 'wp_mail_content_type', function set_content_type( $content_type ) {
+					//return 'text/html';
+				//});
+
+				wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details',RBAGENCY_casting_TEXTDOMAIN), get_option('blogname')), $message, $headers);
 		}
 
 
@@ -1381,7 +1389,7 @@ class RBAgency_Casting {
 		if(is_null($JobID) && $JobID != '') return "";
 
 		if(is_user_logged_in()){
-			if(isset($talent) && $talent ){
+			if(isset($talent) && $talent !== "" ){
 
 				if(strpos("none", $JobID) > -1 ){
 
@@ -1409,7 +1417,7 @@ class RBAgency_Casting {
 					echo json_encode($arr);
 				} else {
 
-					$talent = self::rb_casting_ismodel($talent, "ProfileID");
+					//$talent = self::rb_casting_ismodel($talent, "ProfileID");
 					$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
 					$count_castingcart = $wpdb->num_rows;
 					$datas_castingcart = $query_castingcart;
@@ -1448,7 +1456,7 @@ class RBAgency_Casting {
 			if(is_user_logged_in()){
 
 				if(isset($talent) && $talent ){
-					$talent = self::rb_casting_ismodel($talent, "ProfileID");
+					//$talent = self::rb_casting_ismodel($talent, "ProfileID");
 					$query_castingcart =$wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID= %s  AND CastingCartProfileID = %s AND CastingJobID = %s ",$talent,rb_agency_get_current_userid(),$JobID ));
 					$count_castingcart =$wpdb->num_rows;
 
@@ -1476,7 +1484,7 @@ class RBAgency_Casting {
 
 			if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 				// Message of successful mail form mass email 
-				echo "<div id=\"message\" class=\"updated\"><p>Email Messages successfully sent!</p></div>";
+				echo "<div id=\"message\" class=\"updated\"><p>".__("Email Messages successfully sent!",RBAGENCY_casting_TEXTDOMAIN)."</p></div>";
 			}
 
 			if(isset($_POST["mass_delete"])){
@@ -1484,7 +1492,7 @@ class RBAgency_Casting {
 				$ids = implode(",",$_POST);
 				$wpdb->query("DELETE FROM ".table_agency_casting_job." WHERE Job_ID IN(".$ids.") ");
 
-					echo "<div id=\"message\" class=\"updated\"><p>Successfully deleted.</p></div>";
+					echo "<div id=\"message\" class=\"updated\"><p>".__("Successfully deleted.",RBAGENCY_casting_TEXTDOMAIN)."</p></div>";
 
 			}
 
@@ -1567,8 +1575,8 @@ class RBAgency_Casting {
 							<td style="width: 360px;" nowrap="nowrap">
 								<form method="GET" action="<?php echo admin_url("admin.php?page=". $_GET['page']); ?>&amp;action=informTalent">
 								<input type='hidden' name='page_index' id='page_index' value='<?php echo isset($_GET['page_index'])?$_GET['page_index']:""; ?>' />  
-								Search by : 
-								Title: <input type="text" name="Job_Title" value="<?php echo isset($Job_Title)?$Job_Title:""; ?>" style="width: 100px;" />
+								<?php echo __("Search by :",RBAGENCY_casting_TEXTDOMAIN); ?> 
+								<?php echo __("Title:",RBAGENCY_casting_TEXTDOMAIN); ?> <input type="text" name="Job_Title" value="<?php echo isset($Job_Title)?$Job_Title:""; ?>" style="width: 100px;" />
 									
 									<input type="hidden" name="action" value="informTalent"/>
 									<input type='hidden' name='page' id='page' value='<?php echo $_GET['page']; ?>' />
@@ -1669,7 +1677,7 @@ class RBAgency_Casting {
 				<tr>
 					<th class="check-column" scope="row"></th>
 					<td class="name column-name" colspan="3">
-						<p>No profiles found with this criteria.</p>
+						<p><?php echo __("No profiles found with this criteria.",RBAGENCY_casting_TEXTDOMAIN); ?></p>
 					</td>
 				</tr>
 				<?php
@@ -1678,7 +1686,7 @@ class RBAgency_Casting {
 				<tr>
 					<th class="check-column" scope="row"></th>
 					<td class="name column-name" colspan="3">
-						<p>There aren't any Profiles loaded yet!</p>
+						<p><?php echo __("There aren't any Profiles loaded yet!",RBAGENCY_casting_TEXTDOMAIN); ?></p>
 					</td>
 				</tr>
 				<?php
@@ -1716,7 +1724,7 @@ class RBAgency_Casting {
 			if(!empty($message)){
 				$content = str_replace("[casting-job-url]", $link, $message);;
 			} else {
-				$content = $rb_agency_value_agencyname.' has put you forward for a Job. See the following link: '.$link;
+				$content = $rb_agency_value_agencyname.' '.__("has put you forward for a Job. See the following link:",RBAGENCY_casting_TEXTDOMAIN).' '.$link;
 			}
 
 			$xml_data ='<request>
@@ -1762,7 +1770,7 @@ class RBAgency_Casting {
 			if(!empty($message)){
 					$MassEmailMessage .= str_replace("[casting-job-url]", $link_anchor, $message);
 			} else {
-					$MassEmailMessage .= $rb_agency_value_agencyname." has put you forward for a Job. Click link to view job info & confirm availability: ".$link_anchor."<br><br>";
+					$MassEmailMessage .= $rb_agency_value_agencyname." ".__("has put you forward for a Job. Click link to view job info & confirm availability:",RBAGENCY_casting_TEXTDOMAIN)." ".$link_anchor."<br><br>";
 			}
 			$MassEmailMessage	.= "Regards,<br>";
 			$MassEmailMessage .= $agency_name."<br>"; 
@@ -1772,7 +1780,7 @@ class RBAgency_Casting {
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 			$headers[] = 'From: '.$rb_agency_value_agencyname .' <'. $rb_agency_value_agencyemail .'>';
 			
-			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
+			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname." ".__(": Job Availability",RBAGENCY_casting_TEXTDOMAIN)." ", $MassEmailMessage, $headers);
 			
 		
 
@@ -1795,7 +1803,7 @@ class RBAgency_Casting {
 			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 			$headers[] = 'From: '. $rb_agency_value_agencyname .' <'.$rb_agency_value_agencyemail .'>';
 
-			$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Job Availability", $MassEmailMessage, $headers);
+			$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname." ".__(": Job Availability",RBAGENCY_casting_TEXTDOMAIN)."", $MassEmailMessage, $headers);
 	}
 
 
@@ -1809,10 +1817,11 @@ class RBAgency_Casting {
 
 		// Mail it
 		$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
-		$headers[] = 'MIME-Version: 1.0';
-		$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-		$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
-		$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname.": Check availability", $Message, $headers);
+		//$headers[] = 'MIME-Version: 1.0';
+		//$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		//$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+		$headers = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
+		$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname." ".__(": Check availability",RBAGENCY_casting_TEXTDOMAIN)." ", $Message, $headers);
 
 	}
 
@@ -1833,7 +1842,7 @@ class RBAgency_Casting {
 		foreach ($bcc_emails_arr as $key) {
 			$headers[] = 'Bcc: '.$key;
 		}
-		$isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": Casting Cart", $Message, $headers);
+		$isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname." ".__(": Casting Cart",RBAGENCY_casting_TEXTDOMAIN)." ", $Message, $headers);
 
 	}
 
@@ -1849,7 +1858,7 @@ class RBAgency_Casting {
 
 			// Mail it
 		$headers = 'From: '. $rb_agency_value_agencyname.' <'. $rb_agency_value_agencyemail .'>' . "\r\n";
-		$isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname.": New Job Applicant for ".$Job_Name, $Message, $headers);
+		$isSent = wp_mail($Client_Email_Address, $rb_agency_value_agencyname." ".__(": New Job Applicant for ",RBAGENCY_casting_TEXTDOMAIN)." ".$Job_Name, $Message, $headers);
 	}
 
 

@@ -32,12 +32,12 @@ echo $rb_header = RBAgency_Common::rb_header();
 			echo "	<div id=\"profile-manage\" class=\"profile-overview\">\n";
 
 					echo " <div class=\"manage-overview manage-content\">\n";
-					echo sprintf(__("<h3>Thanks for joining %s!</h3>"), get_option('blogname'));
+					echo sprintf(__("Thanks for joining %s!",RBAGENCY_casting_TEXTDOMAIN), get_option('blogname'));
 					echo "<br/>";
-					echo "Your account is pending for approval. You will receive and email once your registration is approved.";
+					echo __("Your account is pending for approval. You will receive and email once your registration is approved.",RBAGENCY_casting_TEXTDOMAIN);
 					if($_GET['status'] == 'pending'){
 						echo "<br>";
-						echo "<a href='".site_url()."/logout' class='button-primary'>Logout</a>";
+						echo "<a href='".site_url()."/logout' class='button-primary'>".__("Logout",RBAGENCY_casting_TEXTDOMAIN)."</a>";
 					}
 					echo " </div>\n";
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-02-24 15:53-0800\n"
+"PO-Revision-Date: 2016-04-06 13:07+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: de_DE\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SearchPath-0: C:/Dropbox/Users/Rob/Scripts/RB Plugin/rb-agency\n"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/functions.php:99
@@ -159,7 +159,7 @@ msgstr ""
 #: Plugin\rb-agency/admin/taxonomy.php:220
 #: Plugin\rb-agency/admin/taxonomy.php:263
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:107
 msgid "New Client added successfully!"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:519
 msgid "Make changes in the form below to edit a Client."
@@ -568,11 +568,11 @@ msgstr ""
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "State"
-msgstr ""
+msgstr "Bundesland"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "City"
-msgstr ""
+msgstr "Stadt"
 
 #: C:\Dropbox\Users\Rob\Scripts\RB Plugin\rb-agency/admin/client.php:518
 msgid "Street"
@@ -583,48 +583,48 @@ msgid "ZIP"
 msgstr ""
 
 msgid "Welcome"
-msgstr ""
+msgstr "Herzlich willkommen"
 
 msgid "First Name"
-msgstr ""
+msgstr "Vorname"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Familienname"
 
 msgid "required"
 msgstr ""
 
 msgid "Company (required)"
-msgstr ""
+msgstr "Unternehmen (erforderlich)"
 
 msgid "Company"
 msgstr ""
 
 msgid "Street Address"
-msgstr ""
+msgstr "Straße Adresse"
 
 msgid "Home"
-msgstr ""
+msgstr "Zuhause"
 
 msgid "Work"
-msgstr ""
+msgstr "Arbeit"
 
 msgid "Leave blank to keep same"
 msgstr ""
 
 msgid "Retype to Confirm"
-msgstr ""
+msgstr "Erneut eingeben zu bestätigen"
 
 msgid "Join Our Team"
-msgstr ""
+msgstr "Trete unserem Team bei"
 
 msgid "To Join Our Team please complete the application below."
-msgstr ""
+msgstr "Für unser Team Join füllen Sie bitte die Anwendung unter."
 
 msgid "I agree to the %s terms of service"
-msgstr ""
+msgstr "Ich bin damit einverstanden, die %s Nutzungsbedingungen"
 
-msgid "Thank you for registering, %1$s."
+msgid "Thank you for registering, %s."
 msgstr ""
 
 msgid "Please check your email address. That's where you'll receive your login password"
@@ -634,55 +634,55 @@ msgid "(It might go into your spam folder)"
 msgstr ""
 
 msgid "We have registered you as Agent/Producer."
-msgstr ""
+msgstr "Wir haben registriert Sie als Agent / Produzent."
 
 msgid "Search Database"
-msgstr ""
+msgstr "Datenbank durchsuchen"
 
 msgid "Age"
 msgstr ""
 
 msgid "Edit Information"
-msgstr ""
+msgstr "Informationen bearbeiten"
 
 msgid "Post a New Job"
-msgstr ""
+msgstr "Einen neuen Job"
 
 msgid "View Your Job Postings"
-msgstr ""
+msgstr "Sehen Sie Ihre Job-Angebote"
 
 msgid "View Your Applicants"
-msgstr ""
+msgstr "Sehen Sie Ihre Bewerber"
 
 msgid "New Job Posting"
-msgstr ""
+msgstr "Neuer Job Posting"
 
 msgid "Job Description"
-msgstr ""
+msgstr "Job Beschreibung"
 
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
 msgid "offer:"
-msgstr ""
+msgstr "Angebot:"
 
 msgid "Job Duration"
-msgstr ""
+msgstr "Job Dauer"
 
 msgid "Date Start:"
-msgstr ""
+msgstr "Datum Anfang"
 
 msgid "Date End:"
-msgstr ""
+msgstr "Datum Ende:"
 
 msgid "Job Location"
-msgstr ""
+msgstr "Job Ort"
 
 msgid "Location:"
-msgstr ""
+msgstr "Ort:"
 
 msgid "Region:"
-msgstr ""
+msgstr "Bereich:"
 
 msgid "Job Audition"
 msgstr ""
@@ -691,28 +691,28 @@ msgid "Time:"
 msgstr ""
 
 msgid "Venue:"
-msgstr ""
+msgstr "Tagungsort:"
 
 msgid "Job Criteria"
-msgstr ""
+msgstr "Job Kriterien"
 
 msgid "Visibility:"
-msgstr ""
+msgstr "Sichtweite:"
 
 msgid "Submit Job"
-msgstr ""
+msgstr "Einreichen Job"
 
 msgid "Your Job Postings"
-msgstr ""
+msgstr "Ihre Job-Angebote"
 
 msgid "Job Title"
-msgstr ""
+msgstr "Berufsbezeichnung"
 
 msgid "Date Posted"
-msgstr ""
+msgstr "Datum der Veröffentlichung"
 
 msgid "Actions"
-msgstr ""
+msgstr "Aktionen"
 
 msgid "Applicants to your Job Postings"
 msgstr ""
@@ -724,10 +724,10 @@ msgid "Your Rating"
 msgstr ""
 
 msgid "Records Per Page"
-msgstr ""
+msgstr "Datensätze pro Seite"
 
 msgid "filter"
-msgstr ""
+msgstr "Sieb"
 
 msgid "Select"
 msgstr ""
@@ -760,55 +760,916 @@ msgid "Add/Remove to Casting Cart"
 msgstr ""
 
 msgid "View Your Casting Cart"
-msgstr ""
+msgstr "Sehen Sie Ihre Casting Wagen"
 
 msgid "Submit"
 msgstr ""
 
 msgid "Go Back to Casting Dashboard"
-msgstr ""
+msgstr "Zurück zu Meine Übersicht"
 
 msgid "Casting Cart"
-msgstr ""
+msgstr "Casting Wagen"
 
 msgid "Select a job"
-msgstr ""
+msgstr "Wählen Sie einen Job"
 
 msgid "Search"
-msgstr ""
+msgstr "Suche"
 
 msgid "Clear"
-msgstr ""
+msgstr "Klar"
 
 msgid "Select all"
-msgstr ""
+msgstr "Alles auswählen"
 
 msgid "Go back to Applicants."
-msgstr ""
+msgstr "Zurück an die Antragsteller."
 
 msgid "Remove selected profile(s)"
 msgstr ""
 
 msgid "Add selected profile(s)"
-msgstr ""
+msgstr "In ausgewählten Profil(e)"
 
 msgid "Your Name"
-msgstr ""
+msgstr "Dein Name"
 
 msgid "Your Email"
-msgstr ""
+msgstr "Deine Email"
 
 msgid "Your Tel. No."
-msgstr ""
+msgstr "Deine Telefonnummer"
 
-msgid "Send To Email:"
-msgstr ""
+msgid "Send To Email"
+msgstr "Senden an Email"
 
 msgid "BCC:"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Fach"
 
 msgid "Message:"
+msgstr "Nachricht:"
+
+msgid "Casting Agent"
+msgstr ""
+
+msgid "Casting Agents"
+msgstr ""
+
+msgid "List"
+msgstr ""
+
+msgid "Edit Record"
+msgstr ""
+
+msgid "Company is required.<br />"
+msgstr "Unternehmen ist nicht erforderlich.<br />"
+
+msgid "castin"
+msgstr ""
+
+msgid "Account Information"
+msgstr "Kontoinformationen"
+
+msgid "E-mail (required)"
+msgstr "Email (erforderlich)"
+
+msgid "Website"
+msgstr "Webseite"
+
+msgid "Select state"
+msgstr "Wählen Bundesland"
+
+msgid "Zip"
+msgstr "Reißverschluss"
+
+msgid "Contact Phone"
+msgstr "Kontakt-Telefon"
+
+msgid "Cell"
+msgstr "Zelle"
+
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Cannot be changed"
+msgstr ""
+
+msgid "Login Settings"
+msgstr "Einstellungen für das Anmelden"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Leave blank to keep same password"
+msgstr "Freilassen gleiche Passwort zu halten"
+
+msgid "Retype Password"
+msgstr "Passwort erneut eingeben"
+
+msgid "Update Information"
+msgstr "Aktualisieren Informationen"
+
+msgid "Job Title is required.<br />"
+msgstr "Job Titel ist nicht erforderlich.<br />"
+
+msgid "Job Description is required.<br />"
+msgstr "Job Beschreibung ist nicht erforderlich.<br />"
+
+msgid "Job Offer is required.<br />"
+msgstr "Job-Angebot ist nicht erforderlich.<br />"
+
+msgid "Start Date is required.<br />"
+msgstr ""
+
+msgid "Start Date is invalid date.<br />"
+msgstr ""
+
+msgid "End Date is required.<br />"
+msgstr "Datum Ende ist nicht erforderlich.<br />"
+
+msgid "End Date is invalid date.<br />"
+msgstr ""
+
+msgid "Start Date cannot be greate than the End Date.<br />"
+msgstr ""
+
+msgid "Job Location is required.<br />"
+msgstr "Job Ort ist nicht erforderlich.<br />"
+
+msgid "Job Region is required.<br />"
+msgstr "Job Bereich ist nicht erforderlich.<br />"
+
+msgid "Job type is required.<br />"
+msgstr "Job Art ist nicht erforderlich.<br />"
+
+msgid "Visibility is required.<br />"
+msgstr "Sichtweite ist nicht erforderlich.<br />"
+
+msgid "You have successfully updated your new Job Posting!"
+msgstr ""
+
+msgid "-- Select Type --"
+msgstr "-- Wählen Art --"
+
+msgid "Email Applicant"
+msgstr ""
+
+msgid "Your Name:"
+msgstr ""
+
+msgid "Your Email:"
+msgstr ""
+
+msgid "Subject:"
+msgstr ""
+
+msgid "Your Messsage:"
+msgstr ""
+
+msgid "Thanks for joining %s!"
+msgstr "Danke fürs Beitreten %s!"
+
+msgid "Your account is currently set as Inactive or Archived. You will receive an email once your registration is approved or activated by the admin."
+msgstr ""
+
+msgid "<p>You are already invited to this job. Please check your email for the invite link to accept or decline.</p>"
+msgstr ""
+
+msgid "<p><a href='\".get_bloginfo('wpurl').\"/browse-jobs/'>Apply to more jobs here.</a></p>"
+msgstr ""
+
+msgid "<br><p style=\"width:100%;\"><a href='\".get_bloginfo('wpurl').\"/profile-member'>Go Back to Profile Dashboard.</a></p>\n"
+msgstr ""
+
+msgid "You've already applied to this Job."
+msgstr ""
+
+msgid "Application for"
+msgstr ""
+
+msgid "Type:"
+msgstr "Art:"
+
+msgid "Make Your Pitch!:"
+msgstr ""
+
+msgid "Submit my Application"
+msgstr ""
+
+msgid "Shoot Date End:"
+msgstr ""
+
+msgid "Shoot Date Start:"
+msgstr ""
+
+msgid "Job Time Start:"
+msgstr ""
+
+msgid "Job Time End:"
+msgstr ""
+
+msgid "Payment :"
+msgstr ""
+
+msgid "Job Type:"
+msgstr ""
+
+msgid "Agency/Producer"
+msgstr ""
+
+msgid "Criteria"
+msgstr ""
+
+msgid "Audition Date Start:"
+msgstr ""
+
+msgid "Audition Date End:"
+msgstr ""
+
+msgid "Audition Time End:"
+msgstr ""
+
+msgid "Audition Venue:"
+msgstr ""
+
+msgid "Browse More Jobs"
+msgstr ""
+
+msgid "View Applicants"
+msgstr "Ansicht Bewerber"
+
+msgid "Go Back to Profile Dashboard."
+msgstr ""
+
+msgid "Job doesn't exist"
+msgstr ""
+
+msgid "Welcome "
+msgstr "Herzlich willkommen "
+
+msgid "You are logged in as Administrator."
+msgstr ""
+
+msgid "Social Media Castings"
+msgstr ""
+
+msgid "The administrator currently disabled the registration."
+msgstr ""
+
+msgid "updatecasting"
+msgstr ""
+
+msgid "You have successfully logged in!"
+msgstr ""
+
+msgid "You may now access the profile data.  You may now return to "
+msgstr ""
+
+msgid "Casting"
+msgstr "Guss"
+
+msgid "Username:"
+msgstr "Benutzername:"
+
+msgid "First Name:"
+msgstr "Vorname:"
+
+msgid "Last Name:"
+msgstr "Familienname:"
+
+msgid "User Email:"
+msgstr "Benutzer EMail:"
+
+msgid "Company:"
+msgstr "Unternehmen:"
+
+msgid "Website:"
+msgstr "Webseite:"
+
+msgid "Street:"
+msgstr "Straße:"
+
+msgid "City:"
+msgstr "Stadt:"
+
+msgid "Country:"
+msgstr "Land:"
+
+msgid "State:"
+msgstr "Bundesland:"
+
+msgid "Zip:"
+msgstr "Reißverschluss:"
+
+msgid "Home Phone:"
+msgstr "Festnetztelefon:"
+
+msgid "Work Phone:"
+msgstr "Arbeitshandy:"
+
+msgid "Cell Phone:"
+msgstr "Handy:"
+
+msgid "View All Job Postings"
+msgstr "Alle anzeigen Job-Angebote"
+
+msgid "View All Applicants"
+msgstr "Alle Bewerber"
+
+msgid "Log out"
+msgstr "Ausloggen"
+
+msgid "Your account is pending for approval. You will receive and email once your registration is approved."
+msgstr "Ihr Konto ist anhängig zur Genehmigung vor. Sie erhalten eine E-Mail erhalten, sobald Ihre Anmeldung zugelassen ist."
+
+msgid "Start Date cannot be greater than the End Date.<br />"
+msgstr ""
+
+msgid "You have successfully added your new Job Posting!"
+msgstr "Sie haben Ihren neuen Job Posting erfolgreich hinzugefügt!"
+
+msgid "Description:"
+msgstr "Beschreibung:"
+
+msgid "You are not permitted to access this page."
+msgstr ""
+
+msgid "A username is required for registration.<br />"
+msgstr ""
+
+msgid "Sorry, that username already exists!<br />"
+msgstr ""
+
+msgid "You must enter a valid email address.<br />"
+msgstr ""
+
+msgid "Sorry, that email address is already used!<br />"
+msgstr ""
+
+msgid "You must agree to the terms and conditions to register.<br />"
+msgstr ""
+
+msgid "A user account for %1$s has been created."
+msgstr ""
+
+msgid "Please check your email address. That's where you'll receive your login password.<br/> (It might go into your spam folder)"
+msgstr ""
+
+msgid "Users can register themselves or you can manually create users here."
+msgstr ""
+
+msgid "Users cannot currently register themselves, but you can manually create users here."
+msgstr ""
+
+msgid "Username (required)"
+msgstr "Benutzername (erforderlich)"
+
+msgid "Password (required)"
+msgstr "Passwort (erforderlich)"
+
+msgid "Select country"
+msgstr "Wählen Land"
+
+msgid "Register"
+msgstr "Neu registrieren"
+
+msgid "adduser"
+msgstr ""
+
+msgid "Members Sign in"
+msgstr ""
+
+msgid "Keep me signed in"
+msgstr ""
+
+msgid "Sign In"
+msgstr ""
+
+msgid "Not a member"
+msgstr ""
+
+msgid "forgot password"
+msgstr ""
+
+msgid "Client - Register here"
+msgstr "Client - Hier registrieren"
+
+msgid "Create your free profile page"
+msgstr "Legen Sie Ihr gratis Profilseite"
+
+msgid "List Auditions & Jobs Free"
+msgstr "Liste Castings und Jobs Kostenlose"
+
+msgid "Contact People in the talent Directory"
+msgstr "Kontakt Leute in der Talent-Verzeichnis"
+
+msgid "Register Now"
+msgstr "Jetzt registrieren"
+
+msgid "Lists of Jobs under"
+msgstr ""
+
+msgid "No search results found.  Please check link again."
+msgstr ""
+
+msgid "Favorites"
+msgstr ""
+
+msgid "Sender Name:"
+msgstr ""
+
+msgid "Sender Email:"
+msgstr ""
+
+msgid "Message to Admin:"
+msgstr ""
+
+msgid "(Note: The \"[casting-link-placeholder]\" will be the link to your casting cart page)"
+msgstr ""
+
+msgid "Send Email"
+msgstr ""
+
+msgid "- Select a job-"
+msgstr "- Wählen Sie einen Job -"
+
+msgid "No Job Selected"
+msgstr ""
+
+msgid "Succesfully removed from cart."
+msgstr ""
+
+msgid "Succesfully removed from Job."
+msgstr ""
+
+msgid "No Selected profile(s)."
+msgstr ""
+
+msgid "Remove selected profile(s) from Cart"
+msgstr "Entfernen Sie ausgewählte Profil(e) aus Warenkorb"
+
+msgid "Remove selected profile(s) from Job"
+msgstr "Entfernen Sie ausgewählte Profil(e) von Job"
+
+msgid "[+]Invite Profiles"
+msgstr ""
+
+msgid "[+]Check Availability"
+msgstr "[+] Verfügbarkeit prüfen"
+
+msgid "[+]Send Profiles"
+msgstr "[+] Senden Profile"
+
+msgid "Go Back"
+msgstr "Geh zurück"
+
+msgid "Invitation Sent Succesfully!"
+msgstr ""
+
+msgid "Send"
+msgstr "Senden"
+
+msgid "Email Sent Succesfully to"
+msgstr "Email gesendet Erfolgreich in den"
+
+msgid "Check Availability"
+msgstr "Verfügbarkeit prüfen"
+
+msgid "Send to:"
+msgstr "Senden an:"
+
+msgid "Add your message here...<br />[shortlisted-link-placeholder]"
+msgstr "Fügen Sie Ihre Anzeige hier...<br />[shortlisted-link-placeholder]"
+
+msgid "Email Sent Succesfully! Go Back to"
+msgstr ""
+
+msgid "Go Back to Dashboard."
+msgstr "Zurück zu Armaturenbrett."
+
+msgid "All Applicants to All Job Postings from Casting Agents"
+msgstr ""
+
+msgid "-- Select Job Title --"
+msgstr ""
+
+msgid "-- Select Applicant --"
+msgstr ""
+
+msgid "-- Select Matched % --"
+msgstr ""
+
+msgid "- # of Rec -"
+msgstr ""
+
+msgid "100% Matched <br> <hr style='margin:5px'> Open to All<br>"
+msgstr ""
+
+msgid "Edit Job Details"
+msgstr "Bearbeiten Job Einzelheiten"
+
+msgid "Remove from Casting"
+msgstr ""
+
+msgid "Add to CastingCart"
+msgstr ""
+
+msgid "View Casting Cart"
+msgstr ""
+
+msgid "You have no Applicants.<br>If you don't have any job postings, create a new job posting"
+msgstr ""
+
+msgid "-- Select Action --"
+msgstr ""
+
+msgid "Send Email to Selected"
+msgstr ""
+
+msgid "Send Email to All Visible"
+msgstr ""
+
+msgid "Go Back to Job Postings"
+msgstr ""
+
+msgid "Only Casting Agents are permitted on this page.<br>You need to be registered"
+msgstr ""
+
+msgid "here."
+msgstr ""
+
+msgid "Here."
+msgstr ""
+
+msgid "Invite Profiles"
+msgstr ""
+
+msgid "(Note: The \"[casting-job-url]\" will be the link to your shorlisted profile for the job)"
+msgstr ""
+
+msgid "Add your message here... Click this link to view Job details: [casting-job-url]"
+msgstr ""
+
+msgid "(Note: The \"[shortlisted-link-placeholder]\" will be the link to your shorlisted profile for the job)"
+msgstr "(Hinweis: Die \"[shortlisted-link-placeholder]\" wird der Link zu Ihrer engeren Auswahl Profil für den Job sein)"
+
+msgid "Link to model shortlist: [link-place-holder]"
+msgstr "Link zum Modell Auswahl: [link-place-holder]"
+
+msgid "Error sending the email!"
+msgstr ""
+
+msgid "75% - 100% Matched"
+msgstr ""
+
+msgid "50% - 75% Matched"
+msgstr ""
+
+msgid "25% - 50% Matched"
+msgstr ""
+
+msgid "0% - 25% Matched"
+msgstr ""
+
+msgid "No Rating"
+msgstr ""
+
+msgid "No profile selected. Try again"
+msgstr ""
+
+msgid "Empty Cart"
+msgstr ""
+
+msgid "Currently"
+msgstr ""
+
+msgid "in Cart"
+msgstr ""
+
+msgid "There are currently no profiles in the casting cart"
+msgstr ""
+
+msgid "Age:"
+msgstr ""
+
+msgid "Remove from Cart"
+msgstr ""
+
+msgid "Cart Actions"
+msgstr ""
+
+msgid "Save Search & Email"
+msgstr ""
+
+msgid "Mass Email"
+msgstr ""
+
+msgid "Quick Print"
+msgstr ""
+
+msgid "Without Details"
+msgstr ""
+
+msgid "There are no profiles added to the casting cart."
+msgstr ""
+
+msgid "Compose Email"
+msgstr ""
+
+msgid "Recipient:"
+msgstr ""
+
+msgid "Add Message Here"
+msgstr ""
+
+msgid "This message was sent to you by:<br />[site-title]<br />[site-url]"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "prev"
+msgstr "früher"
+
+msgid "next"
+msgstr "nächster"
+
+msgid "Email Messages successfully sent!"
+msgstr ""
+
+msgid "Successfully deleted."
+msgstr ""
+
+msgid "Search by :"
+msgstr ""
+
+msgid "Agency/Producer :"
+msgstr ""
+
+msgid "Go Back to My Dashboard"
+msgstr ""
+
+msgid "You're not signed in."
+msgstr ""
+
+msgid "--Select--"
+msgstr ""
+
+msgid "Additional Details"
+msgstr "Weitere Einzelheiten"
+
+msgid "Other Details"
+msgstr "Andere Einzelheiten"
+
+msgid "Showing Open to All and Matching Criteria Jobs"
+msgstr ""
+
+msgid "Apply Before"
+msgstr ""
+
+msgid "View this Job"
+msgstr ""
+
+msgid "Job Postings"
+msgstr ""
+
+msgid "All Job Postings from Casting Agents"
+msgstr ""
+
+msgid "Start Date"
+msgstr "Datum Anfang"
+
+msgid "-- Select Location --"
+msgstr "-- Wählen Ort --"
+
+msgid "ID"
+msgstr ""
+
+msgid "Location"
+msgstr "Ort"
+
+msgid "Region"
+msgstr "Bereich"
+
+msgid "View Details"
+msgstr ""
+
+msgid "Go Back to Profile Dashboard"
+msgstr ""
+
+msgid "Sender name must not be equal to blanks.<br>"
+msgstr ""
+
+msgid "Sender email must not be equal to blanks.<br>"
+msgstr ""
+
+msgid "You must enter a valid sender email address.<br />"
+msgstr ""
+
+msgid "Subject must not be equal to blanks.<br>"
+msgstr ""
+
+msgid "You must have a valid message.<br />"
+msgstr ""
+
+msgid "Message was successfully sent!<br />"
+msgstr ""
+
+msgid "Recipients Email is not available.<br />"
+msgstr ""
+
+msgid "Apply to more jobs here."
+msgstr ""
+
+msgid "You already applied for this job."
+msgstr ""
+
+msgid "Job Details"
+msgstr ""
+
+msgid "Email is required.<br />"
+msgstr "Email ist nicht erforderlich.<br />"
+
+msgid "You have no Job Postings.<br>Start New Job Posting"
+msgstr ""
+
+msgid "There are no available job postings."
+msgstr ""
+
+msgid "Edit Job Posting"
+msgstr "Bearbeiten Job Posting"
+
+msgid "View Your Job Postings?"
+msgstr ""
+
+msgid "Invite Only"
+msgstr "Nur geladene Gäste"
+
+msgid "Open to All"
+msgstr "Offen für alle"
+
+msgid "Matching Criteria"
+msgstr "Abstimmung Kriterien"
+
+msgid "Go Back to Casting Dashboard."
+msgstr "Zurück zu Meine Übersicht"
+
+msgid "Successfully Submitted Your Application"
+msgstr ""
+
+msgid "Duration:"
+msgstr ""
+
+msgid "Job Audition Date:"
+msgstr ""
+
+msgid "Audition Time Start:"
+msgstr ""
+
+msgid "Job Audition Time Start:"
+msgstr ""
+
+msgid "Job Audition Time End:"
+msgstr ""
+
+msgid "Job Audition Venue:"
+msgstr ""
+
+msgid "Add new Job Posting?"
+msgstr "Neuen Job Posting?"
+
+msgid " must have a display name identified"
+msgstr ""
+
+msgid "Send Profiles"
+msgstr "Senden Profile"
+
+msgid "Send to Name:"
+msgstr ""
+
+msgid "Date Created"
+msgstr ""
+
+msgid "Profiles"
+msgstr ""
+
+msgid "Applicants"
+msgstr ""
+
+msgid "No profiles found with this criteria."
+msgstr ""
+
+msgid "%s Registration Successful! Login Details"
+msgstr ""
+
+msgid "Hi there,"
+msgstr ""
+
+msgid "Thanks for joining %s! Here's how to log in:"
+msgstr ""
+
+msgid "Username: %s"
+msgstr ""
+
+msgid "Password: %s"
+msgstr ""
+
+msgid "If you have any problems, please contact us at %s."
+msgstr ""
+
+msgid "Regards,"
+msgstr ""
+
+msgid " Team"
+msgstr ""
+
+msgid "Login: "
+msgstr ""
+
+msgid "Hi "
+msgstr ""
+
+msgid "You have a new applicant for the job "
+msgstr ""
+
+msgid "To review, please click the link below:"
+msgstr ""
+
+msgid "Click the following link (or copy and paste it into your browser):"
+msgstr ""
+
+msgid "There aren't any Profiles loaded yet!"
+msgstr ""
+
+msgid "has put you forward for a Job. See the following link:"
+msgstr ""
+
+msgid ": Job Availability"
+msgstr ""
+
+msgid "has put you forward for a Job. Click link to view job info & confirm availability:"
+msgstr ""
+
+msgid ": Check availability"
+msgstr ": Verfügbarkeit prüfen"
+
+msgid ": New Job Applicant for "
+msgstr ""
+
+msgid ": Casting Cart"
+msgstr ""
+
+msgid "Congratulations! Your account is approved."
+msgstr ""
+
+msgid "%s Congratulations! Your account is approved."
+msgstr ""
+
+msgid "Advanced Search"
+msgstr "Erweiterte Suche"
+
+msgid "Successfully Updated!"
+msgstr "Erfolgreich aktualisiert!"
+
+msgid "Back to Profile Casting"
+msgstr "Zurück zum Profil Casting"
+
+msgid "Your Name is required!"
+msgstr "Ihr Name ist erforderlich!"
+
+msgid "Your Email is required!"
+msgstr "Ihr Email ist erforderlich!"
+
+msgid "Your Tel No is required!"
+msgstr "Ihre Telefonnummer ist erforderlich!"
+
+msgid "Subject is required!"
+msgstr "Betreff ist erforderlich!"
+
+msgid "Time Start:"
+msgstr "Zeit Anfang:"
+
+msgid "Time End:"
+msgstr "Zeit Ende:"
+
+msgid "Audition"
+msgstr "Vorsprechen"
+
+msgid "Before"
+msgstr "Vor"
+
+msgid "Later than"
+msgstr "Später als"
+
+msgid "Exact"
+msgstr "Genau"
+
+msgid "Delete Job"
 msgstr ""
