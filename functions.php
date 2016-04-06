@@ -700,9 +700,22 @@
 		RBAgency_Casting::rb_update_castingcart($profile_id,$job_id);
 
 	}
+	add_action('wp_ajax_client_add_casting', 'client_add_casting');
 
-	add_action('wp_ajax_client_add_casting', 'client_add_casting');
-	add_action('wp_ajax_client_add_casting', 'client_add_casting');
+	function remove_profile_from_job(){
+		$app_id = $_POST["app_id"];
+
+		global $wpdb;
+		$sql = "DELETE FROM ".$wpdb->prefix."agency_casting_job_application WHERE Job_Application_ID = %d";
+		$wpdb->query($wpdb->prepare($sql,$app_id));
+		$arr = array( "data" => "deleted");
+		echo json_encode($arr);
+		die();
+
+	}
+	add_action('wp_ajax_remove_profile_from_job', 'remove_profile_from_job');
+	
+
 
 
 	/*/

@@ -157,13 +157,48 @@ jQuery(document).ready(function(){
 				},
 				success: function (results) {
 					console.log(results);
-						if(results.data == ""){
+					if(results.data == ""){
 							$this.html("Failed. Retry.");
 						} else if(results.data == "inserted"){
 							$this.html("Remove from Casting");
 						} else if(results.data == "deleted"){
 							$this.html("Add to CastingCart");
-						}
+						}	
+
+  				},error: function(err){
+  					console.log(err);
+  				}
+		});
+
+	});
+
+		jQuery("body").on('click','.remove_from_job', function(){
+
+		var loader = "<?php echo plugins_url('rb-agency-casting/view/loader.gif'); ?>";
+
+		jQuery(this).html("<img src='"+loader+"'>");
+
+		var $this = jQuery(this);
+
+		var profile_id = jQuery(this).prevAll(".profile_id").eq(0).val();
+
+		var job_id = jQuery(this).prevAll(".job_id").eq(0).val();
+		var app_id = jQuery(this).prevAll(".application_id").eq(0).val();
+		console.log(job_id);
+		//console.log(profile_id);
+		jQuery.ajax({
+				type: "POST",
+				url: "<?php echo admin_url('admin-ajax.php') ?>",
+				dataType: 'json',
+				data: {
+					action: "remove_profile_from_job",
+					'app_id' : app_id
+				},
+				success: function (results) {
+					
+					console.log(app_id);			
+
+					jQuery('tr#'+app_id).remove();
   				},error: function(err){
   					console.log(err);
   				}
@@ -538,7 +573,7 @@ if (is_user_logged_in()) {
 				} else {
 					$display = $details->ProfileContactNameFirst;
 				}
-				echo "    <tr>\n";
+				echo "    <tr class=\"app_id\" id=\"".$load->Job_Application_ID."\">\n";
 				echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\"><input type='checkbox' name='select' class='select_app' value='".$load->Job_ID.":".$load->Job_UserLinked."'></td>\n";
 				echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."<br><span class=\"id\">Job ID# : ".$load->Job_ID."</span></td>\n";
 				echo "        <td class=\"column-JobDate\" scope=\"col\">";
@@ -598,6 +633,7 @@ if (is_user_logged_in()) {
 				}
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
 				echo "        <input type='hidden' class='profile_id' value='".$load->Job_UserProfileID."'>";
+				echo "        <input type='hidden' class='application_id' value='".$load->Job_Application_ID."'>";
 				if($rb_agency_option_allowsendemail == 1){
 					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."' style=\"font-size:12px;\">".__("Send Email",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
@@ -606,6 +642,7 @@ if (is_user_logged_in()) {
 				} else {
 					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">".__("Add to CastingCart",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
+				echo "<a class = 'remove_from_job' href='javascript:;' style=\"font-size:12px;\" id=\"".$load->Job_Application_ID."\">".__("Remove from Job",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				echo "<a href=\"".get_bloginfo("url")."/profile-casting/\" style=\"font-size:12px;\">".__("View Casting Cart",RBAGENCY_casting_TEXTDOMAIN)."</a>";
 			      echo "        <p  style='clear:both; margin-top:12px'>Rate Applicant</p>";
 
