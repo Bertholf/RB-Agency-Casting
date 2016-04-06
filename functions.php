@@ -7,6 +7,7 @@
 			if( !is_admin() ) {
 				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_casting_PLUGIN_URL ."css/style.css\" type=\"text/css\" media=\"screen\" />\n";
 				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_PLUGIN_URL ."assets/css/forms.css\" type=\"text/css\" media=\"screen\" />\n";
+				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_PLUGIN_URL ."assets/css/forms.css\" type=\"text/css\" media=\"screen\" />\n";
 			}
 		}
 
@@ -28,6 +29,7 @@
 			$newrules['casting-register'] = 'index.php?type=castingregister&rbgroup=casting';
 			$newrules['casting-login'] = 'index.php?type=castinglogin&rbgroup=casting';
 			$newrules['casting-dashboard'] = 'index.php?type=castingoverview&rbgroup=casting';
+			$newrules['casting-account'] = 'index.php?type=castingaccount&rbgroup=casting';
 			$newrules['casting-manage'] = 'index.php?type=castingmanage&rbgroup=casting';
 			$newrules['casting-editjob/(.*)$'] = 'index.php?type=castingeditjob&target=$matches[1]&rbgroup=casting';
 			$newrules['casting-postjob'] = 'index.php?type=castingpostjob&rbgroup=casting';
@@ -68,7 +70,9 @@
 					if (get_query_var( 'type' ) == "castingoverview") {
 						return dirname(__FILE__) . '/view/casting-overview.php'; 
 					} elseif (get_query_var( 'type' ) == "castingmanage") {
-						return dirname(__FILE__) . '/view/casting-manage.php'; 
+						return dirname(__FILE__) . '/view/casting-manage.php';
+					} elseif (get_query_var( 'type' ) == "castingaccount") {
+						return dirname(__FILE__) . '/view/casting-account.php'; 
 					} elseif (get_query_var( 'type' ) == "castinglogin") {
 						return dirname(__FILE__) . '/view/casting-login.php'; 
 					} elseif (get_query_var( 'type' ) == "castingregister") {
