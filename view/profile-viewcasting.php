@@ -572,7 +572,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								$profileHTML .='<div style="display: inline-block;width:190px;height:280px;padding:10px 2px;font-family: Arial, Tahoma, Verdana;text-align:center;">';
 								//$profileHTML .="<a style=\"text-decoration:none;\" href=\"". rb_agency_PROFILEDIR ."". $dataList["ProfileGallery"] ."/\" title=\"". stripslashes($ProfileContactDisplay) ."\">
 								$profileHTML .="<img style=\"width:180px;height:230px\" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src="
-									. rb_agency_UPLOADDIR . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
+									. RBAGENCY_casting_UPLOADDIR."/" . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
 									<br/>";
 								$profileHTML .= "<b>$ProfileContactDisplay</b>";
 								$profileHTML .='</div>';
@@ -581,9 +581,12 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							
 							$Message .= $profileHTML;
 							
+							echo $Message;
 							
 							 
 							$isSent =wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+							wp_mail('charlieanchetamacaraeg@gmail.com', get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+							
 							//mail($SearchMuxToEmail,"My subject",stripcslashes(make_clickable($Message)));
 							if($isSent){
 								echo "<p id=\"emailSent\"> ".__("Email Sent Succesfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $SearchMuxToName ."!</p>";
