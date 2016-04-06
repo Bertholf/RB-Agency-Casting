@@ -144,7 +144,8 @@ jQuery(document).ready(function(){
 		var profile_id = jQuery(this).prevAll(".profile_id").eq(0).val();
 
 		var job_id = jQuery(this).prevAll(".job_id").eq(0).val();
-
+		console.log(job_id);
+		//console.log(profile_id);
 		jQuery.ajax({
 				type: "POST",
 				url: "<?php echo admin_url('admin-ajax.php') ?>",
@@ -596,11 +597,11 @@ if (is_user_logged_in()) {
 					echo "<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."' style=\"font-size:12px;\">".__("Edit Job Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
 				echo "        <input type='hidden' class='job_id' value='".$load->Job_ID."'>";
-				echo "        <input type='hidden' class='profile_id' value='".$load->app_id."'>";
+				echo "        <input type='hidden' class='profile_id' value='".$load->Job_UserProfileID."'>";
 				if($rb_agency_option_allowsendemail == 1){
 					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."' style=\"font-size:12px;\">".__("Send Email",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
-				if(RBAgency_Casting::rb_check_in_cart($load->app_id,$load->Job_ID)){
+				if(RBAgency_Casting::rb_check_in_cart($load->Job_UserProfileID,$load->Job_ID)){
 					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">".__("Remove from Casting",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				} else {
 					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">".__("Add to CastingCart",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";

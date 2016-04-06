@@ -1389,7 +1389,7 @@ class RBAgency_Casting {
 		if(is_null($JobID) && $JobID != '') return "";
 
 		if(is_user_logged_in()){
-			if(isset($talent) && $talent ){
+			if(isset($talent) && $talent !== "" ){
 
 				if(strpos("none", $JobID) > -1 ){
 
@@ -1417,7 +1417,7 @@ class RBAgency_Casting {
 					echo json_encode($arr);
 				} else {
 
-					$talent = self::rb_casting_ismodel($talent, "ProfileID");
+					//$talent = self::rb_casting_ismodel($talent, "ProfileID");
 					$query_castingcart = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID = %s  AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID),ARRAY_A);
 					$count_castingcart = $wpdb->num_rows;
 					$datas_castingcart = $query_castingcart;
@@ -1456,7 +1456,7 @@ class RBAgency_Casting {
 			if(is_user_logged_in()){
 
 				if(isset($talent) && $talent ){
-					$talent = self::rb_casting_ismodel($talent, "ProfileID");
+					//$talent = self::rb_casting_ismodel($talent, "ProfileID");
 					$query_castingcart =$wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID= %s  AND CastingCartProfileID = %s AND CastingJobID = %s ",$talent,rb_agency_get_current_userid(),$JobID ));
 					$count_castingcart =$wpdb->num_rows;
 
