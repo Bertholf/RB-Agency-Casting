@@ -14,7 +14,7 @@
 .result-action form { float: left; }
 .result-action form .action input { margin-right: 10px; }
 #checkavailabilityForm { overflow: hidden; margin-bottom: 15px; }
-#rbdashboard #profile-info .links { margin: 30px 0; }
+#rbdashboard #profile-info .links a { display: block; }
 
 #job-postings td.column-JobActions { font-size: small; line-height: normal; }
 #job-postings td.column-JobActions a { display: inline-block; margin-bottom: 5px; color: #333; padding: 3px 7px; background-color: #ddd; border-radius: 3px; border: 1px solid #ccc; font-size: smaller; }
