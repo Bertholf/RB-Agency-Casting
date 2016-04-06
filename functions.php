@@ -7,7 +7,6 @@
 			if( !is_admin() ) {
 				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_casting_PLUGIN_URL ."css/style.css\" type=\"text/css\" media=\"screen\" />\n";
 				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_PLUGIN_URL ."assets/css/forms.css\" type=\"text/css\" media=\"screen\" />\n";
-				echo "<link rel=\"stylesheet\" href=\"". RBAGENCY_PLUGIN_URL ."assets/css/forms.css\" type=\"text/css\" media=\"screen\" />\n";
 			}
 		}
 
