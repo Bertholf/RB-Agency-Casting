@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RB Agency\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 02:40-1000\n"
-"PO-Revision-Date: 2016-04-05 20:23+0800\n"
+"PO-Revision-Date: 2016-04-06 11:39+0800\n"
 "Last-Translator: Rob Bertholf <rob@bertholf.com>\n"
 "Language-Team: Rob Bertholf <rob@bertholf.com>\n"
 "MIME-Version: 1.0\n"
@@ -670,7 +670,7 @@ msgid "Job Duration"
 msgstr "Job Dauer"
 
 msgid "Date Start:"
-msgstr "Datum Beginn:"
+msgstr "Datum Anfang"
 
 msgid "Date End:"
 msgstr "Datum Ende:"
@@ -826,7 +826,7 @@ msgid "Edit Record"
 msgstr ""
 
 msgid "Company is required.<br />"
-msgstr ""
+msgstr "Unternehmen ist nicht erforderlich.<br />"
 
 msgid "castin"
 msgstr ""
@@ -874,13 +874,13 @@ msgid "Update Information"
 msgstr "Aktualisieren Informationen"
 
 msgid "Job Title is required.<br />"
-msgstr ""
+msgstr "Job Titel ist nicht erforderlich.<br />"
 
 msgid "Job Description is required.<br />"
-msgstr ""
+msgstr "Job Beschreibung ist nicht erforderlich.<br />"
 
 msgid "Job Offer is required.<br />"
-msgstr ""
+msgstr "Job-Angebot ist nicht erforderlich.<br />"
 
 msgid "\"Start Date is required.<br />"
 msgstr ""
@@ -889,7 +889,7 @@ msgid "Start Date is invalid date.<br />"
 msgstr ""
 
 msgid "End Date is required.<br />"
-msgstr ""
+msgstr "Datum Ende ist nicht erforderlich.<br />"
 
 msgid "End Date is invalid date.<br />"
 msgstr ""
@@ -898,16 +898,16 @@ msgid "Start Date cannot be greate than the End Date.<br />"
 msgstr ""
 
 msgid "Job Location is required.<br />"
-msgstr ""
+msgstr "Job Ort ist nicht erforderlich.<br />"
 
 msgid "Job Region is required.<br />"
-msgstr ""
+msgstr "Job Bereich ist nicht erforderlich.<br />"
 
 msgid "Job type is required.<br />"
-msgstr ""
+msgstr "Job Art ist nicht erforderlich.<br />"
 
 msgid "Visibility is required.<br />"
-msgstr ""
+msgstr "Sichtweite ist nicht erforderlich.<br />"
 
 msgid "You have successfully updated your new Job Posting!"
 msgstr ""
@@ -1000,7 +1000,7 @@ msgid "Browse More Jobs"
 msgstr ""
 
 msgid "View Applicants"
-msgstr ""
+msgstr "Ansicht Bewerber"
 
 msgid "Go Back to Profile Dashboard."
 msgstr ""
@@ -1090,7 +1090,7 @@ msgid "Start Date cannot be greater than the End Date.<br />"
 msgstr ""
 
 msgid "You have successfully added your new Job Posting!"
-msgstr ""
+msgstr "Sie haben Ihren neuen Job Posting erfolgreich hinzugefügt!"
 
 msgid "Description:"
 msgstr "Beschreibung:"
@@ -1270,7 +1270,7 @@ msgid "100% Matched <br> <hr style='margin:5px'> Open to All<br>"
 msgstr ""
 
 msgid "Edit Job Details"
-msgstr ""
+msgstr "Bearbeiten Job Einzelheiten"
 
 msgid "Remove from Casting"
 msgstr ""
@@ -1426,7 +1426,7 @@ msgid "Additional Details"
 msgstr "Weitere Einzelheiten"
 
 msgid "Other Details"
-msgstr ""
+msgstr "Andere Einzelheiten"
 
 msgid "Showing Open to All and Matching Criteria Jobs"
 msgstr ""
@@ -1444,7 +1444,7 @@ msgid "All Job Postings from Casting Agents"
 msgstr ""
 
 msgid "Start Date"
-msgstr "Anfangsdatum"
+msgstr "Datum Anfang"
 
 msgid "-- Select Location --"
 msgstr "-- Wählen Ort --"
@@ -1495,7 +1495,7 @@ msgid "Job Details"
 msgstr ""
 
 msgid "Email is required.<br />"
-msgstr ""
+msgstr "Email ist nicht erforderlich.<br />"
 
 msgid "You have no Job Postings.<br>Start New Job Posting"
 msgstr ""
@@ -1504,19 +1504,19 @@ msgid "There are no available job postings."
 msgstr ""
 
 msgid "Edit Job Posting"
-msgstr ""
+msgstr "Bearbeiten Job Posting"
 
 msgid "View Your Job Postings?"
 msgstr ""
 
 msgid "Invite Only"
-msgstr ""
+msgstr "Nur geladene Gäste"
 
 msgid "Open to All"
-msgstr ""
+msgstr "Offen für alle"
 
 msgid "Matching Criteria"
-msgstr ""
+msgstr "Abstimmung Kriterien"
 
 msgid "Go Back to Casting Dashboard."
 msgstr "Zurück zu Meine Übersicht"
@@ -1543,7 +1543,7 @@ msgid "Job Audition Venue:"
 msgstr ""
 
 msgid "Add new Job Posting?"
-msgstr ""
+msgstr "Neuen Job Posting?"
 
 msgid " must have a display name identified"
 msgstr ""
@@ -1654,19 +1654,19 @@ msgid "Subject is required!"
 msgstr "Betreff ist erforderlich!"
 
 msgid "Time Start:"
-msgstr ""
+msgstr "Zeit Anfang:"
 
 msgid "Time End:"
-msgstr ""
+msgstr "Zeit Ende:"
 
 msgid "Audition"
-msgstr ""
+msgstr "Vorsprechen"
 
 msgid "Before"
-msgstr ""
+msgstr "Vor"
 
 msgid "Later than"
-msgstr ""
+msgstr "Später als"
 
 msgid "Exact"
-msgstr ""
+msgstr "Genau"
