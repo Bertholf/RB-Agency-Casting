@@ -425,12 +425,12 @@ if (is_user_logged_in()) {
 			echo "<div class='jobposting-actions'>";
 			echo "<input type='submit' name='delete_bulk' class='delete_bulk' value='".__("Delete",RBAGENCY_casting_TEXTDOMAIN)."'>";
 			echo "</div>";
-			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
+			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/casting-dashboard' class=\"pure-button\">".__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
 		}
 
 		// for models
 		if(RBAgency_Casting::rb_casting_ismodel($current_user->ID)){
-			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/profile-member'>".__("Go Back to Profile Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
+			echo "<div class='footer-links'><a href='".get_bloginfo('wpurl')."/profile-member' class=\"pure-button\">".__("Go Back to Profile Dashboard",RBAGENCY_casting_TEXTDOMAIN)."</a></div>\n";
 		}
 
 		echo "</footer>";

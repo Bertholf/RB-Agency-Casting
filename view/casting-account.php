@@ -22,14 +22,14 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 			jQuery("body").on('click','#asearch', function(){
 				window.location.href='<?php echo get_bloginfo('wpurl'); ?>/search-advanced/'; 
 			});
-			var htm = '<input class="button-primary" id="asearch" type="button" value="<?php echo __("Advanced Search",RBAGENCY_casting_TEXTDOMAIN); ?>">';
+			var htm = '<input class="button-primary" id="asearch" type="button" value="Advanced Search">';
 			jQuery('.rbsubmit').append(htm);
 		});
     </script>
 	<?php
 	echo "<div id=\"rbdashboard\">\n";
 	echo "<div id=\"rbcontent\">\n";
-	echo "<h1>".__("Welcome",RBAGENCY_casting_TEXTDOMAIN)." ". $curauth->user_login ."</h1>\n";
+	echo "<h1>Welcome ". $curauth->user_login ."</h1>\n";
 	if (current_user_can( 'edit_posts' )){
 		echo "<h1>".__("You are logged in as Administrator.",RBAGENCY_casting_TEXTDOMAIN)."</h1>\n";
 	} else {
@@ -75,7 +75,45 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	$user_company = isset($user_data['CastingContactCompany'])?$user_data['CastingContactCompany']:"";
 
 	echo "  <div id=\"profile-info\">\n";
-	echo "		<h3>".__("Casting",RBAGENCY_casting_TEXTDOMAIN)."</h3>\n";
+	
+	echo "		<ul class=\"links\">\n";
+	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-account\" class=\"pure-button button-small\">".__("Overview",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";	
+	
+	$is_active = rb_check_casting_status();
+	if($is_active == true){
+		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_postnewjob'])){
+			echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"pure-button button-small\">".__("Post a New Job",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+		}
+	}
+	if (current_user_can( 'edit_posts' )){
+		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
+			echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"pure-button button-small\">".__("All Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+		}
+		
+		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
+			echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"pure-button button-small\">".__("All Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+		}
+	} else {
+		
+		if($is_active == true){
+			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
+				echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"pure-button button-small\">".__("My Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+			}
+			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
+				echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"pure-button button-small\">".__("My Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+			}
+		}
+		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\" class=\"pure-button button-small\">".__("My Casting Cart",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+	}
+
+	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"pure-button button-small\">".__("Edit Information",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\" class=\"pure-button button-small\">".__("Log out",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
+	echo "  	</ul><!-- .links -->\n";
+
+
+	echo "  </div>\n";
+
+	echo "  <div id=\"search\">\n";
 	echo "		<ul>\n";
 
 	echo "		<li>".__("Username:",RBAGENCY_casting_TEXTDOMAIN)." <strong>" . $curauth->user_login . "</strong></li>\n";
@@ -153,50 +191,6 @@ if(RBAgency_Casting::rb_casting_is_castingagent($current_user->ID) || current_us
 	//END Custom fields
 
 	echo "		</ul>\n";
-	echo "		<ul class=\"links\">\n";
-	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-account\" class=\"pure-button button-small\">".__("Overview",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-	echo "			<li><a href=\"". get_bloginfo("url") ."/casting-manage\" class=\"pure-button button-small\">".__("Edit Information",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-	
-	$is_active = rb_check_casting_status();
-	
-	if($is_active == true){
-		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_postnewjob'])){
-			echo "		<li><a href=\"". get_bloginfo("url") ."/casting-postjob\" class=\"pure-button button-small\">".__("Post a New Job",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-		}
-	}
-	if (current_user_can( 'edit_posts' )){
-		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
-			echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"pure-button button-small\">".__("View All Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-		}
-		
-		if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
-			echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"pure-button button-small\">".__("View All Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-		}
-	} else {
-		
-		if($is_active == true){
-			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewjobposting'])){
-				echo "	<li><a href=\"". get_bloginfo("url") ."/browse-jobs\" class=\"pure-button button-small\">".__("View Your Job Postings",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-			}
-			if(isset($rb_agency_options_arr['rb_agency_option_castingbutton_viewapplicants'])){
-				echo "	<li><a href=\"". get_bloginfo("url") ."/view-applicants\" class=\"pure-button button-small\">".__("View Your Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-			}
-		}
-		echo "		<li><a href=\"". get_bloginfo("url") ."/profile-casting\" class=\"pure-button button-small\">".__("View Your Casting Cart",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-	}
-
-
-	echo "			<li><a href=\"" . wp_logout_url( get_bloginfo("url")."/casting-login/") . "\" class=\"pure-button button-small\">".__("Log out",RBAGENCY_casting_TEXTDOMAIN)."</a></li>\n";
-	echo "  	</ul><!-- .links -->\n";
-
-
-	echo "  </div>\n";
-
-	echo "  <div id=\"search\">\n";
-	echo "    <h2>".__("Search Database",RBAGENCY_casting_TEXTDOMAIN)."</h2>\n";
-
-			echo RBAgency_Profile::search_form("", "", 0, 0);
-
 	echo "  </div>\n";
 
 	echo "</div><!-- #rbcontent -->\n";
