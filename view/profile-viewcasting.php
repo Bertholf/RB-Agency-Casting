@@ -581,12 +581,12 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							
 							$Message .= $profileHTML;
 							
-							echo $Message;
+							
 							
 							 
 							$isSent =wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
-							wp_mail('charlieanchetamacaraeg@gmail.com', get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
-							
+							//wp_mail('charlieanchetamacaraeg@gmail.com', get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+
 							//mail($SearchMuxToEmail,"My subject",stripcslashes(make_clickable($Message)));
 							if($isSent){
 								echo "<p id=\"emailSent\"> ".__("Email Sent Succesfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $SearchMuxToName ."!</p>";
