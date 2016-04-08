@@ -1409,7 +1409,7 @@ class RBAgency_Casting {
 							$insert = "INSERT INTO " . table_agency_castingcart . "(CastingCartProfileID,CastingCartTalentID,CastingJobID) VALUES(%s,%s,%s)"; 
 							$wpdb->query($wpdb->prepare($insert,rb_agency_get_current_userid(), $talent, $JobID ));
 						} else { // favorite model exist, now delete!
-							$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
+							$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s",$talent,rb_agency_get_current_userid()));
 						}
 					}
 
@@ -1428,7 +1428,7 @@ class RBAgency_Casting {
 						$arr = array( "data" => "inserted");
 						echo json_encode($arr);
 					} else { // favorite model exist, now delete!
-						$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s AND CastingJobID = %s",$talent,rb_agency_get_current_userid(),$JobID));
+						$wpdb->query($wpdb->prepare("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID = %s AND CastingCartProfileID = %s",$talent,rb_agency_get_current_userid()));
 						$arr = array("data" => "deleted");
 						echo json_encode($arr);
 					}
@@ -1611,6 +1611,7 @@ class RBAgency_Casting {
 						<th class="column" scope="col" ><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Title&dir=<?php echo $sortDirection; ?>">Job Title</a></th>
 						<th class="column" scope="col" ><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_UserLinked&dir=<?php echo $sortDirection; ?>">Agency/Producer</a></th>
 						<th class="column" scope="col" style="width:80px;"><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Date_Start&dir=<?php echo $sortDirection; ?>">Profiles</a></th>
+						<th class="column" scope="col" style="width:80px;"><a href="admin.php?page=<?php echo $_GET['page']; ?>&sort=Job_Visibility&dir=<?php echo $sortDirection; ?>"><?php echo __("Visibility",RBAGENCY_casting_TEXTDOMAIN); ?></a></th>
 						<th class="column" scope="col">Date Created</th>
 					</tr>
 				</thead>
@@ -1621,7 +1622,9 @@ class RBAgency_Casting {
 						<th class="column" scope="col">Job Title</th>
 						<th class="column" scope="col">Agency/Producer</th>
 						<th class="column" scope="col">Profiles</th>
+						<th class="column" scope="col"><?php echo __("Visibility",RBAGENCY_casting_TEXTDOMAIN); ?></th>
 						<th class="column" scope="col">Date Created</th>
+						
 					</tr>
 				</tfoot>
 				<tbody>
@@ -1638,6 +1641,14 @@ class RBAgency_Casting {
 					$Job_Talents = stripslashes($data2['Job_Talents']);
 					$Job_Talents = explode(",",str_replace("NULL","",$Job_Talents));
 					$Job_AgencyName = stripslashes($data2["CastingContactCompany"]);
+					$Job_Visibility = "";
+					if($data2["Job_Visibility"] == 0){
+						$Job_Visibility = __("Invite Only",RBAGENCY_casting_TEXTDOMAIN);
+					}elseif($data2["Job_Visibility"] == 1){
+						$Job_Visibility = __("Open to All",RBAGENCY_casting_TEXTDOMAIN);
+					}else{
+						$Job_Visibility = __("Matching Criteria",RBAGENCY_casting_TEXTDOMAIN);
+					}
 
 				?>
 				<tr>
@@ -1665,8 +1676,12 @@ class RBAgency_Casting {
 					<?php  echo isset($casting_cart->total)?$casting_cart->total:0; ?>
 					</td>
 					<td>
+						<?php echo $Job_Visibility;?>
+					</td>
+					<td>
 						<?php echo date("M d, Y - h:iA",strtotime($data2["Job_Date_Created"]));?>
 					</td>
+					
 				</tr>
 				<?php
 				}

@@ -174,7 +174,7 @@ if(isset($_POST['save_job'])){
 			echo "			<div class=\"cb\"></div>\n";
 			echo '			<p class="rbalert success">';
 			echo '				<strong>'.__("You have successfully added your new Job Posting!",RBAGENCY_casting_TEXTDOMAIN).'</strong><br/> <a href=\''.get_bloginfo('wpurl').'/casting-postjob\'">'.__("Add new Job Posting?",RBAGENCY_casting_TEXTDOMAIN).'</a>';
-			echo '				<a href=\''.get_bloginfo('wpurl').'/casting-dashboard\'" class=\"pure-button\">'.__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN).'</a>';
+			echo '				<a href=\''.get_bloginfo('wpurl').'/casting-dashboard\'">'.__("Go Back to Casting Dashboard",RBAGENCY_casting_TEXTDOMAIN).'</a>';
 			echo '			</p>';
 			echo "			<div class=\"cb\"></div>\n";
 			echo "			</div><!-- .entry-content -->\n"; // .entry-content
@@ -439,7 +439,7 @@ function load_job_display($error = NULL){
 					<input type=\"hidden\" name=\"Job_UserLinked\" value=\"".$current_user->ID."\"/>
 				</form>";
 		echo "			<div class=\"cb\"></div>\n";
-		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard' class=\"pure-button\">".__("Go Back to Casting Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
+		echo "			<br><p><a href='".get_bloginfo('wpurl')."/casting-dashboard'>".__("Go Back to Casting Dashboard.",RBAGENCY_casting_TEXTDOMAIN)."</a></p>\n";
 		echo "			</div><!-- .entry-content -->\n"; // .entry-content
 		echo "		</div><!-- #rbcontent -->\n"; // #content
 
