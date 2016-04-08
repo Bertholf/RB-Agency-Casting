@@ -313,8 +313,10 @@ if (is_user_logged_in()) {
 			foreach($load_data as $load){
 
 				if($load->Job_Visibility == 0){
-					@$find = strpos($load->Job_Talents,$profileUserID);
-					if($find !== false ){
+
+					@$find_talent = strpos($load->Job_Talents,$profileUserID);
+					@$find_agent = $load->Job_UserLinked == $current_user->ID ? true : false;
+					if($find_talent !== false || $find_agent === true){
 									echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
@@ -354,6 +356,7 @@ if (is_user_logged_in()) {
 					} //  end strpos
 				}// end visibility 0
 				elseif($load->Job_Visibility == 1){
+
 					echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
@@ -390,6 +393,49 @@ if (is_user_logged_in()) {
 
 									}
 									echo "    </tr>\n";
+				}elseif($load->Job_Visibility == 2){
+
+					if($find_agent == true){
+						echo "    <tr class=\"job_".$load->Job_ID."\">\n";
+									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
+									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
+									echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
+									echo "        <td class=\"column-JobDate\" scope=\"col\">".$load->Job_Date_Start."</td>\n";
+									echo "        <td class=\"column-JobLocation\" scope=\"col\">".$load->Job_Location."</td>\n";
+									echo "        <td class=\"column-JobRegion\" scope=\"col\">".$load->Job_Region."</td>\n";
+									echo "        <td class=\"column-JobDateCreated\" scope=\"col\">".date("M d, Y - h:iA",strtotime($load->Job_Date_Created))."</td>\n";
+
+									// if model is viewing
+									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
+										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+									} else {
+
+										//if admin, can only edit his own job postings.
+										if(current_user_can( 'edit_posts' ) || ($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)) ){
+											if($current_user->ID == RBAgency_Casting::rb_casting_job_ownerid($load->Job_ID)){
+												echo "        <td class=\"column-JobActions\" scope=\"col\">
+																<a href='".get_bloginfo('wpurl')."/casting-editjob/".$load->Job_ID."'>Edit Job Details</a><br>
+																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
+																<br>
+																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
+																</td>\n";
+											} else {
+												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
+																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
+																</td>\n";
+											}
+
+										//if agent
+										} else {
+											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										}
+
+									}
+									echo "    </tr>\n";
+					}
+					
+
+
 				}
 
 				
