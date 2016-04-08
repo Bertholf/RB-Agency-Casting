@@ -500,21 +500,23 @@ class RBAgencyCasting {
 				if(!is_user_logged_in()){
 
 					if ( !empty( $title ) ) {echo $before_title . $title . $after_title; };
-							echo "<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
-							echo "  <div class=\"box\">\n";
-							echo "      <label for=\"user-name\">". __("Username", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
-							echo "  </div>\n";
-							echo "  <div class=\"box\">\n";
-							echo "      <label for=\"password\">". __("Password", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"password\" name=\"password\" value=\"\" id=\"password\" /> <a href=\"". get_bloginfo('wpurl') ."/wp-login.php?action=lostpassword\">". __("forgot password", RBAGENCY_casting_TEXTDOMAIN). "?</a>\n";
-							echo "  </div>\n";
-							echo "  <div class=\"box\">\n";
-							echo "      <input type=\"checkbox\" name=\"remember-me\" value=\"forever\" /> ". __("Keep me signed in", RBAGENCY_casting_TEXTDOMAIN). "\n";
-							echo "  </div>\n";
-							echo "  <div class=\"submit-box\">\n";
-							echo "      <input type=\"hidden\" name=\"action\" value=\"log-in\" />\n";
-							echo "      <input type=\"submit\" value=\"". __("Sign In", RBAGENCY_casting_TEXTDOMAIN). "\" /><br />\n";
-							echo "  </div>\n";
-							echo "</form>\n";
+							echo "<div class=\"rbform\">\n";
+							echo "	<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
+							echo "  	<div class=\"box\">\n";
+							echo "      	<label for=\"user-name\">". __("Username", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
+							echo "  	</div>\n";
+							echo "  	<div class=\"box\">\n";
+							echo "      	<label for=\"password\">". __("Password", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"password\" name=\"password\" value=\"\" id=\"password\" /> <a href=\"". get_bloginfo('wpurl') ."/wp-login.php?action=lostpassword\">". __("forgot password", RBAGENCY_casting_TEXTDOMAIN). "?</a>\n";
+							echo "  	</div>\n";
+							echo "  	<div class=\"box\">\n";
+							echo "      	<input type=\"checkbox\" name=\"remember-me\" value=\"forever\" /> ". __("Keep me signed in", RBAGENCY_casting_TEXTDOMAIN). "\n";
+							echo "  	</div>\n";
+							echo "  	<div class=\"submit-box\">\n";
+							echo "      	<input type=\"hidden\" name=\"action\" value=\"log-in\" />\n";
+							echo "      	<input type=\"submit\" value=\"". __("Sign In", RBAGENCY_casting_TEXTDOMAIN). "\" /><br />\n";
+							echo "  	</div>\n";
+							echo "	</form>\n";
+							echo "</div>\n";
 					} else {
 						if(current_user_can('level_10')){
 							if ( !empty( $title ) ) {echo $before_title . "RB Agency Settings" . $after_title; };
