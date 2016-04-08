@@ -311,11 +311,11 @@ if (is_user_logged_in()) {
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
-
+				@$find_talent = strpos($load->Job_Talents,$profileUserID);
+					@$find_agent = $load->Job_UserLinked == $current_user->ID ? true : false;
 				if($load->Job_Visibility == 0){
 
-					@$find_talent = strpos($load->Job_Talents,$profileUserID);
-					@$find_agent = $load->Job_UserLinked == $current_user->ID ? true : false;
+					
 					if($find_talent !== false || $find_agent === true){
 									echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
@@ -356,8 +356,8 @@ if (is_user_logged_in()) {
 					} //  end strpos
 				}// end visibility 0
 				elseif($load->Job_Visibility == 1){
-
-					echo "    <tr class=\"job_".$load->Job_ID."\">\n";
+					if($find_talent !== false || $find_agent === true){
+						echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 									echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
@@ -393,6 +393,8 @@ if (is_user_logged_in()) {
 
 									}
 									echo "    </tr>\n";
+					}
+					
 				}elseif($load->Job_Visibility == 2){
 
 					if($find_agent == true){
