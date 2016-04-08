@@ -381,6 +381,7 @@ $siteurl = get_option('siteurl');
 		if(!isset($job_intro)){
 			$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job ADD Job_Intro VARCHAR(100)");
 		}
+		$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
 							
 							$sql = "UPDATE ".table_agency_casting_job." 
 								SET
