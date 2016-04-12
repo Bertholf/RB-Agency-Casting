@@ -356,7 +356,7 @@ if (is_user_logged_in()) {
 					} //  end strpos
 				}// end visibility 0
 				elseif($load->Job_Visibility == 1){
-					if($find_talent !== false || $find_agent === true){
+					if($find_talent !== false || $find_agent === true || RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') == true){
 						echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
@@ -397,8 +397,56 @@ if (is_user_logged_in()) {
 					
 				}elseif($load->Job_Visibility == 2){
 
-					if($find_agent == true){
-						echo "    <tr class=\"job_".$load->Job_ID."\">\n";
+					$results = $wpdb->get_results("SELECT ProfileCustomID, ProfileCustomValue FROM ".$wpdb->prefix."agency_customfield_mux WHERE ProfileID = $profileUserID",ARRAY_A);
+
+						$user_custom_field_val = array();
+						foreach($results as $result){
+							$user_custom_field_val[$result["ProfileCustomID"]] =$result["ProfileCustomValue"];
+						}
+						
+						$passed = array();
+						$criterias_arr = explode("|",$load->Job_Criteria);
+						foreach($criterias_arr as $k=>$v){						
+							$val_arr = explode("/",$v);
+							foreach($val_arr as $key=>$val){
+								@$f = strpos($val,"-");
+								if($f !== false){
+									$range = explode("-",$val);
+									foreach($user_custom_field_val as $uck=>$ucv){
+										if($uck == $key){
+											if($range[0] <= $ucv && $range[1] >= $ucv ){
+												$passed[] = $ucv;
+											}
+										}
+									}
+								}else{
+									
+									foreach($user_custom_field_val as $uck=>$ucv){
+										if($uck == $key){
+											if($ucv == $val){
+												$passed[] = $ucv;
+											}
+											@$f = strpos($val,$ucv);
+											if($f !== false){
+												$passeed[] = $ucv;
+											}
+										}
+									}
+								}
+
+							}
+						}
+						
+						
+						
+
+					if($find_agent == true || count($passed)>0){
+
+						//check if has criteria
+						
+
+						
+							echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
 									echo "        <td class=\"column-JobTitle\" scope=\"col\" style=\"width:150px;\">".$load->Job_Title."</td>\n";
@@ -434,6 +482,9 @@ if (is_user_logged_in()) {
 
 									}
 									echo "    </tr>\n";
+						
+						
+						
 					}
 					
 
