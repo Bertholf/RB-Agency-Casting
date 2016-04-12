@@ -105,6 +105,8 @@ if (is_user_logged_in()) {
 
 			if(isset($_POST['filter_location']) && $_POST['filter_location'] != ""){
 				$_SESSION['location'] = $_POST['filter_location'];
+			}else{
+				unset($_SESSION['location']);
 			}
 
 
@@ -210,7 +212,10 @@ if (is_user_logged_in()) {
 		$count = $wpdb->num_rows;
 		if($count > 0){
 			foreach($result_loc as $loc){
-				echo "<option value='".$loc['Location']."' ".selected(strtolower($loc['Location']),strtolower($location),false).">" .$loc['Location'] . "</option>";
+				if($loc["Location"] != ""){
+					$selected = $loc["Location"] == $location ? "selected" : "";
+					echo "<option value='".$loc['Location']."' $selected>" .$loc['Location'] . "</option>";
+				}
 			}
 		}
 
@@ -307,7 +312,8 @@ if (is_user_logged_in()) {
 		
 		// load postings for models , talents and admin view
 		//$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " " . $where . " LIMIT " . $limit1 . "," . $record_per_page );
-		$load_data = $wpdb->get_results("SELECT jobs.*, agency.* FROM wp_agency_casting_job jobs, wp_agency_casting as agency WHERE jobs.Job_ID > 0 AND agency.CastingUserLinked = jobs.Job_UserLinked");
+		$search_filter = !empty($filter) ? "AND $filter" : "";
+		$load_data = $wpdb->get_results("SELECT jobs.*, agency.* FROM wp_agency_casting_job jobs, wp_agency_casting as agency WHERE jobs.Job_ID > 0 AND agency.CastingUserLinked = jobs.Job_UserLinked $search_filter");
 		
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
@@ -440,7 +446,7 @@ if (is_user_logged_in()) {
 						
 						
 
-					if($find_agent == true || count($passed)>0){
+					if($find_agent == true || count($passed)>0 || $find_talent === false){
 
 						//check if has criteria
 						
