@@ -7,7 +7,29 @@ Allows Casting Agents to post and manage jobs.
 ## Change Log
 
 ### 0.2.1
-
+* new feature - added warning when doing bulk delete in media & links section
+* fixed - when admin rename the files in media & link section, the name of the file is not updating in job auditions section.
+* fixed - jobs added are not automatically deleted when admin deletes job via backend
+* fixed - when logged in as admin - browse more jobs takes you to application page instead of the job page
+* new feature - when posting new job - added calendar select when adding date.
+* new feature - when posting new job - added time select when adding time.
+* new feature - created an "Agency/Producer" search filter in admin dashboard for casting job section.
+* fixed - search by title filter is not working in admin casting job section
+* fixed - invited users can still apply to the job that they already got invited to.
+* fixed - profile added just added to the job automatically have audio file because it's pulling the profile's voice demo file instead of the audition file.
+* fixed - custom field added and set to appear in Casting job is not showing.
+* fixed - when non-logged in users apply for a job, user is redirected to login page which is correct, but after login, user must be redirected to job applying for.
+* new feature - instead of location, jobs are filter now by region.
+* fixed - job setting is invite only but model/talent users should can see jobs they are not invited
+* fixed - admin cannot add profiles from admin shortlist to client casting cart
+* fixed - when user clicks the View Details button in /browse-jobs/  user is taken back to /profile-member/ instead to the job detail.
+* fixed - approved model/talent user cannot access job listing page
+* fixed - name is not showing in job invite if profile has no photo
+* new feature - add profiles in jobs even without primary photo (useful especially for agencies that allocate voiceover only)
+* new feature - mp3 audition files and job applied are now listed in profile's dashboard
+* new feature - created a new page in the admin dashboard to track down all auditions
+* fixed - pending for approval casting agents can view their dashboard page instead of just seeing the pending for approval screen
+* new feature - auditions bulk exporter
 
 ### 0.2.0
 * ability to create additional custom fields for job posting form & casting registration
