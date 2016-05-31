@@ -1922,7 +1922,14 @@
 
 			$output .= "<div id=\"job-types\">";
 			$output .= "<ul>";
-				$job_types = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
+			
+				$query_f2 = "SELECT jobtype.* FROM " . table_agency_casting_job . " jobs "
+							. "INNER JOIN ". table_agency_casting_job_type . " jobtype "
+							. "ON jobs.Job_Type = jobtype.Job_Type_ID "
+							. "WHERE jobs.Job_Visibility = 1 OR jobs.Job_Visibility = 2 "
+							. "GROUP BY jobtype.Job_Type_ID";
+							
+				$job_types = $wpdb->get_results($query_f2);
 				if(count($job_types) > 0 ){
 					foreach($job_types as $jobtype){
 						$output .= "    <li>\n";
@@ -1932,13 +1939,19 @@
 				}
 			$output .= "</ul>";
 			$output .= "</div>";
+			
 
 			if($a['show_all_jobs'] == "true"){
 
-				$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job ." jobs, ".table_agency_casting." as agency WHERE jobs.Job_ID > 0  AND agency.CastingUserLinked = jobs.Job_UserLinked AND (jobs.Job_Visibility == 1 && jobs.Job_Visibility == 2)";
+				$query2 = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job . " jobs "
+					." INNER JOIN ".table_agency_casting." agency "
+					." ON agency.CastingUserLinked = jobs.Job_UserLinked "
+					." WHERE jobs.Job_ID > 0  AND (jobs.Job_Visibility = 1 OR jobs.Job_Visibility = 2)";
+				
 				//$results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Visibility = 1 OR Job_Visibility = 2");
 				$results = $wpdb->get_results($query2);
-
+				echo $wpdb->last_error;
+				
 				$output .= "<br><h3>".__("Showing Open to All and Matching Criteria Jobs",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
 
 				$output .= "<div id=\"job-auditions\">";
