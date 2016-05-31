@@ -1952,7 +1952,7 @@
 				$results = $wpdb->get_results($query2);
 				echo $wpdb->last_error;
 				
-				$output .= "<br><h3>".__("Showing Open to All and Matching Criteria Jobs",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
+				//$output .= "<br><h3>".__("Showing Open to All and Matching Criteria Jobs",RBAGENCY_casting_TEXTDOMAIN)."</h3>";
 
 				$output .= "<div id=\"job-auditions\">";
 				foreach($results as $job){
