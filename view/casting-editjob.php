@@ -491,7 +491,11 @@ function load_job_display($error = NULL, $data){
 					echo '	jQuery(".timepicker").timepicker({
 									hourGrid: 4,
 									minuteGrid: 10,
-									timeFormat: \'g:ia\' 
+									timeFormat: \'g:ia\' ,
+									noneOption: [{
+										label: "TBD",
+										value: "--"
+									}]
 								});';
 
 	echo '});
