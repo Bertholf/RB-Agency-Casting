@@ -493,7 +493,7 @@ function load_job_display($error = NULL, $data){
 									minuteGrid: 10,
 									timeFormat: \'g:ia\' ,
 									noneOption: [{
-										label: "TBD",
+										label: "--",
 										value: "--"
 									}]
 								});';

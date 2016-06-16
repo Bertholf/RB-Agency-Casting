@@ -685,7 +685,7 @@ $siteurl = get_option('siteurl');
 						echo "<label for=\"Job_Time_Start\">Job Time Start</label>";
 						echo "<div>
 							<select id=\"Job_Time_Start\" name=\"Job_Time_Start\">\n
-							<option value=\"--\">TBD</option>";
+							<option value=\"--\">--</option>";
 						for($i = 0; $i < 24; $i++) {
 
 							$ampm = $i >= 12 ? 'pm' : 'am';
@@ -707,7 +707,7 @@ $siteurl = get_option('siteurl');
 						echo "<label for=\"Job_Time_End\">Job Time End</label>";
 						echo "<div>
 							<select id=\"Job_Time_End\" name=\"Job_Time_End\">\n
-							<option value=\"--\">TBD</option>
+							<option value=\"--\">--</option>
 							";
 						for($i = 0; $i < 24; $i++) {
 
@@ -898,7 +898,7 @@ $siteurl = get_option('siteurl');
 						echo "<div>\n";
 						//echo $Job_Audition_Time;
 						echo "  <select id=\"Job_Audition_Time\" name=\"Job_Audition_Time\">\
-						<option value=\"--\">TBD</option>
+						<option value=\"--\">--</option>
 						n";
 						for($i = 0; $i <= 24; $i++) {
 
@@ -924,7 +924,7 @@ $siteurl = get_option('siteurl');
 						echo "<div>\n";
 						///echo $Job_Audition_Time_End;
 						echo "  <select id=\"Job_Audition_Time_End\" name=\"Job_Audition_Time_End\">\n
-						<option value=\"--\">TBD</option>";
+						<option value=\"--\">--</option>";
 						for($i = 0; $i < 24; $i++) {
 							$ampm = $i >= 12 ? 'pm' : 'am';
 							$endtime00 = $i % 12 ? $i % 12 .':00' : 12 .':00';
