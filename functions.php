@@ -1581,6 +1581,14 @@
 			   $ProfileCustomType  = $result['ProfileCustomType'];
 			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
 			   
+			   
+			   $custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);
+			   
+			   if(empty($custom_value)){
+					echo "";			 
+					return;
+			   }  
+			   
 			    if($ProfileCustomType == 1 || $ProfileCustomType == 7){
 			   	    echo "<tr>";
 						echo "<td><strong>".$ProfileCustomTitle."</strong></td>";
