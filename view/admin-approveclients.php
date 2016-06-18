@@ -236,7 +236,7 @@ function rb_manage_client($CastingID) {
 	}
 	wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js');
 	wp_enqueue_script('jquery_latest');
-	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
+	wp_enqueue_script( 'casting',  RBAGENCY_casting_BASEDIR . 'js/casting.js');
 
 
 	echo "<div id=\"primary\" class=\"".(isset($column_class)?$column_class:0)." column rb-agency-interact rb-agency-interact-register\">\n";

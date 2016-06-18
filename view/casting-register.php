@@ -239,7 +239,7 @@
 	//wp_deregister_script('jquery');
 	//wp_register_script('jquery_latest', 'http://code.jquery.com/jquery-1.11.0.min.js');
 	wp_enqueue_script('jquery');
-	wp_enqueue_script( 'casting',  rb_agency_casting_BASEDIR . 'js/casting.js');
+	wp_enqueue_script( 'casting',  RBAGENCY_casting_BASEDIR . 'js/casting.js');
 
 	echo $rb_header = RBAgency_Common::rb_header();
 
