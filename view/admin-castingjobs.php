@@ -1256,7 +1256,7 @@ $siteurl = get_option('siteurl');
 								}
 
 								if($total_casting_profiles <= 0){
-									echo "No jobs found.";
+									echo __("No Profiles Found", RBAGENCY_TEXTDOMAIN);
 								}
 
 							echo "<div class=\"clear\"></div>";
@@ -1564,7 +1564,7 @@ $siteurl = get_option('siteurl');
 						</style>";
 
 				if($count <= 0){
-					echo "No jobs found.";
+					echo __("No Profiles Found", RBAGENCY_TEXTDOMAIN);
 				}
 
 						echo "<div style=\"clear:both;\"></div>";
