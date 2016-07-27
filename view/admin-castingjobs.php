@@ -737,21 +737,19 @@ $siteurl = get_option('siteurl');
 					echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
 						echo "<label for=\"Job_Type\">".__("Job Type",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 						echo "<div>";
-						if( $count <=0 ){
+						$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
+						$count = $wpdb->num_rows;
+						if( $count <=0 ) {
 							echo "<div style=\"float:right;\">".__("There are no job types added",RBAGENCY_casting_TEXTDOMAIN).". <a href=\"".admin_url("admin.php?page=rb_agency_casting_jobpostings&action=manage_types")."\">".__("Click here to add",RBAGENCY_casting_TEXTDOMAIN)."</a></div><div class=\"clear\"></div>";
 						} else {
 							echo "<select id='Job_Type' name='Job_Type'>";
-								$get_job_type = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job_type);
-								$count = $wpdb->num_rows;
-										echo "<option value=''>-- ".__("Please Select", RBAGENCY_casting_TEXTDOMAIN)." --</option>";
-
-										if(count($get_job_type)){
-											foreach($get_job_type as $jtype){
-												echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$Job_Type,false).">".$jtype->Job_Type_Title."</option>";
-											}
+								echo "<option value=''>-- ".__("Please Select", RBAGENCY_casting_TEXTDOMAIN)." --</option>";
+									if(count($get_job_type)) {
+										foreach($get_job_type as $jtype){
+											echo "<option value='".$jtype->Job_Type_ID."' ".selected($jtype->Job_Type_ID,$Job_Type,false).">".$jtype->Job_Type_Title."</option>";
 										}
-
-							echo "	</select> ";
+									}
+							echo "</select> ";
 						}
 						echo "</div>";
 					echo "</div>";
