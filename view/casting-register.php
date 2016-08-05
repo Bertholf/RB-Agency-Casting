@@ -19,6 +19,8 @@
 	$rb_agencyinteract_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
 	$rb_agency_option_casting_toc = isset($rb_agency_options_arr['rb_agency_option_agency_casting_toc'])?$rb_agency_options_arr['rb_agency_option_agency_casting_toc']:"/casting-terms-and-conditions";
 
+
+	
 	/* Check if users can register. */
 	$registration = get_option( 'users_can_register' );
 
@@ -128,17 +130,13 @@
 
 			//manually approve(0)
 			if($_registerapproval == 0){
-				if($_default_registered == 1){
-					$CastingIsActive = 1;
-				}else{
-					$CastingIsActive = 3;
-				}
+				$CastingIsActive = $_default_registered;
 			}else{
 				//automatic but do not allow the active as default..
 				if($_default_registered != 1){
 					$CastingIsActive = $_default_registered;
 				}else{
-					$CastingIsActive = 0; //inactive
+					$CastingIsActive = 1; 
 				}
 			}
 			
@@ -221,12 +219,19 @@
 				if($_default_registered == 3){
 					//pending for approval..
 					header("Location: ". get_bloginfo("wpurl"). "/casting-pending/");
-				}elseif($_registerapproval == 1){
+					
+				}elseif($_default_registered == 1){
+					if($_registerapproval == 1){
+						//automatic
+						//active
+						header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
+					}else{
+						//pending for approval..
+						header("Location: ". get_bloginfo("wpurl"). "/casting-pending/");
+					}					
+				}else{
 					//inactive or archived
 					header("Location: ". get_bloginfo("wpurl"). "/casting-inactive-archive/");
-				}else{
-					//active
-					header("Location: ". get_bloginfo("wpurl"). "/casting-dashboard/");
 				}
 			}
 		}
@@ -284,6 +289,7 @@
 	echo "      ". __("Users cannot currently register themselves, but you can manually create users here.",RBAGENCY_casting_TEXTDOMAIN);
 	echo "    </p><!-- .alert -->\n";
 			}
+
 
 			// Self Registration
 			if ( $registration || current_user_can("create_users") ) {

@@ -321,6 +321,7 @@ if (is_user_logged_in()) {
 			foreach($load_data as $load){
 				@$find_talent = strpos($load->Job_Talents,$profileUserID);
 				@$find_agent = $load->Job_UserLinked == $current_user->ID ? true : false;
+
 				if($load->Job_Visibility == 0){
 
 					
@@ -365,6 +366,8 @@ if (is_user_logged_in()) {
 				}// end visibility 0
 				elseif($load->Job_Visibility == 1){
 					if($find_talent !== false || $find_agent === true || RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID') == true || $isAdministrator == true){
+
+
 						echo "    <tr class=\"job_".$load->Job_ID."\">\n";
 									echo "        <td class=\"column-checkbox\" scope=\"col\" style=\"width:30px;\"><input type='checkbox' class='job_checkbox' name='job_checkbox[]' value='".$load->Job_ID."'/></td>\n";
 									echo "        <td class=\"column-JobID\" scope=\"col\" style=\"width:50px;\">".$load->Job_ID."</td>\n";
@@ -448,7 +451,7 @@ if (is_user_logged_in()) {
 						
 						
 
-					if($find_agent == true || count($passed)>0 || $find_talent == false || $isAdministrator == true){
+					if($find_agent === true || count($passed)>0 || $find_talent !== false || $isAdministrator == true){
 
 						//check if has criteria
 						
