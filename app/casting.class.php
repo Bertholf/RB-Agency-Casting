@@ -1330,7 +1330,7 @@ class RBAgency_Casting {
 				$message .= sprintf(__('E-mail: %s'), $user_email) . "<br>";
 
 				$rb_agency_options_arr = get_option('rb_agency_options');
-
+				add_filter('wp_mail_content_type','rb_agency_set_content_type');
 				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
 
 				if ( empty($plaintext_pass) )
@@ -1351,7 +1351,7 @@ class RBAgency_Casting {
 				//add_filter( 'wp_mail_content_type', function set_content_type( $content_type ) {
 					//return 'text/html';
 				//});
-
+				add_filter('wp_mail_content_type','rb_agency_set_content_type');
 				wp_mail($user_email, sprintf(__('%s Registration Successful! Login Details',RBAGENCY_casting_TEXTDOMAIN), get_option('blogname')), $message, $headers);
 		}
 
