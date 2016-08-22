@@ -1997,11 +1997,11 @@
 					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a>";	
 					}		
 					$output .= "			<div class=\"ja-share\">";
-					if($rb_agency_options_arr["rb_agency_option_hide_tweet_job_button"]==0){
+					if($rb_agency_options_arr["rb_agency_option_hide_share_job_button"]==0){
 					
 					$output .= "				<div class=\"fb-share-button\" data-href=\"".get_permalink()."\" data-layout=\"button\"></div>";
 				    }
-				    if($rb_agency_options_arr["rb_agency_option_hide_share_job_button"]==0){
+				    if($rb_agency_options_arr["rb_agency_option_hide_tweet_job_button"]==0){
 					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";	
 					}				
 					$output .= "			</div><!-- .ja-share -->";
