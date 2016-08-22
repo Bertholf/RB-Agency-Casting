@@ -1931,6 +1931,8 @@
 
 	    function shortcode_job_types($atts){
 
+	    	$rb_agency_options_arr = get_option('rb_agency_options');
+
 			$a = shortcode_atts( array(
 			    'show_description' => "true",
 			    'show_all_jobs' => "false",
@@ -1991,10 +1993,17 @@
 					}
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";
-					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a>";			
+					if($rb_agency_options_arr["rb_agency_option_hide_view_this_job_button"]==0){
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a>";	
+					}		
 					$output .= "			<div class=\"ja-share\">";
+					if($rb_agency_options_arr["rb_agency_option_hide_tweet_job_button"]==0){
+					
 					$output .= "				<div class=\"fb-share-button\" data-href=\"".get_permalink()."\" data-layout=\"button\"></div>";
-					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";					
+				    }
+				    if($rb_agency_options_arr["rb_agency_option_hide_share_job_button"]==0){
+					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";	
+					}				
 					$output .= "			</div><!-- .ja-share -->";
 					$output .= "		</div><!-- .ja-footer -->";
 					$output .= "	</div><!-- .job-audition -->";
