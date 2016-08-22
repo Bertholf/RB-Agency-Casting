@@ -1994,8 +1994,11 @@
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";
 					if($rb_agency_options_arr["rb_agency_option_hide_view_this_job_button"]==0){
-					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a>";	
-					}		
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a><br/>";	
+					}
+					if($rb_agency_options_arr["rb_agency_option_hide_apply_this_job_button"]==0){
+					$output .= "<a href=\"".get_bloginfo("wpurl")."/job-application/".$job->Job_ID."\" id='apply_job_btn'>Apply to this Job</a>";
+					}
 					$output .= "			<div class=\"ja-share\">";
 					if($rb_agency_options_arr["rb_agency_option_hide_share_job_button"]==0){
 					
