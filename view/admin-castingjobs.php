@@ -244,7 +244,15 @@ $siteurl = get_option('siteurl');
 		// Insert Profiles to Casting Job
 		if(isset($_POST["action2"]) && $_POST["action2"] =="add"){
 				if (!isset($_GET["Job_ID"])) {
-					//echo $_POST["Job_Title"];
+					
+					#check for job into
+					$sql = "SELECT Job_Intro FROM ".table_agency_casting_job;
+					$results = $wpdb->get_results($sql,ARRAY_A);
+					if(count($results)==0){
+						$queryAlter = "ALTER TABLE " .table_agency_casting_job." ADD Job_Intro text default NULL";
+						$resultsDataAlter = $wpdb->query($queryAlter,ARRAY_A);
+					}
+			
 					$cartArray = isset($_SESSION['cartArray'])?$_SESSION['cartArray']:array();
 					$cartString = implode(",", array_unique($cartArray));
 					$cartString = RBAgency_Common::clean_string($cartString);
