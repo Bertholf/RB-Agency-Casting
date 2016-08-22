@@ -314,7 +314,9 @@ if (is_user_logged_in()) {
 		// load postings for models , talents and admin view
 		//$load_data = $wpdb->get_results("SELECT * FROM " . table_agency_casting_job . " " . $where . " LIMIT " . $limit1 . "," . $record_per_page );
 		$search_filter = !empty($filter) ? "AND $filter" : "";
-		$load_data = $wpdb->get_results("SELECT jobs.*, agency.* FROM wp_agency_casting_job jobs, wp_agency_casting as agency WHERE jobs.Job_ID > 0 AND agency.CastingUserLinked = jobs.Job_UserLinked $search_filter");
+		
+		# fixed, remove 'wp' table prefix and changed it to $wpdb->prefix
+		$load_data = $wpdb->get_results("SELECT jobs.*, agency.* FROM ".$wpdb->prefix."agency_casting_job jobs, ".$wpdb->prefix."agency_casting as agency WHERE jobs.Job_ID > 0 AND agency.CastingUserLinked = jobs.Job_UserLinked $search_filter");
 		
 		$isAdministrator = $current_user->roles[0] == 'administrator' ? true : false;
 		if(count($load_data) > 0){
