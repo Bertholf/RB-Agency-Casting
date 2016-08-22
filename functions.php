@@ -1665,9 +1665,13 @@
 	    	$current_user = wp_get_current_user();
 			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 			
-	    	echo "<tr>
+			
+			if(count($custom_fields)>0){
+				echo "<tr>
 					<td><h3>".__("Other Details",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
 				</tr>";
+			}
+	    	
 	    	foreach($custom_fields as $custom_field){
 	    		if($custom_field["ProfileCustomView"] == 0 || $custom_field["ProfileCustomView"] == 1){
 		   				rb_agency_detail_castingjob_func($custom_field,$JobID);
