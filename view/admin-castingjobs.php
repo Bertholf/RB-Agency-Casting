@@ -853,7 +853,8 @@ $siteurl = get_option('siteurl');
 											url: "'. admin_url('admin-ajax.php') .'",
 											data: {
 												action: "load_criteria_fields",
-												value : criteria.join("|")
+												value : criteria.join("|"),
+												jobid : '.$_GET["Job_ID"].'
 											},
 											success: function (results) {
 

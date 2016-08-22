@@ -319,9 +319,10 @@ if (is_user_logged_in()) {
 		$isAdministrator = $current_user->roles[0] == 'administrator' ? true : false;
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
+
+
 				@$find_talent = strpos($load->Job_Talents,$profileUserID);
 				@$find_agent = $load->Job_UserLinked == $current_user->ID ? true : false;
-
 				if($load->Job_Visibility == 0){
 
 					

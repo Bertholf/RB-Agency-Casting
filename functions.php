@@ -671,11 +671,18 @@
 
 	function load_criteria_fields(){
 		session_start();
+		global $wpdb;
 
 		$custom_fields_criteria = get_option('custom_fields_criteria');
 		$criteria = isset($_POST['value'])?trim($_POST['value']):$custom_fields_criteria;
 		add_option('custom_fields_criteria',$criteria);
 		update_option('custom_fields_criteria',$criteria);
+		
+		# save the values into jobs criteria field
+		if(isset($_POST["jobid"])){
+			$sql = "UPDATE ".table_agency_casting_job." SET Job_Criteria = '".$_POST['value']."' WHERE Job_ID = ".$_POST["jobid"];
+			$wpdb->query($sql);
+		}
 		
 		
 		$custom_fields_criteria_option = get_option('custom_fields_criteria');
