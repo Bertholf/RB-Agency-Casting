@@ -340,7 +340,7 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -382,7 +382,7 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -471,7 +471,7 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.

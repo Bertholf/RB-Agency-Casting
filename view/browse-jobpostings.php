@@ -318,6 +318,9 @@ if (is_user_logged_in()) {
 		# fixed, remove 'wp' table prefix and changed it to $wpdb->prefix
 		$load_data = $wpdb->get_results("SELECT jobs.*, agency.* FROM ".$wpdb->prefix."agency_casting_job jobs, ".$wpdb->prefix."agency_casting as agency WHERE jobs.Job_ID > 0 AND agency.CastingUserLinked = jobs.Job_UserLinked $search_filter");
 		
+		$rb_agency_options_arr = get_option('rb_agency_options');
+		$rb_agency_option_hide_view_details = isset($rb_agency_options_arr['rb_agency_option_hide_view_details_button'])?$rb_agency_options_arr['rb_agency_option_hide_view_details_button']:0;
+		
 		$isAdministrator = $current_user->roles[0] == 'administrator' ? true : false;
 		if(count($load_data) > 0){
 			foreach($load_data as $load){
@@ -340,7 +343,11 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\" style=\"width: 20%;\">";
+										if($rb_agency_option_hide_view_details==0){
+											echo "<a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a> &nbsp;| ";
+										}
+										echo "&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -353,14 +360,26 @@ if (is_user_logged_in()) {
 																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>".__("Delete Job",RBAGENCY_casting_TEXTDOMAIN)."</a><br/>
 																</td>\n";
 											} else {
-												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
+												echo "        <td class=\"column-JobActions\" scope=\"col\">";
+												if($rb_agency_option_hide_view_details==0){
+													echo "<a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
+												}
+												
+
+																echo "<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																</td>\n";
 											}
 
 										//if agent
 										} else {
-											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+											echo "        <td class=\"column-JobActions\" scope=\"col\">";
+
+											if($rb_agency_option_hide_view_details==0){
+												echo "<a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>";
+											}
+											
+
+											echo "</td>\n";
 										}
 
 									}
@@ -382,7 +401,14 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\" style=\"width: 20%;\">";
+
+										if($rb_agency_option_hide_view_details==0){
+												echo "<a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|";
+										}
+										
+
+										echo "&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -395,14 +421,25 @@ if (is_user_logged_in()) {
 																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
 																</td>\n";
 											} else {
-												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
+												echo "        <td class=\"column-JobActions\" scope=\"col\">";
+
+												
+												if($rb_agency_option_hide_view_details==0){
+												echo "<a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>";
+												}
+												echo "	<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																</td>\n";
 											}
 
 										//if agent
 										} else {
-											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+											echo "        <td class=\"column-JobActions\" scope=\"col\">";
+
+											if($rb_agency_option_hide_view_details==0){
+												echo "<a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>";
+											}											
+
+											echo "</td>\n";
 										}
 
 									}
@@ -471,7 +508,13 @@ if (is_user_logged_in()) {
 
 									// if model is viewing
 									if(RBAgency_Casting::rb_casting_ismodel($current_user->ID,'ProfileID')){
-										echo "        <td class=\"column-JobType\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+										echo "        <td class=\"column-JobType\" scope=\"col\" style=\"width: 20%;\">";
+
+										if($rb_agency_option_hide_view_details==0){
+										echo "<a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>&nbsp;|";
+										}
+
+										echo "&nbsp; <a href='".get_bloginfo('wpurl')."/job-application/".$load->Job_ID."'>".__("Apply To This Job",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
 									} else {
 
 										//if admin, can only edit his own job postings.
@@ -484,14 +527,28 @@ if (is_user_logged_in()) {
 																<a href='#' job_id='".$load->Job_ID."' class='delete_jobcast'>Delete Job</a><br/>
 																</td>\n";
 											} else {
-												echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>
-																<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
+												echo "        <td class=\"column-JobActions\" scope=\"col\">";
+
+												if($rb_agency_option_hide_view_details==0){
+												echo "<a href='".get_bloginfo('wpurl')."/job-detail/".$load->Job_ID."'>View Details</a><br>";
+												}
+												
+
+												echo "<a href='".get_bloginfo('wpurl')."/view-applicants/?filter_jobtitle=".$load->Job_ID."&filter_applicant=&filter_jobpercentage=&filter_perpage=5&filter=filter'>".__("View Applicants",RBAGENCY_casting_TEXTDOMAIN)."</a>
 																</td>\n";
 											}
 
 										//if agent
 										} else {
-											echo "        <td class=\"column-JobActions\" scope=\"col\"><a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a></td>\n";
+											echo "        <td class=\"column-JobActions\" scope=\"col\">";
+
+											if($rb_agency_option_hide_view_details==0){
+												echo "<a href='".get_bloginfo('wpurl')."/casting-postjob/".$load->Job_ID."'>".__("View Details",RBAGENCY_casting_TEXTDOMAIN)."</a>";
+											}
+
+											
+
+											echo "</td>\n";
 										}
 
 									}
