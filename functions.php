@@ -1969,8 +1969,6 @@
 				}
 				$output .= "</div><!-- #job-auditions -->";
 			}
-			
-			$output .= "</div><!-- #rbcontent -->";
 
 			return $output;
 	    }
