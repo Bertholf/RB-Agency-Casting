@@ -80,28 +80,49 @@
 									<td class='jobdesc'>".$r->Job_Time_End."</td>
 								</tr>";
 							}
+							
+						
+						if(!empty($r->Job_Location)){
 						echo "
 							<tr>
 								<td><b>".__("Location:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->Job_Location."</td>
-							</tr>
+							</tr>";
+						}
+							
+						if(!empty($r->Job_Region)){
+						echo "
 							<tr>
 								<td><b>".__("Region:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->Job_Region."</td>
-							</tr>
+							</tr>";
+						}
+						
+						if(!empty($r->Job_Offering)){
+						echo "
 							<tr>
 								<td><b>".__("Payment :", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->Job_Offering."</td>
 							</tr>";
+						}
+						
+						if(!empty($r->Job_Type)){
 						echo "
 							<tr>
 								<td><b>".__("Job Type:", RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".RBAgency_Casting::rb_get_job_type_name($r->Job_Type)."</td>
 							</tr>
+						";
+						}
+							
+						if(!empty($r->CastingContactCompany)){
+						echo "
 							<tr id=\"agency-producer\">
 								<td><b>".__("Agency/Producer",RBAGENCY_casting_TEXTDOMAIN)."</b></td>
 								<td class='jobdesc'>".$r->CastingContactCompany."</td>
 							</tr>";
+						}
+						
 						echo "</table>";												
 					echo "</div>";
 					echo "<div id=\"how-to-apply\">";
