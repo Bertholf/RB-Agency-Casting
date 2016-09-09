@@ -741,7 +741,7 @@ class RBAgency_Casting {
 
 				$list_value = isset($custom_fields["age"])?$custom_fields["age"]:"";
 				@list($min_val,$max_val) =  @explode("-",$list_value);
-
+				
 				echo "<div class=\"rbfield rbmulti rbmetric profilecustomid_age\" attrid=\"age\"  id=\"profilecustomid_age\">";
 				echo "<label for=\"ProfileCustomIDage\">".__("Age",RBAGENCY_casting_TEXTDOMAIN)."</label>";
 				echo "<div class=\"clear\"></div>";
