@@ -1939,7 +1939,8 @@
 			), $atts );
 
 
-	    	global $wpdb;
+	    	global $wpdb,$wp;
+	    	$current_url = home_url(add_query_arg(array(),$wp->request));
 
 			$output .= "<div id=\"job-types\">";
 			$output .= "<ul>";
@@ -1953,8 +1954,10 @@
 				$job_types = $wpdb->get_results($query_f2);
 				if(count($job_types) > 0 ){
 					foreach($job_types as $jobtype){
+
 						$output .= "    <li>\n";
 						$output .= "        <a href=\"".site_url()."/job-type/".$jobtype->Job_Type_ID."\">".$jobtype->Job_Type_Title."</a>";
+						//$output .= "        <a href=\"".$current_url."/?jobtype=".$jobtype->Job_Type_ID."\">".$jobtype->Job_Type_Title."</a>";
 						$output .= "    </li>\n";
 					}
 				}
@@ -1968,6 +1971,7 @@
 					." INNER JOIN ".table_agency_casting." agency "
 					." ON agency.CastingUserLinked = jobs.Job_UserLinked "
 					." WHERE jobs.Job_ID > 0  AND (jobs.Job_Visibility = 1 OR jobs.Job_Visibility = 2)";
+				
 				
 				//$results = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." WHERE Job_Visibility = 1 OR Job_Visibility = 2");
 				$results = $wpdb->get_results($query2);
@@ -2017,12 +2021,131 @@
 				}
 				$output .= "</div><!-- #job-auditions -->";
 			}
-			
-			$output .= "</div><!-- #rbcontent -->";
 
 			return $output;
 	    }
 	    add_shortcode( 'job-types', 'shortcode_job_types' );
+
+	    function job_list_shortcode($atts){
+
+	    	$rb_agency_options_arr = get_option('rb_agency_options');
+
+			$a = shortcode_atts( array(
+			    'show_description' => "false",
+			    'show_all_jobs' => "false",
+			    'show_intro'=>"false",
+			    'show_category_button'=>"false",
+			    'show_job_type' => ""
+			), $atts );
+
+			global $wpdb;
+
+			#Get job type ids
+			if(!empty($a['show_job_type'])){
+				$job_type_id_arr = [];
+				$job_type_arr = explode(",",$a['show_job_type']);
+				
+				foreach($job_type_arr as $job_type){
+					$sql = "SELECT Job_Type_ID FROM ".table_agency_casting_job_type." WHERE Job_Type_Title = '".ucfirst($job_type)."'";
+					$job_type_data = $wpdb->get_row($sql,ARRAY_A);
+					$job_type_id_arr[] = $job_type_data["Job_Type_ID"];
+				}
+			}
+
+			if($a['show_category_button'] == "true"){
+				$output .= "<div id=\"job-types\">";
+				$output .= "<ul>";
+				
+					$query_f2 = "SELECT jobtype.* FROM " . table_agency_casting_job . " jobs "
+								. "INNER JOIN ". table_agency_casting_job_type . " jobtype "
+								. "ON jobs.Job_Type = jobtype.Job_Type_ID "
+								. "WHERE jobs.Job_Visibility = 1 OR jobs.Job_Visibility = 2 "
+								. "GROUP BY jobtype.Job_Type_ID";
+								
+					$job_types = $wpdb->get_results($query_f2);
+					if(count($job_types) > 0 ){
+						foreach($job_types as $jobtype){
+
+							$output .= "    <li>\n";
+							$output .= "        <a href=\"".site_url()."/job-type/".$jobtype->Job_Type_ID."\">".$jobtype->Job_Type_Title."</a>";
+							$output .= "    </li>\n";
+						}
+					}
+				$output .= "</ul>";
+				$output .= "</div>";
+			}
+			
+			$where_job_type_id_arr = "";
+			if(!empty($job_type_id_arr)){
+				foreach($job_type_id_arr as $ids){
+					$where_job_type_id_arr[] = " FIND_IN_SET($ids,jobs.Job_Type) >0 ";
+				}
+			}
+			$where_job_type_id = implode(" OR ",$where_job_type_id_arr);
+			$where_job_type_id = !empty($where_job_type_id) ? " AND ".$where_job_type_id : "";
+			$query = "SELECT jobs.*, agency.* FROM ". table_agency_casting_job . " jobs "
+					." INNER JOIN ".table_agency_casting." agency "
+					." ON agency.CastingUserLinked = jobs.Job_UserLinked "
+					." WHERE jobs.Job_ID > 0  AND (jobs.Job_Visibility = 1 OR jobs.Job_Visibility = 2) ".$where_job_type_id;
+
+			$results = $wpdb->get_results($query);
+
+			$output .= "<div id=\"job-auditions\">";
+				foreach($results as $job){
+					$output .= "	<div class=\"job-audition\">";
+					$output .= "		<div class=\"ja-thumbnail\">";
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\"><img src=\"".RBAGENCY_PLUGIN_URL."/assets/img/rbplugin-logo-o25.png\"></a>";
+					$output .= "		</div><!-- .ja-thumbnail -->";
+					$output .= "		<div class=\"ja-content\">";
+					$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
+
+											// $job_desc = explode(" ", $job->Job_Text);
+											// $job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
+
+					if($a['show_intro'] == "true"){
+						$output .= "			<p>".$job->Job_Intro."</p>";
+					}
+					if($a['show_description'] == "true"){
+						$output .= "			<p>".$job->Job_Text."</p>";
+					}
+
+					
+					if(!empty($job->Job_Audition_Date_End)){
+						$output .= "			<p class=\"ja-date\"> ".__("Apply Before",RBAGENCY_casting_TEXTDOMAIN).$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
+					}
+					$output .= "		</div><!-- .ja-content -->";
+					$output .= "		<div class=\"ja-footer\">";
+					if($rb_agency_options_arr["rb_agency_option_hide_view_this_job_button"]==0){
+					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".__("View this Job",RBAGENCY_casting_TEXTDOMAIN)."</a><br/>";	
+					}
+					if($rb_agency_options_arr["rb_agency_option_hide_apply_this_job_button"]==0){
+						if(is_user_logged_in()){
+							$output .= "<a href=\"".get_bloginfo("wpurl")."/job-application/".$job->Job_ID."\" id='apply_job_btn'>Apply to this Job</a>";
+						}else{
+							$output .= "<a href=\"".get_bloginfo("wpurl")."/profile-login\" id='apply_job_btn'>Apply to this Job</a>";
+						}
+					}
+					$output .= "			<div class=\"ja-share\">";
+					if($rb_agency_options_arr["rb_agency_option_hide_share_job_button"]==0){
+					
+					$output .= "				<div class=\"fb-share-button\" data-href=\"".get_permalink()."\" data-layout=\"button\"></div>";
+				    }
+				    if($rb_agency_options_arr["rb_agency_option_hide_tweet_job_button"]==0){
+					$output .= "				<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\">Tweet</a>";	
+					}				
+					$output .= "			</div><!-- .ja-share -->";
+					$output .= "		</div><!-- .ja-footer -->";
+					$output .= "	</div><!-- .job-audition -->";
+				}
+				$output .= "</div><!-- #job-auditions -->";
+			
+			
+			$output .= "</div><!-- #rbcontent -->";
+
+			return $output;
+
+	    }
+	    add_shortcode( 'job-list', 'job_list_shortcode' );
 
 	    function ja_social_js(){ // Job Auditions Social Buttons
 	    	$output='<div id="fb-root"></div>

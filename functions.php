@@ -1932,6 +1932,7 @@
 	    function shortcode_job_types($atts){
 
 	    	$rb_agency_options_arr = get_option('rb_agency_options');
+	    	$rb_remove_link_on_job_title = $rb_agency_options_arr["rb_agency_option_remove_link_on_job_title"]>0?1:0;
 
 			$a = shortcode_atts( array(
 			    'show_description' => "true",
@@ -1986,7 +1987,11 @@
 					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\"><img src=\"".RBAGENCY_PLUGIN_URL."/assets/img/rbplugin-logo-o25.png\"></a>";
 					$output .= "		</div><!-- .ja-thumbnail -->";
 					$output .= "		<div class=\"ja-content\">";
-					$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
+					if($rb_remove_link_on_job_title>0){
+						$output .= "			<h3>".$job->Job_Title."</h3>";
+					}else{
+						$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
+					}
 
 											// $job_desc = explode(" ", $job->Job_Text);
 											// $job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
@@ -2021,6 +2026,8 @@
 				}
 				$output .= "</div><!-- #job-auditions -->";
 			}
+			
+			$output .= "</div><!-- #rbcontent -->";
 
 			return $output;
 	    }
@@ -2029,7 +2036,8 @@
 	    function job_list_shortcode($atts){
 
 	    	$rb_agency_options_arr = get_option('rb_agency_options');
-
+	    	$rb_remove_link_on_job_title = $rb_agency_options_arr["rb_agency_option_remove_link_on_job_title"]>0?1:0;
+	    	
 			$a = shortcode_atts( array(
 			    'show_description' => "false",
 			    'show_all_jobs' => "false",
@@ -2097,7 +2105,11 @@
 					$output .= "			<a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\"><img src=\"".RBAGENCY_PLUGIN_URL."/assets/img/rbplugin-logo-o25.png\"></a>";
 					$output .= "		</div><!-- .ja-thumbnail -->";
 					$output .= "		<div class=\"ja-content\">";
-					$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
+					if($rb_remove_link_on_job_title>0){
+						$output .= "			<h3 style=\"color:#d1ba0c;\">".$job->Job_Title."</h3>";
+					}else{
+						$output .= "			<h3><a href=\"".site_url()."/job-detail/".$job->Job_ID."\" title=\"View this Job\">".$job->Job_Title."</a></h3>";
+					}
 
 											// $job_desc = explode(" ", $job->Job_Text);
 											// $job_desc_excerpt = implode(" ", array_splice($job_desc, 0, 30));
