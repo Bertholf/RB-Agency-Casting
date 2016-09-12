@@ -501,7 +501,7 @@ class RBAgencyCasting {
 
 					if ( !empty( $title ) ) {echo $before_title . $title . $after_title; };
 							echo "<div class=\"rbform\">\n";
-							echo "	<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."profile-login/\" method=\"post\">\n";
+							echo "	<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."casting-login/\" method=\"post\">\n";
 							echo "  	<div class=\"box\">\n";
 							echo "      	<label for=\"user-name\">". __("Username", RBAGENCY_casting_TEXTDOMAIN). "</label><input type=\"text\" name=\"user-name\" value=\"". wp_specialchars( $_POST['user-name'], 1 ) ."\" id=\"user-name\" />\n";
 							echo "  	</div>\n";
