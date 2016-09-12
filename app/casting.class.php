@@ -1341,7 +1341,7 @@ class RBAgency_Casting {
 				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
 
 				if($rb_agency_email_can_received > 0){
-					wp_mail($rb_agency_email, sprintf(__('[%s] New User Registration'), $message);
+					wp_mail($rb_agency_email, sprintf(__('[%s] New User Registration')), $message);
 				}
 
 				if ( empty($plaintext_pass) )

@@ -206,7 +206,9 @@ class RBAgency_Casting {
 			$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
 			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 
-
+			$rb_agency_email = $rb_agency_options_arr["rb_agency_option_agencyemail"];
+			$rb_agency_email_can_received = $rb_agency_options_arr["rb_agency_option_agency_email_receive_notification"] > 0 ? 1 : 0;
+			
 			$MassEmailSubject = $_POST["MassEmailSubject"];
 			$MassEmailMessage = $_POST["MassEmailMessage"];
 			$MassEmailRecipient = $_POST["MassEmailRecipient"];
@@ -297,6 +299,9 @@ class RBAgency_Casting {
 			$MassEmailMessage	= str_ireplace("[site-url]",get_bloginfo("url"),$MassEmailMessage);
 			$MassEmailMessage	= str_ireplace("[site-title]",get_bloginfo("name"),$MassEmailMessage);
 			$isSent = wp_mail($MassEmailRecipient, $MassEmailSubject, $MassEmailMessage, $headers);
+			if($rb_agency_email_can_received > 0){
+				wp_mail($rb_agency_email, $MassEmailSubject, $MassEmailMessage, $headers);
+			}
 			$url = admin_url('admin.php?page=rb_agency_searchsaved&m=1');
 			if($isSent){ ?>
 			<script type="text/javascript">
@@ -1330,8 +1335,14 @@ class RBAgency_Casting {
 				$message .= sprintf(__('E-mail: %s'), $user_email) . "<br>";
 
 				$rb_agency_options_arr = get_option('rb_agency_options');
+				$rb_agency_email = $rb_agency_options_arr["rb_agency_option_agencyemail"];
+				$rb_agency_email_can_received = $rb_agency_options_arr["rb_agency_option_agency_email_receive_notification"] > 0 ? 1 : 0;
 				add_filter('wp_mail_content_type','rb_agency_set_content_type');
 				@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
+
+				if($rb_agency_email_can_received > 0){
+					wp_mail($rb_agency_email, sprintf(__('[%s] New User Registration'), $message);
+				}
 
 				if ( empty($plaintext_pass) )
 					return;
@@ -1778,6 +1789,9 @@ class RBAgency_Casting {
 			$rb_agency_value_agencyemail = $rb_agency_options_arr['rb_agency_option_agencyemail'];
 			$agency_name = $rb_agency_options_arr['rb_agency_option_agencyname'];
 
+			$rb_agency_email = $rb_agency_options_arr["rb_agency_option_agencyemail"];
+			$rb_agency_email_can_received = $rb_agency_options_arr["rb_agency_option_agency_email_receive_notification"] > 0 ? 1 : 0;
+
 			// Mail it
 			$MassEmailMessage = "";
 			$MassEmailMessage = "Hi,<br><br>";
@@ -1797,7 +1811,9 @@ class RBAgency_Casting {
 
 			$isSent = wp_mail(trim($emails[0]), $rb_agency_value_agencyname." ".__(": Job Availability",RBAGENCY_casting_TEXTDOMAIN)." ", $MassEmailMessage, $headers);
 
-
+			if($rb_agency_email_can_received > 0){
+				wp_mail($rb_agency_email, $rb_agency_value_agencyname." ".__(": Job Availability",RBAGENCY_casting_TEXTDOMAIN)." ", $MassEmailMessage, $headers);
+			}
 
 	}
 
