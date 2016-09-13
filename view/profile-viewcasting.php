@@ -386,6 +386,10 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					} elseif($rb_agency_option_allowsendemail == 2){
 
 					if(isset($_POST["checkavailability"])){
+
+						
+
+
 						// Prepre Message
 						$message = $_POST["message"];
 
@@ -406,7 +410,10 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 						}
 
 						RBAgency_Casting::sendEmailAdminCheckAvailability($data_job->CastingContactDisplay, $data_job->CastingContactEmail, $message, $link);
-						echo "<p id=\"emailSent\">" .__("Email Sent Succesfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $data_job->CastingContactEmail ."!</p>";
+
+						echo "<p id=\"emailSent\">" .__("Email Sent Successfully to",RBAGENCY_casting_TEXTDOMAIN)." ". $_POST['agency_name'] ."!</p>";
+						
+						
 					}
 
 
@@ -420,7 +427,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 					<form method="post" action="">
 						<div class="rbfield rbtext rbsingle">
 							<label><?php echo __('Send to:',RBAGENCY_casting_TEXTDOMAIN); ?></label>
-							<div><input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="adminemail" disabled="disabled" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" /></div>
+							<div><input type="text" disabled="disabled" value="<?php echo $rb_agency_option_agencyname; ?>"/><input type="hidden" name="agency_name" value="<?php echo !empty($rb_agency_option_agencyname)?$rb_agency_option_agencyname:get_bloginfo("admin_email");?>" /></div>
 						</div>
 						<div class="rbfield rbtext rbsingle">
 							<label><?php echo __('BCC:',RBAGENCY_casting_TEXTDOMAIN); ?></label>
@@ -430,7 +437,7 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							<label><?php echo __('Message:',RBAGENCY_casting_TEXTDOMAIN); ?></label>
 							<div>
 								<small><?php echo __('(Note: The "[shortlisted-link-placeholder]" will be the link to your shorlisted profile for the job)',RBAGENCY_casting_TEXTDOMAIN); ?> </small><br />
-								<textarea name="message" style="width:100%;height:200px;"><?php echo __("Add your message here...<br />[shortlisted-link-placeholder]",RBAGENCY_casting_TEXTDOMAIN); ?></textarea>
+								<textarea name="message" style="width:100%;height:200px;"><?php echo __("Add your message here...[shortlisted-link-placeholder]",RBAGENCY_casting_TEXTDOMAIN); ?></textarea>
 							</div>
 						</div>
 						
@@ -534,10 +541,11 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 							$SearchMuxMessage = str_replace("[link-place-holder]",network_site_url()."/client-view/".$SearchMuxHash,$SearchMuxMessage);
 
+							
 
 							$Message   = $SearchMuxMessage;
 							$headers[] = 'MIME-Version: 1.0';
-							$headers[] = "Content-Type: text/html; charset=\"". get_option('blog_charset') . "\"\n";
+							$headers[] = "Content-Type: text/html; charset=\"". get_option('blog_charset');
 							$headers[] = 'From: "'. $fromName .'" <'. trim($fromEmail) .'>';
 							$bccArray = explode(";",$SearchMuxEmailToBcc);
 
@@ -550,15 +558,17 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 								add_filter('wp_mail_from_name','yoursite_wp_mail_from_name');
 												}
 												
-							$Message = str_replace("\n","<br>",$Message);
+							//$Message = str_replace("\n","<br>",$Message);
 							
 							
 						
 							$rb_agency_options_arr = get_option('rb_agency_options');
 							$rb_agency_option_profilenaming	= isset($rb_agency_options_arr['rb_agency_option_profilenaming']) ?$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
+							$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
+							$rb_agency_value_agencyemail = trim($rb_agency_options_arr['rb_agency_option_agencyemail']);
 							
 							
-							$profileHTML = '<br/><br/>';
+							$profileHTML = '<br><br>';
 							
 							$sql = "SELECT profile.*, (SELECT media.ProfileMediaURL FROM ". table_agency_profile_media ." media
 										WHERE profile.ProfileID = media.ProfileID AND media.ProfileMediaType = \"Image\"
@@ -567,14 +577,15 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							
 							$resultProf = $wpdb->get_results($sql,ARRAY_A);
 							foreach($resultProf as $dataList){
-								$ProfileContactDisplay =$dataList['ProfileContactDisplay'];
-								
+								//$profilePicturePath = site_url().'/wp-content/plugins/rb-agency/ext/timthumb.php?src='. RBAGENCY_casting_UPLOADDIR.'/' . $dataList["ProfileGallery"] .'/'. $dataList["ProfileMediaURL"] .'&w=180&h=230&a=t';
+								$profilePicturePath = site_url().'/'.RBAGENCY_casting_UPLOADDIR . $dataList["ProfileGallery"] .'/'. $dataList["ProfileMediaURL"];
+								$ProfileContactDisplay =$dataList['ProfileContactDisplay'];								
 								$profileHTML .='<div style="display: inline-block;width:190px;height:280px;padding:10px 2px;font-family: Arial, Tahoma, Verdana;text-align:center;">';
-								//$profileHTML .="<a style=\"text-decoration:none;\" href=\"". rb_agency_PROFILEDIR ."". $dataList["ProfileGallery"] ."/\" title=\"". stripslashes($ProfileContactDisplay) ."\">
-								$profileHTML .="<img style=\"width:180px;height:230px\" src=\"". get_bloginfo("url")."/wp-content/plugins/rb-agency/ext/timthumb.php?src="
-									. RBAGENCY_casting_UPLOADDIR."/" . $dataList["ProfileGallery"] ."/". $dataList["ProfileMediaURL"] ."&w=180&h=230&a=t\" alt=\"". stripslashes($ProfileContactDisplay) ."\" />
-									<br/>";
-								$profileHTML .= "<b>$ProfileContactDisplay</b>";
+								$profileHTML .='<a style="text-decoration:none;" href="'. site_url()."/profile/". $dataList["ProfileGallery"] .'" title="'. stripslashes($ProfileContactDisplay) .'">';
+								$profileHTML .='<img style="width:180px;height:230px" src="'.$profilePicturePath.'" alt="'. stripslashes($ProfileContactDisplay) .'" />';
+								
+								$profileHTML .='	<br>';
+								$profileHTML .= '<b>'.$ProfileContactDisplay.'</b>';
 								$profileHTML .='</div>';
 							}	
 							
@@ -585,7 +596,11 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 							
 							 
 							$isSent =wp_mail($SearchMuxToEmail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
-							//wp_mail('charlieanchetamacaraeg@gmail.com', get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+
+							#this will be for agency email
+							wp_mail($rb_agency_value_agencyemail, get_bloginfo('name')." : ".$_POST["subject"] , stripcslashes(make_clickable($Message)), $headers);
+
+							
 
 							//mail($SearchMuxToEmail,"My subject",stripcslashes(make_clickable($Message)));
 							if($isSent){

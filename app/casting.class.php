@@ -1846,6 +1846,8 @@ class RBAgency_Casting {
 		$rb_agency_value_agencyname = $rb_agency_options_arr['rb_agency_option_agencyname'];
 		$rb_agency_value_agencyemail = trim($rb_agency_options_arr['rb_agency_option_agencyemail']);
 
+		
+
 		// Mail it
 		$Message	= str_replace("[shortlisted-link-placeholder]", $link, $message);
 		//$headers[] = 'MIME-Version: 1.0';
@@ -1853,6 +1855,8 @@ class RBAgency_Casting {
 		//$headers[] = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
 		$headers = 'From: "'. $castingname .'" <'. trim($castingemail) .'>';
 		$isSent = wp_mail($rb_agency_value_agencyemail, $rb_agency_value_agencyname." ".__(": Check availability",RBAGENCY_casting_TEXTDOMAIN)." ", $Message, $headers);
+		
+		
 
 	}
 
