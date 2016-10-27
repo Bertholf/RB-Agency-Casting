@@ -212,7 +212,7 @@ function rb_manage_client($CastingID) {
 						CastingLocationState = '".$_POST['CastingState']."',
 						CastingLocationZip = '".$_POST['casting_zip']."',
 						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
-			$update .= "CastingDateUpdated = now() WHERE CastingID = " . $_POST["CastingID"] ;
+			$update .= "CastingDateUpdated = now(), CastingIsActive = '".$_POST["CastingIsActive"]."' WHERE CastingID = " . $_POST["CastingID"] ;
 
 			$result = $wpdb->query($update);
 
@@ -362,6 +362,19 @@ function rb_manage_client($CastingID) {
 		echo "		<div><input type=\"text\" class=\"text-input\" id=\"CastingContactLinkFlickr\" name=\"CastingContactLinkFlickr\" value=\"". $data_r->CastingContactLinkFlickr ."\" />\n";
 		echo "	</div></div>\n";
 
+		echo "	<h3>". __("Status", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
+				echo "	<div id=\"profile-status\" class=\"rbfield rbtext rbsingle\">\n";
+				echo "		<label>". __("Status", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+				echo "		<div><select name=\"CastingIsActive\">";
+				$status = array('Inactive','Active','Achive','Pending for Approval');
+				foreach($status as $k=>$v){
+					$selected = $data_r->CastingIsActive == $k ? "selected" : "";
+					$textValue = $data_r->CastingIsActive == $k ? $v : $v;
+					echo "<option value=\"".$k."\" $selected>".$textValue."</option>";
+				}
+				
+				echo "</select>";
+				echo "	</div></div>\n";
 		if (isset($rb_agencyinteract_option_registerallow) && $rb_agencyinteract_option_registerallow  == 1) {
 			echo "	<div id=\"profile-username\" class=\"rbfield rbtext rbsingle\">\n";
 			echo "		<label>". __("Username", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
