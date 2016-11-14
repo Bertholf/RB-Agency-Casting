@@ -230,7 +230,7 @@ function rb_manage_client($CastingID) {
 								CastingLocationState = '".$_POST['CastingState']."',
 								CastingLocationZip = '".$_POST['casting_zip']."',
 								CastingLocationCountry = '".$_POST['CastingCountry']."', ";
-					$update .= "CastingIsActive = '".$_POST["CastingIsActive"]."',CastingDateUpdated = now() WHERE CastingID = " . $_POST["CastingID"] ;
+					$update .= "CastingIsActive = '".$_POST["CastingIsActive"]."',CastingType='".$_POST['CastingType']."',CastingDateUpdated = now() WHERE CastingID = " . $_POST["CastingID"] ;
 					//echo $update;
 					$result = $wpdb->query($update);
 					$ProfileUserLinked = $_POST["CastingUserLinked"];
@@ -484,6 +484,7 @@ function rb_manage_client($CastingID) {
 								CastingLocationZip,
 								CastingLocationCountry,
 								CastingDateUpdated,
+								CastingType,
 								CastingIsActive) ";
 
 					$insert .= " VALUES(
@@ -508,6 +509,7 @@ function rb_manage_client($CastingID) {
 								'".$_POST['casting_zip']."',
 								'".$_POST['CastingCountry']."',
 								now(),
+								'".$_POST['CastingType']."',
 								$CastingIsActive)";
 
 					$result = $wpdb->query($insert);
@@ -714,6 +716,20 @@ function rb_manage_client($CastingID) {
 					$selected = $data_r->CastingIsActive == $k ? "selected" : "";
 					$textValue = $data_r->CastingIsActive == $k ? $v : $v;
 					echo "<option value=\"".$k."\" $selected>".$textValue."</option>";
+				}
+				
+				echo "</select>";
+				echo "	</div></div>\n";
+
+				echo "	<h3>". __("Type", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
+				echo "	<div id=\"profile-type\" class=\"rbfield rbtext rbsingle\">\n";
+				echo "		<label>". __("Type", RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+				echo "		<div><select name=\"CastingType\">";
+				$types = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."agency_casting_types",ARRAY_A);
+				echo "<option>--</option>";
+				foreach($types as $type){
+					$selected = $data_r->CastingType == $type["CastingTypeID"] ? "selected" : "";
+					echo "<option value=\"".$type["CastingTypeID"]."\" $selected>".$type["CastingTypeTitle"]."</option>";
 				}
 				
 				echo "</select>";
@@ -1043,6 +1059,7 @@ function rb_display_list() {
 		//echo "        <th class=\"column-ProfilesProfileDate\" id=\"ProfilesProfileDate\" scope=\"col\" style=\"width:50px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=ProfileDateBirth&dir=". $sortDirection) ."\">Age</a></th>\n";
 		echo "        <th class=\"column-CastingLocationCity\" id=\"CastingLocationCity\" scope=\"col\" style=\"width:100px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationCity&dir=". $sortDirection) ."\">City</a></th>\n";
 		echo "        <th class=\"column-CastingLocationState\" id=\"CastingLocationState\" scope=\"col\" style=\"width:150px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingLocationState&dir=". $sortDirection) ."\">State</a></th>\n";
+		echo "        <th class=\"column-CastingType\" id=\"CastingType\" scope=\"col\" style=\"width:150px;\"><a href=\"". admin_url("admin.php?page=". $_GET['page'] ."&sort=CastingType&dir=". $sortDirection) ."\">Type</a></th>\n";
 		echo "        <th class=\"column-ProfileDateViewLast\" id=\"ProfileDateViewLast\" scope=\"col\" style=\"width:50px;\">Date Created</th>\n";
 		echo "    </tr>\n";
 		echo " </thead>\n";
@@ -1056,6 +1073,7 @@ function rb_display_list() {
 		//echo "        <th class=\"column\" scope=\"col\">Age</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">City</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">State</th>\n";
+		echo "        <th class=\"column\" scope=\"col\">Type</th>\n";
 		echo "        <th class=\"column\" scope=\"col\">Date Created</th>\n";
 		echo "    </tr>\n";
 		echo " </tfoot>\n";
@@ -1077,7 +1095,7 @@ function rb_display_list() {
             $CastingDateCreated = stripslashes($data['CastingDateCreated']);
             $CastingIsActive = stripslashes($data["CastingIsActive"]);
             
-			$DataTypeTitle = stripslashes($data['CastingType']);
+			$DataTypeID = stripslashes($data['CastingType']);
 
 			if(strpos($data['CastingType'], ",") > 0){
             $title = explode(",",$data['CastingType']);
@@ -1132,6 +1150,8 @@ function rb_display_list() {
 				//echo "        <td class=\"ProfilesProfileDate column-ProfilesProfileDate\">". rb_agency_get_age($ProfileDateBirth) ."</td>\n";
 				echo "        <td class=\"CastingLocationCity column-CastingLocationCity\">". $CastingLocationCity ."</td>\n";
 				echo "        <td class=\"CastingLocationCity column-CastingLocationState\">". rb_agency_getStateTitle($CastingLocationState) ."</td>\n";
+				$result = $wpdb->get_row("SELECT CastingTypeTitle FROM ".$wpdb->prefix."agency_casting_types WHERE CastingTypeID = $DataTypeID",ARRAY_A);
+				echo "        <td class=\"CastingLocationCity column-CastingLocationState\">".$result["CastingTypeTitle"]."</td>\n";
 				echo "        <td class=\"ProfileDateViewLast column-ProfileDateViewLast\">\n";
 				echo "           ". rb_agency_makeago(rb_agency_convertdatetime($CastingDateCreated), $rb_agency_option_locationtimezone);
 				echo "        </td>\n";
