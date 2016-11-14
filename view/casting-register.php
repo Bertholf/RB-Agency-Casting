@@ -12,6 +12,17 @@
 	// include casting class
 	include(dirname(dirname(__FILE__)) ."/app/casting.class.php");
 
+	global $wpdb;
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+	$sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . "agency_casting_types (
+			CastingTypeID BIGINT(20) NOT NULL AUTO_INCREMENT,
+			CastingTypeTitle VARCHAR(255) NOT NULL,
+			CastingTypeSlug VARCHAR(255),
+			PRIMARY KEY (CastingTypeID)
+			);";
+	dbDelta($sql);
+
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
 	$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
@@ -176,7 +187,7 @@
 							CastingLocationZip,
 							CastingLocationCountry,
 							CastingDateCreated,
-							CastingIsActive)" .
+							CastingIsActive,CastingType)" .
 						"VALUES (". $new_user .
 						",'" . esc_sql($CastingGallery) . "','" .
 								esc_sql($CastingContactDisplay) .
@@ -191,7 +202,7 @@
 								esc_sql($_POST['casting_zip']) . "','" .
 								esc_sql($_POST['CastingCountry']) . "'" .
 								",now(), ".
-								$CastingIsActive .")";
+								$CastingIsActive .",".$_POST["casting_type"].")";
 
 				$results = $wpdb->query($insert);
 				$CastingID = $wpdb->insert_id;
@@ -334,6 +345,18 @@
 	echo "   		<label for=\"company\">". __("Company (required)",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
 	echo "   		<div><input class=\"text-input\" name=\"casting_company\" type=\"text\" id=\"casting_email\" value=\""; if ( $error ) echo esc_html( $_POST['casting_company'], 1 ); echo "\" /></div>\n";
 	echo "       </div><!-- #casting-company -->\n";
+
+	$results = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."agency_casting_types",ARRAY_A);
+	echo "       <div id=\"casting-types\" class=\"rbfield rbtext rbsingle\">\n";
+	echo "   		<label for=\"castingtype\">". __("Profile Type",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
+	echo "   		<div><select name=\"casting_type\">";
+	echo "               <option>--</option>";
+	foreach($results as $result){
+				echo "<option value=\"".$result["CastingTypeID"]."\">".$result["CastingTypeTitle"]."</option>";
+	}
+	echo "</select></div>\n";
+	echo "       </div><!-- #casting-types -->\n";
+
 
 	echo "       <div id=\"casting-website\" class=\"rbfield rbtext rbsingle\">\n";
 	echo "   		<label for=\"website\">". __("Website",RBAGENCY_casting_TEXTDOMAIN) ."</label>\n";
