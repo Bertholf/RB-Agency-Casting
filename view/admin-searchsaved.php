@@ -636,6 +636,8 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 		$query2 = "SELECT search.SearchID, search.SearchTitle, search.SearchProfileID, search.SearchDate FROM ". table_agency_searchsaved ." search ". $filter  ." ORDER BY $sort $dir $limit";
 
+
+
 		//$query2 = "SELECT search.SearchID, search.SearchTitle, search.SearchProfileID, search.SearchOptions, search.SearchDate FROM ". table_agency_searchsaved_mux ." searchsent LEFT JOIN ". table_agency_searchsaved ." search ON searchsent.SearchID = search.SearchID ". $filter  ." ORDER BY $sort $dir $limit";
 
 		$results2 = $wpdb->get_results($query2,ARRAY_A);
@@ -657,8 +659,7 @@ if(isset($_REQUEST["m"]) && $_REQUEST['m'] == '1' ) {
 
 
 			$query3 = "SELECT SearchID,SearchMuxHash, SearchMuxToName, SearchMuxToEmail, SearchMuxSent FROM ". table_agency_searchsaved_mux ." WHERE SearchID = ". $SearchID;
-
-			$results3 = $wpdb->get_row($query3,ARRAY_A);
+			$results3 = $wpdb->get_results($query3,ARRAY_A);
 
 			$count3 = $wpdb->num_rows;
 

@@ -132,7 +132,19 @@ function rb_manage_client($CastingID) {
 			} else {
 				echo "  <h3 class=\"title\">". __("Edit Record", RBAGENCY_casting_TEXTDOMAIN) ."</h3>\n";
 			}
-			echo "<a class=\"button-primary\" href=\"".admin_url("admin.php?page=rb_agency_casting_manage")."\">Back to Client List</a>";
+			echo "<a class=\"button-primary\" href=\"".admin_url("admin.php?page=rb_agency_casting_manage")."\">Back to Client List</a>&nbsp;";
+
+		
+
+			//get wp user id
+			$sql = "SELECT CastingContactEmail,CastingUserLinked FROM ".$wpdb->prefix."agency_casting WHERE CastingID = ".$_GET['CastingID'];
+			$casting = $wpdb->get_row($sql,ARRAY_A);
+			if(@in_array($casting['CastingContactEmail'], $_SESSION['cartAgentsArray'])){
+				echo "<a class=\"button-primary add-agent-casting-cart\" id=\"".$casting['CastingUserLinked']."\" href=\"#\"><span class=\"link-text_".$casting["CastingUserLinked"]."\">Remove To Casting Cart</span></a>";
+			}else{
+				echo "<a class=\"button-primary add-agent-casting-cart\" id=\"".$casting['CastingUserLinked']."\" href=\"#\"><span class=\"link-text_".$casting["CastingUserLinked"]."\">Add To Casting Cart</span></a>";
+			}
+			
 			$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
 			$rb_agencyinteract_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm'])?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
 
@@ -328,6 +340,7 @@ function rb_manage_client($CastingID) {
 											update_user_meta($ProfileUserLinked, 'display_name', esc_attr($ProfileContactDisplay));
 
 											wp_update_user( array( 'ID' => $ProfileUserLinked, 'user_pass' => esc_attr( $ProfilePassword ),  'user_email' => esc_attr($ProfileContactEmail) ) );
+											update_user_meta($ProfileUserLinked,'casting_type',$_POST['CastingType']);
 
 					}
 
@@ -550,6 +563,8 @@ function rb_manage_client($CastingID) {
 							$temp_arr[$k] = $v; 
 						}						
 					}
+
+					add_user_meta($new_user,'casting_type',$_POST['CastingType']);
 					// Notify admin and user
 					RBAgency_Casting::rb_casting_send_notification($new_user, $user_pass);
 
@@ -1027,6 +1042,8 @@ function rb_display_list() {
 										}
 				echo "    			</select>\n";
 				echo "    			<input type=\"submit\" value=\"". __("Filter", RBAGENCY_casting_TEXTDOMAIN) ."\" class=\"button-primary\" />\n";
+
+				echo " <a href=\"#\" class=\"add-agent-to-casting-cart button-primary\">".__("Add to casting Cart")."</a>";
 			echo "          </form>\n";
 			echo "        </td>\n";
 			echo "        <td style=\"width: 10%;\" nowrap=\"nowrap\">\n";
@@ -1084,6 +1101,7 @@ function rb_display_list() {
         foreach($results2 as $data) {
             
             $CastingID = $data['CastingID'];
+            $CastingUserLinked = $data['CastingUserLinked'];
             $CastingGallery = stripslashes($data['CastingGallery']);
             $CastingContactNameFirst = stripslashes($data['CastingContactNameFirst']);
             $CastingContactNameLast = stripslashes($data['CastingContactNameLast']);
@@ -1140,6 +1158,16 @@ function rb_display_list() {
 				echo "        <td class=\"CastingContactNameFirst column-CastingContactNameFirst\">\n";
 				echo "          ". $CastingContactNameFirst ."\n";
 				echo "          <div class=\"row-actions\">\n";
+
+				
+
+				if(@in_array($CastingContactEmail, $_SESSION['cartAgentsArray'])){
+					//echo "<span class=\"add-to-casting-cart\"><a class=\"add-agent-casting-cart\" id=\"".$CastingUserLinked."\" href=\"#\"><span class=\"link-text_".$CastingUserLinked."\">Remove To Casting Cart</span></a>";
+				}else{
+					//echo "<a class=\"add-agent-casting-cart\" id=\"".$CastingUserLinked."\" href=\"#\"><span class=\"link-text_".$CastingUserLinked."\">Add To Casting Cart</span></a></span>";
+				}
+				//echo "|";
+				
 				echo "            <span class=\"edit\"><a href=\"". admin_url("admin.php?page=rb_agency_casting_manage&amp;action=editRecord&amp;CastingID=". $CastingID) ."\" title=\"". __("Edit this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Edit", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
 				echo "            <span class=\"view\"><a href=\"".get_bloginfo("url")."/profile-casting/".  $CastingGallery ."/\" title=\"". __("View", RBAGENCY_casting_TEXTDOMAIN) . "\" target=\"_blank\">". __("View", RBAGENCY_casting_TEXTDOMAIN) . "</a> | </span>\n";
 				echo "            <span class=\"delete\"><a class=\"submitdelete\" href=\"". admin_url("admin.php?page=". $_GET['page']) ."&amp;action=deleteRecord&amp;CastingID=". $CastingID ."\"  onclick=\"if ( confirm('". __("You are about to delete the profile for ", RBAGENCY_casting_TEXTDOMAIN) ." ". $CastingContactNameFirst ." ". $CastingContactNameLast ."\'". __("Cancel", RBAGENCY_casting_TEXTDOMAIN) . "\' ". __("to stop", RBAGENCY_casting_TEXTDOMAIN) . ", \'". __("OK", RBAGENCY_casting_TEXTDOMAIN) . "\' ". __("to delete", RBAGENCY_casting_TEXTDOMAIN) . ".') ) {return true;}return false;\" title=\"". __("Delete this Record", RBAGENCY_casting_TEXTDOMAIN) . "\">". __("Delete", RBAGENCY_casting_TEXTDOMAIN) . "</a> </span>\n";
@@ -1206,5 +1234,64 @@ function rb_display_list() {
 
 
 		echo "</form>\n";
+
+
 }
+
+foreach($_SESSION['cartArray'] as $k=>$v){
+	//unset($_SESSION['cartArray'][$k]);
+}
+
 ?>
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$(".add-agent-casting-cart").click(function(event){
+			event.preventDefault();
+			var castingid = $(this).attr('id');
+			console.log(castingid);
+			 $.ajax({
+	            type: 'POST',
+	            url: "<?php echo admin_url('admin-ajax.php') ?>",
+	            data: {
+					action: "rb_add_agent_to_castingcart",
+					agentid: castingid
+				},
+				success:function(data){
+					console.log(data);
+					if(data == 'inserted'){
+						$(".link-text_"+castingid).html('Remove To Casting Cart');
+					}else{
+						$(".link-text_"+castingid).html('Add To Casting Cart');
+					}
+				}
+	        });
+	        });
+	        $(".add-agent-to-casting-cart").click(function(event){
+	        	event.preventDefault();
+
+	        	var id_arr = [];
+	        	$("input[type=checkbox]").each(function(){
+	        		if($(this).is(':checked') == true){
+	        			var id = $(this).val();
+	        			if($.isNumeric(id) == true){
+	        				id_arr.push(id);
+	        			}
+	        		}
+	        		
+	        	});
+
+	        	$.ajax({
+	        		type:'POST',
+	        		url:'<?php echo admin_url('admin-ajax.php') ?>',
+	        		data:{
+	        			action: "rb_agent_to_castingcart_ajax",
+	        			castingids: id_arr.join()
+	        		},success:function(data){
+	        			console.log(data);
+	        			window.location.href = "<?php echo admin_url('admin.php?page=rb_agency_search'); ?>";
+	        		}
+	        	});
+	        });
+		
+	});
+</script>

@@ -1998,7 +1998,7 @@
 
 					$output .= "			<p>".$job->Job_Intro."</p>";
 					if(!empty($job->Job_Audition_Date_End)){
-						$output .= "			<p class=\"ja-date\"> ".__("Apply Before",RBAGENCY_casting_TEXTDOMAIN).$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
+						$output .= "			<p class=\"ja-date\"> ".__("Apply Before",RBAGENCY_casting_TEXTDOMAIN)." ".$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
 					}
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";
@@ -2037,7 +2037,7 @@
 
 	    	$rb_agency_options_arr = get_option('rb_agency_options');
 	    	$rb_remove_link_on_job_title = $rb_agency_options_arr["rb_agency_option_remove_link_on_job_title"]>0?1:0;
-	    	
+
 			$a = shortcode_atts( array(
 			    'show_description' => "false",
 			    'show_all_jobs' => "false",
@@ -2123,7 +2123,7 @@
 
 					
 					if(!empty($job->Job_Audition_Date_End)){
-						$output .= "			<p class=\"ja-date\"> ".__("Apply Before",RBAGENCY_casting_TEXTDOMAIN).$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
+						$output .= "			<p class=\"ja-date\"> ".__("Apply Before",RBAGENCY_casting_TEXTDOMAIN)." ".$job->Job_Audition_Date_End."</p><!-- .ja-content -->";
 					}
 					$output .= "		</div><!-- .ja-content -->";
 					$output .= "		<div class=\"ja-footer\">";

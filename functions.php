@@ -2278,4 +2278,49 @@
 					echo "</tr>";
 			   }
 	    }
+
+
+function rb_add_agent_to_castingcart(){
+	global $wpdb;
+	$agentid = $_POST['agentid'];
+
+	$agent = $wpdb->get_row("SELECT CastingContactEmail FROM ".$wpdb->prefix."agency_casting WHERE CastingUserLinked = ".$agentid,ARRAY_A);
+
+	if(in_array($agent['CastingContactEmail'], $_SESSION['cartAgentsArray'])){	
+		foreach($_SESSION['cartAgentsArray'] as $k=>$v){
+			if($v == $agent['CastingContactEmail']){
+				unset($_SESSION['cartAgentsArray'][$k]);
+			}
+		}	
+		echo 'deleted';
+	}else{
+		$agent = $wpdb->get_row("SELECT CastingContactEmail FROM ".$wpdb->prefix."agency_casting WHERE CastingUserLinked = ".$agentid,ARRAY_A);
+		$_SESSION['cartAgentsArray'][] = $agent['CastingContactEmail'];
+		echo 'inserted';
+	}
+
+	
+	die();
+}
+add_action('wp_ajax_rb_add_agent_to_castingcart','rb_add_agent_to_castingcart');
+add_action('wp_ajax_nopriv_rb_add_agent_to_castingcart','rb_add_agent_to_castingcart');
+
+function rb_agent_to_castingcart_ajax(){
+	global $wpdb;
+	$CastingID = !empty($_POST["castingids"]) ? $_POST["castingids"] : "";
+	$sql = "SELECT CastingContactEmail FROM ".$wpdb->prefix."agency_casting WHERE CastingID IN ($CastingID)";
+	$results = $wpdb->get_results($sql,ARRAY_A);
+
+
+	foreach($results as $result){
+		if(!in_array($result["CastingContactEmail"], $_SESSION['cartAgentsArray'])){
+			$_SESSION['cartAgentsArray'][] = $result["CastingContactEmail"];
+		}		
+	}
+
+	die();
+}
+add_action('wp_ajax_rb_agent_to_castingcart_ajax','rb_agent_to_castingcart_ajax');
+add_action('wp_ajax_nopriv_rb_agent_to_castingcart_ajax','rb_agent_to_castingcart_ajax');
+
 ?>
