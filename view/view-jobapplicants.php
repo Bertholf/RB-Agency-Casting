@@ -635,7 +635,7 @@ if (is_user_logged_in()) {
 				echo "        <input type='hidden' class='profile_id' value='".$load->Job_UserProfileID."'>";
 				echo "        <input type='hidden' class='application_id' value='".$load->Job_Application_ID."'>";
 				if($rb_agency_option_allowsendemail == 1){
-					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_id."' style=\"font-size:12px;\">".__("Send Email",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
+					echo "        <a href='".get_bloginfo('wpurl')."/email-applicant/".$load->Job_ID."/".$load->app_UserLinked."' style=\"font-size:12px;\">".__("Send Email",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
 				}
 				if(RBAgency_Casting::rb_check_in_cart($load->Job_UserProfileID,$load->Job_ID)){
 					echo "        <a class = 'add_casting' href='javascript:;' style=\"font-size:12px;\">".__("Remove from Casting",RBAGENCY_casting_TEXTDOMAIN)."</a><br>";
