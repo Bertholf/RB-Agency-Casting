@@ -151,6 +151,14 @@ $siteurl = get_option('siteurl');
 			//print_r($sql);
 			$implodedSQL = implode(',',$sql);
 			if(!empty($sql)){
+
+				$sql = "SELECT CastingJobID FROM ".$wpdb->prefix."agency_castingcart LIMIT 1";
+				$r = $wpdb->get_results($sql);
+				if(count($r) == 0){
+					//create column
+					$queryAlter = "ALTER TABLE " . $wpdb->prefix ."agency_castingcart ADD CastingJobID INT(10) default 0 AFTER CastingCartID";
+					$resultsDataAlter = $wpdb->query($queryAlter,ARRAY_A);
+				}
 			//$wpdb->query("INSERT INTO " . table_agency_casting_job_application . "  (Job_ID, Job_UserLinked) VALUES  (".$job_id.",". $current_user->ID .")");
 				$final_sql = "INSERT INTO ".table_agency_castingcart."(CastingJobID,CastingCartProfileID, CastingCartTalentID) VALUES".$implodedSQL;
 				//echo $final_sql;
