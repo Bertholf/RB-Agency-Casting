@@ -2281,7 +2281,7 @@
 
 
 function rb_add_agent_to_castingcart(){
-	global $wpdb;
+	/* global $wpdb;
 	$agentid = $_POST['agentid'];
 
 	$agent = $wpdb->get_row("SELECT CastingContactEmail FROM ".$wpdb->prefix."agency_casting WHERE CastingUserLinked = ".$agentid,ARRAY_A);
@@ -2301,6 +2301,46 @@ function rb_add_agent_to_castingcart(){
 
 	
 	die();
+	 */
+	
+	global $wpdb;
+	$agentid = $_POST['agentid'];
+
+	$agent = $wpdb->get_row("SELECT CastingContactEmail FROM ".$wpdb->prefix."agency_casting WHERE CastingUserLinked = ".$agentid,ARRAY_A);
+
+	$cartArray = $_SESSION['cartArray'];
+	$cartArray = explode(",",@end($cartArray));
+	
+	if(in_array($agent['CastingContactEmail'], $_SESSION['cartAgentsArray']) or in_array($agentid, $cartArray)){	
+		foreach($_SESSION['cartAgentsArray'] as $k=>$v){
+			if($v == $agent['CastingContactEmail']){
+				unset($_SESSION['cartAgentsArray'][$k]);
+			}
+		}
+		$cartArray_x = array_diff( $cartArray,array($agentid));
+		$cartString = implode(",", array_unique($cartArray_x));
+		
+		
+		echo 'deleted';
+	}else{
+		$agent = $wpdb->get_row("SELECT CastingContactEmail FROM ".$wpdb->prefix."agency_casting WHERE CastingUserLinked = ".$agentid,ARRAY_A);
+		$_SESSION['cartAgentsArray'][] = $agent['CastingContactEmail'];		
+		
+		array_push( $cartArray,$agentid);
+		$cartString = implode(",", array_unique($cartArray));
+		echo 'inserted';
+		
+		
+	}
+	unset($_SESSION['cartArray']);
+	$_SESSION['cartArray'][] = $cartString;
+	
+	die();
+	
+	
+	
+	
+	
 }
 add_action('wp_ajax_rb_add_agent_to_castingcart','rb_add_agent_to_castingcart');
 add_action('wp_ajax_nopriv_rb_add_agent_to_castingcart','rb_add_agent_to_castingcart');
