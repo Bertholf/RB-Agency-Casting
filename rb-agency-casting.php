@@ -484,7 +484,7 @@ class RBAgencyCasting {
 		class rb_agency_casting_widget_loginactions extends WP_Widget {
 
 			// Setup
-			function rb_agency_casting_widget_loginactions() {
+			function __construct() {
 				$widget_ops = array('classname' => 'rb_agency_casting_widget_profileaction', 'description' => __("Displays profile actions such as login and links to edit", RBAGENCY_casting_TEXTDOMAIN) );
 				$this->WP_Widget('rb_agency_casting_widget_profileaction', __("Agency casting Login", RBAGENCY_casting_TEXTDOMAIN), $widget_ops);
 			}
