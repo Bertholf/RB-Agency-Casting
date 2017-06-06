@@ -25,9 +25,11 @@
 
 	// Get Settings
 	$rb_agency_options_arr = get_option('rb_agency_options');
+    $rb_agencyinteract_options_arr = get_option('rb_agencyinteract_options');
+    
 	$rb_agency_option_profilenaming  = isset($rb_agency_options_arr['rb_agency_option_profilenaming'])?(int)$rb_agency_options_arr['rb_agency_option_profilenaming']:0;
-	$rb_agency_interact_options_arr = get_option('rb_agencyinteract_options');
-	$rb_agencyinteract_option_registerconfirm = isset($rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agency_interact_options_arr['rb_agencyinteract_option_registerconfirm']:0;
+	//$rb_agency_interact_options_arr = get_option('rb_agencyinteract_options');
+	$rb_agencyinteract_option_registerconfirm = isset($rb_agencyinteract_options_arr['rb_agencyinteract_option_registerconfirm']) ?(int)$rb_agencyinteract_options_arr['rb_agencyinteract_option_registerconfirm']:0;
 	$rb_agency_option_casting_toc = isset($rb_agency_options_arr['rb_agency_option_agency_casting_toc'])?$rb_agency_options_arr['rb_agency_option_agency_casting_toc']:"/casting-terms-and-conditions";
 
 
@@ -120,13 +122,34 @@
 			$error .= __("You must agree to the terms and conditions to register.<br />",RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
+        
+        if(isset($_POST['g-recaptcha-response'])){ 
+            
+            $data = array(
+            'secret' => $rb_agencyinteract_options_arr['rb_agencyinteract_secret_key'],
+            'response' => $_POST['g-recaptcha-response']
+            );
+
+            $verify = curl_init();
+            curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+            curl_setopt($verify, CURLOPT_POST, true);
+            curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($verify);
+            $result = json_decode($response); 
+            if($result->success==false){
+                $error .= __("Recaptcha code invalid! <br />", RBAGENCY_interact_TEXTDOMAIN);
+				$have_error = true;
+            }
+        }
 
 		// Bug Free!
 		if($have_error == false){
 
 			$new_user = wp_insert_user( $userdata );
 
-			$rb_agencyinteract_options_arr = get_option('rb_agencyinteract_options');
+			
 
 
 			/*
@@ -416,14 +439,17 @@
 					rb_get_customfields_castingregister();
 	echo "		<input type='hidden' value='".admin_url('admin-ajax.php')."' id='url'>";
 
-
-	echo "       <div id=\"casting-argee\" class=\"rbfield rbcheckbox rbsingle\">\n";
+	echo "       <div id=\"casting-argee\" class=\"clear rbfield rbcheckbox rbsingle\">\n";
 					$casting_agree = get_the_author_meta("casting_agree", $current_user->ID );
 	echo "   		<label></label>\n";
 	echo "   		<div><input type=\"checkbox\" name=\"casting_agree\" value=\"yes\" /> ". sprintf(__("I agree to the %s terms of service",RBAGENCY_casting_TEXTDOMAIN), "<a href=\"".$rb_agency_option_casting_toc ."\" target=\"_blank\">") ."</a></div>\n";
 	echo "       </div><!-- #casting-agree -->\n";
-
-	echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
+    if($rb_agencyinteract_options_arr['rb_agencyinteract_site_key']){
+        echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+        echo '<div class="rbfield rbsingle"><div class="rbfield rbsubmit rbsingle g-recaptcha" data-sitekey="'.$rb_agencyinteract_options_arr['rb_agencyinteract_site_key'].'"></div></div>';
+    }
+    
+    echo "       <div id=\"casting-submit\" class=\"rbfield rbsubmit rbsingle\">\n";
 	echo "   		<input name=\"adduser\" type=\"submit\" id=\"addusersub\" class=\"submit button\" value='".__('Register',RBAGENCY_casting_TEXTDOMAIN)."'/>";
 
 					// if ( current_user_can("create_users") ) { _e("Add User",RBAGENCY_casting_TEXTDOMAIN); } else { _e("Register",RBAGENCY_casting_TEXTDOMAIN); }echo "\" />\n";
@@ -473,6 +499,7 @@
 
 <?php
 	echo "   </form>\n";
+    echo "<div class='clear'></div>";
 	echo "   </div><!-- .rbform -->\n";
 
 			}
