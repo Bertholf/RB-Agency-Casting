@@ -705,7 +705,7 @@ function rb_display_list() {
 		echo " <tbody>\n";
         $query = "SELECT * FROM ". table_agency_casting ." client LEFT JOIN ". table_agency_data_type ." castingtype ON client.CastingType = castingtype.DataTypeID ". $filter  ." ORDER BY $sort $limit";
         $results2 =  $wpdb->get_results($query,ARRAY_A);
-        $count_clients =  $wpdb->num_rows;
+        $count_clients =  $wpdb->num_rows; 
         foreach($results2 as $data) {
 
             $CastingID = $data['CastingID'];

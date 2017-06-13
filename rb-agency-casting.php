@@ -83,7 +83,9 @@ See license.txt for full details.
 	if (!defined("table_agency_casting_job_type"))
 		define("table_agency_casting_job_type", "{$wpdb->prefix}agency_casting_job_type");
 	if (!defined("table_agency_casting_job_application"))
-		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");            
+		define("table_agency_casting_job_application", "{$wpdb->prefix}agency_casting_job_application");   
+    if (!defined("table_agency_casting_type"))
+		define("table_agency_casting_type", "{$wpdb->prefix}table_agency_casting_type");              
 		// Casting
 	if (!defined("table_agency_castingcart"))
 		define("table_agency_castingcart", "{$wpdb->prefix}agency_castingcart");
@@ -298,6 +300,18 @@ class RBAgencyCasting {
 					PRIMARY KEY (Job_Type_ID)
 					);";
 				dbDelta($sql);
+             
+             /*
+			 * Casting Type
+			 */
+				$sql = "CREATE TABLE IF NOT EXISTS " . table_agency_casting_type . " (
+					CastingTypeID bigint(20) NOT NULL AUTO_INCREMENT,
+                    CastingTypeTitle varchar(255) NOT NULL,
+                    CastingTypeSlug varchar(255) DEFAULT NULL,
+					PRIMARY KEY (CastingTypeID)
+					);";
+				dbDelta($sql);
+
 
 			/*
 			 * Casting Job Applications
@@ -439,6 +453,10 @@ class RBAgencyCasting {
 
 		function rb_agency_casting_jobpostings(){
 			include_once('view/admin-jobpostings.php');
+		}
+        
+        function rb_agency_casting_types(){
+			include_once('view/admin-castingtypes.php');
 		}
 
 		function rb_agency_casting_approveclients(){

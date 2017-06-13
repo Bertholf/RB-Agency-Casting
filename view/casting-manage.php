@@ -129,8 +129,10 @@
 						CastingLocationCity = '".$_POST['casting_city']."',
 						CastingLocationState = '".$_POST['CastingState']."',
 						CastingLocationZip = '".$_POST['casting_zip']."',
+                        CastingIsActive = '".$_POST['CastingIsActive']."',
 						CastingLocationCountry = '".$_POST['CastingCountry']."', ";
-			$update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
+			
+            $update .= "CastingDateUpdated = now() WHERE CastingUserLinked = " . $current_user->ID ;
 
 			$result = $wpdb->query($update);
 

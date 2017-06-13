@@ -173,7 +173,7 @@
 					$CastingIsActive = 1; 
 				}
 			}
-			
+            
 
 			//create folder
 			$CastingGallery 		= "casting-agent-" . $new_user;
@@ -210,27 +210,37 @@
 							CastingLocationZip,
 							CastingLocationCountry,
 							CastingDateCreated,
-							CastingIsActive,CastingType)" .
-						"VALUES (". $new_user .
-						",'" . esc_sql($CastingGallery) . "','" .
-								esc_sql($CastingContactDisplay) .
-						"','" . esc_sql($first_name) . "','" .
-								esc_sql($last_name) .
-						"','" . esc_sql($user_email) . "','" .
+							CastingIsActive,
+                            CastingType)" .
+						" VALUES ('". $new_user ."','" . 
+						        esc_sql($CastingGallery) . "','" .
+								esc_sql($CastingContactDisplay) ."','" . 
+						        esc_sql($first_name) . "','" .
+								esc_sql($last_name) .	"','" .
+                                esc_sql($user_email) . "','" .
 								esc_sql($_POST['casting_company']) . "','" .
 								esc_sql($_POST['casting_website']) . "','" .
 								esc_sql($_POST['casting_address']) . "','" .
 								esc_sql($_POST['casting_city']) . "','" .
 								esc_sql($_POST['CastingState']) . "','" .
 								esc_sql($_POST['casting_zip']) . "','" .
-								esc_sql($_POST['CastingCountry']) . "'" .
-								",now(), ".
-								$CastingIsActive .",".$_POST["casting_type"].")";
+								esc_sql($_POST['CastingCountry']) . "'," .
+								"now(),'".
+								$CastingIsActive ."','".
+                                $_POST["casting_type"]."')";
 
 				$results = $wpdb->query($insert);
 				$CastingID = $wpdb->insert_id;
 
-				// Log them in if no confirmation required.
+				
+                if($wpdb->last_error){
+                    echo $wpdb->last_error;
+                    $error .= __($wpdb->last_error,RBAGENCY_casting_TEXTDOMAIN);
+                    $have_error = true;
+                    exit;
+                }
+                
+                // Log them in if no confirmation required.
 				if ($rb_agencyinteract_option_registerconfirm == 1) {
 					global $error;
 					//$login = wp_login( $user_login, $user_pass );
