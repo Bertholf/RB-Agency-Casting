@@ -316,7 +316,7 @@ global $wpdb;
 
 	}
     
-    if (substr(get_option('rb_agency_version'), 0, 7) == "0.2.1") {
+    if (substr(get_option('rb_agency_version'), 0, 7) == "0.1.8") {
 	
 		// Updating version number!
 		update_option('rb_agency_version', "0.2.1");
