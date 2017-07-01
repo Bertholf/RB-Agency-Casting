@@ -479,31 +479,19 @@
 		function rb_agency_save_castingcart() {
 			global $wpdb;
 
-			if(is_user_logged_in()){
-				if(isset($_POST["talentID"])){
-					//$query_castingcart = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID='' OR CastingJobID <= 0)") ,ARRAY_A);
-					$query_castingcart = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID<= 0 OR CastingJobID IS NULL) ") ,ARRAY_A);
-					//$query_castingcart = $wpdb->get_row($wpdb->prepare("SELECT * FROM ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."' AND CastingCartProfileID = '".rb_agency_get_current_userid()."'") ,ARRAY_A);
-					$count_castingcart = $wpdb->num_rows;
-					$datas_castingcart = $query_castingcart;
-					if($count_castingcart<=0){ //if not exist insert favorite!
-						$wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
+			if(is_user_logged_in() && isset($_POST["talentID"])){
+			 print_r($_POST);
+				if(isset($_POST["addtocasting"]) && $_POST["addtocasting"]=='true'){
+				    
+                    $wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
 						echo "inserted";
-					} else { // favorite model exist, now delete!
-						$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."' AND (CastingJobID<= 0 OR CastingJobID IS NULL) ");
-						//$wpdb->query("DELETE FROM  ". table_agency_castingcart."  WHERE CastingCartTalentID='".$_POST["talentID"]."'  AND CastingCartProfileID = '".rb_agency_get_current_userid()."'");
-						
-						
-						/* $query_castingcartx = $wpdb->get_results($wpdb->prepare("DELETE FROM ". table_agency_castingcart));
-						print_r($query_castingcartx);
-						echo "cart format."; */
-						echo "deleted";
-					}
-					
-				}/* 
+				}
+                if(isset($_POST["addtocasting"]) && $_POST["addtocasting"]=='false'){
+				    $wpdb->delete(table_agency_castingcart,array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
+						echo 'deleted';		    
+				}
 				
-				$query_castingcartx = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". table_agency_castingcart));
-				print_r($query_castingcartx); */
+				
 			}
 			else {
 				echo "not_logged";
@@ -665,8 +653,8 @@
 		<?php
 		}
 
-		add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
-		add_action('wp_footer', 'rb_agency_save_castingcart_javascript');
+add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
+//add_action('wp_footer', 'rb_agency_save_castingcart_javascript');
 
 
 	function load_criteria_fields(){

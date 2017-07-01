@@ -317,9 +317,19 @@ global $wpdb;
 	}
     
     if (substr(get_option('rb_agency_version'), 0, 7) == "0.1.8") {
-	
+        
 		// Updating version number!
 		update_option('rb_agency_version', "0.2.1");
+	}
+    
+    if (substr(get_option('rb_agency_version'), 0, 7) == "0.2.1") {
+        
+        
+	   $castingIndex = $wpdb->query("SHOW INDEX FROM ".table_agency_castingcart." WHERE KEY_NAME = 'CastingProfileTalent'");
+       if(!$castingIndex){
+        $wpdb->query("CREATE UNIQUE INDEX CastingProfileTalent ON ".table_agency_castingcart." (CastingCartProfileID,CastingCartTalentID)");
+       }
+		
 	}
 
 

@@ -17,27 +17,20 @@ By installing, copying, or otherwise using the Software, You agree to be bound b
 If You do not agree to the terms of this License, do not install or use the Software.
 See license.txt for full details.
 */
-
 // *************************************************************************************************** //
-
 /*
  * Security
  */
-
 	// Avoid direct calls to this file, because now WP core and framework has been used
 	if ( !function_exists('add_action') ) {
 		header('Status: 403 Forbidden');
 		header('HTTP/1.1 403 Forbidden');
 		exit();
 	}
-
-
 // *************************************************************************************************** //
-
 /*
  * Declare Global Constants
  */
-
 	// Version
 	define("RBAGENCY_casting_VERSION", $RBAGENCY_casting_VERSION); // e.g. 1.0
 	// Paths
@@ -49,31 +42,21 @@ See license.txt for full details.
 	define("RBAGENCY_casting_UPLOADPATH", $rb_agency_casting_WPUPLOADARRAY['basedir'] ."/profile-media/" ); // /home/content/99/6048999/html/domain.com/wordpress/wp-content/uploads/profile-media/
 	define("RBAGENCY_casting_TEXTDOMAIN", basename(dirname( __FILE__ )) ); //   rb-agency
 	define("RBAGENCY_casting_BASEREL", plugin_dir_path( __FILE__ ) );
-
 		// RB Agency  Casting Plugin Path
 	if (!defined('RBAGENCY_casting_PLUGIN_NAME')) // rb-agency-casting
 		define('RBAGENCY_casting_PLUGIN_NAME', strtolower(trim(dirname(plugin_basename(__FILE__)), '/')));
-
 	if (!defined('RBAGENCY_casting_PLUGIN_DIR')) // httdocs/domain/wp-content/plugins/rb-agency-casting/
 		define('RBAGENCY_casting_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . RBAGENCY_casting_PLUGIN_NAME . '/');
-
 	if (!defined('RBAGENCY_casting_PLUGIN_URL')) // http://localhost/wp-content/plugins/rb-agency-casting/
 		define('RBAGENCY_casting_PLUGIN_URL', WP_PLUGIN_URL . '/' . RBAGENCY_casting_PLUGIN_NAME . '/');
-
-
 // *************************************************************************************************** //
-
 /*
  * Declare Global WordPress Database Access
  */
-
 	global $wpdb;
-
-
 /*
  * Set Table Names
  */
-
 	if (!defined("table_agency_casting"))
 		define("table_agency_casting", "{$wpdb->prefix}agency_casting");
 	if (!defined("table_agency_castingcart"))
@@ -99,11 +82,7 @@ See license.txt for full details.
 		define("table_agency_casting_register_customfields", "{$wpdb->prefix}agency_casting_register_customfields");
 	if (!defined("table_agency_casting_job_customfields"))
 		define("table_agency_casting_job_customfields", "{$wpdb->prefix}agency_casting_job_customfields");
-
-
 // *************************************************************************************************** //
-
-
 /*
  * Initialize
  */
@@ -111,100 +90,64 @@ See license.txt for full details.
 	add_action('init',  array('RBAgencyCasting', 'init'));
 	// Check if version number changed and upgrade required
 	add_action('init',  array('RBAgencyCasting', 'check_update_needed'));
-
-
-
 // *************************************************************************************************** //
-
-
 /*
  * Call Function and Language
  */
-
 	require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/functions.php");
 	require_once(WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)) . "/app/ajax.casting.php");
-
-
-
 // *************************************************************************************************** //
-
 /*
  * RB Agency casting Class
  */
-
-
 class RBAgencyCasting {
-
 	/*
 	 * Initialization
 	 */
-
 		public static function init(){
-
 			/*
 			 * Internationalization
 			 */
-
 				// Identify Folder for PO files
 				load_plugin_textdomain( RBAGENCY_casting_TEXTDOMAIN, false, basename( dirname( __FILE__ ) ) . '/translation/' ); 
-
 				// Load Jquery if not registered
-
-
-
 			/*
 			 * Admin Related
 			 */
 			if ( is_admin() ){
-
 				// TODO:
-
-
 				// Load Menus
 				//add_action('admin_menu', array('RBAgency_Admin', 'menu_admin'));
-
 				// Register Settings
 				add_action('admin_init', array('RBAgencyCasting', 'do_register_settings') );
 			} else {
-
 				wp_enqueue_script('jquery-core');
 				wp_enqueue_script( 'jquery-ui-core' );
 				wp_enqueue_script( 'jquery-ui-datepicker' );
-
 			}
-
 		}
-
-
 	/*
 	 * Plugin Activation
 	 * Run when the plugin is installed.
 	 */
-
 		public static function activation(){
-
 			// Required for all WordPress database manipulations
 			global $wpdb;
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
 			/*
 			 * Check Permissions
 			 */
-
 				// Does the user have permission to activate the plugin
 				if ( !current_user_can('activate_plugins') )
 					return;
 				// Check Admin Referer
 				$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 				check_admin_referer( "activate-plugin_{$plugin}" );
-
 			/*
 			 * Initialize Options
 			 */
-
 				// Update the options in the database
 				if(!get_option("rb_agency_casting_options")) {
-
 					// Set Default Options
 					$rb_agency_casting_options_arr = array(
 						"rb_agency_casting_option_registerapproval" => 1,
@@ -213,7 +156,6 @@ class RBAgencyCasting {
 					// Add Options
 					update_option("rb_agency_casting_options",$rb_agency_casting_options_arr);
 				}
-
 			/*
 			 * Install Schema
 			 */
@@ -226,7 +168,6 @@ class RBAgencyCasting {
 					PRIMARY KEY (CastingCartID)
 					);";
 				dbDelta($sql);
-
 				/*
 				 * Casting 
 				 */
@@ -261,7 +202,6 @@ class RBAgencyCasting {
 					PRIMARY KEY (CastingID)
 					);";
 				dbDelta($sql);
-
 			/*
 			 * Casting Job
 			 */
@@ -289,7 +229,6 @@ class RBAgencyCasting {
 					PRIMARY KEY (Job_ID)
 					);";
 				dbDelta($sql);
-
 			/*
 			 * Casting Job Type
 			 */
@@ -300,7 +239,6 @@ class RBAgencyCasting {
 					PRIMARY KEY (Job_Type_ID)
 					);";
 				dbDelta($sql);
-             
              /*
 			 * Casting Type
 			 */
@@ -311,8 +249,6 @@ class RBAgencyCasting {
 					PRIMARY KEY (CastingTypeID)
 					);";
 				dbDelta($sql);
-
-
 			/*
 			 * Casting Job Applications
 			 */
@@ -351,67 +287,46 @@ class RBAgencyCasting {
 					PRIMARY KEY (CastingProfileHashID)
 					);";
 					dbDelta($sql);
-
-
 		}
-
-
 	/*
 	 * Plugin Deactivation
 	 * Cleanup when complete
 	 */
-
 		public static function deactivation(){
-
 			// TODO: Enhance
 		}
-
-
 	/*
 	 * Plugin Uninstall
 	 * Cleanup when complete
 	 */
-
 		public static function uninstall(){
-
 			// Does user have permission?
 			if ( ! current_user_can( 'activate_plugins' ) )
 				return;
 			check_admin_referer( 'bulk-plugins' );
-
 			// Important: Check if the file is the one that was registered during the uninstall hook.
 			if ( __FILE__ != WP_UNINSTALL_PLUGIN )
 				return;
-
 			// Permission Granted... Remove
 			global $wpdb; // Required for all WordPress database manipulations
-
 			// Drop the tables
 			$wpdb->query("DROP TABLE " . table_agency_castingcart);
 			//$wpdb->query("DROP TABLE " . table_agency_casting_temp);
-
 			// Delete Saved Settings
 			delete_option('rb_agency_casting_options');
-
 			$thepluginfile = "rb-agency-casting/rb-agency-casting.php";
 			$current = get_settings('active_plugins');
 			array_splice($current, array_search( $thepluginfile, $current), 1 );
 			update_option('active_plugins', $current);
 			do_action('deactivate_' . $thepluginfile );
-
 			echo "<div style=\"padding:50px;font-weight:bold;\"><p>". __("Almost done...", RBAGENCY_casting_TEXTDOMAIN) ."</p><h1>". __("One More Step", RBAGENCY_casting_TEXTDOMAIN) ."</h1><a href=\"plugins.php?deactivate=true\">". __("Please click here to complete the uninstallation process", RBAGENCY_casting_TEXTDOMAIN) ."</a></h1></div>";
 			die;
-
 		}
-
-
 	/*
 	 * Update Needed
 	 * Is this an updated version of the software and needs database upgrade?
 	 */
-
 		public static function check_update_needed(){
-
 			// Hold the version in a seprate option
 			if(!get_option("RBAGENCY_casting_VERSION")) {
 				update_option("RBAGENCY_casting_VERSION", RBAGENCY_casting_VERSION);
@@ -424,89 +339,60 @@ class RBAgencyCasting {
 				}
 			}
 		}
-
-
 	/*
 	 * Register Settings
 	 * Register Settings group
 	 */
-
 		public static function do_register_settings() {
 			register_setting('rb-agencycasting-settings-group', 'rb_agency_casting_options'); //, 'rb_agency_casting_options_validate'
 		}
-
 }
-
 	/*
 	 * Administrative Menu
 	 * Create the admin menu items
 	 */
-
 		// Dont Delete this...
 		function rb_agency_casting_menu() {
 			return true;
 		}
-
 		function rb_agency_casting_searchsaved(){
 			include_once('view/admin-searchsaved.php');
 		}
-
 		function rb_agency_casting_jobpostings(){
 			include_once('view/admin-jobpostings.php');
 		}
-        
         function rb_agency_casting_types(){
 			include_once('view/admin-castingtypes.php');
 		}
-
 		function rb_agency_casting_approveclients(){
 			include_once('view/admin-approveclients.php');
 		}
 		function rb_agency_casting_calendar(){
 			include_once('view/admin-castingcalendar.php');
 		}
-
-
-
 // *************************************************************************************************** //
-
 /*
  * Plugin Actions
  */
-
 	// Activate Plugin
 	register_activation_hook(__FILE__, array('RBAgencyCasting', 'activation'));
-
 	// Deactivate Plugin
 	register_deactivation_hook(__FILE__, array('RBAgencyCasting', 'deactivation'));
-
 	// Uninstall Plugin
 	register_uninstall_hook(__FILE__, array('RBAgencyCasting', 'uninstall'));
-
 // *************************************************************************************************** //
-
-
-
-
-
-
 // *************************************************************************************************** //
 // Add Widgets
-
 	/*
 	 * Login / Actions Widget
 	 */
-
 		add_action('widgets_init', create_function('', 'return register_widget("rb_agency_casting_widget_loginactions");'));
-
 		class rb_agency_casting_widget_loginactions extends WP_Widget {
-
 			// Setup
 			function __construct() {
 				$widget_ops = array('classname' => 'rb_agency_casting_widget_profileaction', 'description' => __("Displays profile actions such as login and links to edit", RBAGENCY_casting_TEXTDOMAIN) );
 				$this->WP_Widget('rb_agency_casting_widget_profileaction', __("Agency casting Login", RBAGENCY_casting_TEXTDOMAIN), $widget_ops);
 			}
-
 			// What Displays
 			function widget($args, $instance) {
 				extract($args, EXTR_SKIP);
@@ -514,9 +400,7 @@ class RBAgencyCasting {
 				$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
 				$count = $instance['trendShowCount'];
 				$atts = array('count' => $count);
-
 				if(!is_user_logged_in()){
-
 					if ( !empty( $title ) ) {echo $before_title . $title . $after_title; };
 							echo "<div class=\"rbform\">\n";
 							echo "	<form name=\"loginform\" id=\"login\" action=\"". network_site_url("/") ."casting-login/\" method=\"post\">\n";
@@ -552,10 +436,8 @@ class RBAgencyCasting {
 							rb_agency_profilesearch(array("layout" =>"simple"));
 						}
 					}
-
 				echo $after_widget;
 			}
-
 			// Update
 			function update($new_instance, $old_instance) {
 				$instance = $old_instance;
@@ -563,7 +445,6 @@ class RBAgencyCasting {
 				$instance['trendShowCount'] = strip_tags($new_instance['trendShowCount']);
 				return $instance;
 			}
-
 			// Form
 			function form($instance) {
 				$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
@@ -574,18 +455,12 @@ class RBAgencyCasting {
 					<p><label for="<?php echo $this->get_field_id('trendShowCount'); ?>"><?php _e('Show Count:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('trendShowCount'); ?>" name="<?php echo $this->get_field_name('trendShowCount'); ?>" type="text" value="<?php echo $trendShowCount; ?>" /></label></p>
 				<?php
 			}
-
 		}// class
-
-
-
 // *************************************************************************************************** //
 // Add Short Codes
-
 	/*
 	 * Registration Shortcode
 	 */
-
 		add_shortcode("agency_register","rb_agency_casting_shortcode_agencyregister");
 			function rb_agency_casting_shortcode_agencyregister($atts, $content = null){
 				ob_start();
@@ -594,5 +469,4 @@ class RBAgencyCasting {
 				ob_end_clean();
 				return $output_string;
 			}
-
 ?>
