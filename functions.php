@@ -480,7 +480,7 @@
 			global $wpdb;
 
 			if(is_user_logged_in() && isset($_POST["talentID"])){
-			 print_r($_POST);
+			 
 				if(isset($_POST["addtocasting"]) && $_POST["addtocasting"]=='true'){
 				    
                     $wpdb->insert(table_agency_castingcart, array('CastingCartProfileID'=>rb_agency_get_current_userid(), 'CastingCartTalentID'=>$_POST["talentID"]));
