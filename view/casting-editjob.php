@@ -33,9 +33,9 @@ if($count > 0){
 $Job_criteria_old = $data['Job_Criteria'];
 
 //populate from post if there are new values
-foreach($_GET as $key => $val) {
+foreach($_POST as $key => $val) {
 	if(array_key_exists($key, $data)){
-		$data[$key] = $_GET[$key];
+		$data[$key] = $_POST[$key];
 	}
 }
 
@@ -45,34 +45,34 @@ echo $rb_header = RBAgency_Common::rb_header();
 // if sumitted process here
 //===============================
 
-if(isset($_GET['save_job'])){
+if(isset($_POST['save_job'])){
 
 		// Error checking
 		$error = "";
 		$have_error = false;
 		$date_confirm = 0;
 
-		if ( empty($_GET['Job_Title'])) {
+		if ( empty($_POST['Job_Title'])) {
 			$error .= __("Job Title is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
-		if ( empty($_GET['Job_Text'])) {
+		if ( empty($_POST['Job_Text'])) {
 			$error .= __("Job Description is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
-		if ( empty($_GET['Job_Offering'])) {
+		if ( empty($_POST['Job_Offering'])) {
 			$error .= __("Job Offer is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
 
-		if ( empty($_GET['Job_Date_Start'])) {
+		if ( empty($_POST['Job_Date_Start'])) {
 			$error .= __("Start Date is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
 		} else {
-			list($y,$m,$d)= explode('-',$_GET['Job_Date_Start']);
+			list($y,$m,$d)= explode('-',$_POST['Job_Date_Start']);
 			if(checkdate($m,$d,$y)!==true){
 				$error .= __("Start Date is invalid date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
@@ -80,12 +80,12 @@ if(isset($_GET['save_job'])){
 			}
 		}
 
-		if ( empty($_GET['Job_Date_End'])) {
+		if ( empty($_POST['Job_Date_End'])) {
 			$error .= __("End Date is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 			$date_confirm++;
 		} else {
-			list($y,$m,$d)= explode('-',$_GET['Job_Date_End']);
+			list($y,$m,$d)= explode('-',$_POST['Job_Date_End']);
 			if(checkdate($m,$d,$y)!==true){
 				$error .= __("End Date is invalid date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
@@ -94,27 +94,27 @@ if(isset($_GET['save_job'])){
 		}
 
 		if($date_confirm == 0){
-			$date_start = strtotime($_GET['Job_Date_Start']);
-			$date_end = strtotime($_GET['Job_Date_End']);
+			$date_start = strtotime($_POST['Job_Date_Start']);
+			$date_end = strtotime($_POST['Job_Date_End']);
 			if($date_start > $date_end){
 				$error .= __("Start Date cannot be greate than the End Date.<br />", RBAGENCY_casting_TEXTDOMAIN);
 				$have_error = true;
 			}
 		}
 
-		if ( empty($_GET['Job_Location'])) {
+		if ( empty($_POST['Job_Location'])) {
 			$error .= __("Job Location is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_GET['Job_Region'])) {
+		if ( empty($_POST['Job_Region'])) {
 			$error .= __("Job Region is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_GET['Job_Type'])) {
+		if ( empty($_POST['Job_Type'])) {
 			$error .= __("Job type is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
-		if ( empty($_GET['Job_Visibility'])) {
+		if ( empty($_POST['Job_Visibility'])) {
 			$error .= __("Visibility is required.<br />", RBAGENCY_casting_TEXTDOMAIN);
 			$have_error = true;
 		}
@@ -128,7 +128,7 @@ if(isset($_GET['save_job'])){
 			$criteria = array();
 
 			//get string values
-			foreach($_GET as $key => $val){
+			foreach($_POST as $key => $val){
 				if($key != "save_job"){
 					
 					if (strpos($key, "ProfileCustomID") > -1){
@@ -139,6 +139,7 @@ if(isset($_GET['save_job'])){
 									$n .= "-" . $x; 
 								}
 								$n = trim($n,"-");
+                                
 							} else {
 								$n = trim($val);
 							}
@@ -173,74 +174,29 @@ if(isset($_GET['save_job'])){
 			$wpdb->query($sql_update);
 
 			/**UPDATE CUSTOM FIELDS**/
-
-							foreach($_GET as $k=>$v){
+                            $wpdb->delete($wpdb->prefix."agency_casting_job_customfields",array('Job_ID'=>$JobID));
+							foreach($_POST as $k=>$v){
 
 								$parseCustom = explode("_",$k);
 								
 								if($parseCustom[0] == 'UpdateJob'){
 
-									$profilecustom_ids[] = $parseCustom[1];
-									$profilecustom_types[] = $parseCustom[2];
-									$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Customfield_ID = ". $parseCustom[1];
-									$wpdb->get_results($query_get,ARRAY_A);
-									if($wpdb->num_rows > 0){
-										//Update
-										foreach($profilecustom_ids as $k=>$v){
-											foreach($_GET["UpdateJob_".$v."_".$profilecustom_types[$k]] as $key=>$value){
-												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
-													$data = implode("|",$_GET["UpdateJob_".$v."_".$profilecustom_types[$k]]);
-												}else{
-													$data = $_GET["UpdateJob_".$v."_".$profilecustom_types[$k]][$key];
-												}
-												if(empty($data) || $data == '--Select--'){
-													$data = NULL;
-												}
-												
-												$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_job_customfields
-																				SET Customfield_value = '".esc_attr($data)."' WHERE Job_ID = ".esc_attr($JobID)." AND Customfield_ID = ".esc_attr($v)."
-																				";
-											}
-																	
-										}
-
-										$temp_arr = array();
-										foreach($update_to_casting_custom as $k=>$v){
-											if(!in_array($v,$temp_arr)){
-
-												$wpdb->query($v);
-												$temp_arr[$k] = $v; 
-											}						
-										}
-									}else{
-										//Add
-										foreach($profilecustom_ids as $k=>$v){
-											echo $v;
-											foreach($_GET["UpdateJob_".$v."_".$profilecustom_types[$k]] as $key=>$value){
-												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
-													$data = implode("|",$_GET["UpdateJob_".$v."_".$profilecustom_types[$k]]);
-												}else{
-													$data = $_GET["UpdateJob_".$v."_".$profilecustom_types[$k]][$key];
-												}
-												if(empty($data) || $data == '--Select--'){
-													$data = NULL;
-												}
-
-												$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($JobID)."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";							
-											}
-																	
-										}
-										$temp_arr = array();
-										foreach($insert_to_casting_custom as $k=>$v){
-											if(!in_array($v,$temp_arr)){
-												$wpdb->query($v);
-												$temp_arr[$k] = $v; 
-											}						
+									
+                                    $data = 'NULL';
+                                    if(isset($_POST[$k]) && !empty($_POST[$k])){
+									   if($parseCustom[2] == 9 || $parseCustom[2] == 5){
+											$data = implode("|",$_POST[$k]);
+										}else{
+											$data = $v[0];
 										}
 									}
+									
+                                        $insert_to_casting_custom = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($JobID)."','".esc_attr($parseCustom[1])."','".esc_attr($data)."','".esc_attr($parseCustom[2])."')";
+									    $wpdb->query($insert_to_casting_custom);
+									
 								}
 							}
-							
+                            
 
 							/**END UPDATE CUSTOM FIELDS**/
 
@@ -302,11 +258,10 @@ function load_job_display($error = NULL, $data){
 		//===============================
 		//	table form
 		//===============================
-		echo " <form method='get' actipn='".$_SERVER['PHP_SELF']."' class=\"rbform\">
+		echo " <form method='post' actipn='".$_SERVER['PHP_SELF']."' class=\"rbform\">
 					<table>
 						<tr>
-							<td><h3>".__("Job Description",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
-							<td></td>
+							<td colspan='2'><h3>".__("Job Description",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 						</tr>
 						<tr>
 							<td>".__("Title:",RBAGENCY_casting_TEXTDOMAIN)."</td>
@@ -321,7 +276,7 @@ function load_job_display($error = NULL, $data){
 							<td><input type='text' name='Job_Offering' value='".$data['Job_Offering']."'></td>
 						</tr>
 						<tr>
-							<td><h3>".__("Job Duration",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
+							<td colspan='2'><h3>".__("Job Duration",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 						</tr>
 						<tr>
 						<td>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</td>
@@ -350,7 +305,7 @@ function load_job_display($error = NULL, $data){
 						
 						
 						<tr>
-							<td><h3>".__("Job Location",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
+							<td colspan='2'><h3>".__("Job Location",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 						</tr>
 						<tr>
 							<td>".__("Location:",RBAGENCY_casting_TEXTDOMAIN)."</td>
@@ -361,7 +316,7 @@ function load_job_display($error = NULL, $data){
 							<td><input type='text' name='Job_Region' value='".$data['Job_Region']."'></td>
 						</tr>
 						<tr>
-							<td><h3>".__("Job Audition",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
+							<td colspan='2'><h3>".__("Job Audition",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 						</tr>
 						<tr>
 							<td>".__("Date Start:",RBAGENCY_casting_TEXTDOMAIN)."</td>
@@ -394,7 +349,7 @@ function load_job_display($error = NULL, $data){
 							</td>
 						</tr>
 						<tr>
-							<td><h3>".__("Job Criteria",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
+							<td colspan='2'><h3>".__("Job Criteria",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 						</tr>
 						<tr>
 							<td>".__("Type:",RBAGENCY_casting_TEXTDOMAIN)."</td>

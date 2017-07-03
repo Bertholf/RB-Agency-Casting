@@ -428,82 +428,32 @@ $siteurl = get_option('siteurl');
 
 							//print_r($_POST);
 							/**UPDATE CUSTOM FIELDS**/
+                            $wpdb->delete($wpdb->prefix."agency_casting_job_customfields",array('Job_ID'=>$_GET["Job_ID"]));
 							foreach($_POST as $k=>$v){
+							 
 								$parseCustom = explode("_",$k);
 								if($parseCustom[0] == 'ProfileCustom2'){
-									$profilecustom_ids[] = $parseCustom[1];
-									$profilecustom_types[] = $parseCustom[2];
-									$query_get = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields WHERE Customfield_ID = ". $parseCustom[1]." AND Job_ID = ".$_GET['Job_ID'];
-									$wpdb->get_results($query_get,ARRAY_A);
-									if($wpdb->num_rows > 0){
-										//echo "update";
-										//Update
-										//print_r($profilecustom_ids);
-										foreach($profilecustom_ids as $k=>$v){
-											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
-												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
-													$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
-
+				    
+                                    $data = 'NULL';
+                                            if(isset($_POST[$k]) && !empty($_POST[$k])){
+											   if($parseCustom[2] == 9 || $parseCustom[2] == 5){
+													$data = implode("|",$_POST[$k]);
 												}else{
-													$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
+													$data = $v[0];
 												}
-												if(empty($data) || $data == '--Select--'){
-													$data = NULL;
-												}
-												//$data = 25;
-												//echo $data . ' = '.$v;
-
-												$update_to_casting_custom[] = "UPDATE ".$wpdb->prefix."agency_casting_job_customfields
-																				SET Customfield_value = '".esc_attr($data)."' WHERE Job_ID = ".esc_attr($_GET["Job_ID"])." AND Customfield_ID = ".esc_attr($v)."
-																				";
 											}
-
-										}
-
-
-										$temp_arr = array();
-										foreach($update_to_casting_custom as $k=>$v){
-											if(!in_array($v,$temp_arr)){
-												global $wpdb;
-												//echo $v."<br>";
-												$wpdb->query($v);
-												//$temp_arr[$k] = $v;
-												array_push($temp_arr,$v);
-											}
-										}
-									}else{
-										//Add
-										//print_r($profilecustom_ids);
-										//echo "add";
-										foreach($profilecustom_ids as $k=>$v){
-											//print_r($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]);
-											foreach($_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]] as $key=>$value){
-												if($profilecustom_types[$k] == 9 || $profilecustom_types[$k] == 5){
-													$data = implode("|",$_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]]);
-												}else{
-													$data = $_POST["ProfileCustom2_".$v."_".$profilecustom_types[$k]][$key];
-												}
-												if(empty($data) || $data == '--Select--'){
-													$data = NULL;
-												}
-												//echo $profilecustom_types[$k];
-												$insert_to_casting_custom[] = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($_GET["Job_ID"])."','".esc_attr($v)."','".esc_attr($data)."','".esc_attr($profilecustom_types[$k])."')";
-											}
-
-										}
-										$wpdb->query("ALTER TABLE ". $wpdb->prefix."agency_casting_job_customfields CHANGE Customfield_value Customfield_value VARCHAR(100)");
-
-										$temp_arr = array();
-										foreach($insert_to_casting_custom as $k=>$v){
-											if(!in_array($v,$temp_arr)){
-												$wpdb->query($v);
-												$temp_arr[$k] = $v;
-											}
-										}
-									}
+                                    
+									
+										                                        
+                                        $insert_to_casting_custom = "INSERT INTO ".$wpdb->prefix."agency_casting_job_customfields(Job_ID,Customfield_ID,Customfield_value,Customfield_type) values('".esc_attr($_GET["Job_ID"])."','".esc_attr($parseCustom[1])."','".esc_attr($data)."','".esc_attr($parseCustom[2])."')";
+									    $wpdb->query($insert_to_casting_custom);
+                                   
+                                    
+                                        
+                                   
 								}
-							}
-
+                                
+                            }
 
 							/**END UPDATE CUSTOM FIELDS**/
 							if(isset($_POST["resend"]) and !empty($_POST["Job_Talents_Resend_To"])){
@@ -607,39 +557,6 @@ $siteurl = get_option('siteurl');
 		$notified = RBAgency_Casting::sendClientNotification($CastingContactEmail,$_POST["message"],$bcc_emails);
 		echo ('<div id="message" class="updated"><p>Notification successfully sent!</p></div>');
 	}
-
-/*	if(isset($_GET["action2"]) && $_GET["action2"] == "addtoexisting"){
-									$cartArray = isset($_SESSION['cartArray'])?$_SESSION['cartArray']:array();
-									$cartString = implode(",", array_unique($cartArray));
-									$cartString = RBAgency_Common::clean_string($cartString);
-
-		echo "<div class=\"boxblock-container\">";
-				echo "<div class=\"boxblock\" style=\"width:50%\" >";
-
-							echo "<h3>Add to existing Job</h3>";
-
-					echo "<div class=\"innerr\" style=\"padding: 10px;\">";
-					echo "<form class=\"castingtext\" method=\"post\" action=\"\">";
-						echo "<div class=\"rbfield rbtext rbsingle \" id=\"\">";
-							echo "<div>";
-								echo "<select name=\"Job_ID\" style=\"width:80%;\">";
-								echo "<option value=\"\">- Select -</option>";
-								$castings = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ORDER BY Job_ID DESC");
-								foreach ($castings as $key) {
-									echo "<option value=\"".$key->Job_ID."-".$key->Job_UserLinked."\">".$key->Job_Title."</option>";
-								}
-								echo "<select>";
-								echo "&nbsp;<input type=\"submit\" class=\"button-primary button\" name=\"addtoexisting\" value=\"Submit\"/>";
-							echo "</div>";
-						echo "</div>";
-						echo "<input type=\"hidden\" name=\"addprofilestocasting\" value=\"".$cartString."\"/>";
-					echo "</form>";
-					echo "</div>";
-				echo "</div>";
-		echo "</div>";
-
-
-	}*/
 
 	if(isset($_GET["action2"]) && $_GET["action2"] == "addnew" || isset($_GET["Job_ID"])){
 

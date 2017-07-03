@@ -1015,8 +1015,9 @@ add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
 	    	$result_query_get = $wpdb->get_results($query_get,ARRAY_A);
 	    	//print_r($result_query_get);
 	    	$current_user = wp_get_current_user();
-			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
+			$userLevel = get_user_meta($current_user->ID, $wpdb->prefix.'user_level', true);
 			$temp_arr = array();
+            
 	    	foreach($result_query_get as $res){
 	    		if(!in_array($res['ProfileCustomID'],$temp_arr)){
 		    		if($res['ProfileCustomView'] == 0){
@@ -1035,6 +1036,7 @@ add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
 	    }
 
 	    function rb_get_customfields_admin_castingjobs_func($result){
+	      
 	    	$ProfileCustomID = $result['ProfileCustomID'];
 		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
 			   $ProfileCustomType  = $result['ProfileCustomType'];
@@ -1442,6 +1444,7 @@ add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
 		       $ProfileCustomTitle = $result['ProfileCustomTitle'];
 			   $ProfileCustomType  = $result['ProfileCustomType'];
 			   $ProfileCustomOptions = $result['ProfileCustomOptions'];
+               
 			   
 			    if($ProfileCustomType == 1 || $ProfileCustomType == 7){
 			   	    echo "<tr>";
@@ -1476,13 +1479,13 @@ add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
 			   }elseif($ProfileCustomType == 5){
 			   		echo "<tr>";
 			   	    	echo "<td>".$ProfileCustomTitle."</td>";
-			   	    	echo "<td>";
+	    	  			 echo "<td>";
 			   	    	$parse = explode("|",$ProfileCustomOptions);			   	    	
 			   	    	for($idx=0;$idx<count($parse);$idx++){
 			   	    		if(!empty($parse[$idx])){
 			   	    			$custom_value = rb_agency_get_casting_job_custom_value($JobID,$ProfileCustomID);			   	    		
 			   	    			$checked = strpos($custom_value,$parse[$idx]) !== false ? "checked" : "";	
-			   	    			echo "<input type=\"checkbox\" name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."\n";
+			   	    			echo "<label class='rb-checkbox-label'><input type=\"checkbox\" name=\"UpdateJob_".$ProfileCustomID."_".$ProfileCustomType."[]\" value=\"".$parse[$idx]."\" ".$checked.">".$parse[$idx]."</label>";
 			   	    		}			   	    		
 			   	    	}
 			   	    	echo "</td>";
@@ -1544,14 +1547,15 @@ add_action('wp_ajax_rb_agency_save_castingcart', 'rb_agency_save_castingcart');
 	    	//Get Job ID
 	    	$JobID = get_query_var('target');
 
-	    	$sql = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields job INNER JOIN ".$wpdb->prefix."agency_customfields cust ON cust.ProfileCustomID = job.Customfield_ID WHERE job.Job_ID = ".$JobID;
+	    	//$sql = "SELECT * FROM ".$wpdb->prefix."agency_casting_job_customfields job INNER JOIN ".$wpdb->prefix."agency_customfields cust ON cust.ProfileCustomID = job.Customfield_ID WHERE job.Job_ID = ".$JobID;
+            $sql = "SELECT * FROM ".$wpdb->prefix."agency_customfields WHERE ProfileCustomShowCastingJob=1";
 	    	$custom_fields = $wpdb->get_results($sql,ARRAY_A);
 	    	$current_user = wp_get_current_user();
 			$userLevel = get_user_meta($current_user->ID, 'wp_user_level', true);
 
-			if(count($custom_field) > 0){
+			if(count($custom_fields) > 0){
 				echo "<tr>
-					<td><h3>".__("Other Details",RBAGENCY_casting_TEXTDOMAIN)."</h3></td><td></td>
+					<td colspan='2'><h3>".__("Other Details",RBAGENCY_casting_TEXTDOMAIN)."</h3></td>
 				</tr>";
 			}
 	    	

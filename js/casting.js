@@ -53,7 +53,7 @@ function RB_Add_Casting(elem)
     alert(casting);
 }
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function($){
     
     //add talent to casting cart
     $(document).on('click',".addCasting",function(e){
