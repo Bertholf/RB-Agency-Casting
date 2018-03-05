@@ -1238,9 +1238,9 @@ function rb_display_list() {
 
 }
 
-foreach($_SESSION['cartArray'] as $k=>$v){
+//foreach($_SESSION['cartArray'] as $k=>$v){
 	//unset($_SESSION['cartArray'][$k]);
-}
+//}
 
 ?>
 <script type="text/javascript">
