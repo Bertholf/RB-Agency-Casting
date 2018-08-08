@@ -1,4 +1,4 @@
-# RB Agency Casting
+# AP Agency Casting
 Allows Casting Agents to post and manage jobs.
 
 ### Current Version 0.2.1
@@ -9,27 +9,27 @@ Here are some guidelines to install the RB Agency Casting plugin:
 
 1. Download the zip file here in github.
 2. Unzip the file.
-3. Rename the folder to "rb-agency-casting"
+3. Rename the folder to "ap-agency-casting"
 4. Login to your ftp.
 5. Locate the /wp-content/plugins directory.
-6. Upload the entire "rb-agency-casting" folder
+6. Upload the entire "ap-agency-casting" folder
 7. Login to your website.
 8. Go to Plugins > Inactive
-9. Locate the "RB Agency Casting" plugin.
+9. Locate the "AP Agency Casting" plugin.
 10. Click "Activate".
 
 ## Configuration
 
 1. Login to your website.
-2. Go to RB Agency » Settings » Interactive Settings. 
+2. Go to AP Agency » Settings » Interactive Settings. 
 3. Under "Interactive Settings" click the "Settings" button. Here you may choose the settings and edit the agency's login and registration forms.
 4. Click "Save Changes" button to update.
 
 More detailed information:
-http://rbplugin.com/plugin/rb-agency-casting/documentation/
+http://modelingagencysoftware.com/plugin/rb-agency-casting/documentation/
 
 If you would like help on installation and configuration, you may contact any of our support team:
-http://rbplugin.com/contact-us/
+http://modelingagencysoftware.com/contact-us/
 
 
 ## Change Log
