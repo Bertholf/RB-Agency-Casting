@@ -195,6 +195,11 @@ echo $rb_header = RBAgency_Common::rb_header(); ?>
 
 				echo "			<div class=\"cb\"></div>\n";
 				if(is_user_logged_in()){
+                    //Pre privacy filter
+                    if(function_exists('rb_casting_agent_redirect_if_pending_approval')){
+                        rb_casting_agent_redirect_if_pending_approval();
+                    }
+
 					if(current_user_can("edit_posts")){
 							$Jobs = $wpdb->get_results("SELECT * FROM ".table_agency_casting_job." ");
 					} else {
